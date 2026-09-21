@@ -47,6 +47,7 @@ import App.Luminous.Types;
 import Engine.Core.SystemRegistry;
 import App.Luminous.Optics;
 import App.Luminous.MenuCursor;
+import App.Luminous.TitleRuntime;
 import App.Luminous.PlayRuntime;
 import App.Luminous.StageData;
 import App.Luminous.TerrainSystem;
@@ -593,58 +594,34 @@ export namespace App::Luminous {
     // ========================================================================
     // LuminousTitleScene (タイトルシーン - 完全ImGuiフリー＆360度パノラマ回転背景)
     // ========================================================================
+    // タイトル画面の処理 (レジストリだけを見る自由関数)
+    void LuminousTitleRenderMenu(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick);
+    void LuminousTitleRenderStageSelect(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick);
+    void LuminousTitleRenderCustomStageList(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick);
+    void LuminousTitleUpdate(const Engine::Core::SystemContext& ctx);
+
     class LuminousTitleScene : public Engine::Core::IScene {
     public:
-        enum class TitleView {
-            MainMenu,
-            StageSelect,
-            CustomStageList
-        };
+        // 実体は App.Luminous.TitleRuntime にある。
+        //   これまでどおり LuminousTitleScene::TitleView と書けるように残す
+        using TitleView = LuminousTitleView;
 
     private:
-        TitleView view_ = TitleView::MainMenu;
-        int selection_ = 0;
-        float timer_ = 0.0f;
-        float cameraYaw_ = 0.0f;
-        entt::entity cameraEntity_ = entt::null;
-        entt::entity orbLightEntity_ = entt::null;
-        entt::entity orbMeshEntity_ = entt::null;
-        std::vector<entt::entity> roomEntities_;
-        struct TitleFlameParticle {
-            entt::entity Entity = entt::null;
-            DirectX::XMFLOAT3 Origin = { 0, 0, 0 };
-            float LocalY = 0.0f;
-            float Phase = 0.0f;
-            float Speed = 0.0f;
-            float Radius = 0.0f;
-            float BaseScale = 0.082f;
-            DirectX::XMFLOAT3 CurrentPosition = { 0, 0, 0 };
-            float CurrentScale = 0.0f;
-        };
-        std::vector<TitleFlameParticle> flameParticles_;
-
-        int lastHoveredBtn_ = -1;
-        bool wasMouseDown_ = false;
-        LuminousMenuCursor cursor_;
-        bool bgmStarted_ = false;
+        // 持ち物は **レジストリ** にある (LuminousTitleRuntime)。
+        //   取り出すのは TitleRuntime(registry)。
+        //   pendingView_ は、作るときに渡された初期画面の置き場
+        //   (レジストリはまだ無いので、OnSetup で移す)
+        TitleView pendingView_ = TitleView::MainMenu;
 
     public:
         LuminousTitleScene() = default;
-        explicit LuminousTitleScene(TitleView initialView) : view_(initialView) {}
-
-        void SetView(TitleView view) { view_ = view; selection_ = 0; cursor_.Reset(); }
+        explicit LuminousTitleScene(TitleView initialView) : pendingView_(initialView) {}
 
         // ゲームシーンは100% ImGui非使用 (完全画像UI化)
         bool IsImGuiEnabled() const override { return false; }
 
         void OnSetup(Engine::Core::SceneContext& ctx) override;
         void OnTeardown(Engine::Core::SceneContext& ctx) override;
-        void Update(const Engine::Core::SystemContext& ctx);
-
-    private:
-        void RenderTitleMenu(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick);
-        void RenderStageSelect(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick);
-        void RenderCustomStageList(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick);
     };
 
     // ========================================================================
@@ -775,6 +752,8 @@ export namespace App::Luminous {
     inline void RegisterLuminousSystems() {
         Engine::Core::SystemRegistry::Get().Register(
             "LuminousPlayUpdateSystem", Engine::Core::SystemPhase::Update, &LuminousPlayUpdate);
+        Engine::Core::SystemRegistry::Get().Register(
+            "LuminousTitleUpdateSystem", Engine::Core::SystemPhase::Update, &LuminousTitleUpdate);
     }
 
     class LuminousPlayScene : public Engine::Core::IScene {
@@ -860,6 +839,9 @@ export namespace App::Luminous {
     // LuminousTitleScene 実装
     // ========================================================================
     inline void LuminousTitleScene::OnSetup(Engine::Core::SceneContext& ctx) {
+        // 持ち物をレジストリに作る (シーンが終わるときに一緒に片付く)
+        auto& rt = ctx.GetRegistry().emplace<LuminousTitleRuntime>(ctx.CreateEntity());
+        rt.View = pendingView_;
         // 暗転した状態でシーンを開始し、マテリアルのコンパイル完了後に明転する
         LuminousTransition::Get().BeginSceneEnter();
         Input::SetCursorLocked(false);
@@ -867,7 +849,7 @@ export namespace App::Luminous {
         auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
         auto* meshMgr = Engine::Core::GetService<Engine::Graphics::MeshManager>(registry);
 
-        roomEntities_.clear();
+        rt.RoomEntities.clear();
 
 
 
@@ -902,7 +884,7 @@ export namespace App::Luminous {
                     .LocalPosition = { static_cast<float>(x) * GRID_CELL_SIZE, 0.0f, static_cast<float>(z) * GRID_CELL_SIZE }
                 });
                 Engine::Graphics::MeshAttacher::AttachToEntity(registry, fEnt, floorMesh, floorPrefabs);
-                roomEntities_.push_back(fEnt);
+                rt.RoomEntities.push_back(fEnt);
 
                 // 天井 (Y = 3.063m, 下向きに反転)
                 auto cEnt = ctx.CreateEntity();
@@ -910,7 +892,7 @@ export namespace App::Luminous {
                 cTrans.LocalPosition = { static_cast<float>(x) * GRID_CELL_SIZE, GRID_FLOOR_HEIGHT, static_cast<float>(z) * GRID_CELL_SIZE };
                 XMStoreFloat4(&cTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(180.0f), 0.0f, 0.0f));
                 Engine::Graphics::MeshAttacher::AttachToEntity(registry, cEnt, floorMesh, floorPrefabs);
-                roomEntities_.push_back(cEnt);
+                rt.RoomEntities.push_back(cEnt);
             }
         }
 
@@ -925,7 +907,7 @@ export namespace App::Luminous {
                 .LocalPosition = { coord, 0.0f, bound }
             });
             Engine::Graphics::MeshAttacher::AttachToEntity(registry, wN, (i % 2 == 0) ? wallMesh : smoothWallMesh, (i % 2 == 0) ? wallPrefabs : smoothWallPrefabs);
-            roomEntities_.push_back(wN);
+            rt.RoomEntities.push_back(wN);
 
             // South Wall
             auto wS = ctx.CreateEntity();
@@ -933,7 +915,7 @@ export namespace App::Luminous {
             tS.LocalPosition = { coord, 0.0f, -bound };
             XMStoreFloat4(&tS.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(180.0f), 0.0f));
             Engine::Graphics::MeshAttacher::AttachToEntity(registry, wS, (i % 2 == 0) ? wallMesh : smoothWallMesh, (i % 2 == 0) ? wallPrefabs : smoothWallPrefabs);
-            roomEntities_.push_back(wS);
+            rt.RoomEntities.push_back(wS);
 
             // East Wall
             auto wE = ctx.CreateEntity();
@@ -941,7 +923,7 @@ export namespace App::Luminous {
             tE.LocalPosition = { bound, 0.0f, coord };
             XMStoreFloat4(&tE.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(90.0f), 0.0f));
             Engine::Graphics::MeshAttacher::AttachToEntity(registry, wE, (i % 2 == 0) ? smoothWallMesh : wallMesh, (i % 2 == 0) ? smoothWallPrefabs : wallPrefabs);
-            roomEntities_.push_back(wE);
+            rt.RoomEntities.push_back(wE);
 
             // West Wall
             auto wW = ctx.CreateEntity();
@@ -949,7 +931,7 @@ export namespace App::Luminous {
             tW.LocalPosition = { -bound, 0.0f, coord };
             XMStoreFloat4(&tW.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(270.0f), 0.0f));
             Engine::Graphics::MeshAttacher::AttachToEntity(registry, wW, (i % 2 == 0) ? smoothWallMesh : wallMesh, (i % 2 == 0) ? smoothWallPrefabs : wallPrefabs);
-            roomEntities_.push_back(wW);
+            rt.RoomEntities.push_back(wW);
         }
 
         // 四隅の装飾石柱 (Prop_Pillar)
@@ -960,7 +942,7 @@ export namespace App::Luminous {
                 .LocalPosition = { cornerOffsets[c][0], 0.0f, cornerOffsets[c][1] }
             });
             Engine::Graphics::MeshAttacher::AttachToEntity(registry, cEnt, pillarMesh, pillarPrefabs);
-            roomEntities_.push_back(cEnt);
+            rt.RoomEntities.push_back(cEnt);
         }
 
         // 4壁面の松明と暖色炎ライト (部屋の内側を向く正規Yaw角: North=0, South=180, East=90, West=270)
@@ -981,7 +963,7 @@ export namespace App::Luminous {
             tTrans.LocalPosition = tDef.pos;
             XMStoreFloat4(&tTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(tDef.yaw), 0.0f));
             Engine::Graphics::MeshAttacher::AttachToEntity(registry, tEnt, torchMesh, torchPrefabs);
-            roomEntities_.push_back(tEnt);
+            rt.RoomEntities.push_back(tEnt);
 
             float radY = XMConvertToRadians(tDef.yaw);
             constexpr float tipOffsetY = 0.5512f;
@@ -1004,7 +986,7 @@ export namespace App::Luminous {
                 .CastShadows = true,
                 .ShadowNearZ = g_LuminousConfig.PropLightNearClip
             });
-            roomEntities_.push_back(lEnt);
+            rt.RoomEntities.push_back(lEnt);
 
             // 炎エミッシブオブジェクト (3倍サイズ)
             auto fEnt = ctx.CreateEntity();
@@ -1013,19 +995,19 @@ export namespace App::Luminous {
                 .LocalScale = { 0.45f, 0.72f, 0.45f }
             });
             Engine::Graphics::MeshAttacher::AttachToEntity(registry, fEnt, flameMesh, flameMat);
-            roomEntities_.push_back(fEnt);
+            rt.RoomEntities.push_back(fEnt);
 
             // 火の粉パーティクル (各ランプ8個、上昇・螺旋拡散。丸スプライトのビルボードで描画)
             for (int pIdx = 0; pIdx < 8; ++pIdx) {
                 constexpr float pScale = 0.082f;
-                TitleFlameParticle fp;
+                LuminousTitleRuntime::TitleFlameParticle fp;
                 fp.CurrentPosition = flamePos;
                 fp.Origin = flamePos;
                 fp.Phase = static_cast<float>(pIdx) * (XM_2PI / 8.0f);
                 fp.Speed = 0.14f + static_cast<float>(pIdx % 4) * 0.035f;
                 fp.Radius = 0.115f;
                 fp.BaseScale = pScale;
-                flameParticles_.push_back(fp);
+                rt.FlameParticles.push_back(fp);
             }
         }
 
@@ -1044,7 +1026,7 @@ export namespace App::Luminous {
             pTrans.LocalPosition = p.pos;
             XMStoreFloat4(&pTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(p.yaw), 0.0f));
             Engine::Graphics::MeshAttacher::AttachToEntity(registry, pEnt, (p.meshKey == "box") ? boxMesh : barrelMesh, (p.meshKey == "box") ? woodenBoxPrefabs : barrelPrefabs);
-            roomEntities_.push_back(pEnt);
+            rt.RoomEntities.push_back(pEnt);
         }
 
         // 中央の台座
@@ -1053,29 +1035,29 @@ export namespace App::Luminous {
             .LocalPosition = { 0.0f, 0.0f, 0.0f }
         });
         Engine::Graphics::MeshAttacher::AttachToEntity(registry, pedEnt, pedMesh, pedPrefabs);
-        roomEntities_.push_back(pedEnt);
+        rt.RoomEntities.push_back(pedEnt);
 
         // 台座上の浮遊宝玉
-        orbMeshEntity_ = ctx.CreateEntity();
-        registry.emplace<Engine::Core::TransformComponent>(orbMeshEntity_, Engine::Core::TransformComponent{
+        rt.OrbMesh = ctx.CreateEntity();
+        registry.emplace<Engine::Core::TransformComponent>(rt.OrbMesh, Engine::Core::TransformComponent{
             .LocalPosition = { 0.0f, PEDESTAL_SOCKET_HEIGHT - 0.02f, 0.0f },
             .LocalScale = { 1.0f, 1.0f, 1.0f }
         });
-        Engine::Graphics::MeshAttacher::AttachToEntity(registry, orbMeshEntity_, orbMesh, orbMat);
-        roomEntities_.push_back(orbMeshEntity_);
+        Engine::Graphics::MeshAttacher::AttachToEntity(registry, rt.OrbMesh, orbMesh, orbMat);
+        rt.RoomEntities.push_back(rt.OrbMesh);
 
         // 宝玉の温かな黄金ポイントライト
-        orbLightEntity_ = ctx.CreateEntity();
-        registry.emplace<Engine::Core::TransformComponent>(orbLightEntity_, Engine::Core::TransformComponent{
+        rt.OrbLight = ctx.CreateEntity();
+        registry.emplace<Engine::Core::TransformComponent>(rt.OrbLight, Engine::Core::TransformComponent{
             .LocalPosition = { 0.0f, PEDESTAL_SOCKET_HEIGHT - 0.02f, 0.0f }
         });
-        registry.emplace<Engine::Graphics::PointLightComponent>(orbLightEntity_, Engine::Graphics::PointLightComponent{
+        registry.emplace<Engine::Graphics::PointLightComponent>(rt.OrbLight, Engine::Graphics::PointLightComponent{
             .Color = { 1.0f, 0.88f, 0.35f },
             .Intensity = 42.0f,
             .Radius = 16.0f,
             .CastShadows = true
         });
-        roomEntities_.push_back(orbLightEntity_);
+        rt.RoomEntities.push_back(rt.OrbLight);
 
         // 部屋隅の青色神秘アンビエントライト
         auto blueLightEnt = ctx.CreateEntity();
@@ -1088,31 +1070,31 @@ export namespace App::Luminous {
             .Radius = 14.0f,
             .CastShadows = false
         });
-        roomEntities_.push_back(blueLightEnt);
+        rt.RoomEntities.push_back(blueLightEnt);
 
         // カメラ: 宝玉周回軌道初期位置
-        cameraEntity_ = ctx.CreateEntity();
-        auto& camTrans = registry.emplace<Engine::Core::TransformComponent>(cameraEntity_);
+        rt.Camera = ctx.CreateEntity();
+        auto& camTrans = registry.emplace<Engine::Core::TransformComponent>(rt.Camera);
         camTrans.LocalPosition = { 2.85f, 1.32f, 0.0f };
         XMStoreFloat4(&camTrans.LocalRotation, XMQuaternionIdentity());
-        registry.emplace<Engine::Graphics::CameraComponent>(cameraEntity_, Engine::Graphics::CameraComponent{
+        registry.emplace<Engine::Graphics::CameraComponent>(rt.Camera, Engine::Graphics::CameraComponent{
             .FovY = XMConvertToRadians(60.0f),
             .AspectRatio = 1920.0f / 1080.0f,
             .NearZ = 0.1f,
             .FarZ = 200.0f
         });
-        Engine::Graphics::CameraAPI::SetActiveCamera(registry, cameraEntity_);
+        Engine::Graphics::CameraAPI::SetActiveCamera(registry, rt.Camera);
 
 
-        ctx.RegisterSystem(Engine::Core::SystemPhase::Update, "LuminousTitleUpdateSystem", [this](const Engine::Core::SystemContext& c) {
-            this->Update(c);
-        });
+        ctx.RegisterSystem(Engine::Core::SystemPhase::Update, "LuminousTitleUpdateSystem",
+                           &LuminousTitleUpdate);
     }
 
     inline void LuminousTitleScene::OnTeardown(Engine::Core::SceneContext& ctx) {
+        auto& rt = TitleRuntime(ctx.GetRegistry());
         Input::SetCursorLocked(false);
         auto& registry = ctx.GetRegistry();
-        for (auto e : roomEntities_) {
+        for (auto e : rt.RoomEntities) {
             if (registry.valid(e)) {
                 if (auto* rootComp = registry.try_get<Engine::Graphics::MeshRootComponent>(e)) {
                     entt::entity sub = rootComp->FirstSubMesh;
@@ -1126,17 +1108,18 @@ export namespace App::Luminous {
                 registry.destroy(e);
             }
         }
-        roomEntities_.clear();
-        flameParticles_.clear();
-        if (cameraEntity_ != entt::null && registry.valid(cameraEntity_)) {
-            registry.destroy(cameraEntity_);
-            cameraEntity_ = entt::null;
+        rt.RoomEntities.clear();
+        rt.FlameParticles.clear();
+        if (rt.Camera != entt::null && registry.valid(rt.Camera)) {
+            registry.destroy(rt.Camera);
+            rt.Camera = entt::null;
         }
     }
 
-    inline void LuminousTitleScene::Update(const Engine::Core::SystemContext& ctx) {
+    inline void LuminousTitleUpdate(const Engine::Core::SystemContext& ctx) {
+        auto& rt = TitleRuntime(ctx.GetRegistry());
         float dt = ctx.GetDeltaTime();
-        timer_ += dt;
+        rt.Timer += dt;
 
         auto& registry = ctx.GetRegistry();
         auto& particles = App::Graphics::ParticleDrawList::Get(registry);
@@ -1155,21 +1138,21 @@ export namespace App::Luminous {
 
         // タイトル BGM: 暗転 (マテリアル読み込み待ち) が明け始めたら導入部をフェードインで再生し、
         // 導入部が終わるとループ部へ続く。読み込み待ちの間に導入部が無音で進まないよう、ここで開始する。
-        if (!bgmStarted_ && !LuminousTransition::Get().IsCoveringScreen()) {
-            bgmStarted_ = true;
+        if (!rt.BgmStarted && !LuminousTransition::Get().IsCoveringScreen()) {
+            rt.BgmStarted = true;
             Engine::Audio::AudioEngine::Get().PlayBGMWithIntro(
                 LuminousAudioConfig::BGM_Title_Start.FilePath, LuminousAudioConfig::BGM_Title_Loop.FilePath,
                 LuminousAudioConfig::BGM_Title_Start.DefaultVolume, LuminousAudioConfig::BGM_IntroFadeInSeconds);
         }
 
         // 1. 台座の宝玉の周囲を回るカメラ
-        cameraYaw_ += XMConvertToRadians(10.0f) * dt;
-        if (cameraYaw_ > XM_2PI) cameraYaw_ -= XM_2PI;
+        rt.CameraYaw += XMConvertToRadians(10.0f) * dt;
+        if (rt.CameraYaw > XM_2PI) rt.CameraYaw -= XM_2PI;
 
         float orbitRadius = 2.85f;
-        float camX = std::cos(cameraYaw_) * orbitRadius;
-        float camZ = std::sin(cameraYaw_) * orbitRadius;
-        float camY = 1.32f + std::sin(timer_ * 0.45f) * 0.07f;
+        float camX = std::cos(rt.CameraYaw) * orbitRadius;
+        float camZ = std::sin(rt.CameraYaw) * orbitRadius;
+        float camY = 1.32f + std::sin(rt.Timer * 0.45f) * 0.07f;
 
         float targetY = 0.38f;
         float dx = -camX;
@@ -1183,27 +1166,27 @@ export namespace App::Luminous {
         float lookYaw = std::atan2(dx, dz) - XMConvertToRadians(ORB_SCREEN_OFFSET_DEG);
         float lookPitch = std::atan2(-dy, distXZ);
 
-        if (registry.valid(cameraEntity_)) {
-            auto& camTrans = registry.get<Engine::Core::TransformComponent>(cameraEntity_);
+        if (registry.valid(rt.Camera)) {
+            auto& camTrans = registry.get<Engine::Core::TransformComponent>(rt.Camera);
             camTrans.LocalPosition = { camX, camY, camZ };
             XMStoreFloat4(&camTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(lookPitch, lookYaw, 0.0f));
             camTrans.IsDirty = true;
         }
 
         // 2. 中央宝玉の呼吸浮遊アニメーション＆常時低速回転
-        if (registry.valid(orbMeshEntity_)) {
-            auto& trans = registry.get<Engine::Core::TransformComponent>(orbMeshEntity_);
-            trans.LocalPosition.y = PEDESTAL_SOCKET_HEIGHT - 0.02f + std::sin(timer_ * 2.2f) * 0.025f;
+        if (registry.valid(rt.OrbMesh)) {
+            auto& trans = registry.get<Engine::Core::TransformComponent>(rt.OrbMesh);
+            trans.LocalPosition.y = PEDESTAL_SOCKET_HEIGHT - 0.02f + std::sin(rt.Timer * 2.2f) * 0.025f;
             XMStoreFloat4(&trans.LocalRotation, XMQuaternionRotationRollPitchYaw(
-                std::sin(timer_ * 0.25f) * 0.12f,
-                timer_ * 0.40f,
-                std::cos(timer_ * 0.35f) * 0.10f
+                std::sin(rt.Timer * 0.25f) * 0.12f,
+                rt.Timer * 0.40f,
+                std::cos(rt.Timer * 0.35f) * 0.10f
             ));
             trans.IsDirty = true;
         }
 
         // 3. 背景壁掛け松明の火の粉 (丸スプライトのビルボード)
-        for (auto& fp : flameParticles_) {
+        for (auto& fp : rt.FlameParticles) {
             fp.Phase += dt * 2.2f;
             fp.LocalY += fp.Speed * dt;
             constexpr float maxH = 0.35f;
@@ -1229,19 +1212,20 @@ export namespace App::Luminous {
         float screenW = 1920.0f;
         float screenH = 1080.0f;
 
-        if (view_ == TitleView::MainMenu) {
-            RenderTitleMenu(ctx, screenW, screenH, mPos.x, mPos.y, isMouseDown, isMouseClick);
-        } else if (view_ == TitleView::StageSelect) {
-            RenderStageSelect(ctx, screenW, screenH, mPos.x, mPos.y, isMouseDown, isMouseClick);
-        } else if (view_ == TitleView::CustomStageList) {
-            RenderCustomStageList(ctx, screenW, screenH, mPos.x, mPos.y, isMouseDown, isMouseClick);
+        if (rt.View == LuminousTitleView::MainMenu) {
+            LuminousTitleRenderMenu(ctx, screenW, screenH, mPos.x, mPos.y, isMouseDown, isMouseClick);
+        } else if (rt.View == LuminousTitleView::StageSelect) {
+            LuminousTitleRenderStageSelect(ctx, screenW, screenH, mPos.x, mPos.y, isMouseDown, isMouseClick);
+        } else if (rt.View == LuminousTitleView::CustomStageList) {
+            LuminousTitleRenderCustomStageList(ctx, screenW, screenH, mPos.x, mPos.y, isMouseDown, isMouseClick);
         }
 
         // 5. 画面全体のフェード (最前面)
         LuminousTransition::Get().Draw(screenW, screenH);
     }
 
-    inline void LuminousTitleScene::RenderTitleMenu(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick) {
+    inline void LuminousTitleRenderMenu(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick) {
+        auto& rt = TitleRuntime(ctx.GetRegistry());
         auto& ui = Engine::Graphics::UIRenderer::Get();
 
         // 画面左側を沈めるグラデーション (ロゴとメニューの背景。宝玉は右側に映る)
@@ -1252,7 +1236,7 @@ export namespace App::Luminous {
         const auto& logo = LuminousUIConfig::Image_Title_Logo;
         const float logoX = 150.0f;
         const float logoY = 70.0f;
-        const float breathe = 0.92f + 0.08f * std::sin(timer_ * 1.1f);
+        const float breathe = 0.92f + 0.08f * std::sin(rt.Timer * 1.1f);
         ui.DrawImage(logo.FilePath, logoX, logoY, logo.DefaultWidth, logo.DefaultHeight, { 1.0f, 1.0f, 1.0f, breathe });
         const float menuCenterX = logoX + logo.DefaultWidth * 0.5f;
 
@@ -1269,8 +1253,8 @@ export namespace App::Luminous {
         items.push_back({ &LuminousUIConfig::Image_Btn_Editor_Normal, &LuminousUIConfig::Image_Btn_Editor_Hover, &LuminousUIConfig::Image_Btn_Editor_Pressed, Action::Editor });
         items.push_back({ &LuminousUIConfig::Image_Btn_Exit_Normal, &LuminousUIConfig::Image_Btn_Exit_Hover, &LuminousUIConfig::Image_Btn_Exit_Pressed, Action::Exit });
 
-        cursor_.BeginFrame(ctx.GetDeltaTime(), static_cast<int>(items.size()), Vector2(mouseX, mouseY));
-        const Vector2 m = cursor_.Mouse();
+        rt.Cursor.BeginFrame(ctx.GetDeltaTime(), static_cast<int>(items.size()), Vector2(mouseX, mouseY));
+        const Vector2 m = rt.Cursor.Mouse();
 
         const float btnW = 420.0f;
         const float btnH = 68.0f;
@@ -1281,10 +1265,10 @@ export namespace App::Luminous {
         int activated = -1;
         for (int i = 0; i < static_cast<int>(items.size()); ++i) {
             const float y = startY + i * gap;
-            cursor_.Item(i, btnX, y, btnW, btnH);
+            rt.Cursor.Item(i, btnX, y, btnW, btnH);
             if (ui.DrawButton(items[i].Normal->FilePath, items[i].Hover->FilePath, items[i].Pressed->FilePath,
                 btnX, y, btnW, btnH, m.x, m.y, isMouseDown, isMouseClick, nullptr,
-                cursor_.Is(i), cursor_.Activated(i))) {
+                rt.Cursor.Is(i), rt.Cursor.Activated(i))) {
                 activated = i;
             }
         }
@@ -1300,8 +1284,8 @@ export namespace App::Luminous {
                 return;
             }
             case Action::StageSelect:
-                view_ = TitleView::StageSelect;
-                cursor_.Reset();
+                rt.View = LuminousTitleView::StageSelect;
+                rt.Cursor.Reset();
                 return;
             case Action::Editor:
                 LuminousTransition::Get().ChangeScene(std::make_shared<LuminousEditorScene>());
@@ -1311,7 +1295,7 @@ export namespace App::Luminous {
                 return;
             }
         }
-        if (cursor_.EndFrame()) {
+        if (rt.Cursor.EndFrame()) {
             Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Hover.FilePath, LuminousAudioConfig::SE_UI_Hover.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
         }
 
@@ -1325,7 +1309,8 @@ export namespace App::Luminous {
         DrawControlHint(hx, hy, LuminousButtonGlyph::Confirm, "DECIDE", hintH);
     }
 
-    inline void LuminousTitleScene::RenderStageSelect(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick) {
+    inline void LuminousTitleRenderStageSelect(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick) {
+        auto& rt = TitleRuntime(ctx.GetRegistry());
         auto& ui = Engine::Graphics::UIRenderer::Get();
         const float centerX = screenW * 0.5f;
 
@@ -1341,8 +1326,8 @@ export namespace App::Luminous {
         const int extraIndex = hasCustomStages ? stageCount : -1;
         const int backIndex = stageCount + (hasCustomStages ? 1 : 0);
 
-        cursor_.BeginFrame(ctx.GetDeltaTime(), backIndex + 1, Vector2(mouseX, mouseY));
-        const Vector2 m = cursor_.Mouse();
+        rt.Cursor.BeginFrame(ctx.GetDeltaTime(), backIndex + 1, Vector2(mouseX, mouseY));
+        const Vector2 m = rt.Cursor.Mouse();
 
         const float gridTop = 215.0f;
         const float gridW = 1100.0f;
@@ -1367,17 +1352,17 @@ export namespace App::Luminous {
 
         const float usedW = cardW * cols + gapX * (cols - 1);
         const float originX = centerX - usedW * 0.5f;
-        const float pulse = 0.70f + 0.30f * std::sin(timer_ * 4.0f);
+        const float pulse = 0.70f + 0.30f * std::sin(rt.Timer * 4.0f);
 
         const float extraY = 650.0f;
         const float backY = hasCustomStages ? 736.0f : 660.0f;
 
         // 先に全ボタンの矩形を登録しておく (方向キーの移動先探しに使う)
         for (int i = 0; i < stageCount; ++i) {
-            cursor_.Item(i, originX + (i % cols) * (cardW + gapX), gridTop + (i / cols) * (cardH + gapY), cardW, cardH);
+            rt.Cursor.Item(i, originX + (i % cols) * (cardW + gapX), gridTop + (i / cols) * (cardH + gapY), cardW, cardH);
         }
-        if (hasCustomStages) cursor_.Item(extraIndex, centerX - 210.0f, extraY, 420.0f, 68.0f);
-        cursor_.Item(backIndex, centerX - 210.0f, backY, 420.0f, 68.0f);
+        if (hasCustomStages) rt.Cursor.Item(extraIndex, centerX - 210.0f, extraY, 420.0f, 68.0f);
+        rt.Cursor.Item(backIndex, centerX - 210.0f, backY, 420.0f, 68.0f);
 
         for (int i = 0; i < stageCount; ++i) {
             const auto* entry = LuminousStageCatalog::Get(i);
@@ -1393,8 +1378,8 @@ export namespace App::Luminous {
                 : (entry->LockedImage.empty() ? LuminousUIConfig::Image_Card_Locked.FilePath : entry->LockedImage);
 
             const bool clicked = ui.DrawButton(img, img, img, x, y, cardW, cardH,
-                m.x, m.y, isMouseDown, isMouseClick, nullptr, cursor_.Is(i), cursor_.Activated(i));
-            if (cursor_.Is(i)) {
+                m.x, m.y, isMouseDown, isMouseClick, nullptr, rt.Cursor.Is(i), rt.Cursor.Activated(i));
+            if (rt.Cursor.Is(i)) {
                 DrawUIFrame(x - 7.0f, y - 7.0f, cardW + 14.0f, cardH + 14.0f, 2.0f, { 0.86f, 0.96f, 0.99f, pulse });
             }
 
@@ -1420,11 +1405,11 @@ export namespace App::Luminous {
                 LuminousUIConfig::Image_Btn_Extra_Hover.FilePath,
                 LuminousUIConfig::Image_Btn_Extra_Hover.FilePath,
                 centerX - 210.0f, extraY, 420.0f, 68.0f, m.x, m.y, isMouseDown, isMouseClick, nullptr,
-                cursor_.Is(extraIndex), cursor_.Activated(extraIndex)))
+                rt.Cursor.Is(extraIndex), rt.Cursor.Activated(extraIndex)))
             {
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                view_ = TitleView::CustomStageList;
-                cursor_.Reset();
+                rt.View = LuminousTitleView::CustomStageList;
+                rt.Cursor.Reset();
                 return;
             }
         }
@@ -1434,16 +1419,16 @@ export namespace App::Luminous {
             LuminousUIConfig::Image_Btn_Back_Hover.FilePath,
             LuminousUIConfig::Image_Btn_Back_Hover.FilePath,
             centerX - 210.0f, backY, 420.0f, 68.0f, m.x, m.y, isMouseDown, isMouseClick, nullptr,
-            cursor_.Is(backIndex), cursor_.Activated(backIndex))
+            rt.Cursor.Is(backIndex), rt.Cursor.Activated(backIndex))
             || LuminousInput::CancelPressed())
         {
             Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Cancel.FilePath, LuminousAudioConfig::SE_UI_Cancel.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-            view_ = TitleView::MainMenu;
-            cursor_.Reset();
+            rt.View = LuminousTitleView::MainMenu;
+            rt.Cursor.Reset();
             return;
         }
 
-        if (cursor_.EndFrame()) {
+        if (rt.Cursor.EndFrame()) {
             Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Hover.FilePath, LuminousAudioConfig::SE_UI_Hover.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
         }
 
@@ -1458,7 +1443,8 @@ export namespace App::Luminous {
         DrawControlHint(hx, hy, LuminousButtonGlyph::Cancel, "BACK", hintH);
     }
 
-    inline void LuminousTitleScene::RenderCustomStageList(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick) {
+    inline void LuminousTitleRenderCustomStageList(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick) {
+        auto& rt = TitleRuntime(ctx.GetRegistry());
         auto& ui = Engine::Graphics::UIRenderer::Get();
         const float centerX = screenW * 0.5f;
 
@@ -1471,8 +1457,8 @@ export namespace App::Luminous {
         const auto customStages = ProfileManager::Get().GetCustomStages();
         const int rowCount = static_cast<int>((std::min)(customStages.size(), static_cast<size_t>(6)));
         const int backIndex = rowCount;
-        cursor_.BeginFrame(ctx.GetDeltaTime(), rowCount + 1, Vector2(mouseX, mouseY));
-        const Vector2 m = cursor_.Mouse();
+        rt.Cursor.BeginFrame(ctx.GetDeltaTime(), rowCount + 1, Vector2(mouseX, mouseY));
+        const Vector2 m = rt.Cursor.Mouse();
 
         const float startY = 200.0f;
         const float rowH = 95.0f;
@@ -1480,20 +1466,20 @@ export namespace App::Luminous {
         const float rowW = 690.0f;
         const float btnH = 85.0f;
 
-        for (int i = 0; i < rowCount; ++i) cursor_.Item(i, rowX, startY + i * rowH, rowW, btnH);
-        cursor_.Item(backIndex, centerX - 210.0f, 860.0f, 420.0f, 68.0f);
+        for (int i = 0; i < rowCount; ++i) rt.Cursor.Item(i, rowX, startY + i * rowH, rowW, btnH);
+        rt.Cursor.Item(backIndex, centerX - 210.0f, 860.0f, 420.0f, 68.0f);
 
         for (int i = 0; i < rowCount; ++i) {
             const float y = startY + i * rowH;
             ui.DrawImage(LuminousUIConfig::Image_Card_Custom.FilePath, centerX - 420.0f, y, 130.0f, 85.0f);
 
             const bool isOver = (m.x >= rowX && m.x <= rowX + rowW && m.y >= y && m.y <= y + btnH);
-            const bool selected = cursor_.Is(i);
+            const bool selected = rt.Cursor.Is(i);
 
             ui.DrawPanel(rowX, y, rowW, btnH, selected ? DirectX::XMFLOAT4{ 0.09f, 0.29f, 0.43f, 0.85f } : DirectX::XMFLOAT4{ 0.03f, 0.06f, 0.10f, 0.85f });
             DrawUIFrame(rowX, y, rowW, btnH, 1.0f, { 0.86f, 0.96f, 0.99f, selected ? 0.95f : 0.35f });
 
-            if ((isOver && isMouseClick) || cursor_.Activated(i)) {
+            if ((isOver && isMouseClick) || rt.Cursor.Activated(i)) {
                 LuminousStage customStage;
                 std::string err;
                 if (customStage.LoadFromFile(customStages[i].second, err)) {
@@ -1513,16 +1499,16 @@ export namespace App::Luminous {
             LuminousUIConfig::Image_Btn_Back_Hover.FilePath,
             LuminousUIConfig::Image_Btn_Back_Hover.FilePath,
             centerX - 210.0f, 860.0f, 420.0f, 68.0f, m.x, m.y, isMouseDown, isMouseClick, nullptr,
-            cursor_.Is(backIndex), cursor_.Activated(backIndex))
+            rt.Cursor.Is(backIndex), rt.Cursor.Activated(backIndex))
             || LuminousInput::CancelPressed())
         {
             Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Cancel.FilePath, LuminousAudioConfig::SE_UI_Cancel.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-            view_ = TitleView::StageSelect;
-            cursor_.Reset();
+            rt.View = LuminousTitleView::StageSelect;
+            rt.Cursor.Reset();
             return;
         }
 
-        if (cursor_.EndFrame()) {
+        if (rt.Cursor.EndFrame()) {
             Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Hover.FilePath, LuminousAudioConfig::SE_UI_Hover.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
         }
 
