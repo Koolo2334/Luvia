@@ -896,6 +896,7 @@ export namespace App::Luminous {
     // タイトルとエディタの更新も、名前で登録する (定義はこのあと)
     void LuminousTitleUpdate(const Engine::Core::SystemContext& ctx);
     void LuminousEditorUpdate(const Engine::Core::SystemContext& ctx);
+    void LuminousEditorBuildSystem(const Engine::Core::SystemContext& ctx);
 
     // ゲームの立ち上げで 1 度だけ呼ぶ。
     //   ここで名前を通しておくと、.scene.json の "systems" から引けるようになる
@@ -906,6 +907,8 @@ export namespace App::Luminous {
             "LuminousPlayUpdateSystem", Engine::Core::SystemPhase::Update, &LuminousPlayUpdate);
         Engine::Core::SystemRegistry::Get().Register(
             "LuminousTitleUpdateSystem", Engine::Core::SystemPhase::Update, &LuminousTitleUpdate);
+        Engine::Core::SystemRegistry::Get().Register(
+            "LuminousEditorBuildSystem", Engine::Core::SystemPhase::Update, &LuminousEditorBuildSystem);
         Engine::Core::SystemRegistry::Get().Register(
             "LuminousEditorUpdateSystem", Engine::Core::SystemPhase::Update, &LuminousEditorUpdate);
     }
@@ -951,6 +954,9 @@ export namespace App::Luminous {
     // ========================================================================
     // ステージエディタの処理 (レジストリだけを見る自由関数)
     void LuminousEditorRefreshSceneEntities(entt::registry& registry);
+    // 編集に欠かせないもの (カメラ・環境光・下見のゴースト) を揃える
+    void LuminousEditorEnsureCoreEntities(entt::registry& registry);
+
     void LuminousEditorRenderUI(const Engine::Core::SystemContext& ctx);
     void LuminousEditorUpdate(const Engine::Core::SystemContext& ctx);
 
@@ -2750,58 +2756,11 @@ export namespace App::Luminous {
         auto& rt = ctx.GetRegistry().emplace<LuminousEditorRuntime>(editorRuntimeEnt);
         rt.ActivePaletteCategory = pendingCategory_;
         if (hasPendingStage_) rt.Editor.Stage = std::move(pendingStage_);
-        // 暗転した状態でシーンを開始し、マテリアルのコンパイル完了後に明転する
-        LuminousTransition::Get().BeginSceneEnter();
-        Input::SetCursorLocked(false);
-        Input::SetCursorHidden(false);   // エディタはマウス前提
         auto& registry = ctx.GetRegistry();
-        if (auto* debug = ctx.FindService<Engine::Debug::DebugSettings>()) {
-            rt.SavedShowEnginePanel = debug->ShowEngineControlPanel;
-            debug->ShowEngineControlPanel = false;
-        }
-        auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
 
-
-
-
-
-        // カメラエンティティの作成
-        rt.Camera = ctx.CreateEntity();
-        auto& camTrans = registry.emplace<Engine::Core::TransformComponent>(rt.Camera);
-        camTrans.LocalPosition = { rt.Editor.CameraFocus.x, rt.Editor.CameraDistance, rt.Editor.CameraFocus.z };
-        XMStoreFloat4(&camTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(89.0f), 0.0f, 0.0f));
-        registry.emplace<Engine::Graphics::CameraComponent>(rt.Camera, Engine::Graphics::CameraComponent{
-            .FovY = XMConvertToRadians(50.0f),
-            .AspectRatio = 1920.0f / 1080.0f,
-            .NearZ = 0.2f,
-            .FarZ = 400.0f
-        });
-        Engine::Graphics::CameraAPI::SetActiveCamera(registry, rt.Camera);
-
-        // 環境光ライト
-        auto sunEnt = ctx.CreateEntity();
-        auto& sunTrans = registry.emplace<Engine::Core::TransformComponent>(sunEnt);
-        sunTrans.LocalPosition = { 10.0f, 40.0f, 10.0f };
-        XMStoreFloat4(&sunTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(60.0f), XMConvertToRadians(45.0f), 0.0f));
-        registry.emplace<Engine::Graphics::DirectionalLightComponent>(sunEnt, Engine::Graphics::DirectionalLightComponent{
-            .Color = { 0.95f, 0.98f, 1.0f },
-            .Intensity = 3.5f,
-            .CastShadows = false
-        });
-
-        // 既存オブジェクトマップの初期化
-        rt.ObjectEntities.clear();
-        rt.PreviewGhost = entt::null;
-        rt.CurrentGhostAsset = "";
-        rt.CurrentGhostConflict = false;
-
-        // 3Dプレビュー用ゴーストエンティティ (SceneScopeTag付与)
-        rt.PreviewGhost = registry.create();
-        registry.emplace<Engine::Core::SceneScopeTag>(rt.PreviewGhost);
-        auto& ghostTrans = registry.emplace<Engine::Core::TransformComponent>(rt.PreviewGhost);
-        ghostTrans.LocalPosition = { 0.0f, -9999.0f, 0.0f };
-        ghostTrans.LocalScale = { 1.0f, 1.0f, 1.0f };
-        ghostTrans.IsDirty = true;
+        // 編集に欠かせないもの (カメラ・環境光・下見のゴースト)。
+        //   データだけのシーンから起こすときと同じ道を通す
+        LuminousEditorEnsureCoreEntities(registry);
 
         // ステージエンティティの生成
         LuminousEditorRefreshSceneEntities(registry);
@@ -2849,6 +2808,78 @@ export namespace App::Luminous {
             DestroyWithSubMeshes(pair.second);
         }
         rt.ObjectEntities.clear();
+    }
+
+    // ------------------------------------------------------------------------
+    // 編集に欠かせないものを揃える (カメラ・環境光・下見のゴースト)。
+    //
+    //   **もう在れば何もしない**。コードのシーンから来ても、
+    //   .scene.json から起こしても、同じここを通る。
+    //   どれもステージから組み直せる派生物なので GeneratedTag を付ける
+    // ------------------------------------------------------------------------
+    inline void LuminousEditorEnsureCoreEntities(entt::registry& registry) {
+        auto& rt = EditorRuntime(registry);
+        if (rt.Camera != entt::null && registry.valid(rt.Camera)) return;
+
+        // 暗転した状態で始め、マテリアルのコンパイルが済んでから明転する
+        LuminousTransition::Get().BeginSceneEnter();
+        Input::SetCursorLocked(false);
+        Input::SetCursorHidden(false);   // エディタはマウス前提
+        if (auto* debug = Engine::Core::FindService<Engine::Debug::DebugSettings>(registry)) {
+            rt.SavedShowEnginePanel = debug->ShowEngineControlPanel;
+            debug->ShowEngineControlPanel = false;
+        }
+
+        // カメラエンティティの作成
+        rt.Camera = CreateGeneratedEntity(registry);
+        auto& camTrans = registry.emplace<Engine::Core::TransformComponent>(rt.Camera);
+        camTrans.LocalPosition = { rt.Editor.CameraFocus.x, rt.Editor.CameraDistance, rt.Editor.CameraFocus.z };
+        XMStoreFloat4(&camTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(89.0f), 0.0f, 0.0f));
+        registry.emplace<Engine::Graphics::CameraComponent>(rt.Camera, Engine::Graphics::CameraComponent{
+            .FovY = XMConvertToRadians(50.0f),
+            .AspectRatio = 1920.0f / 1080.0f,
+            .NearZ = 0.2f,
+            .FarZ = 400.0f
+        });
+        Engine::Graphics::CameraAPI::SetActiveCamera(registry, rt.Camera);
+
+        // 環境光ライト
+        auto sunEnt = CreateGeneratedEntity(registry);
+        auto& sunTrans = registry.emplace<Engine::Core::TransformComponent>(sunEnt);
+        sunTrans.LocalPosition = { 10.0f, 40.0f, 10.0f };
+        XMStoreFloat4(&sunTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(60.0f), XMConvertToRadians(45.0f), 0.0f));
+        registry.emplace<Engine::Graphics::DirectionalLightComponent>(sunEnt, Engine::Graphics::DirectionalLightComponent{
+            .Color = { 0.95f, 0.98f, 1.0f },
+            .Intensity = 3.5f,
+            .CastShadows = false
+        });
+
+        // 既存オブジェクトマップの初期化
+        rt.ObjectEntities.clear();
+        rt.PreviewGhost = entt::null;
+        rt.CurrentGhostAsset = "";
+        rt.CurrentGhostConflict = false;
+
+        // 3Dプレビュー用ゴーストエンティティ (SceneScopeTag付与)
+        rt.PreviewGhost = CreateGeneratedEntity(registry);
+        auto& ghostTrans = registry.emplace<Engine::Core::TransformComponent>(rt.PreviewGhost);
+        ghostTrans.LocalPosition = { 0.0f, -9999.0f, 0.0f };
+        ghostTrans.LocalScale = { 1.0f, 1.0f, 1.0f };
+        ghostTrans.IsDirty = true;
+    }
+
+    // ------------------------------------------------------------------------
+    // ステージエディタを建てる (名前つきのシステム)。
+    //
+    //   .scene.json の "systems" に並べておけば、シーンの C++ が無くても開く。
+    //   本編の LuminousStageBuildSystem と同じ形
+    // ------------------------------------------------------------------------
+    inline void LuminousEditorBuildSystem(const Engine::Core::SystemContext& ctx) {
+        auto& registry = ctx.GetRegistry();
+        auto& rt = EditorRuntime(registry);
+        if (rt.Camera != entt::null && registry.valid(rt.Camera)) return;   // もう建っている
+        LuminousEditorEnsureCoreEntities(registry);
+        LuminousEditorRefreshSceneEntities(registry);
     }
 
     inline void LuminousEditorRefreshSceneEntities(entt::registry& registry) {

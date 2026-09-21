@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "name": "Luminous.Editor",
+  "imgui": true,
+  "systems": [
+    { "name": "LuminousEditorBuildSystem", "phase": "Update" },
+    { "name": "LuminousEditorUpdateSystem", "phase": "Update" }
+  ],
+  "entities": []
+}
