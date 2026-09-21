@@ -45,6 +45,7 @@ import App.Graphics.PassTags;
 import App.Luminous.OrbOcclusionData;
 import App.Luminous.Types;
 import App.Luminous.Optics;
+import App.Luminous.PlayRuntime;
 import App.Luminous.StageData;
 import App.Luminous.TerrainSystem;
 import App.Luminous.PlayerSystem;
@@ -776,18 +777,17 @@ export namespace App::Luminous {
     // ========================================================================
     class LuminousPlayScene : public Engine::Core::IScene {
     private:
-        LuminousStage stage_;
+        // 本編の持ち物は **レジストリ** にある (LuminousPlayRuntime)。
+        //   取り出すのは PlayRuntime(registry)。
+        //   ここに置いてあった頃は、更新処理を名前つきのシステムに
+        //   分けられなかった (`this` を捕まえたラムダでしか書けないため)。
+        //   pendingStage_ は、シーンを作るときに渡されたステージの置き場。
+        //   レジストリはまだ無いので、OnSetup で実行時データへ移す
+        LuminousStage pendingStage_;
+        entt::entity runtimeEntity_ = entt::null;
         // プレイヤーの状態は **エンティティに載っている** (playerCameraEntity_)。
         //   シーンが抱えていた頃は、インスペクターにも出ず、保存もされなかった。
         //   取り出すのは PlayerState(registry)
-        std::vector<OrbRuntimeState> orbs_;
-        std::vector<OcclusionWall> occlusionWalls_;
-        SpatialGrid spatialGrid_;
-        std::vector<PedestalColliderBake> bakedPedestals_;
-
-        // Phase 2: 遮蔽ジオメトリの世代番号。ステージを組み直すたびに更新し、
-        // OrbOcclusionPass 側の深度アトラスキャッシュを確実に破棄させる。
-        uint32_t geometryRevision_ = 0;
 
         entt::entity playerCameraEntity_ = entt::null;
         entt::entity heldOrbMeshEntity_ = entt::null;
@@ -838,8 +838,6 @@ export namespace App::Luminous {
         bool chestBurstTriggered_ = false;
         std::vector<ChestBurstParticle> chestBurstParticles_;
 
-        bool isPaused_ = false;
-        float gameTime_ = 0.0f;
         bool returnToEditorOnExit_ = false;
 
         // 基本ステージの登録番号 (1 始まり)。0 はユーザー作成ステージ等で実績記録を行わない。
@@ -864,11 +862,12 @@ export namespace App::Luminous {
         bool IsImGuiEnabled() const override { return debugTool_.IsActive(); }
 
         LuminousPlayScene() {
-            stage_ = LuminousStage::CreateSampleStage();
+            pendingStage_ = LuminousStage::CreateSampleStage();
         }
 
         explicit LuminousPlayScene(LuminousStage stage, bool returnToEditor = false, int stageNumber = 0)
-            : stage_(std::move(stage)), returnToEditorOnExit_(returnToEditor), stageNumber_(stageNumber) {}
+            : pendingStage_(std::move(stage)), returnToEditorOnExit_(returnToEditor),
+              stageNumber_(stageNumber) {}
 
         void OnSetup(Engine::Core::SceneContext& ctx) override;
         void OnTeardown(Engine::Core::SceneContext& ctx) override;
@@ -879,6 +878,11 @@ export namespace App::Luminous {
         // プレイヤーの状態を、載っているエンティティから取り出す。
         //   **ここが唯一の置き場**。シーン側に写しを持たない
         //   (写しを持つと、エディタで直した値が次のフレームで消える)
+        // 本編の持ち物 (ステージ・宝玉・遮蔽壁ほか)。**ここが唯一の置き場**
+        LuminousPlayRuntime& Runtime(entt::registry& registry) const {
+            return PlayRuntime(registry);
+        }
+
         LuminousPlayerComponent& PlayerState(entt::registry& registry) const {
             return registry.get<LuminousPlayerComponent>(playerCameraEntity_);
         }
@@ -887,8 +891,9 @@ export namespace App::Luminous {
         void SyncPhaseVisuals(Engine::Graphics::MaterialManager* materialMgr, entt::registry& registry);
         void SubmitParticles(entt::registry& registry);
         LuminousDebugContext MakeDebugContext(entt::registry& registry) {
-            return LuminousDebugContext{ registry, stage_, PlayerState(registry), orbs_, occlusionWalls_, bakedPedestals_,
-                                         playerCameraEntity_, gameTime_, guidanceStream_.Count() };
+            auto& rt = Runtime(registry);
+            return LuminousDebugContext{ registry, rt.Stage, PlayerState(registry), rt.Orbs, rt.OcclusionWalls, rt.BakedPedestals,
+                                         playerCameraEntity_, rt.GameTime, guidanceStream_.Count() };
         }
 
     };
@@ -1621,6 +1626,10 @@ export namespace App::Luminous {
     // LuminousPlayScene 実装
     // ========================================================================
     inline void LuminousPlayScene::OnSetup(Engine::Core::SceneContext& ctx) {
+        // 本編の持ち物をレジストリに作る (シーンが終わるときに一緒に片付く)
+        runtimeEntity_ = ctx.CreateEntity();
+        auto& rt = ctx.GetRegistry().emplace<LuminousPlayRuntime>(runtimeEntity_);
+        rt.Stage = std::move(pendingStage_);
         // 暗転した状態でシーンを開始し、マテリアルのコンパイル完了後に明転する
         LuminousTransition::Get().BeginSceneEnter();
         Input::SetCursorLocked(true);
@@ -1697,7 +1706,7 @@ export namespace App::Luminous {
         SpawnStageObjects(ctx);
 
         // 5. プレイヤー初期位置の検出
-        for (const auto& obj : stage_.Objects) {
+        for (const auto& obj : rt.Stage.Objects) {
             if (obj.AssetId == "StartDais") {
                 player.Position = XMFLOAT3(obj.Position.x, obj.Position.y + 0.1f, obj.Position.z);
                 player.Yaw = XMConvertToRadians(SpawnFacingToYawDegrees(obj.Facing));
@@ -1707,8 +1716,8 @@ export namespace App::Luminous {
         }
 
         // 6. 宝玉ランタイム状態の初期化
-        orbs_.clear();
-        for (const auto& obj : stage_.Objects) {
+        rt.Orbs.clear();
+        for (const auto& obj : rt.Stage.Objects) {
             if (obj.Category == AssetCategory::Pedestal && obj.HasInitialOrb) {
                 OrbRuntimeState orbState;
                 orbState.OrbId = obj.InstanceId;
@@ -1716,17 +1725,17 @@ export namespace App::Luminous {
                 orbState.PedestalInstanceId = obj.InstanceId;
                 orbState.WorldPosition = XMFLOAT3(obj.Position.x, obj.Position.y + PEDESTAL_SOCKET_HEIGHT, obj.Position.z);
                 orbState.Radius = g_LuminousConfig.OrbInfluenceRadius;
-                orbs_.push_back(orbState);
+                rt.Orbs.push_back(orbState);
             }
         }
 
         // 7. 遮蔽壁リストおよび空間グリッドの初期化
-        occlusionWalls_ = OpticsEngine::BuildOcclusionWalls(stage_.Objects);
-        spatialGrid_.Build(occlusionWalls_);
+        rt.OcclusionWalls = OpticsEngine::BuildOcclusionWalls(rt.Stage.Objects);
+        rt.Grid.Build(rt.OcclusionWalls);
         static uint32_t s_GeometryRevisionCounter = 0;
-        geometryRevision_ = ++s_GeometryRevisionCounter;
+        rt.GeometryRevision = ++s_GeometryRevisionCounter;
 
-        bakedPedestals_ = TerrainSystem::BakePedestalColliders(stage_.Objects);
+        rt.BakedPedestals = TerrainSystem::BakePedestalColliders(rt.Stage.Objects);
 
         // 8. パーティクル (すべて丸スプライトのビルボードとして ParticleBillboardPass で描画)
         guidanceStream_.Reset();
@@ -1746,6 +1755,7 @@ export namespace App::Luminous {
     }
 
     inline void LuminousPlayScene::OnTeardown(Engine::Core::SceneContext& ctx) {
+        auto& rt = Runtime(ctx.GetRegistry());
         Input::SetCursorLocked(false);
 
         auto& registry = ctx.GetRegistry();
@@ -1798,11 +1808,12 @@ export namespace App::Luminous {
     }
 
     inline void LuminousPlayScene::SpawnStageObjects(Engine::Core::SceneContext& ctx) {
+        auto& rt = Runtime(ctx.GetRegistry());
         auto& registry = ctx.GetRegistry();
         auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
         auto* meshMgr = Engine::Core::GetService<Engine::Graphics::MeshManager>(registry);
 
-        for (const auto& obj : stage_.Objects) {
+        for (const auto& obj : rt.Stage.Objects) {
             auto ent = ctx.CreateEntity();
             auto& trans = registry.emplace<Engine::Core::TransformComponent>(ent);
             trans.LocalPosition = obj.Position;
@@ -1955,13 +1966,14 @@ export namespace App::Luminous {
     }
 
     inline void LuminousPlayScene::SyncPhaseVisuals(Engine::Graphics::MaterialManager* materialMgr, entt::registry& registry) {
+        auto& rt = Runtime(registry);
         PhaseWallMaterialCB wallCb;
         PhaseFloorMaterialCB floorCb;
 
         // 反転判定に寄与する宝玉を最大 8 個まで収集する。
         // (台座固定ぶん + 手持ちの 1 個。8 個を超えるぶんは描画に反映されない)
         int orbCount = 0;
-        for (const auto& orb : orbs_) {
+        for (const auto& orb : rt.Orbs) {
             if (orbCount >= static_cast<int>(App::Luminous::ORB_OCCLUSION_MAX_ORBS)) break;
             wallCb.OrbPositions[orbCount][0] = orb.WorldPosition.x;
             wallCb.OrbPositions[orbCount][1] = orb.WorldPosition.y;
@@ -1982,7 +1994,7 @@ export namespace App::Luminous {
         // ------------------------------------------------------------
         App::Luminous::OrbOcclusionRequest occRequest;
         occRequest.Count = static_cast<uint32_t>(orbCount);
-        occRequest.GeometryRevision = geometryRevision_;
+        occRequest.GeometryRevision = rt.GeometryRevision;
         for (int i = 0; i < static_cast<int>(App::Luminous::ORB_OCCLUSION_MAX_ORBS); ++i) {
             occRequest.Orbs[i] = XMFLOAT4(wallCb.OrbPositions[i][0], wallCb.OrbPositions[i][1],
                                           wallCb.OrbPositions[i][2], wallCb.OrbPositions[i][3]);
@@ -2011,7 +2023,7 @@ export namespace App::Luminous {
         auto updatedFloorMat = CreatePhaseFloorPrefab(materialMgr, floorCb);
 
         // 反転壁・反転床のマテリアル同期 (サブメッシュ毎の色調を保持)
-        for (const auto& obj : stage_.Objects) {
+        for (const auto& obj : rt.Stage.Objects) {
             if (obj.Phase != MaterialPhase::Phase) continue;
             auto it = objectEntities_.find(obj.InstanceId);
             if (it == objectEntities_.end() || !registry.valid(it->second)) continue;
@@ -2022,6 +2034,7 @@ export namespace App::Luminous {
     }
 
     inline void LuminousPlayScene::SubmitParticles(entt::registry& registry) {
+        auto& rt = Runtime(registry);
         auto& list = App::Graphics::ParticleDrawList::Get(registry);
 
         // 燭台・松明の火の粉
@@ -2053,6 +2066,7 @@ export namespace App::Luminous {
         float dt = realDt;
 
         auto& registry = ctx.GetRegistry();
+        auto& rt = Runtime(registry);
         auto& player = PlayerState(registry);
         auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
         App::Graphics::ParticleDrawList::Get(registry).Clear();
@@ -2094,7 +2108,7 @@ export namespace App::Luminous {
             if (debugTool_.IsActive()) {
                 debugTool_.Deactivate(dctx);
             } else {
-                isPaused_ = false;
+                rt.Paused = false;
                 debugTool_.Activate(dctx);
             }
         }
@@ -2109,21 +2123,21 @@ export namespace App::Luminous {
         // スペクテイターカメラ中もプレイヤーは止まる。
         const bool playerInput = !debugActive || debugTool_.PlayerControlEnabled();
 
-        if (!isPaused_ && !player.IsStageCleared) gameTime_ += dt;
+        if (!rt.Paused && !player.IsStageCleared) rt.GameTime += dt;
 
         // START (Space) でポーズ切り替え
         if (!debugActive && LuminousInput::PausePressed() && !player.IsStageCleared) {
-            isPaused_ = !isPaused_;
+            rt.Paused = !rt.Paused;
             cursor_.Reset();
-            Input::SetCursorLocked(!isPaused_);
-            if (isPaused_) {
+            Input::SetCursorLocked(!rt.Paused);
+            if (rt.Paused) {
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
             } else {
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Cancel.FilePath, LuminousAudioConfig::SE_UI_Cancel.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
             }
         }
 
-        if (!isPaused_) {
+        if (!rt.Paused) {
             if (!debugActive && Input::IsWindowActive() && !Input::IsCursorLocked() && !player.IsStageCleared) {
                 Input::SetCursorLocked(true);
             }
@@ -2132,7 +2146,7 @@ export namespace App::Luminous {
             if (registry.valid(playerCameraEntity_)) {
                 auto& camTransform = registry.get<Engine::Core::TransformComponent>(playerCameraEntity_);
                 if (playerInput) {
-                    PlayerSystem::UpdatePlayer(player, camTransform, stage_.Objects, orbs_, occlusionWalls_, bakedPedestals_, dt);
+                    PlayerSystem::UpdatePlayer(player, camTransform, rt.Stage.Objects, rt.Orbs, rt.OcclusionWalls, rt.BakedPedestals, dt);
                 } else {
                     auto dctx = MakeDebugContext(registry);
                     debugTool_.UpdateCamera(dctx, camTransform, realDt);
@@ -2178,14 +2192,14 @@ export namespace App::Luminous {
 
             // 2. 宝玉位置の更新 (手持ち追従 or 台座浮遊)
             XMFLOAT3 eyePos(player.Position.x, player.Position.y + player.EyeHeight, player.Position.z);
-            OrbSystem::UpdateOrbs(orbs_, player, eyePos, player.Yaw, player.Pitch, gameTime_, dt, occlusionWalls_);
+            OrbSystem::UpdateOrbs(rt.Orbs, player, eyePos, player.Yaw, player.Pitch, rt.GameTime, dt, rt.OcclusionWalls);
 
             // 3. インタラクト判定 (台座 / ゴール)
-            PlayerSystem::UpdateInteractionRaycast(player, stage_.Objects, orbs_);
+            PlayerSystem::UpdateInteractionRaycast(player, rt.Stage.Objects, rt.Orbs);
 
             // 4. 調べるボタンでの脱着処理 (デバッグのツール操作モード・スペクテイター中は受け付けない)
             if (playerInput) {
-                OrbSystem::HandleInteraction(player, orbs_, stage_.Objects, eyePos, player.Yaw, player.Pitch);
+                OrbSystem::HandleInteraction(player, rt.Orbs, rt.Stage.Objects, eyePos, player.Yaw, player.Pitch);
             }
 
             // 宝玉取得・装填効果音トリガー
@@ -2211,7 +2225,7 @@ export namespace App::Luminous {
 
                 bool isHeldOrFlying = false;
                 XMFLOAT3 activeHeldPos = { 0.0f, 0.0f, 0.0f };
-                for (const auto& orb : orbs_) {
+                for (const auto& orb : rt.Orbs) {
                     if (orb.Carrier == OrbCarrier::Player || orb.IsAnimating) {
                         isHeldOrFlying = true;
                         activeHeldPos = orb.WorldPosition;
@@ -2223,9 +2237,9 @@ export namespace App::Luminous {
                     mTrans.LocalPosition = activeHeldPos;
                     lTrans.LocalPosition = activeHeldPos;
                     XMStoreFloat4(&mTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(
-                        std::sin(gameTime_ * 0.25f) * 0.12f,
-                        gameTime_ * 0.40f,
-                        std::cos(gameTime_ * 0.35f) * 0.10f
+                        std::sin(rt.GameTime * 0.25f) * 0.12f,
+                        rt.GameTime * 0.40f,
+                        std::cos(rt.GameTime * 0.35f) * 0.10f
                     ));
                     pLight.Intensity = g_LuminousConfig.OrbLightIntensity;
                     pLight.Radius = g_LuminousConfig.OrbInfluenceRadius;
@@ -2241,12 +2255,12 @@ export namespace App::Luminous {
                 }
             }
 
-            for (const auto& obj : stage_.Objects) {
+            for (const auto& obj : rt.Stage.Objects) {
                 if (obj.Category != AssetCategory::Pedestal) continue;
 
                 bool hasOrb = false;
                 XMFLOAT3 orbPos = obj.Position;
-                for (const auto& orb : orbs_) {
+                for (const auto& orb : rt.Orbs) {
                     if (orb.Carrier == OrbCarrier::Pedestal && orb.PedestalInstanceId == obj.InstanceId && !orb.IsAnimating) {
                         hasOrb = true;
                         orbPos = orb.WorldPosition;
@@ -2259,11 +2273,11 @@ export namespace App::Luminous {
                 if (oIt != pedestalOrbEntities_.end() && registry.valid(oIt->second)) {
                     auto& oTrans = registry.get<Engine::Core::TransformComponent>(oIt->second);
                     if (hasOrb) {
-                        oTrans.LocalPosition = XMFLOAT3(obj.Position.x, obj.Position.y + PEDESTAL_SOCKET_HEIGHT + std::sin(gameTime_ * 2.2f) * 0.012f, obj.Position.z);
+                        oTrans.LocalPosition = XMFLOAT3(obj.Position.x, obj.Position.y + PEDESTAL_SOCKET_HEIGHT + std::sin(rt.GameTime * 2.2f) * 0.012f, obj.Position.z);
                         XMStoreFloat4(&oTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(
-                            std::sin(gameTime_ * 0.25f) * 0.12f,
-                            gameTime_ * 0.40f,
-                            std::cos(gameTime_ * 0.35f) * 0.10f
+                            std::sin(rt.GameTime * 0.25f) * 0.12f,
+                            rt.GameTime * 0.40f,
+                            std::cos(rt.GameTime * 0.35f) * 0.10f
                         ));
                     } else {
                         oTrans.LocalPosition = { 0.0f, -100.0f, 0.0f };
@@ -2308,7 +2322,7 @@ export namespace App::Luminous {
             //    放出済みの粒子は放出時点の軌道のまま寿命まで進む。
             XMFLOAT3 goalPos = { 0.0f, 0.0f, 0.0f };
             bool hasGoal = false;
-            for (const auto& obj : stage_.Objects) {
+            for (const auto& obj : rt.Stage.Objects) {
                 if (obj.AssetId == "GoalChest") {
                     goalPos = XMFLOAT3(obj.Position.x, obj.Position.y + 0.6f, obj.Position.z);
                     hasGoal = true;
@@ -2317,7 +2331,7 @@ export namespace App::Luminous {
             }
 
             const OrbRuntimeState* heldOrb = nullptr;
-            for (const auto& orb : orbs_) {
+            for (const auto& orb : rt.Orbs) {
                 const bool isHeld = orb.IsAnimating
                     ? (orb.TargetCarrier == OrbCarrier::Player)
                     : (orb.Carrier == OrbCarrier::Player);
@@ -2400,7 +2414,7 @@ export namespace App::Luminous {
                     Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::Jingle_StageClear.FilePath, LuminousAudioConfig::Jingle_StageClear.DefaultVolume);
                     if (stageNumber_ >= 1) {
                         ProfileManager::Get().RecordStageClear(
-                            stageNumber_, gameTime_, player.OrbPickupCount, player.PedestalInsertCount);
+                            stageNumber_, rt.GameTime, player.OrbPickupCount, player.PedestalInsertCount);
                     }
                     cursor_.Reset();
                 }
@@ -2455,6 +2469,7 @@ export namespace App::Luminous {
 
     inline void LuminousPlayScene::RenderHUD(const Engine::Core::SystemContext& ctx) {
         auto& registry = ctx.GetRegistry();
+        auto& rt = Runtime(registry);
         auto& player = PlayerState(registry);
         auto& ui = Engine::Graphics::UIRenderer::Get();
         const float screenW = 1920.0f;
@@ -2469,7 +2484,7 @@ export namespace App::Luminous {
 
         const bool debugActive = debugTool_.IsActive();
         const bool showGameplayHUD = !debugActive || debugTool_.ShowGameHUD();
-        const bool playing = !isPaused_ && !player.IsStageCleared;
+        const bool playing = !rt.Paused && !player.IsStageCleared;
 
         if (showGameplayHUD && playing) {
             // 1. レティクル
@@ -2507,7 +2522,7 @@ export namespace App::Luminous {
         }
 
         // 5. ポーズメニュー
-        if (isPaused_ && !player.IsStageCleared && !debugActive) {
+        if (rt.Paused && !player.IsStageCleared && !debugActive) {
             Input::SetCursorLocked(false);
             ui.DrawPanel(0.0f, 0.0f, screenW, screenH, { 0.0f, 0.02f, 0.05f, 0.66f });
 
@@ -2555,12 +2570,12 @@ export namespace App::Luminous {
             switch (activated) {
             case 0:
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Cancel.FilePath, LuminousAudioConfig::SE_UI_Cancel.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                isPaused_ = false;
+                rt.Paused = false;
                 Input::SetCursorLocked(true);
                 return;
             case 1:
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(stage_, returnToEditorOnExit_, stageNumber_));
+                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(rt.Stage, returnToEditorOnExit_, stageNumber_));
                 return;
             case 2:
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
@@ -2568,7 +2583,7 @@ export namespace App::Luminous {
                 return;
             case 3:
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousEditorScene>(stage_));
+                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousEditorScene>(rt.Stage));
                 return;
             case 4:
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
@@ -2623,11 +2638,11 @@ export namespace App::Luminous {
             const float panelY = blockTop + bannerH + 10.0f;
             ui.DrawImage(LuminousUIConfig::Image_Clear_StatsPanel.FilePath, panelX, panelY, panelW, panelH);
 
-            ui.DrawString("Stage: " + (stage_.Name.empty() ? "Custom Stage" : stage_.Name),
+            ui.DrawString("Stage: " + (rt.Stage.Name.empty() ? "Custom Stage" : rt.Stage.Name),
                 panelX + 60.0f, panelY + 95.0f, 22.0f, { 0.47f, 0.84f, 0.98f, 1.0f });
 
-            const int clearMinutes = static_cast<int>(gameTime_) / 60;
-            const float clearSeconds = std::fmod(gameTime_, 60.0f);
+            const int clearMinutes = static_cast<int>(rt.GameTime) / 60;
+            const float clearSeconds = std::fmod(rt.GameTime, 60.0f);
             ui.DrawString(std::format("Clear Time:         {:02d}:{:05.2f}", clearMinutes, clearSeconds),
                 panelX + 60.0f, panelY + 140.0f, 20.0f, { 0.95f, 0.97f, 1.0f, 1.0f });
             ui.DrawString(std::format("Orb Pickups:        {}", player.OrbPickupCount),
@@ -2676,7 +2691,7 @@ export namespace App::Luminous {
                         LuminousStageCatalog::Load(stageNumber_), returnToEditorOnExit_, stageNumber_ + 1));
                 } else if (stageNumber_ >= total && total > 0) {
                     LuminousTransition::Get().ChangeScene(std::make_shared<LuminousTitleScene>(LuminousTitleScene::TitleView::StageSelect));
-                } else if (stage_.Name.find("Stage 1") != std::string::npos) {
+                } else if (rt.Stage.Name.find("Stage 1") != std::string::npos) {
                     LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(LuminousStage::CreateMultiFloorSampleStage(), returnToEditorOnExit_));
                 } else {
                     LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(LuminousStage::CreateSampleStage(), returnToEditorOnExit_));
@@ -2684,7 +2699,7 @@ export namespace App::Luminous {
                 return;
             }
             case 1:
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(stage_, returnToEditorOnExit_, stageNumber_));
+                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(rt.Stage, returnToEditorOnExit_, stageNumber_));
                 return;
             case 2:
                 LuminousTransition::Get().ChangeScene(std::make_shared<LuminousTitleScene>(LuminousTitleScene::TitleView::StageSelect));
