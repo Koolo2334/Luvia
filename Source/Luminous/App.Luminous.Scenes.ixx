@@ -777,7 +777,9 @@ export namespace App::Luminous {
     class LuminousPlayScene : public Engine::Core::IScene {
     private:
         LuminousStage stage_;
-        LuminousPlayerComponent player_;
+        // プレイヤーの状態は **エンティティに載っている** (playerCameraEntity_)。
+        //   シーンが抱えていた頃は、インスペクターにも出ず、保存もされなかった。
+        //   取り出すのは PlayerState(registry)
         std::vector<OrbRuntimeState> orbs_;
         std::vector<OcclusionWall> occlusionWalls_;
         SpatialGrid spatialGrid_;
@@ -874,11 +876,18 @@ export namespace App::Luminous {
         void RenderHUD(const Engine::Core::SystemContext& ctx);
 
     private:
+        // プレイヤーの状態を、載っているエンティティから取り出す。
+        //   **ここが唯一の置き場**。シーン側に写しを持たない
+        //   (写しを持つと、エディタで直した値が次のフレームで消える)
+        LuminousPlayerComponent& PlayerState(entt::registry& registry) const {
+            return registry.get<LuminousPlayerComponent>(playerCameraEntity_);
+        }
+
         void SpawnStageObjects(Engine::Core::SceneContext& ctx);
         void SyncPhaseVisuals(Engine::Graphics::MaterialManager* materialMgr, entt::registry& registry);
         void SubmitParticles(entt::registry& registry);
         LuminousDebugContext MakeDebugContext(entt::registry& registry) {
-            return LuminousDebugContext{ registry, stage_, player_, orbs_, occlusionWalls_, bakedPedestals_,
+            return LuminousDebugContext{ registry, stage_, PlayerState(registry), orbs_, occlusionWalls_, bakedPedestals_,
                                          playerCameraEntity_, gameTime_, guidanceStream_.Count() };
         }
 
@@ -1635,8 +1644,11 @@ export namespace App::Luminous {
 
         // 2. プレイヤーエンティティとFPSカメラの生成
         playerCameraEntity_ = ctx.CreateEntity();
+        // プレイヤーの状態をここに載せる。これでインスペクターから見えるようになる
+        registry.emplace<LuminousPlayerComponent>(playerCameraEntity_);
+        auto& player = PlayerState(registry);
         auto& camTransform = registry.emplace<Engine::Core::TransformComponent>(playerCameraEntity_);
-        camTransform.LocalPosition = { player_.Position.x, player_.Position.y + player_.EyeHeight, player_.Position.z };
+        camTransform.LocalPosition = { player.Position.x, player.Position.y + player.EyeHeight, player.Position.z };
         XMStoreFloat4(&camTransform.LocalRotation, XMQuaternionIdentity());
 
         registry.emplace<Engine::Graphics::CameraComponent>(playerCameraEntity_, Engine::Graphics::CameraComponent{
@@ -1687,9 +1699,9 @@ export namespace App::Luminous {
         // 5. プレイヤー初期位置の検出
         for (const auto& obj : stage_.Objects) {
             if (obj.AssetId == "StartDais") {
-                player_.Position = XMFLOAT3(obj.Position.x, obj.Position.y + 0.1f, obj.Position.z);
-                player_.Yaw = XMConvertToRadians(SpawnFacingToYawDegrees(obj.Facing));
-                player_.Pitch = 0.0f;
+                player.Position = XMFLOAT3(obj.Position.x, obj.Position.y + 0.1f, obj.Position.z);
+                player.Yaw = XMConvertToRadians(SpawnFacingToYawDegrees(obj.Facing));
+                player.Pitch = 0.0f;
                 break;
             }
         }
@@ -2036,6 +2048,7 @@ export namespace App::Luminous {
         float dt = realDt;
 
         auto& registry = ctx.GetRegistry();
+        auto& player = PlayerState(registry);
         auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
         App::Graphics::ParticleDrawList::Get(registry).Clear();
 
@@ -2091,10 +2104,10 @@ export namespace App::Luminous {
         // スペクテイターカメラ中もプレイヤーは止まる。
         const bool playerInput = !debugActive || debugTool_.PlayerControlEnabled();
 
-        if (!isPaused_ && !player_.IsStageCleared) gameTime_ += dt;
+        if (!isPaused_ && !player.IsStageCleared) gameTime_ += dt;
 
         // START (Space) でポーズ切り替え
-        if (!debugActive && LuminousInput::PausePressed() && !player_.IsStageCleared) {
+        if (!debugActive && LuminousInput::PausePressed() && !player.IsStageCleared) {
             isPaused_ = !isPaused_;
             cursor_.Reset();
             Input::SetCursorLocked(!isPaused_);
@@ -2106,7 +2119,7 @@ export namespace App::Luminous {
         }
 
         if (!isPaused_) {
-            if (!debugActive && Input::IsWindowActive() && !Input::IsCursorLocked() && !player_.IsStageCleared) {
+            if (!debugActive && Input::IsWindowActive() && !Input::IsCursorLocked() && !player.IsStageCleared) {
                 Input::SetCursorLocked(true);
             }
 
@@ -2114,7 +2127,7 @@ export namespace App::Luminous {
             if (registry.valid(playerCameraEntity_)) {
                 auto& camTransform = registry.get<Engine::Core::TransformComponent>(playerCameraEntity_);
                 if (playerInput) {
-                    PlayerSystem::UpdatePlayer(player_, camTransform, stage_.Objects, orbs_, occlusionWalls_, bakedPedestals_, dt);
+                    PlayerSystem::UpdatePlayer(player, camTransform, stage_.Objects, orbs_, occlusionWalls_, bakedPedestals_, dt);
                 } else {
                     auto dctx = MakeDebugContext(registry);
                     debugTool_.UpdateCamera(dctx, camTransform, realDt);
@@ -2134,10 +2147,10 @@ export namespace App::Luminous {
                 );
 
                 // 石畳歩行足音 (ヘッドボブの沈み込みに同期して左右交互)
-                float hSpeedSq = player_.Velocity.x * player_.Velocity.x + player_.Velocity.z * player_.Velocity.z;
-                if (playerInput && player_.IsGrounded && hSpeedSq > 0.40f && !player_.IsGliding && !player_.IsStageCleared) {
+                float hSpeedSq = player.Velocity.x * player.Velocity.x + player.Velocity.z * player.Velocity.z;
+                if (playerInput && player.IsGrounded && hSpeedSq > 0.40f && !player.IsGliding && !player.IsStageCleared) {
                     const float bobFreq = 4.0f * g_LuminousConfig.CameraShakeSpeed;
-                    const float phase = player_.WalkDistanceAccumulator * XM_PI * bobFreq;
+                    const float phase = player.WalkDistanceAccumulator * XM_PI * bobFreq;
                     const float stepIndexF = std::floor((phase + XM_PIDIV2) / XM_2PI);
                     const int stepIndex = static_cast<int>(stepIndexF);
 
@@ -2159,30 +2172,30 @@ export namespace App::Luminous {
             }
 
             // 2. 宝玉位置の更新 (手持ち追従 or 台座浮遊)
-            XMFLOAT3 eyePos(player_.Position.x, player_.Position.y + player_.EyeHeight, player_.Position.z);
-            OrbSystem::UpdateOrbs(orbs_, player_, eyePos, player_.Yaw, player_.Pitch, gameTime_, dt, occlusionWalls_);
+            XMFLOAT3 eyePos(player.Position.x, player.Position.y + player.EyeHeight, player.Position.z);
+            OrbSystem::UpdateOrbs(orbs_, player, eyePos, player.Yaw, player.Pitch, gameTime_, dt, occlusionWalls_);
 
             // 3. インタラクト判定 (台座 / ゴール)
-            PlayerSystem::UpdateInteractionRaycast(player_, stage_.Objects, orbs_);
+            PlayerSystem::UpdateInteractionRaycast(player, stage_.Objects, orbs_);
 
             // 4. 調べるボタンでの脱着処理 (デバッグのツール操作モード・スペクテイター中は受け付けない)
             if (playerInput) {
-                OrbSystem::HandleInteraction(player_, orbs_, stage_.Objects, eyePos, player_.Yaw, player_.Pitch);
+                OrbSystem::HandleInteraction(player, orbs_, stage_.Objects, eyePos, player.Yaw, player.Pitch);
             }
 
             // 宝玉取得・装填効果音トリガー
-            if (!prevHoldingOrb_ && player_.IsHoldingOrb) {
+            if (!prevHoldingOrb_ && player.IsHoldingOrb) {
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_Orb_Pickup.FilePath, LuminousAudioConfig::SE_Orb_Pickup.DefaultVolume);
-            } else if (prevHoldingOrb_ && !player_.IsHoldingOrb) {
+            } else if (prevHoldingOrb_ && !player.IsHoldingOrb) {
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_Orb_Insert.FilePath, LuminousAudioConfig::SE_Orb_Insert.DefaultVolume);
             }
-            prevHoldingOrb_ = player_.IsHoldingOrb;
+            prevHoldingOrb_ = player.IsHoldingOrb;
 
             // 反転境界すり抜けシマー音
-            if (!prevGliding_ && player_.IsGliding) {
+            if (!prevGliding_ && player.IsGliding) {
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_Phase_Pass.FilePath, LuminousAudioConfig::SE_Phase_Pass.DefaultVolume);
             }
-            prevGliding_ = player_.IsGliding;
+            prevGliding_ = player.IsGliding;
 
             // 5. 手持ち宝玉状態の反映
 
@@ -2309,11 +2322,11 @@ export namespace App::Luminous {
                 }
             }
 
-            const bool emitGuidance = hasGoal && heldOrb != nullptr && !player_.IsStageCleared;
+            const bool emitGuidance = hasGoal && heldOrb != nullptr && !player.IsStageCleared;
             guidanceStream_.Update(dt, emitGuidance, heldOrb ? heldOrb->WorldPosition : goalPos, goalPos);
 
             // 8. ゴール宝箱開口・黄金光線励起・300フォトン噴水バースト・カメラ注視 (Phase 6)
-            if (player_.IsStageCleared) {
+            if (player.IsStageCleared) {
                 chestAnimTimer_ += dt;
 
                 if (!chestBurstTriggered_) {
@@ -2382,7 +2395,7 @@ export namespace App::Luminous {
                     Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::Jingle_StageClear.FilePath, LuminousAudioConfig::Jingle_StageClear.DefaultVolume);
                     if (stageNumber_ >= 1) {
                         ProfileManager::Get().RecordStageClear(
-                            stageNumber_, gameTime_, player_.OrbPickupCount, player_.PedestalInsertCount);
+                            stageNumber_, gameTime_, player.OrbPickupCount, player.PedestalInsertCount);
                     }
                     cursor_.Reset();
                 }
@@ -2390,9 +2403,9 @@ export namespace App::Luminous {
                 // カメラの視線を宝箱開口部へ滑らかに誘導 (デバッグ中はツールのカメラを優先)
                 if (playerInput && registry.valid(playerCameraEntity_)) {
                     auto& camTrans = registry.get<Engine::Core::TransformComponent>(playerCameraEntity_);
-                    float eyeX = player_.Position.x;
-                    float eyeY = player_.Position.y + player_.EyeHeight;
-                    float eyeZ = player_.Position.z;
+                    float eyeX = player.Position.x;
+                    float eyeY = player.Position.y + player.EyeHeight;
+                    float eyeZ = player.Position.z;
                     float targetLookX = goalChestPos_.x - eyeX;
                     float targetLookY = (goalChestPos_.y + 0.4f) - eyeY;
                     float targetLookZ = goalChestPos_.z - eyeZ;
@@ -2402,16 +2415,16 @@ export namespace App::Luminous {
                         if (desiredYaw < 0.0f) desiredYaw += XM_2PI;
                         float desiredPitch = -std::atan2(targetLookY, horizDist);
 
-                        float yawDelta = desiredYaw - player_.Yaw;
+                        float yawDelta = desiredYaw - player.Yaw;
                         while (yawDelta > XM_PI)  yawDelta -= XM_2PI;
                         while (yawDelta < -XM_PI) yawDelta += XM_2PI;
 
                         float camFactor = 1.0f - std::exp(-4.5f * dt);
-                        player_.Yaw += yawDelta * camFactor;
-                        player_.Pitch += (desiredPitch - player_.Pitch) * camFactor;
+                        player.Yaw += yawDelta * camFactor;
+                        player.Pitch += (desiredPitch - player.Pitch) * camFactor;
 
                         camTrans.LocalPosition = XMFLOAT3(eyeX, eyeY, eyeZ);
-                        XMStoreFloat4(&camTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(player_.Pitch, player_.Yaw, 0.0f));
+                        XMStoreFloat4(&camTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(player.Pitch, player.Yaw, 0.0f));
                         camTrans.IsDirty = true;
                     }
                 }
@@ -2436,6 +2449,8 @@ export namespace App::Luminous {
     }
 
     inline void LuminousPlayScene::RenderHUD(const Engine::Core::SystemContext& ctx) {
+        auto& registry = ctx.GetRegistry();
+        auto& player = PlayerState(registry);
         auto& ui = Engine::Graphics::UIRenderer::Get();
         const float screenW = 1920.0f;
         const float screenH = 1080.0f;
@@ -2449,7 +2464,7 @@ export namespace App::Luminous {
 
         const bool debugActive = debugTool_.IsActive();
         const bool showGameplayHUD = !debugActive || debugTool_.ShowGameHUD();
-        const bool playing = !isPaused_ && !player_.IsStageCleared;
+        const bool playing = !isPaused_ && !player.IsStageCleared;
 
         if (showGameplayHUD && playing) {
             // 1. レティクル
@@ -2457,10 +2472,10 @@ export namespace App::Luminous {
 
             // 2. インタラクト操作説明 (枠 + 操作中デバイスのボタン画像 + 行動名)
             //    置く / 取る / 開ける で行動名の画像を出し分ける。
-            if (player_.CanInteract && player_.InteractKind != LuminousInteractKind::None) {
+            if (player.CanInteract && player.InteractKind != LuminousInteractKind::None) {
                 const UIImageConfig* label = &LuminousUIConfig::Image_HUD_Label_TakeOrb;
-                if (player_.InteractKind == LuminousInteractKind::PlaceOrb) label = &LuminousUIConfig::Image_HUD_Label_PlaceOrb;
-                else if (player_.InteractKind == LuminousInteractKind::OpenChest) label = &LuminousUIConfig::Image_HUD_Label_OpenChest;
+                if (player.InteractKind == LuminousInteractKind::PlaceOrb) label = &LuminousUIConfig::Image_HUD_Label_PlaceOrb;
+                else if (player.InteractKind == LuminousInteractKind::OpenChest) label = &LuminousUIConfig::Image_HUD_Label_OpenChest;
 
                 const auto& frame = LuminousUIConfig::Image_HUD_PromptFrame;
                 const float fx = centerX - frame.DefaultWidth * 0.5f;
@@ -2477,7 +2492,7 @@ export namespace App::Luminous {
             }
 
             // 3. 宝玉所持アイコン (画面右下)
-            if (player_.IsHoldingOrb) {
+            if (player.IsHoldingOrb) {
                 ui.DrawImage(LuminousUIConfig::Image_HUD_OrbIcon.FilePath, screenW - 96.0f, screenH - 96.0f, 64.0f, 64.0f,
                     { 1.0f, 0.90f, 0.45f, 1.0f });
             }
@@ -2487,7 +2502,7 @@ export namespace App::Luminous {
         }
 
         // 5. ポーズメニュー
-        if (isPaused_ && !player_.IsStageCleared && !debugActive) {
+        if (isPaused_ && !player.IsStageCleared && !debugActive) {
             Input::SetCursorLocked(false);
             ui.DrawPanel(0.0f, 0.0f, screenW, screenH, { 0.0f, 0.02f, 0.05f, 0.66f });
 
@@ -2586,7 +2601,7 @@ export namespace App::Luminous {
         }
 
         // 6. ステージクリアのリザルト (宝箱開口0.8秒後)
-        if (player_.IsStageCleared && chestAnimTimer_ >= 0.8f && (!debugActive || debugTool_.ShowGameHUD())) {
+        if (player.IsStageCleared && chestAnimTimer_ >= 0.8f && (!debugActive || debugTool_.ShowGameHUD())) {
             if (!debugActive) Input::SetCursorLocked(false);
 
             ui.DrawPanel(0.0f, 0.0f, screenW, screenH, { 0.0f, 0.02f, 0.05f, 0.72f });
@@ -2610,9 +2625,9 @@ export namespace App::Luminous {
             const float clearSeconds = std::fmod(gameTime_, 60.0f);
             ui.DrawString(std::format("Clear Time:         {:02d}:{:05.2f}", clearMinutes, clearSeconds),
                 panelX + 60.0f, panelY + 140.0f, 20.0f, { 0.95f, 0.97f, 1.0f, 1.0f });
-            ui.DrawString(std::format("Orb Pickups:        {}", player_.OrbPickupCount),
+            ui.DrawString(std::format("Orb Pickups:        {}", player.OrbPickupCount),
                 panelX + 60.0f, panelY + 185.0f, 20.0f, { 0.95f, 0.97f, 1.0f, 1.0f });
-            ui.DrawString(std::format("Pedestal Inserts:   {}", player_.PedestalInsertCount),
+            ui.DrawString(std::format("Pedestal Inserts:   {}", player.PedestalInsertCount),
                 panelX + 60.0f, panelY + 230.0f, 20.0f, { 0.95f, 0.97f, 1.0f, 1.0f });
 
             struct Btn { const UIImageConfig* Normal; const UIImageConfig* Hover; float X, Y, W, H; };
