@@ -1945,6 +1945,11 @@ export namespace App::Luminous {
                 }
             }
 
+            // ステージの中身を**そのエンティティに載せる**。
+            //   これでインスペクターから種類・相 (Phase)・光源をそのまま直せる。
+            //   以前はシーンが抱える std::vector の中だけにあり、見えなかった
+            registry.emplace<PlacedObject>(ent, obj);
+
             objectEntities_[obj.InstanceId] = ent;
         }
     }
@@ -2933,6 +2938,11 @@ export namespace App::Luminous {
                 Engine::Graphics::MeshAttacher::AttachToEntity(registry, fEnt, flameMesh, flameMat);
                 flameEntities_[obj.InstanceId] = fEnt;
             }
+
+            // ステージの中身を**そのエンティティに載せる**。
+            //   これでインスペクターから種類・相 (Phase)・光源をそのまま直せる。
+            //   以前はシーンが抱える std::vector の中だけにあり、見えなかった
+            registry.emplace<PlacedObject>(ent, obj);
 
             objectEntities_[obj.InstanceId] = ent;
         }

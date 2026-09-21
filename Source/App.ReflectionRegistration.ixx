@@ -10,6 +10,7 @@ import App.Graphics.SkyLight;
 import App.Graphics.PassTags;
 import App.Luminous.PlayerSystem;
 import App.Luminous.OrbOcclusionData;
+import App.Luminous.Types;
 
 // ============================================================================
 // ゲーム側のコンポーネントをリフレクションへ登録する
@@ -52,6 +53,72 @@ namespace App {
             .Field("DiffuseIntensity", &App::Graphics::SkyLightComponent::DiffuseIntensity)
             .Field("SpecularIntensity", &App::Graphics::SkyLightComponent::SpecularIntensity)
             .Field("DrawSky", &App::Graphics::SkyLightComponent::DrawSky);
+
+        // ---- ステージに置いたもの ----
+        //
+        //   ステージの中身 (壁・床・台座・小物) は PlacedObject という 1 つの型で
+        //   表されている。これを**置いたエンティティに載せる**ことで、
+        //   インスペクターから種類・位置・相 (Phase)・光源をそのまま直せるようになる。
+        //   以前はシーンが抱える std::vector の中にあり、エディタからは見えなかった。
+        using App::Luminous::AssetCategory;
+        using App::Luminous::PlacementType;
+        using App::Luminous::MaterialPhase;
+        using App::Luminous::CellEdge;
+        using App::Luminous::SpawnFacing;
+
+        registry.RegisterEnum<AssetCategory>("LuminousAssetCategory")
+            .Value("Floor", AssetCategory::Floor)
+            .Value("Wall", AssetCategory::Wall)
+            .Value("Stairs", AssetCategory::Stairs)
+            .Value("Pedestal", AssetCategory::Pedestal)
+            .Value("Special", AssetCategory::Special)
+            .Value("Prop", AssetCategory::Prop);
+
+        registry.RegisterEnum<PlacementType>("LuminousPlacementType")
+            .Value("CellSnap", PlacementType::CellSnap)
+            .Value("EdgeSnap", PlacementType::EdgeSnap)
+            .Value("FreeAttach", PlacementType::FreeAttach);
+
+        registry.RegisterEnum<MaterialPhase>("LuminousMaterialPhase")
+            .Value("Normal", MaterialPhase::Normal)
+            .Value("Phase", MaterialPhase::Phase);
+
+        registry.RegisterEnum<CellEdge>("LuminousCellEdge")
+            .Value("North", CellEdge::North)
+            .Value("South", CellEdge::South)
+            .Value("East", CellEdge::East)
+            .Value("West", CellEdge::West);
+
+        registry.RegisterEnum<SpawnFacing>("LuminousSpawnFacing")
+            .Value("North", SpawnFacing::North)
+            .Value("East", SpawnFacing::East)
+            .Value("South", SpawnFacing::South)
+            .Value("West", SpawnFacing::West);
+
+        registry.RegisterStruct<App::Luminous::GridCoord>("LuminousGridCoord")
+            .Field("X", &App::Luminous::GridCoord::X)
+            .Field("Z", &App::Luminous::GridCoord::Z)
+            .Field("Floor", &App::Luminous::GridCoord::Floor);
+
+        registry.Register<App::Luminous::PlacedObject>("LuminousPlacedObject")
+            // InstanceId はステージが配るもの。人が書き換えると対応が壊れる
+            .Field("InstanceId", &App::Luminous::PlacedObject::InstanceId).ReadOnly()
+            .Field("AssetId", &App::Luminous::PlacedObject::AssetId)
+            .Field("Category", &App::Luminous::PlacedObject::Category)
+            .Field("Placement", &App::Luminous::PlacedObject::Placement)
+            .Field("FloorIndex", &App::Luminous::PlacedObject::FloorIndex)
+            .Field("Cell", &App::Luminous::PlacedObject::Cell)
+            .Field("Edge", &App::Luminous::PlacedObject::Edge)
+            .Field("Position", &App::Luminous::PlacedObject::Position)
+            .Field("Rotation", &App::Luminous::PlacedObject::Rotation)
+            .Field("Scale", &App::Luminous::PlacedObject::Scale)
+            .Field("Phase", &App::Luminous::PlacedObject::Phase)
+            .Field("HasInitialOrb", &App::Luminous::PlacedObject::HasInitialOrb)
+            .Field("Facing", &App::Luminous::PlacedObject::Facing)
+            .Field("HasLight", &App::Luminous::PlacedObject::HasLight)
+            .Field("LightColor", &App::Luminous::PlacedObject::LightColor)
+            .Field("LightIntensity", &App::Luminous::PlacedObject::LightIntensity)
+            .Field("LightRadius", &App::Luminous::PlacedObject::LightRadius);
 
         // ---- プレイヤー ----
         // 視線の先の対象・クリア演出・グライドなどは毎フレーム決まるので保存しない
