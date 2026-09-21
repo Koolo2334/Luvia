@@ -1825,6 +1825,9 @@ export namespace App::Luminous {
             //   これでインスペクターから種類・相 (Phase)・光源をそのまま直せる。
             //   以前はシーンが抱える std::vector の中だけにあり、見えなかった
             registry.emplace<PlacedObject>(ent, obj);
+            // **ステージの JSON から組み立てたもの**なので、シーンのファイルには
+            //   書き出さない (E-05)。正本はステージの方で、ここは組み直せる結果
+            registry.emplace<Engine::Core::GeneratedTag>(ent);
 
             rt.ObjectEntities[obj.InstanceId] = ent;
         }
@@ -2831,6 +2834,9 @@ export namespace App::Luminous {
             //   これでインスペクターから種類・相 (Phase)・光源をそのまま直せる。
             //   以前はシーンが抱える std::vector の中だけにあり、見えなかった
             registry.emplace<PlacedObject>(ent, obj);
+            // **ステージの JSON から組み立てたもの**なので、シーンのファイルには
+            //   書き出さない (E-05)。正本はステージの方で、ここは組み直せる結果
+            registry.emplace<Engine::Core::GeneratedTag>(ent);
 
             rt.ObjectEntities[obj.InstanceId] = ent;
         }
