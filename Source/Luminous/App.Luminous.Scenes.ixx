@@ -44,6 +44,7 @@ import App.Graphics.DeferredPipeline;
 import App.Graphics.PassTags;
 import App.Luminous.OrbOcclusionData;
 import App.Luminous.Types;
+import Engine.Core.SystemRegistry;
 import App.Luminous.Optics;
 import App.Luminous.MenuCursor;
 import App.Luminous.PlayRuntime;
@@ -649,6 +650,133 @@ export namespace App::Luminous {
     // ========================================================================
     // LuminousPlayScene (FPSゲーム本編シーン - 完全ImGuiフリー画像UI＆空間音響)
     // ========================================================================
+    // ========================================================================
+    // 本編の処理 (シーンの持ち物ではなく、**レジストリだけを見る自由関数**)
+    //
+    //   `this` を捕まえていないので、SystemRegistry に名前で登録できる。
+    //   そうすると .scene.json の "systems" に名前で並べるだけで回せる
+    //   (シーンの C++ の実体が無くてもよい)。
+    // ========================================================================
+
+    // プレイヤーの状態を、載っているエンティティから取り出す。
+    //   **ここが唯一の置き場**。写しを持つと、エディタで直した値が次のフレームで消える
+    inline LuminousPlayerComponent& PlayerState(entt::registry& registry) {
+        return registry.get<LuminousPlayerComponent>(PlayRuntime(registry).PlayerCamera);
+    }
+
+    inline LuminousDebugContext LuminousPlayDebugContext(entt::registry& registry) {
+        auto& rt = PlayRuntime(registry);
+        return LuminousDebugContext{ registry, rt.Stage, PlayerState(registry), rt.Orbs,
+                                     rt.OcclusionWalls, rt.BakedPedestals,
+                                     rt.PlayerCamera, rt.GameTime, rt.GuidanceStream.Count() };
+    }
+
+    void LuminousPlaySpawnStageObjects(Engine::Core::SceneContext& ctx);
+    void LuminousPlaySyncPhaseVisuals(Engine::Graphics::MaterialManager* materialMgr,
+                                      entt::registry& registry);
+    void LuminousPlaySubmitParticles(entt::registry& registry);
+    void LuminousPlayRenderHUD(const Engine::Core::SystemContext& ctx);
+
+    // ------------------------------------------------------------------------
+    // ステージ (PlacedObject) から、遊びに要るものを組み立てる。
+    //   宝玉・遮蔽壁・当たり判定の格子・台座の焼き込み・演出の入れもの。
+    //   **保存しない派生データ**なので、いつでもここから作り直せる
+    // ------------------------------------------------------------------------
+    inline void LuminousPlayBuildRuntime(entt::registry& registry) {
+        auto& rt = PlayRuntime(registry);
+        auto& player = PlayerState(registry);
+        // 5. プレイヤー初期位置の検出
+        for (const auto& obj : rt.Stage.Objects) {
+            if (obj.AssetId == "StartDais") {
+                player.Position = XMFLOAT3(obj.Position.x, obj.Position.y + 0.1f, obj.Position.z);
+                player.Yaw = XMConvertToRadians(SpawnFacingToYawDegrees(obj.Facing));
+                player.Pitch = 0.0f;
+                break;
+            }
+        }
+
+        // 6. 宝玉ランタイム状態の初期化
+        rt.Orbs.clear();
+        for (const auto& obj : rt.Stage.Objects) {
+            if (obj.Category == AssetCategory::Pedestal && obj.HasInitialOrb) {
+                OrbRuntimeState orbState;
+                orbState.OrbId = obj.InstanceId;
+                orbState.Carrier = OrbCarrier::Pedestal;
+                orbState.PedestalInstanceId = obj.InstanceId;
+                orbState.WorldPosition = XMFLOAT3(obj.Position.x, obj.Position.y + PEDESTAL_SOCKET_HEIGHT, obj.Position.z);
+                orbState.Radius = g_LuminousConfig.OrbInfluenceRadius;
+                rt.Orbs.push_back(orbState);
+            }
+        }
+
+        // 7. 遮蔽壁リストおよび空間グリッドの初期化
+        rt.OcclusionWalls = OpticsEngine::BuildOcclusionWalls(rt.Stage.Objects);
+        rt.Grid.Build(rt.OcclusionWalls);
+        static uint32_t s_GeometryRevisionCounter = 0;
+        rt.GeometryRevision = ++s_GeometryRevisionCounter;
+
+        rt.BakedPedestals = TerrainSystem::BakePedestalColliders(rt.Stage.Objects);
+
+        // 8. パーティクル (すべて丸スプライトのビルボードとして ParticleBillboardPass で描画)
+        rt.GuidanceStream.Reset();
+        App::Graphics::ParticleDrawList::Get(registry).Clear();
+
+        // 9. 黄金の光粒子噴水バースト (300粒子)
+        rt.ChestAnimTimer = 0.0f;
+        rt.ChestBurstTriggered = false;
+        rt.ChestBurstParticles.clear();
+        rt.ChestBurstParticles.resize(300);
+    }
+
+    // ------------------------------------------------------------------------
+    // .scene.json から起動したときの組み直し。
+    //
+    //   データだけのシーンには C++ のシーンが無いので、持ち物が空のまま。
+    //   権威データは**エンティティに載っている PlacedObject と
+    //   LuminousPlayerComponent** なので、そこから戻す。
+    //   何もしなくてよいとき (C++ のシーンから来たとき) は、すぐ帰る
+    // ------------------------------------------------------------------------
+    inline void LuminousPlayRestoreFromEntities(entt::registry& registry) {
+        auto& rt = PlayRuntime(registry);
+        if (!rt.Stage.Objects.empty()) return;   // もう組んである
+
+        // プレイヤーは、載っているエンティティを探す
+        if (rt.PlayerCamera == entt::null || !registry.valid(rt.PlayerCamera)) {
+            const auto players = registry.view<LuminousPlayerComponent>();
+            if (players.empty()) return;   // まだ読み込み途中
+            rt.PlayerCamera = players.front();
+        }
+
+        // ステージの中身と、どのエンティティが何なのかを集め直す。
+        //   **番号の順に並べる**。エンティティを見る順は決まっていないので、
+        //   そのままだと起動のたびに開始地点などが変わりかねない
+        rt.ObjectEntities.clear();
+        for (auto [entity, placed] : registry.view<PlacedObject>().each()) {
+            rt.Stage.Objects.push_back(placed);
+            rt.ObjectEntities[placed.InstanceId] = entity;
+        }
+        std::sort(rt.Stage.Objects.begin(), rt.Stage.Objects.end(),
+                  [](const PlacedObject& a, const PlacedObject& b) {
+                      return a.InstanceId < b.InstanceId;
+                  });
+        if (rt.Stage.Objects.empty()) return;
+
+        LuminousPlayBuildRuntime(registry);
+
+        // **見る目を決める**。C++ のシーンなら OnSetup がやっていたところ。
+        //   これが抜けていると、組み上がっていても真っ暗なままになる
+        Engine::Graphics::CameraAPI::SetActiveCamera(registry, rt.PlayerCamera);
+        Input::SetCursorLocked(true);
+    }
+    void LuminousPlayUpdate(const Engine::Core::SystemContext& ctx);
+
+    // ゲームの立ち上げで 1 度だけ呼ぶ。
+    //   ここで名前を通しておくと、.scene.json の "systems" から引けるようになる
+    inline void RegisterLuminousSystems() {
+        Engine::Core::SystemRegistry::Get().Register(
+            "LuminousPlayUpdateSystem", Engine::Core::SystemPhase::Update, &LuminousPlayUpdate);
+    }
+
     class LuminousPlayScene : public Engine::Core::IScene {
     private:
         // 本編の持ち物は **レジストリ** にある (LuminousPlayRuntime)。
@@ -683,31 +811,6 @@ export namespace App::Luminous {
 
         void OnSetup(Engine::Core::SceneContext& ctx) override;
         void OnTeardown(Engine::Core::SceneContext& ctx) override;
-        void Update(const Engine::Core::SystemContext& ctx);
-        void RenderHUD(const Engine::Core::SystemContext& ctx);
-
-    private:
-        // プレイヤーの状態を、載っているエンティティから取り出す。
-        //   **ここが唯一の置き場**。シーン側に写しを持たない
-        //   (写しを持つと、エディタで直した値が次のフレームで消える)
-        // 本編の持ち物 (ステージ・宝玉・遮蔽壁ほか)。**ここが唯一の置き場**
-        LuminousPlayRuntime& Runtime(entt::registry& registry) const {
-            return PlayRuntime(registry);
-        }
-
-        LuminousPlayerComponent& PlayerState(entt::registry& registry) const {
-            return registry.get<LuminousPlayerComponent>(PlayRuntime(registry).PlayerCamera);
-        }
-
-        void SpawnStageObjects(Engine::Core::SceneContext& ctx);
-        void SyncPhaseVisuals(Engine::Graphics::MaterialManager* materialMgr, entt::registry& registry);
-        void SubmitParticles(entt::registry& registry);
-        LuminousDebugContext MakeDebugContext(entt::registry& registry) {
-            auto& rt = Runtime(registry);
-            return LuminousDebugContext{ registry, rt.Stage, PlayerState(registry), rt.Orbs, rt.OcclusionWalls, rt.BakedPedestals,
-                                         rt.PlayerCamera, rt.GameTime, rt.GuidanceStream.Count() };
-        }
-
     };
 
     // ========================================================================
@@ -1518,59 +1621,22 @@ export namespace App::Luminous {
         });
 
         // 4. ステージオブジェクトのスポーン
-        SpawnStageObjects(ctx);
+        LuminousPlaySpawnStageObjects(ctx);
 
-        // 5. プレイヤー初期位置の検出
-        for (const auto& obj : rt.Stage.Objects) {
-            if (obj.AssetId == "StartDais") {
-                player.Position = XMFLOAT3(obj.Position.x, obj.Position.y + 0.1f, obj.Position.z);
-                player.Yaw = XMConvertToRadians(SpawnFacingToYawDegrees(obj.Facing));
-                player.Pitch = 0.0f;
-                break;
-            }
-        }
-
-        // 6. 宝玉ランタイム状態の初期化
-        rt.Orbs.clear();
-        for (const auto& obj : rt.Stage.Objects) {
-            if (obj.Category == AssetCategory::Pedestal && obj.HasInitialOrb) {
-                OrbRuntimeState orbState;
-                orbState.OrbId = obj.InstanceId;
-                orbState.Carrier = OrbCarrier::Pedestal;
-                orbState.PedestalInstanceId = obj.InstanceId;
-                orbState.WorldPosition = XMFLOAT3(obj.Position.x, obj.Position.y + PEDESTAL_SOCKET_HEIGHT, obj.Position.z);
-                orbState.Radius = g_LuminousConfig.OrbInfluenceRadius;
-                rt.Orbs.push_back(orbState);
-            }
-        }
-
-        // 7. 遮蔽壁リストおよび空間グリッドの初期化
-        rt.OcclusionWalls = OpticsEngine::BuildOcclusionWalls(rt.Stage.Objects);
-        rt.Grid.Build(rt.OcclusionWalls);
-        static uint32_t s_GeometryRevisionCounter = 0;
-        rt.GeometryRevision = ++s_GeometryRevisionCounter;
-
-        rt.BakedPedestals = TerrainSystem::BakePedestalColliders(rt.Stage.Objects);
-
-        // 8. パーティクル (すべて丸スプライトのビルボードとして ParticleBillboardPass で描画)
-        rt.GuidanceStream.Reset();
-        App::Graphics::ParticleDrawList::Get(registry).Clear();
-
-        // 9. 黄金の光粒子噴水バースト (300粒子)
-        rt.ChestAnimTimer = 0.0f;
-        rt.ChestBurstTriggered = false;
-        rt.ChestBurstParticles.clear();
-        rt.ChestBurstParticles.resize(300);
+        // 5〜9. ステージから、遊びに要るものを組み立てる
+        LuminousPlayBuildRuntime(registry);
 
 
-        // 10. 毎フレーム更新システムの登録
-        ctx.RegisterSystem(Engine::Core::SystemPhase::Update, "LuminousPlayUpdateSystem", [this](const Engine::Core::SystemContext& c) {
-            this->Update(c);
-        });
+        // 10. 毎フレーム更新システムを、このシーンで回す。
+        //   名前で引けるようにする登録は **ゲームモジュール側** (RegisterLuminousSystems)。
+        //   シーンより先に済ませておかないと、.scene.json から起動したときに
+        //   「そんなシステムは無い」と言われる
+        ctx.RegisterSystem(Engine::Core::SystemPhase::Update, "LuminousPlayUpdateSystem",
+                           &LuminousPlayUpdate);
     }
 
     inline void LuminousPlayScene::OnTeardown(Engine::Core::SceneContext& ctx) {
-        auto& rt = Runtime(ctx.GetRegistry());
+        auto& rt = PlayRuntime(ctx.GetRegistry());
         Input::SetCursorLocked(false);
 
         auto& registry = ctx.GetRegistry();
@@ -1622,8 +1688,8 @@ export namespace App::Luminous {
         rt.PedestalLightEntities.clear();
     }
 
-    inline void LuminousPlayScene::SpawnStageObjects(Engine::Core::SceneContext& ctx) {
-        auto& rt = Runtime(ctx.GetRegistry());
+    inline void LuminousPlaySpawnStageObjects(Engine::Core::SceneContext& ctx) {
+        auto& rt = PlayRuntime(ctx.GetRegistry());
         auto& registry = ctx.GetRegistry();
         auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
         auto* meshMgr = Engine::Core::GetService<Engine::Graphics::MeshManager>(registry);
@@ -1780,8 +1846,8 @@ export namespace App::Luminous {
         }
     }
 
-    inline void LuminousPlayScene::SyncPhaseVisuals(Engine::Graphics::MaterialManager* materialMgr, entt::registry& registry) {
-        auto& rt = Runtime(registry);
+    inline void LuminousPlaySyncPhaseVisuals(Engine::Graphics::MaterialManager* materialMgr, entt::registry& registry) {
+        auto& rt = PlayRuntime(registry);
         PhaseWallMaterialCB wallCb;
         PhaseFloorMaterialCB floorCb;
 
@@ -1848,8 +1914,8 @@ export namespace App::Luminous {
         }
     }
 
-    inline void LuminousPlayScene::SubmitParticles(entt::registry& registry) {
-        auto& rt = Runtime(registry);
+    inline void LuminousPlaySubmitParticles(entt::registry& registry) {
+        auto& rt = PlayRuntime(registry);
         auto& list = App::Graphics::ParticleDrawList::Get(registry);
 
         // 燭台・松明の火の粉
@@ -1876,12 +1942,15 @@ export namespace App::Luminous {
         }
     }
 
-    inline void LuminousPlayScene::Update(const Engine::Core::SystemContext& ctx) {
+    inline void LuminousPlayUpdate(const Engine::Core::SystemContext& ctx) {
         const float realDt = ctx.GetDeltaTime();
         float dt = realDt;
 
         auto& registry = ctx.GetRegistry();
-        auto& rt = Runtime(registry);
+        // .scene.json から来たときは、ここで持ち物を組み直す (C++ のシーンからなら素通り)
+        LuminousPlayRestoreFromEntities(registry);
+        auto& rt = PlayRuntime(registry);
+        if (rt.Stage.Objects.empty()) return;   // まだ組めていない
         auto& player = PlayerState(registry);
         auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
         App::Graphics::ParticleDrawList::Get(registry).Clear();
@@ -1919,7 +1988,7 @@ export namespace App::Luminous {
         // F12: デバッグツールの開始 / 終了
         // ------------------------------------------------------------
         if (LuminousDebugTools::Enabled && !sceneCovered && Input::GetKeyDown(LuminousDebugTools::ToggleKey)) {
-            auto dctx = MakeDebugContext(registry);
+            auto dctx = LuminousPlayDebugContext(registry);
             if (rt.DebugTool.IsActive()) {
                 rt.DebugTool.Deactivate(dctx);
             } else {
@@ -1929,7 +1998,7 @@ export namespace App::Luminous {
         }
         const bool debugActive = rt.DebugTool.IsActive();
         if (debugActive) {
-            auto dctx = MakeDebugContext(registry);
+            auto dctx = LuminousPlayDebugContext(registry);
             rt.DebugTool.HandleHotkeys(dctx);
             dt = rt.DebugTool.ScaleDeltaTime(dt);
         }
@@ -1963,7 +2032,7 @@ export namespace App::Luminous {
                 if (playerInput) {
                     PlayerSystem::UpdatePlayer(player, camTransform, rt.Stage.Objects, rt.Orbs, rt.OcclusionWalls, rt.BakedPedestals, dt);
                 } else {
-                    auto dctx = MakeDebugContext(registry);
+                    auto dctx = LuminousPlayDebugContext(registry);
                     rt.DebugTool.UpdateCamera(dctx, camTransform, realDt);
                 }
 
@@ -2130,7 +2199,7 @@ export namespace App::Luminous {
             }
 
             // 6. 反転壁・反転床のリアルタイム光学判定とマテリアル同期
-            SyncPhaseVisuals(materialMgr, registry);
+            LuminousPlaySyncPhaseVisuals(materialMgr, registry);
 
             // 7. ゴール誘導パーティクル
             //    所持中の宝玉からだけ放出する (取得アニメーション中は所持側として扱う)。
@@ -2266,25 +2335,25 @@ export namespace App::Luminous {
         }
 
         // パーティクルはポーズ中も描き続ける
-        SubmitParticles(registry);
+        LuminousPlaySubmitParticles(registry);
 
         // デバッグツールの ImGui (NewFrame 済みのフレームだけ)
         if (debugActive) {
             if (auto* es = Engine::Core::FindService<Engine::Core::EngineStateData>(registry)) {
                 if (es->ImGuiFrameActive) {
-                    auto dctx = MakeDebugContext(registry);
+                    auto dctx = LuminousPlayDebugContext(registry);
                     rt.DebugTool.DrawUI(dctx, realDt);
                 }
             }
         }
 
         // HUDの画像描画
-        RenderHUD(ctx);
+        LuminousPlayRenderHUD(ctx);
     }
 
-    inline void LuminousPlayScene::RenderHUD(const Engine::Core::SystemContext& ctx) {
+    inline void LuminousPlayRenderHUD(const Engine::Core::SystemContext& ctx) {
         auto& registry = ctx.GetRegistry();
-        auto& rt = Runtime(registry);
+        auto& rt = PlayRuntime(registry);
         auto& player = PlayerState(registry);
         auto& ui = Engine::Graphics::UIRenderer::Get();
         const float screenW = 1920.0f;

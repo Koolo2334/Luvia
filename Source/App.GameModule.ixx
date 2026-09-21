@@ -132,6 +132,8 @@ namespace App {
         RegisterAppComponents();
 
         // 2. システムを名前で引けるようにする
+        //   **シーンより先に**済ませる。.scene.json の "systems" はここを引く
+        RegisterLuminousSystems();
         MakeLuminousLifecycleTestSystem(ctx);
 
         // 3. シーン
