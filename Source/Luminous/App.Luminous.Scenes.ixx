@@ -15,6 +15,7 @@
 #include <format>
 #include <DirectXMath.h>
 #include <entt/entt.hpp>
+#include <EngineDebug.h>
 
 #ifndef IMGUI_DISABLE
 #include <imGui/imgui.h>
@@ -45,11 +46,14 @@ import App.Graphics.PassTags;
 import App.Luminous.OrbOcclusionData;
 import App.Luminous.Types;
 import Engine.Core.SystemRegistry;
+import Engine.Debug.Log;
+import Engine.Common.Config;
 import App.Luminous.Optics;
 import App.Luminous.MenuCursor;
 import App.Luminous.TitleRuntime;
 import App.Luminous.EditorRuntime;
 import App.Luminous.PlayRuntime;
+import App.Luminous.Session;
 import App.Luminous.StageData;
 import App.Luminous.TerrainSystem;
 import App.Luminous.PlayerSystem;
@@ -649,7 +653,27 @@ export namespace App::Luminous {
                                      rt.PlayerCamera, rt.GameTime, rt.GuidanceStream.Count() };
     }
 
-    void LuminousPlaySpawnStageObjects(Engine::Core::SceneContext& ctx);
+    // ステージの中身を、エンティティとして建てる。
+    //   **SceneContext ではなく registry を取る**。名前つきのシステムからも
+    //   同じものを呼べるようにするため
+    void LuminousPlaySpawnStageObjects(entt::registry& registry);
+
+    // シーンに属するエンティティを 1 つ作る。
+    //   SceneContext / SystemContext の CreateEntity と同じ扱い (シーン遷移で消える)
+    inline entt::entity CreateSceneEntity(entt::registry& registry) {
+        const entt::entity entity = registry.create();
+        registry.emplace<Engine::Core::SceneScopeTag>(entity);
+        return entity;
+    }
+
+    // ステージや設定から**組み立てた**エンティティを 1 つ作る。
+    //   GeneratedTag が付くので .scene.json には書き出されない。
+    //   同じものを毎回ここから作り直せる、というのが付ける条件
+    inline entt::entity CreateGeneratedEntity(entt::registry& registry) {
+        const entt::entity entity = CreateSceneEntity(registry);
+        registry.emplace<Engine::Core::GeneratedTag>(entity);
+        return entity;
+    }
     void LuminousPlaySyncPhaseVisuals(Engine::Graphics::MaterialManager* materialMgr,
                                       entt::registry& registry);
     void LuminousPlaySubmitParticles(entt::registry& registry);
@@ -662,6 +686,9 @@ export namespace App::Luminous {
     // ------------------------------------------------------------------------
     inline void LuminousPlayBuildRuntime(entt::registry& registry) {
         auto& rt = PlayRuntime(registry);
+        // プレイヤーがまだ居ないうちは組み立てられない。
+        //   データだけのシーンでは、この順番が読み込みの都合で前後しうる
+        if (rt.PlayerCamera == entt::null || !registry.valid(rt.PlayerCamera)) return;
         auto& player = PlayerState(registry);
         // 5. プレイヤー初期位置の検出
         for (const auto& obj : rt.Stage.Objects) {
@@ -704,6 +731,123 @@ export namespace App::Luminous {
         rt.ChestBurstTriggered = false;
         rt.ChestBurstParticles.clear();
         rt.ChestBurstParticles.resize(300);
+    }
+
+    // ------------------------------------------------------------------------
+    // 遊ぶのに欠かせないものを揃える (プレイヤーのカメラ・環境光・手持ちの宝玉)。
+    //
+    //   **もう在れば何もしない**。C++ のシーンから来ても、.scene.json から
+    //   起こしても、同じここを通る。
+    //   ステージの中身とは別扱いにしてある。ステージは差し替わるが、
+    //   この 3 つはどのステージでも要るため
+    // ------------------------------------------------------------------------
+    inline void LuminousPlayEnsureCoreEntities(entt::registry& registry) {
+        auto& rt = PlayRuntime(registry);
+        if (rt.PlayerCamera != entt::null && registry.valid(rt.PlayerCamera)) return;
+
+        // 暗転した状態で始め、マテリアルのコンパイルが済んでから明転する
+        LuminousTransition::Get().BeginSceneEnter();
+        Input::SetCursorLocked(true);
+
+        // 保存されたシーンから来たときは、ファイルに載っているものを拾う
+        const auto players = registry.view<LuminousPlayerComponent>();
+        if (!players.empty()) {
+            rt.PlayerCamera = players.front();
+            Engine::Graphics::CameraAPI::SetActiveCamera(registry, rt.PlayerCamera);
+            return;
+        }
+
+        auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
+        auto* meshMgr = Engine::Core::GetService<Engine::Graphics::MeshManager>(registry);
+
+        // プレイヤーエンティティと FPS カメラ。
+        //   **組み立てた印 (GeneratedTag) を付ける**。開始位置はステージの
+        //   StartDais から決まる派生物なので、シーンのファイルには残さない
+        rt.PlayerCamera = CreateGeneratedEntity(registry);
+        // プレイヤーの状態をここに載せる。これでインスペクターから見えるようになる
+        registry.emplace<LuminousPlayerComponent>(rt.PlayerCamera);
+        auto& player = PlayerState(registry);
+        auto& camTransform = registry.emplace<Engine::Core::TransformComponent>(rt.PlayerCamera);
+        camTransform.LocalPosition = { player.Position.x, player.Position.y + player.EyeHeight, player.Position.z };
+        XMStoreFloat4(&camTransform.LocalRotation, XMQuaternionIdentity());
+
+        registry.emplace<Engine::Graphics::CameraComponent>(rt.PlayerCamera, Engine::Graphics::CameraComponent{
+            .FovY = XMConvertToRadians(75.0f),
+            .AspectRatio = 1920.0f / 1080.0f,
+            .NearZ = 0.05f,
+            .FarZ = 300.0f
+        });
+        Engine::Graphics::CameraAPI::SetActiveCamera(registry, rt.PlayerCamera);
+
+        // ダンジョン環境光 (Ambient Light)
+        auto ambientEnt = CreateGeneratedEntity(registry);
+        auto& ambTrans = registry.emplace<Engine::Core::TransformComponent>(ambientEnt);
+        ambTrans.LocalPosition = { 10.0f, 30.0f, 10.0f };
+        XMStoreFloat4(&ambTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(70.0f), XMConvertToRadians(30.0f), 0.0f));
+        registry.emplace<Engine::Graphics::DirectionalLightComponent>(ambientEnt, Engine::Graphics::DirectionalLightComponent{
+            .Color = { 0.85f, 0.90f, 1.0f },
+            .Intensity = g_LuminousConfig.AmbientLightIntensity,
+            .CastShadows = false
+        });
+
+        // 手持ち宝玉用エンティティとポイントライト
+        auto orbMesh = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/LuminousOrb.obj");
+        auto orbMat  = CreateLuminousOrbPrefab(materialMgr);
+
+        rt.HeldOrbMesh = CreateGeneratedEntity(registry);
+        registry.emplace<Engine::Core::TransformComponent>(rt.HeldOrbMesh, Engine::Core::TransformComponent{
+            .LocalPosition = { 0.0f, -100.0f, 0.0f },
+            .LocalScale = { 1.0f, 1.0f, 1.0f }
+        });
+        Engine::Graphics::MeshAttacher::AttachToEntity(registry, rt.HeldOrbMesh, orbMesh, orbMat);
+
+        rt.HeldOrbLight = CreateGeneratedEntity(registry);
+        registry.emplace<Engine::Core::TransformComponent>(rt.HeldOrbLight, Engine::Core::TransformComponent{
+            .LocalPosition = { 0.0f, -100.0f, 0.0f }
+        });
+        registry.emplace<Engine::Graphics::PointLightComponent>(rt.HeldOrbLight, Engine::Graphics::PointLightComponent{
+            .Color = { 1.0f, 0.88f, 0.28f },
+            .Intensity = 0.0f,
+            .Radius = g_LuminousConfig.OrbInfluenceRadius,
+            .CastShadows = true,
+            .ShadowNearZ = g_LuminousConfig.OrbLightNearClip
+        });
+    }
+
+    // ------------------------------------------------------------------------
+    // ステージの資産から世界を建てる (名前つきのシステム)。
+    //
+    //   .scene.json の "systems" に並べておけば、シーンの C++ が無くても建つ。
+    //   どのステージを建てるかは、シーンをまたいで残る LuminousSession が持つ
+    //   (シーンに引数を渡す仕組みは作らない。懸念 B を参照)。
+    //   建てたものには GeneratedTag が付くので、シーンのファイルには残らない
+    // ------------------------------------------------------------------------
+    inline void LuminousStageBuildSystem(const Engine::Core::SystemContext& ctx) {
+        auto& registry = ctx.GetRegistry();
+        auto& rt = PlayRuntime(registry);
+        if (!rt.Stage.Objects.empty()) return;   // もう建っている
+
+        const LuminousSession& session = Session(registry);
+        // どれも選ばれていなければ基本ステージ 1 (--base-stage=1 と同じ絵になる)
+        const bool isDefault = session.StagePath.empty();
+        const std::string path = isDefault
+            ? std::string("Assets/Data/BaseStages/stage_01.json")
+            : session.StagePath;
+
+        std::string error;
+        // パスはプロジェクトからの相対で書く。実際の場所は Paths が決める
+        if (!rt.Stage.LoadFromFile(Engine::Common::Paths::ResolveString(path), error)) {
+            ENGINE_LOG_ERROR("Luminous", "ステージを読めませんでした '{}': {}", path, error);
+            return;
+        }
+        rt.StageNumber = isDefault ? 1 : session.StageNumber;
+        rt.ReturnToEditorOnExit = session.ReturnToEditor;
+
+        LuminousPlayEnsureCoreEntities(registry);
+        LuminousPlaySpawnStageObjects(registry);
+        LuminousPlayBuildRuntime(registry);
+        ENGINE_LOG_INFO("Luminous", "ステージを建てました '{}' ({} 個)",
+                        path, static_cast<int>(rt.Stage.Objects.size()));
     }
 
     // ------------------------------------------------------------------------
@@ -755,6 +899,8 @@ export namespace App::Luminous {
     // ゲームの立ち上げで 1 度だけ呼ぶ。
     //   ここで名前を通しておくと、.scene.json の "systems" から引けるようになる
     inline void RegisterLuminousSystems() {
+        Engine::Core::SystemRegistry::Get().Register(
+            "LuminousStageBuildSystem", Engine::Core::SystemPhase::Update, &LuminousStageBuildSystem);
         Engine::Core::SystemRegistry::Get().Register(
             "LuminousPlayUpdateSystem", Engine::Core::SystemPhase::Update, &LuminousPlayUpdate);
         Engine::Core::SystemRegistry::Get().Register(
@@ -838,7 +984,9 @@ export namespace App::Luminous {
     // ========================================================================
     inline void LuminousTitleScene::OnSetup(Engine::Core::SceneContext& ctx) {
         // 持ち物をレジストリに作る (シーンが終わるときに一緒に片付く)
-        auto& rt = ctx.GetRegistry().emplace<LuminousTitleRuntime>(ctx.CreateEntity());
+        const entt::entity titleRuntimeEnt = ctx.CreateEntity();
+        ctx.GetRegistry().emplace<Engine::Core::GeneratedTag>(titleRuntimeEnt);
+        auto& rt = ctx.GetRegistry().emplace<LuminousTitleRuntime>(titleRuntimeEnt);
         rt.View = pendingView_;
         // 暗転した状態でシーンを開始し、マテリアルのコンパイル完了後に明転する
         LuminousTransition::Get().BeginSceneEnter();
@@ -1527,17 +1675,14 @@ export namespace App::Luminous {
     inline void LuminousPlayScene::OnSetup(Engine::Core::SceneContext& ctx) {
         // 本編の持ち物をレジストリに作る (シーンが終わるときに一緒に片付く)
         runtimeEntity_ = ctx.CreateEntity();
+        // 走っている間だけの持ち物。.scene.json には書き出さない
+        ctx.GetRegistry().emplace<Engine::Core::GeneratedTag>(runtimeEntity_);
         world_ = &ctx.GetRegistry();
         auto& rt = ctx.GetRegistry().emplace<LuminousPlayRuntime>(runtimeEntity_);
         rt.Stage = std::move(pendingStage_);
         rt.ReturnToEditorOnExit = pendingReturnToEditor_;
         rt.StageNumber = pendingStageNumber_;
-        // 暗転した状態でシーンを開始し、マテリアルのコンパイル完了後に明転する
-        LuminousTransition::Get().BeginSceneEnter();
-        Input::SetCursorLocked(true);
         auto& registry = ctx.GetRegistry();
-        auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
-        auto* meshMgr = Engine::Core::GetService<Engine::Graphics::MeshManager>(registry);
 
         rt.FootstepToggle = false;
         rt.LastFootstepIndex = 0;
@@ -1546,66 +1691,12 @@ export namespace App::Luminous {
         rt.PrevGliding = false;
         rt.ClearFanfarePlayed = false;
 
-
-
-
-
-
-
-
-        // 2. プレイヤーエンティティとFPSカメラの生成
-        rt.PlayerCamera = ctx.CreateEntity();
-        // プレイヤーの状態をここに載せる。これでインスペクターから見えるようになる
-        registry.emplace<LuminousPlayerComponent>(rt.PlayerCamera);
-        auto& player = PlayerState(registry);
-        auto& camTransform = registry.emplace<Engine::Core::TransformComponent>(rt.PlayerCamera);
-        camTransform.LocalPosition = { player.Position.x, player.Position.y + player.EyeHeight, player.Position.z };
-        XMStoreFloat4(&camTransform.LocalRotation, XMQuaternionIdentity());
-
-        registry.emplace<Engine::Graphics::CameraComponent>(rt.PlayerCamera, Engine::Graphics::CameraComponent{
-            .FovY = XMConvertToRadians(75.0f),
-            .AspectRatio = 1920.0f / 1080.0f,
-            .NearZ = 0.05f,
-            .FarZ = 300.0f
-        });
-        Engine::Graphics::CameraAPI::SetActiveCamera(registry, rt.PlayerCamera);
-
-        // 2b. ダンジョン環境光 (Ambient Light)
-        auto ambientEnt = ctx.CreateEntity();
-        auto& ambTrans = registry.emplace<Engine::Core::TransformComponent>(ambientEnt);
-        ambTrans.LocalPosition = { 10.0f, 30.0f, 10.0f };
-        XMStoreFloat4(&ambTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(70.0f), XMConvertToRadians(30.0f), 0.0f));
-        registry.emplace<Engine::Graphics::DirectionalLightComponent>(ambientEnt, Engine::Graphics::DirectionalLightComponent{
-            .Color = { 0.85f, 0.90f, 1.0f },
-            .Intensity = g_LuminousConfig.AmbientLightIntensity,
-            .CastShadows = false
-        });
-
-        // 3. 手持ち宝玉用エンティティとポイントライトの生成
-        auto orbMesh = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/LuminousOrb.obj");
-        auto orbMat  = CreateLuminousOrbPrefab(materialMgr);
-
-        rt.HeldOrbMesh = ctx.CreateEntity();
-        registry.emplace<Engine::Core::TransformComponent>(rt.HeldOrbMesh, Engine::Core::TransformComponent{
-            .LocalPosition = { 0.0f, -100.0f, 0.0f },
-            .LocalScale = { 1.0f, 1.0f, 1.0f }
-        });
-        Engine::Graphics::MeshAttacher::AttachToEntity(registry, rt.HeldOrbMesh, orbMesh, orbMat);
-
-        rt.HeldOrbLight = ctx.CreateEntity();
-        registry.emplace<Engine::Core::TransformComponent>(rt.HeldOrbLight, Engine::Core::TransformComponent{
-            .LocalPosition = { 0.0f, -100.0f, 0.0f }
-        });
-        registry.emplace<Engine::Graphics::PointLightComponent>(rt.HeldOrbLight, Engine::Graphics::PointLightComponent{
-            .Color = { 1.0f, 0.88f, 0.28f },
-            .Intensity = 0.0f,
-            .Radius = g_LuminousConfig.OrbInfluenceRadius,
-            .CastShadows = true,
-            .ShadowNearZ = g_LuminousConfig.OrbLightNearClip
-        });
+        // 1〜3. 遊ぶのに欠かせないもの (カメラ・環境光・手持ちの宝玉)。
+        //   データだけのシーンから起こすときと同じ道を通す
+        LuminousPlayEnsureCoreEntities(registry);
 
         // 4. ステージオブジェクトのスポーン
-        LuminousPlaySpawnStageObjects(ctx);
+        LuminousPlaySpawnStageObjects(registry);
 
         // 5〜9. ステージから、遊びに要るものを組み立てる
         LuminousPlayBuildRuntime(registry);
@@ -1672,14 +1763,13 @@ export namespace App::Luminous {
         rt.PedestalLightEntities.clear();
     }
 
-    inline void LuminousPlaySpawnStageObjects(Engine::Core::SceneContext& ctx) {
-        auto& rt = PlayRuntime(ctx.GetRegistry());
-        auto& registry = ctx.GetRegistry();
-        auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
+    inline void LuminousPlaySpawnStageObjects(entt::registry& registry) {
+        auto& rt = PlayRuntime(registry);
+                auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
         auto* meshMgr = Engine::Core::GetService<Engine::Graphics::MeshManager>(registry);
 
         for (const auto& obj : rt.Stage.Objects) {
-            auto ent = ctx.CreateEntity();
+            auto ent = CreateGeneratedEntity(registry);
             auto& trans = registry.emplace<Engine::Core::TransformComponent>(ent);
             trans.LocalPosition = obj.Position;
             XMStoreFloat4(&trans.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(obj.Rotation.y), 0.0f));
@@ -1703,14 +1793,14 @@ export namespace App::Luminous {
                     auto pOrbMesh = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/LuminousOrb.obj");
                     auto pOrbMat  = CreateLuminousOrbPrefab(materialMgr);
 
-                    auto orbEnt = ctx.CreateEntity();
+                    auto orbEnt = CreateGeneratedEntity(registry);
                     registry.emplace<Engine::Core::TransformComponent>(orbEnt, Engine::Core::TransformComponent{
                         .LocalPosition = { obj.Position.x, obj.Position.y + PEDESTAL_SOCKET_HEIGHT, obj.Position.z }
                     });
                     Engine::Graphics::MeshAttacher::AttachToEntity(registry, orbEnt, pOrbMesh, pOrbMat);
                     rt.PedestalOrbEntities[obj.InstanceId] = orbEnt;
 
-                    auto pLightEnt = ctx.CreateEntity();
+                    auto pLightEnt = CreateGeneratedEntity(registry);
                     registry.emplace<Engine::Core::TransformComponent>(pLightEnt, Engine::Core::TransformComponent{
                         .LocalPosition = { obj.Position.x, obj.Position.y + PEDESTAL_SOCKET_HEIGHT, obj.Position.z }
                     });
@@ -1735,14 +1825,14 @@ export namespace App::Luminous {
                     // 蓋エンティティ: 同一の原点 (0, 0, 0) で同期配置
                     auto lidMesh = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/GoalChest_Lid.obj");
                     auto lidPrefabs = GetAssetSubmeshPrefabs("GoalChest_Lid", materialMgr);
-                    rt.GoalChestLid = ctx.CreateEntity();
+                    rt.GoalChestLid = CreateGeneratedEntity(registry);
                     auto& lidTrans = registry.emplace<Engine::Core::TransformComponent>(rt.GoalChestLid);
                     lidTrans.LocalPosition = obj.Position;
                     lidTrans.LocalRotation = registry.get<Engine::Core::TransformComponent>(ent).LocalRotation;
                     Engine::Graphics::MeshAttacher::AttachToEntity(registry, rt.GoalChestLid, lidMesh, lidPrefabs);
 
                     // 内部黄金ライト
-                    rt.GoalChestLight = ctx.CreateEntity();
+                    rt.GoalChestLight = CreateGeneratedEntity(registry);
                     registry.emplace<Engine::Core::TransformComponent>(rt.GoalChestLight, Engine::Core::TransformComponent{
                         .LocalPosition = XMFLOAT3(obj.Position.x, obj.Position.y + 0.40f, obj.Position.z)
                     });
@@ -1782,7 +1872,7 @@ export namespace App::Luminous {
                 }
 
                 // 1. ポイントライト
-                auto lEnt = ctx.CreateEntity();
+                auto lEnt = CreateGeneratedEntity(registry);
                 registry.emplace<Engine::Core::TransformComponent>(lEnt, Engine::Core::TransformComponent{
                     .LocalPosition = flamePos
                 });
@@ -1798,7 +1888,7 @@ export namespace App::Luminous {
                 // 2. 光源エミッシブオブジェクト（3倍サイズ、シャドウキャスティングなし）
                 auto flameMesh = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/LuminousOrb.obj");
                 auto flameMat  = CreateFlameEmissivePrefab(materialMgr, obj.LightColor, obj.LightIntensity);
-                auto fEnt = ctx.CreateEntity();
+                auto fEnt = CreateGeneratedEntity(registry);
                 registry.emplace<Engine::Core::TransformComponent>(fEnt, Engine::Core::TransformComponent{
                     .LocalPosition = flamePos,
                     .LocalScale = flameScale
@@ -1825,10 +1915,6 @@ export namespace App::Luminous {
             //   これでインスペクターから種類・相 (Phase)・光源をそのまま直せる。
             //   以前はシーンが抱える std::vector の中だけにあり、見えなかった
             registry.emplace<PlacedObject>(ent, obj);
-            // **ステージの JSON から組み立てたもの**なので、シーンのファイルには
-            //   書き出さない (E-05)。正本はステージの方で、ここは組み直せる結果
-            registry.emplace<Engine::Core::GeneratedTag>(ent);
-
             rt.ObjectEntities[obj.InstanceId] = ent;
         }
     }
@@ -2602,7 +2688,9 @@ export namespace App::Luminous {
     // ========================================================================
     inline void LuminousEditorScene::OnSetup(Engine::Core::SceneContext& ctx) {
         // 持ち物をレジストリに作る (シーンが終わるときに一緒に片付く)
-        auto& rt = ctx.GetRegistry().emplace<LuminousEditorRuntime>(ctx.CreateEntity());
+        const entt::entity editorRuntimeEnt = ctx.CreateEntity();
+        ctx.GetRegistry().emplace<Engine::Core::GeneratedTag>(editorRuntimeEnt);
+        auto& rt = ctx.GetRegistry().emplace<LuminousEditorRuntime>(editorRuntimeEnt);
         rt.ActivePaletteCategory = pendingCategory_;
         if (hasPendingStage_) rt.Editor.Stage = std::move(pendingStage_);
         // 暗転した状態でシーンを開始し、マテリアルのコンパイル完了後に明転する

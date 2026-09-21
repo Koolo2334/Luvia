@@ -1,4 +1,4 @@
-module;
+﻿module;
 
 #include <string>
 #include <unordered_map>
@@ -10,6 +10,7 @@ module;
 export module App.Luminous.EditorRuntime;
 
 import App.Luminous.EditorSystem;
+import Engine.Core.Components.Lifecycle;
 
 // ============================================================================
 // ステージエディタを動かしている間の持ち物 (LuminousEditorRuntime)
@@ -52,7 +53,13 @@ export namespace App::Luminous {
     inline LuminousEditorRuntime& EditorRuntime(entt::registry& registry) {
         const auto view = registry.view<LuminousEditorRuntime>();
         if (!view.empty()) return registry.get<LuminousEditorRuntime>(view.front());
-        return registry.emplace<LuminousEditorRuntime>(registry.create());
+        const entt::entity entity = registry.create();
+        // **シーンが終われば一緒に片付く**。付けないと、データだけのシーンから
+        // 起こしたときに前のシーンの持ち物が居残る
+        registry.emplace<Engine::Core::SceneScopeTag>(entity);
+        // 走っている間だけの持ち物。.scene.json には書き出さない
+        registry.emplace<Engine::Core::GeneratedTag>(entity);
+        return registry.emplace<LuminousEditorRuntime>(entity);
     }
 
 } // namespace App::Luminous

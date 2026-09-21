@@ -9,6 +9,7 @@
 export module App.Luminous.PlayRuntime;
 
 import App.Luminous.Types;
+import Engine.Core.Components.Lifecycle;
 import App.Luminous.StageData;
 import App.Luminous.Optics;
 import App.Luminous.OrbSystem;
@@ -127,7 +128,13 @@ export namespace App::Luminous {
     inline LuminousPlayRuntime& PlayRuntime(entt::registry& registry) {
         const auto view = registry.view<LuminousPlayRuntime>();
         if (!view.empty()) return registry.get<LuminousPlayRuntime>(view.front());
-        return registry.emplace<LuminousPlayRuntime>(registry.create());
+        const entt::entity entity = registry.create();
+        // **シーンが終われば一緒に片付く**。付けないと、データだけのシーンから
+        // 起こしたときに前のシーンの持ち物が居残る
+        registry.emplace<Engine::Core::SceneScopeTag>(entity);
+        // 走っている間だけの持ち物。.scene.json には書き出さない
+        registry.emplace<Engine::Core::GeneratedTag>(entity);
+        return registry.emplace<LuminousPlayRuntime>(entity);
     }
 
 } // namespace App::Luminous

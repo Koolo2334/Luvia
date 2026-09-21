@@ -1,4 +1,4 @@
-module;
+﻿module;
 
 #include <vector>
 
@@ -8,6 +8,7 @@ module;
 export module App.Luminous.TitleRuntime;
 
 import App.Luminous.MenuCursor;
+import Engine.Core.Components.Lifecycle;
 
 // ============================================================================
 // タイトル画面を動かしている間の持ち物 (LuminousTitleRuntime)
@@ -66,7 +67,13 @@ export namespace App::Luminous {
     inline LuminousTitleRuntime& TitleRuntime(entt::registry& registry) {
         const auto view = registry.view<LuminousTitleRuntime>();
         if (!view.empty()) return registry.get<LuminousTitleRuntime>(view.front());
-        return registry.emplace<LuminousTitleRuntime>(registry.create());
+        const entt::entity entity = registry.create();
+        // **シーンが終われば一緒に片付く**。付けないと、データだけのシーンから
+        // 起こしたときに前のシーンの持ち物が居残る
+        registry.emplace<Engine::Core::SceneScopeTag>(entity);
+        // 走っている間だけの持ち物。.scene.json には書き出さない
+        registry.emplace<Engine::Core::GeneratedTag>(entity);
+        return registry.emplace<LuminousTitleRuntime>(entity);
     }
 
 } // namespace App::Luminous
