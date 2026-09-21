@@ -48,6 +48,7 @@ import Engine.Core.SystemRegistry;
 import App.Luminous.Optics;
 import App.Luminous.MenuCursor;
 import App.Luminous.TitleRuntime;
+import App.Luminous.EditorRuntime;
 import App.Luminous.PlayRuntime;
 import App.Luminous.StageData;
 import App.Luminous.TerrainSystem;
@@ -747,6 +748,10 @@ export namespace App::Luminous {
     }
     void LuminousPlayUpdate(const Engine::Core::SystemContext& ctx);
 
+    // タイトルとエディタの更新も、名前で登録する (定義はこのあと)
+    void LuminousTitleUpdate(const Engine::Core::SystemContext& ctx);
+    void LuminousEditorUpdate(const Engine::Core::SystemContext& ctx);
+
     // ゲームの立ち上げで 1 度だけ呼ぶ。
     //   ここで名前を通しておくと、.scene.json の "systems" から引けるようになる
     inline void RegisterLuminousSystems() {
@@ -754,6 +759,8 @@ export namespace App::Luminous {
             "LuminousPlayUpdateSystem", Engine::Core::SystemPhase::Update, &LuminousPlayUpdate);
         Engine::Core::SystemRegistry::Get().Register(
             "LuminousTitleUpdateSystem", Engine::Core::SystemPhase::Update, &LuminousTitleUpdate);
+        Engine::Core::SystemRegistry::Get().Register(
+            "LuminousEditorUpdateSystem", Engine::Core::SystemPhase::Update, &LuminousEditorUpdate);
     }
 
     class LuminousPlayScene : public Engine::Core::IScene {
@@ -795,44 +802,35 @@ export namespace App::Luminous {
     // ========================================================================
     // LuminousEditorScene (統合ステージエディタシーン - エディタのみImGui使用)
     // ========================================================================
+    // ステージエディタの処理 (レジストリだけを見る自由関数)
+    void LuminousEditorRefreshSceneEntities(entt::registry& registry);
+    void LuminousEditorRenderUI(const Engine::Core::SystemContext& ctx);
+    void LuminousEditorUpdate(const Engine::Core::SystemContext& ctx);
+
     class LuminousEditorScene : public Engine::Core::IScene {
     private:
-        EditorSystem editor_;
-        // エディタ中はエンジン汎用の "Engine Control Panel" (Bloom 等のグラフィック設定) を隠す。退出時に元へ戻す
-        bool savedShowEnginePanel_ = true;
-        entt::entity cameraEntity_ = entt::null;
-        std::unordered_map<uint64_t, entt::entity> objectEntities_;
-        std::unordered_map<uint64_t, entt::entity> lightEntities_;
-        std::unordered_map<uint64_t, entt::entity> flameEntities_;
-        std::vector<entt::entity> gridEntities_;
-        entt::entity previewGhostEntity_ = entt::null;
-        std::string currentGhostAsset_ = "";
-        bool currentGhostConflict_ = false;
-        int activePaletteCategory_ = 0; // 0: Floors, 1: Walls, 2: Stairs, 3: Pedestals, 4: Specials, 5: Props
-        bool showSavePopup_ = false;
-        bool showLoadPopup_ = false;
-        char filePathBuffer_[256] = "Assets/Data/Stages/CustomDungeon.json";
+        // 持ち物は **レジストリ** にある (LuminousEditorRuntime)。
+        //   取り出すのは EditorRuntime(registry)。
+        //   pending* は、作るときに渡されたものの置き場
+        //   (レジストリはまだ無いので、OnSetup で移す)
+        LuminousStage pendingStage_;
+        bool hasPendingStage_ = false;
+        int pendingCategory_ = 0;
 
     public:
         // エディタシーンのみImGuiを許可 (Shipping構成でも動作)
         bool IsImGuiEnabled() const override { return true; }
 
         LuminousEditorScene() = default;
-        explicit LuminousEditorScene(int initialCategory) : activePaletteCategory_(initialCategory) {}
-        explicit LuminousEditorScene(LuminousStage stage) {
-            editor_.Stage = std::move(stage);
-        }
-        LuminousEditorScene(LuminousStage stage, int initialCategory) : activePaletteCategory_(initialCategory) {
-            editor_.Stage = std::move(stage);
-        }
+        explicit LuminousEditorScene(int initialCategory) : pendingCategory_(initialCategory) {}
+        explicit LuminousEditorScene(LuminousStage stage)
+            : pendingStage_(std::move(stage)), hasPendingStage_(true) {}
+        LuminousEditorScene(LuminousStage stage, int initialCategory)
+            : pendingStage_(std::move(stage)), hasPendingStage_(true),
+              pendingCategory_(initialCategory) {}
 
         void OnSetup(Engine::Core::SceneContext& ctx) override;
         void OnTeardown(Engine::Core::SceneContext& ctx) override;
-        void Update(const Engine::Core::SystemContext& ctx);
-        void RenderEditorUI(const Engine::Core::SystemContext& ctx);
-
-    private:
-        void RefreshSceneEntities(entt::registry& registry);
     };
 
     // ========================================================================
@@ -2600,13 +2598,17 @@ export namespace App::Luminous {
     // LuminousEditorScene 実装
     // ========================================================================
     inline void LuminousEditorScene::OnSetup(Engine::Core::SceneContext& ctx) {
+        // 持ち物をレジストリに作る (シーンが終わるときに一緒に片付く)
+        auto& rt = ctx.GetRegistry().emplace<LuminousEditorRuntime>(ctx.CreateEntity());
+        rt.ActivePaletteCategory = pendingCategory_;
+        if (hasPendingStage_) rt.Editor.Stage = std::move(pendingStage_);
         // 暗転した状態でシーンを開始し、マテリアルのコンパイル完了後に明転する
         LuminousTransition::Get().BeginSceneEnter();
         Input::SetCursorLocked(false);
         Input::SetCursorHidden(false);   // エディタはマウス前提
         auto& registry = ctx.GetRegistry();
         if (auto* debug = ctx.FindService<Engine::Debug::DebugSettings>()) {
-            savedShowEnginePanel_ = debug->ShowEngineControlPanel;
+            rt.SavedShowEnginePanel = debug->ShowEngineControlPanel;
             debug->ShowEngineControlPanel = false;
         }
         auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
@@ -2616,17 +2618,17 @@ export namespace App::Luminous {
 
 
         // カメラエンティティの作成
-        cameraEntity_ = ctx.CreateEntity();
-        auto& camTrans = registry.emplace<Engine::Core::TransformComponent>(cameraEntity_);
-        camTrans.LocalPosition = { editor_.CameraFocus.x, editor_.CameraDistance, editor_.CameraFocus.z };
+        rt.Camera = ctx.CreateEntity();
+        auto& camTrans = registry.emplace<Engine::Core::TransformComponent>(rt.Camera);
+        camTrans.LocalPosition = { rt.Editor.CameraFocus.x, rt.Editor.CameraDistance, rt.Editor.CameraFocus.z };
         XMStoreFloat4(&camTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(89.0f), 0.0f, 0.0f));
-        registry.emplace<Engine::Graphics::CameraComponent>(cameraEntity_, Engine::Graphics::CameraComponent{
+        registry.emplace<Engine::Graphics::CameraComponent>(rt.Camera, Engine::Graphics::CameraComponent{
             .FovY = XMConvertToRadians(50.0f),
             .AspectRatio = 1920.0f / 1080.0f,
             .NearZ = 0.2f,
             .FarZ = 400.0f
         });
-        Engine::Graphics::CameraAPI::SetActiveCamera(registry, cameraEntity_);
+        Engine::Graphics::CameraAPI::SetActiveCamera(registry, rt.Camera);
 
         // 環境光ライト
         auto sunEnt = ctx.CreateEntity();
@@ -2640,33 +2642,33 @@ export namespace App::Luminous {
         });
 
         // 既存オブジェクトマップの初期化
-        objectEntities_.clear();
-        previewGhostEntity_ = entt::null;
-        currentGhostAsset_ = "";
-        currentGhostConflict_ = false;
+        rt.ObjectEntities.clear();
+        rt.PreviewGhost = entt::null;
+        rt.CurrentGhostAsset = "";
+        rt.CurrentGhostConflict = false;
 
         // 3Dプレビュー用ゴーストエンティティ (SceneScopeTag付与)
-        previewGhostEntity_ = registry.create();
-        registry.emplace<Engine::Core::SceneScopeTag>(previewGhostEntity_);
-        auto& ghostTrans = registry.emplace<Engine::Core::TransformComponent>(previewGhostEntity_);
+        rt.PreviewGhost = registry.create();
+        registry.emplace<Engine::Core::SceneScopeTag>(rt.PreviewGhost);
+        auto& ghostTrans = registry.emplace<Engine::Core::TransformComponent>(rt.PreviewGhost);
         ghostTrans.LocalPosition = { 0.0f, -9999.0f, 0.0f };
         ghostTrans.LocalScale = { 1.0f, 1.0f, 1.0f };
         ghostTrans.IsDirty = true;
 
         // ステージエンティティの生成
-        RefreshSceneEntities(registry);
+        LuminousEditorRefreshSceneEntities(registry);
 
         // 毎フレーム更新
-        ctx.RegisterSystem(Engine::Core::SystemPhase::Update, "LuminousEditorUpdateSystem", [this](const Engine::Core::SystemContext& c) {
-            this->Update(c);
-        });
+        ctx.RegisterSystem(Engine::Core::SystemPhase::Update, "LuminousEditorUpdateSystem",
+                           &LuminousEditorUpdate);
     }
 
     inline void LuminousEditorScene::OnTeardown(Engine::Core::SceneContext& ctx) {
+        auto& rt = EditorRuntime(ctx.GetRegistry());
         Input::SetCursorLocked(false);
         auto& registry = ctx.GetRegistry();
         if (auto* debug = ctx.FindService<Engine::Debug::DebugSettings>()) {
-            debug->ShowEngineControlPanel = savedShowEnginePanel_;
+            debug->ShowEngineControlPanel = rt.SavedShowEnginePanel;
         }
 
         auto DestroyWithSubMeshes = [&](entt::entity e) {
@@ -2683,25 +2685,26 @@ export namespace App::Luminous {
             registry.destroy(e);
         };
 
-        if (previewGhostEntity_ != entt::null && registry.valid(previewGhostEntity_)) {
-            DestroyWithSubMeshes(previewGhostEntity_);
-            previewGhostEntity_ = entt::null;
+        if (rt.PreviewGhost != entt::null && registry.valid(rt.PreviewGhost)) {
+            DestroyWithSubMeshes(rt.PreviewGhost);
+            rt.PreviewGhost = entt::null;
         }
-        for (auto& pair : lightEntities_) {
+        for (auto& pair : rt.LightEntities) {
             DestroyWithSubMeshes(pair.second);
         }
-        lightEntities_.clear();
-        for (auto& pair : flameEntities_) {
+        rt.LightEntities.clear();
+        for (auto& pair : rt.FlameEntities) {
             DestroyWithSubMeshes(pair.second);
         }
-        flameEntities_.clear();
-        for (auto& pair : objectEntities_) {
+        rt.FlameEntities.clear();
+        for (auto& pair : rt.ObjectEntities) {
             DestroyWithSubMeshes(pair.second);
         }
-        objectEntities_.clear();
+        rt.ObjectEntities.clear();
     }
 
-    inline void LuminousEditorScene::RefreshSceneEntities(entt::registry& registry) {
+    inline void LuminousEditorRefreshSceneEntities(entt::registry& registry) {
+        auto& rt = EditorRuntime(registry);
         auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
         auto* meshMgr = Engine::Core::GetService<Engine::Graphics::MeshManager>(registry);
 
@@ -2719,18 +2722,18 @@ export namespace App::Luminous {
             registry.destroy(e);
         };
 
-        for (auto& pair : lightEntities_) {
+        for (auto& pair : rt.LightEntities) {
             DestroyWithSubMeshes(pair.second);
         }
-        lightEntities_.clear();
-        for (auto& pair : flameEntities_) {
+        rt.LightEntities.clear();
+        for (auto& pair : rt.FlameEntities) {
             DestroyWithSubMeshes(pair.second);
         }
-        flameEntities_.clear();
-        for (auto& pair : objectEntities_) {
+        rt.FlameEntities.clear();
+        for (auto& pair : rt.ObjectEntities) {
             DestroyWithSubMeshes(pair.second);
         }
-        objectEntities_.clear();
+        rt.ObjectEntities.clear();
 
         auto normalMat     = CreatePBRMaterialPrefab(materialMgr, { 0.55f, 0.55f, 0.58f }, 0.7f, 0.1f);
         auto phaseMat      = CreatePBRMaterialPrefab(materialMgr, { 0.30f, 0.70f, 1.0f }, 0.2f, 0.1f, { 0.4f, 0.7f, 1.0f }, false); // 反転マテリアルは影を落とさない
@@ -2739,13 +2742,13 @@ export namespace App::Luminous {
         auto onionSkinMat  = CreateTranslucentMaterialPrefab(materialMgr, { 0.35f, 0.50f, 0.75f, 0.38f });
         auto upperFloorMat = CreateTranslucentMaterialPrefab(materialMgr, { 0.60f, 0.60f, 0.65f, 0.22f });
 
-        for (const auto& obj : editor_.Stage.Objects) {
-            const auto* flr = editor_.Stage.FindFloor(obj.FloorIndex);
+        for (const auto& obj : rt.Editor.Stage.Objects) {
+            const auto* flr = rt.Editor.Stage.FindFloor(obj.FloorIndex);
             if (flr && !flr->Visible) {
                 continue;
             }
 
-            if (editor_.CameraMode == EditorCameraMode::TopDown && obj.FloorIndex > editor_.CurrentFloor) {
+            if (rt.Editor.CameraMode == EditorCameraMode::TopDown && obj.FloorIndex > rt.Editor.CurrentFloor) {
                 continue;
             }
 
@@ -2759,11 +2762,11 @@ export namespace App::Luminous {
             std::string modelPath = "Assets/Models/Dungeon/" + obj.AssetId + ".obj";
             auto mesh = meshMgr->GetOrLoadMesh(modelPath);
 
-            if (editor_.ToolMode == EditorToolMode::Select && editor_.SelectedInstanceId == obj.InstanceId) {
+            if (rt.Editor.ToolMode == EditorToolMode::Select && rt.Editor.SelectedInstanceId == obj.InstanceId) {
                 Engine::Graphics::MeshAttacher::AttachToEntity(registry, ent, mesh, selectMat);
-            } else if (obj.FloorIndex < editor_.CurrentFloor) {
+            } else if (obj.FloorIndex < rt.Editor.CurrentFloor) {
                 Engine::Graphics::MeshAttacher::AttachToEntity(registry, ent, mesh, onionSkinMat);
-            } else if (obj.FloorIndex > editor_.CurrentFloor) {
+            } else if (obj.FloorIndex > rt.Editor.CurrentFloor) {
                 Engine::Graphics::MeshAttacher::AttachToEntity(registry, ent, mesh, upperFloorMat);
             } else {
                 if (obj.Category == AssetCategory::Pedestal) {
@@ -2810,7 +2813,7 @@ export namespace App::Luminous {
                     .CastShadows = true,
                     .ShadowNearZ = g_LuminousConfig.PropLightNearClip
                 });
-                lightEntities_[obj.InstanceId] = lEnt;
+                rt.LightEntities[obj.InstanceId] = lEnt;
 
                 auto flameMesh = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/LuminousOrb.obj");
                 auto flameMat  = CreateFlameEmissivePrefab(materialMgr, obj.LightColor, obj.LightIntensity);
@@ -2821,7 +2824,7 @@ export namespace App::Luminous {
                     .LocalScale = flameScale
                 });
                 Engine::Graphics::MeshAttacher::AttachToEntity(registry, fEnt, flameMesh, flameMat);
-                flameEntities_[obj.InstanceId] = fEnt;
+                rt.FlameEntities[obj.InstanceId] = fEnt;
             }
 
             // ステージの中身を**そのエンティティに載せる**。
@@ -2829,13 +2832,14 @@ export namespace App::Luminous {
             //   以前はシーンが抱える std::vector の中だけにあり、見えなかった
             registry.emplace<PlacedObject>(ent, obj);
 
-            objectEntities_[obj.InstanceId] = ent;
+            rt.ObjectEntities[obj.InstanceId] = ent;
         }
     }
 
-    inline void LuminousEditorScene::Update(const Engine::Core::SystemContext& ctx) {
+    inline void LuminousEditorUpdate(const Engine::Core::SystemContext& ctx) {
+        auto& rt = EditorRuntime(ctx.GetRegistry());
         float dt = ctx.GetDeltaTime();
-        editor_.UpdateStatusTimer(dt);
+        rt.Editor.UpdateStatusTimer(dt);
 
         auto& registry = ctx.GetRegistry();
 
@@ -2855,93 +2859,93 @@ export namespace App::Luminous {
 
         // 0. モード・カメラ切り替えショートカット
         if (Input::GetKeyDown(KeyCode::NUM_1)) {
-            if (editor_.ToolMode != EditorToolMode::Paint) {
-                editor_.ToolMode = EditorToolMode::Paint;
-                editor_.SetStatusMessage("Mode: Paint Brush (1)");
-                RefreshSceneEntities(registry);
+            if (rt.Editor.ToolMode != EditorToolMode::Paint) {
+                rt.Editor.ToolMode = EditorToolMode::Paint;
+                rt.Editor.SetStatusMessage("Mode: Paint Brush (1)");
+                LuminousEditorRefreshSceneEntities(registry);
             }
         }
         if (Input::GetKeyDown(KeyCode::NUM_2)) {
-            if (editor_.ToolMode != EditorToolMode::Select) {
-                editor_.ToolMode = EditorToolMode::Select;
-                editor_.SetStatusMessage("Mode: Object Select (2)");
-                RefreshSceneEntities(registry);
+            if (rt.Editor.ToolMode != EditorToolMode::Select) {
+                rt.Editor.ToolMode = EditorToolMode::Select;
+                rt.Editor.SetStatusMessage("Mode: Object Select (2)");
+                LuminousEditorRefreshSceneEntities(registry);
             }
         }
         if (Input::GetKeyDown(KeyCode::TAB)) {
-            editor_.ToggleCameraMode();
-            if (editor_.CameraMode == EditorCameraMode::TopDown) {
+            rt.Editor.ToggleCameraMode();
+            if (rt.Editor.CameraMode == EditorCameraMode::TopDown) {
                 Input::SetCursorLocked(false);
             }
-            RefreshSceneEntities(registry);
+            LuminousEditorRefreshSceneEntities(registry);
         }
 
         // フロア階層ショートカット
         if (Input::GetKeyDown(KeyCode::PAGE_UP)) {
-            if (editor_.CurrentFloor < editor_.Stage.GetMaxFloor()) {
-                editor_.CurrentFloor++;
-                RefreshSceneEntities(registry);
+            if (rt.Editor.CurrentFloor < rt.Editor.Stage.GetMaxFloor()) {
+                rt.Editor.CurrentFloor++;
+                LuminousEditorRefreshSceneEntities(registry);
             }
         }
         if (Input::GetKeyDown(KeyCode::PAGE_DOWN)) {
-            if (editor_.CurrentFloor > editor_.Stage.GetMinFloor()) {
-                editor_.CurrentFloor--;
-                RefreshSceneEntities(registry);
+            if (rt.Editor.CurrentFloor > rt.Editor.Stage.GetMinFloor()) {
+                rt.Editor.CurrentFloor--;
+                LuminousEditorRefreshSceneEntities(registry);
             }
         }
         if (Input::GetKeyHold(KeyCode::CTRL) && Input::GetKeyDown(KeyCode::UP)) {
-            editor_.AddFloorAbove();
-            RefreshSceneEntities(registry);
+            rt.Editor.AddFloorAbove();
+            LuminousEditorRefreshSceneEntities(registry);
         }
         if (Input::GetKeyHold(KeyCode::CTRL) && Input::GetKeyDown(KeyCode::DOWN)) {
-            editor_.AddFloorBelow();
-            RefreshSceneEntities(registry);
+            rt.Editor.AddFloorBelow();
+            LuminousEditorRefreshSceneEntities(registry);
         }
         if (Input::GetKeyHold(KeyCode::ALT) && Input::GetKeyDown(KeyCode::UP)) {
-            if (editor_.MoveCurrentFloorUp()) {
-                RefreshSceneEntities(registry);
+            if (rt.Editor.MoveCurrentFloorUp()) {
+                LuminousEditorRefreshSceneEntities(registry);
             }
         }
         if (Input::GetKeyHold(KeyCode::ALT) && Input::GetKeyDown(KeyCode::DOWN)) {
-            if (editor_.MoveCurrentFloorDown()) {
-                RefreshSceneEntities(registry);
+            if (rt.Editor.MoveCurrentFloorDown()) {
+                LuminousEditorRefreshSceneEntities(registry);
             }
         }
 
         // 1. カメラ更新 (TopDown / Flycam3D)
         XMMATRIX viewMatrix;
         XMMATRIX projMatrix;
-        if (editor_.CameraMode == EditorCameraMode::TopDown) {
-            editor_.UpdateCamera(dt);
-            if (registry.valid(cameraEntity_)) {
-                auto& cTrans = registry.get<Engine::Core::TransformComponent>(cameraEntity_);
-                cTrans.LocalPosition = XMFLOAT3(editor_.CameraFocus.x, editor_.CameraDistance, editor_.CameraFocus.z);
+        if (rt.Editor.CameraMode == EditorCameraMode::TopDown) {
+            rt.Editor.UpdateCamera(dt);
+            if (registry.valid(rt.Camera)) {
+                auto& cTrans = registry.get<Engine::Core::TransformComponent>(rt.Camera);
+                cTrans.LocalPosition = XMFLOAT3(rt.Editor.CameraFocus.x, rt.Editor.CameraDistance, rt.Editor.CameraFocus.z);
                 XMStoreFloat4(&cTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(89.0f), 0.0f, 0.0f));
                 cTrans.IsDirty = true;
             }
             viewMatrix = XMMatrixLookToLH(
-                XMVectorSet(editor_.CameraFocus.x, editor_.CameraDistance, editor_.CameraFocus.z, 1.0f),
+                XMVectorSet(rt.Editor.CameraFocus.x, rt.Editor.CameraDistance, rt.Editor.CameraFocus.z, 1.0f),
                 XMVectorSet(0.0f, -1.0f, 0.0001f, 0.0f),
                 XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f)
             );
             projMatrix = XMMatrixPerspectiveFovLH(XMConvertToRadians(50.0f), 1920.0f / 1080.0f, 0.2f, 400.0f);
         } else {
-            editor_.UpdateFlycam(dt);
-            if (registry.valid(cameraEntity_)) {
-                auto& cTrans = registry.get<Engine::Core::TransformComponent>(cameraEntity_);
-                cTrans.LocalPosition = editor_.FlycamPos;
-                XMStoreFloat4(&cTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(editor_.FlycamPitch), XMConvertToRadians(editor_.FlycamYaw), 0.0f));
+            rt.Editor.UpdateFlycam(dt);
+            if (registry.valid(rt.Camera)) {
+                auto& cTrans = registry.get<Engine::Core::TransformComponent>(rt.Camera);
+                cTrans.LocalPosition = rt.Editor.FlycamPos;
+                XMStoreFloat4(&cTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(rt.Editor.FlycamPitch), XMConvertToRadians(rt.Editor.FlycamYaw), 0.0f));
                 cTrans.IsDirty = true;
             }
-            float pitchRad = XMConvertToRadians(editor_.FlycamPitch);
-            float yawRad = XMConvertToRadians(editor_.FlycamYaw);
+            float pitchRad = XMConvertToRadians(rt.Editor.FlycamPitch);
+            float yawRad = XMConvertToRadians(rt.Editor.FlycamYaw);
             XMVECTOR forward = XMVectorSet(
                 cosf(pitchRad) * sinf(yawRad),
                 -sinf(pitchRad),
                 cosf(pitchRad) * cosf(yawRad),
                 0.0f
             );
-            XMVECTOR eye = XMVectorSet(editor_.FlycamPos.x, editor_.FlycamPos.y, editor_.FlycamPos.z, 1.0f);
+            XMVECTOR eye = XMVectorSet(rt.Editor.FlycamPos.x, rt.Editor.FlycamPos.y, rt.Editor.FlycamPos.z, 1.0f);
             viewMatrix = XMMatrixLookToLH(eye, forward, XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
             projMatrix = XMMatrixPerspectiveFovLH(XMConvertToRadians(60.0f), 1920.0f / 1080.0f, 0.2f, 400.0f);
 
@@ -2975,91 +2979,91 @@ export namespace App::Luminous {
         // 3. Undo / Redo
         if (Input::GetKeyHold(KeyCode::CTRL)) {
             if (Input::GetKeyDown(KeyCode::Z)) {
-                if (editor_.Undo()) {
-                    RefreshSceneEntities(registry);
+                if (rt.Editor.Undo()) {
+                    LuminousEditorRefreshSceneEntities(registry);
                 }
             } else if (Input::GetKeyDown(KeyCode::Y)) {
-                if (editor_.Redo()) {
-                    RefreshSceneEntities(registry);
+                if (rt.Editor.Redo()) {
+                    LuminousEditorRefreshSceneEntities(registry);
                 }
             }
         }
 
         // 4. マウス操作・配置・選択・削除
         if (!isHoveringUI) {
-            editor_.UpdateHoverState(screenW, screenH, viewMatrix, projMatrix);
+            rt.Editor.UpdateHoverState(screenW, screenH, viewMatrix, projMatrix);
 
-            if (editor_.ToolMode == EditorToolMode::Paint) {
+            if (rt.Editor.ToolMode == EditorToolMode::Paint) {
                 // [R] キーでブラシ回転
                 if (Input::GetKeyDown(KeyCode::R)) {
-                    editor_.RotateBrush();
+                    rt.Editor.RotateBrush();
                 }
 
                 // 連続ドラッグ配置
                 if (Input::GetKeyDown(KeyCode::MOUSE_LEFT)) {
-                    if (editor_.StartDragPlace()) {
-                        RefreshSceneEntities(registry);
+                    if (rt.Editor.StartDragPlace()) {
+                        LuminousEditorRefreshSceneEntities(registry);
                     }
                 } else if (Input::GetKeyHold(KeyCode::MOUSE_LEFT)) {
-                    if (editor_.ContinueDragPlace()) {
-                        RefreshSceneEntities(registry);
+                    if (rt.Editor.ContinueDragPlace()) {
+                        LuminousEditorRefreshSceneEntities(registry);
                     }
                 }
                 if (Input::GetKeyUp(KeyCode::MOUSE_LEFT)) {
-                    editor_.EndDragPlace();
+                    rt.Editor.EndDragPlace();
                 }
 
                 // 連続ドラッグ削除 (右ドラッグ、Shift非押下、Flycam視点操作中ではない時)
-                bool flycamLooking = (editor_.CameraMode == EditorCameraMode::Flycam3D && Input::GetKeyHold(KeyCode::MOUSE_RIGHT));
+                bool flycamLooking = (rt.Editor.CameraMode == EditorCameraMode::Flycam3D && Input::GetKeyHold(KeyCode::MOUSE_RIGHT));
                 if (!flycamLooking && !Input::GetKeyHold(KeyCode::SHIFT)) {
                     if (Input::GetKeyDown(KeyCode::MOUSE_RIGHT)) {
-                        if (editor_.StartDragRemove()) {
-                            RefreshSceneEntities(registry);
+                        if (rt.Editor.StartDragRemove()) {
+                            LuminousEditorRefreshSceneEntities(registry);
                         }
                     } else if (Input::GetKeyHold(KeyCode::MOUSE_RIGHT)) {
-                        if (editor_.ContinueDragRemove()) {
-                            RefreshSceneEntities(registry);
+                        if (rt.Editor.ContinueDragRemove()) {
+                            LuminousEditorRefreshSceneEntities(registry);
                         }
                     }
                     if (Input::GetKeyUp(KeyCode::MOUSE_RIGHT)) {
-                        editor_.EndDragRemove();
+                        rt.Editor.EndDragRemove();
                     }
                 }
-            } else if (editor_.ToolMode == EditorToolMode::Select) {
+            } else if (rt.Editor.ToolMode == EditorToolMode::Select) {
                 // 選択モード
                 if (Input::GetKeyDown(KeyCode::MOUSE_LEFT)) {
-                    uint64_t pickedId = editor_.PickObjectAtScreen(screenW, screenH, viewMatrix, projMatrix);
-                    editor_.SelectObject(pickedId);
-                    RefreshSceneEntities(registry);
+                    uint64_t pickedId = rt.Editor.PickObjectAtScreen(screenW, screenH, viewMatrix, projMatrix);
+                    rt.Editor.SelectObject(pickedId);
+                    LuminousEditorRefreshSceneEntities(registry);
                 }
 
                 // 削除
                 if (Input::GetKeyDown(KeyCode::DEL) || Input::GetKeyDown(KeyCode::BACKSPACE)) {
-                    if (editor_.DeleteSelectedObject()) {
-                        RefreshSceneEntities(registry);
+                    if (rt.Editor.DeleteSelectedObject()) {
+                        LuminousEditorRefreshSceneEntities(registry);
                     }
                 }
 
                 // 回転
                 if (Input::GetKeyDown(KeyCode::R)) {
-                    if (editor_.RotateSelectedObject(90.0f)) {
-                        RefreshSceneEntities(registry);
+                    if (rt.Editor.RotateSelectedObject(90.0f)) {
+                        LuminousEditorRefreshSceneEntities(registry);
                     }
                 }
             }
         }
 
         // 5. 3Dゴーストプレビューの更新
-        if (registry.valid(previewGhostEntity_)) {
-            auto& ghostTrans = registry.get<Engine::Core::TransformComponent>(previewGhostEntity_);
-            if (editor_.ToolMode == EditorToolMode::Paint && editor_.HasFloorHit && !isHoveringUI) {
-                DirectX::XMFLOAT3 pos = editor_.GetPlacementPosition();
-                bool conflict = editor_.CheckPlacementConflict();
+        if (registry.valid(rt.PreviewGhost)) {
+            auto& ghostTrans = registry.get<Engine::Core::TransformComponent>(rt.PreviewGhost);
+            if (rt.Editor.ToolMode == EditorToolMode::Paint && rt.Editor.HasFloorHit && !isHoveringUI) {
+                DirectX::XMFLOAT3 pos = rt.Editor.GetPlacementPosition();
+                bool conflict = rt.Editor.CheckPlacementConflict();
 
-                if (currentGhostAsset_ != editor_.SelectedAssetId || currentGhostConflict_ != conflict) {
-                    currentGhostAsset_ = editor_.SelectedAssetId;
-                    currentGhostConflict_ = conflict;
-                    std::string mPath = "Assets/Models/Dungeon/" + currentGhostAsset_ + ".obj";
+                if (rt.CurrentGhostAsset != rt.Editor.SelectedAssetId || rt.CurrentGhostConflict != conflict) {
+                    rt.CurrentGhostAsset = rt.Editor.SelectedAssetId;
+                    rt.CurrentGhostConflict = conflict;
+                    std::string mPath = "Assets/Models/Dungeon/" + rt.CurrentGhostAsset + ".obj";
                     auto mesh = meshMgr->GetOrLoadMesh(mPath);
 
                     Engine::Core::Prefab ghostMat;
@@ -3068,15 +3072,15 @@ export namespace App::Luminous {
                     } else {
                         ghostMat = CreateTranslucentMaterialPrefab(materialMgr, XMFLOAT4(0.15f, 0.90f, 0.45f, 0.60f), XMFLOAT3(0.05f, 0.4f, 0.15f));
                     }
-                    Engine::Graphics::MeshAttacher::AttachToEntity(registry, previewGhostEntity_, mesh, ghostMat);
+                    Engine::Graphics::MeshAttacher::AttachToEntity(registry, rt.PreviewGhost, mesh, ghostMat);
                 }
 
                 ghostTrans.LocalPosition = pos;
-                XMStoreFloat4(&ghostTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(editor_.GetPlacementYaw()), 0.0f));
+                XMStoreFloat4(&ghostTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(rt.Editor.GetPlacementYaw()), 0.0f));
                 ghostTrans.LocalScale = { 1.0f, 1.0f, 1.0f };
                 ghostTrans.IsDirty = true;
             } else {
-                if (auto* rootComp = registry.try_get<Engine::Graphics::MeshRootComponent>(previewGhostEntity_)) {
+                if (auto* rootComp = registry.try_get<Engine::Graphics::MeshRootComponent>(rt.PreviewGhost)) {
                     entt::entity sub = rootComp->FirstSubMesh;
                     while (sub != entt::null && registry.valid(sub)) {
                         entt::entity nextSub = registry.get<Engine::Graphics::SubMeshComponent>(sub).NextSubMesh;
@@ -3086,7 +3090,7 @@ export namespace App::Luminous {
                     }
                     rootComp->FirstSubMesh = entt::null;
                 }
-                currentGhostAsset_ = "";
+                rt.CurrentGhostAsset = "";
                 ghostTrans.LocalPosition = { 0.0f, -9999.0f, 0.0f };
                 ghostTrans.LocalScale = { 1.0f, 1.0f, 1.0f };
                 ghostTrans.IsDirty = true;
@@ -3095,22 +3099,23 @@ export namespace App::Luminous {
 
         // 6. [F5] テストプレイ直接起動
         if (Input::GetKeyDown(KeyCode::F5)) {
-            auto val = editor_.Validate();
+            auto val = rt.Editor.Validate();
             if (val.IsValid) {
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(editor_.Stage, true));
+                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(rt.Editor.Stage, true));
             } else {
-                editor_.SetStatusMessage("Cannot Test Play: " + (val.Errors.empty() ? "Validation Failed" : val.Errors[0]));
+                rt.Editor.SetStatusMessage("Cannot Test Play: " + (val.Errors.empty() ? "Validation Failed" : val.Errors[0]));
             }
         }
 
         // 7. エディタUI描画
-        RenderEditorUI(ctx);
+        LuminousEditorRenderUI(ctx);
 
         // 8. 画面全体のフェード (最前面)
         LuminousTransition::Get().Draw(1920.0f, 1080.0f);
     }
 
-    inline void LuminousEditorScene::RenderEditorUI(const Engine::Core::SystemContext& ctx) {
+    inline void LuminousEditorRenderUI(const Engine::Core::SystemContext& ctx) {
+        auto& rt = EditorRuntime(ctx.GetRegistry());
 #ifndef IMGUI_DISABLE
         ImGuiIO& io = ImGui::GetIO();
         auto& registry = ctx.GetRegistry();
@@ -3121,20 +3126,20 @@ export namespace App::Luminous {
         ImGui::Begin("EDITOR_TOP_BAR", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
         // ツールモード切替ボタン (1: Paint, 2: Select)
-        bool isPaint = (editor_.ToolMode == EditorToolMode::Paint);
+        bool isPaint = (rt.Editor.ToolMode == EditorToolMode::Paint);
         if (isPaint) ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.70f, 0.40f, 1.0f));
         if (ImGui::Button("[1] PAINT BRUSH", ImVec2(130, 36))) {
-            editor_.ToolMode = EditorToolMode::Paint;
-            RefreshSceneEntities(registry);
+            rt.Editor.ToolMode = EditorToolMode::Paint;
+            LuminousEditorRefreshSceneEntities(registry);
         }
         if (isPaint) ImGui::PopStyleColor();
 
         ImGui::SameLine();
-        bool isSelect = (editor_.ToolMode == EditorToolMode::Select);
+        bool isSelect = (rt.Editor.ToolMode == EditorToolMode::Select);
         if (isSelect) ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.85f, 0.65f, 0.15f, 1.0f));
         if (ImGui::Button("[2] SELECT OBJECT", ImVec2(130, 36))) {
-            editor_.ToolMode = EditorToolMode::Select;
-            RefreshSceneEntities(registry);
+            rt.Editor.ToolMode = EditorToolMode::Select;
+            LuminousEditorRefreshSceneEntities(registry);
         }
         if (isSelect) ImGui::PopStyleColor();
 
@@ -3143,15 +3148,15 @@ export namespace App::Luminous {
         ImGui::SameLine();
 
         // カメラモード切替ボタン (Tab: TopDown / 3D Flycam)
-        bool isFlycam = (editor_.CameraMode == EditorCameraMode::Flycam3D);
+        bool isFlycam = (rt.Editor.CameraMode == EditorCameraMode::Flycam3D);
         if (isFlycam) ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.20f, 0.55f, 0.90f, 1.0f));
         const char* camBtnText = isFlycam ? "[TAB] 3D FLYCAM" : "[TAB] TOP-DOWN";
         if (ImGui::Button(camBtnText, ImVec2(130, 36))) {
-            editor_.ToggleCameraMode();
-            if (editor_.CameraMode == EditorCameraMode::TopDown) {
+            rt.Editor.ToggleCameraMode();
+            if (rt.Editor.CameraMode == EditorCameraMode::TopDown) {
                 Input::SetCursorLocked(false);
             }
-            RefreshSceneEntities(registry);
+            LuminousEditorRefreshSceneEntities(registry);
         }
         if (isFlycam) ImGui::PopStyleColor();
 
@@ -3160,20 +3165,20 @@ export namespace App::Luminous {
         ImGui::SameLine();
 
         // フロア切替
-        int minF = editor_.Stage.GetMinFloor();
-        int maxF = editor_.Stage.GetMaxFloor();
-        if (ImGui::Button("< Prev", ImVec2(60, 36)) && editor_.CurrentFloor > minF) {
-            editor_.CurrentFloor--;
-            RefreshSceneEntities(registry);
+        int minF = rt.Editor.Stage.GetMinFloor();
+        int maxF = rt.Editor.Stage.GetMaxFloor();
+        if (ImGui::Button("< Prev", ImVec2(60, 36)) && rt.Editor.CurrentFloor > minF) {
+            rt.Editor.CurrentFloor--;
+            LuminousEditorRefreshSceneEntities(registry);
         }
         ImGui::SameLine();
-        const auto* curFlrCfg = editor_.Stage.FindFloor(editor_.CurrentFloor);
-        std::string flrName = curFlrCfg ? curFlrCfg->Name : ("Floor " + std::to_string(editor_.CurrentFloor + 1));
-        ImGui::TextColored(ImVec4(1.0f, 0.85f, 0.2f, 1.0f), " [ %d F : %s ] ", editor_.CurrentFloor + 1, flrName.c_str());
+        const auto* curFlrCfg = rt.Editor.Stage.FindFloor(rt.Editor.CurrentFloor);
+        std::string flrName = curFlrCfg ? curFlrCfg->Name : ("Floor " + std::to_string(rt.Editor.CurrentFloor + 1));
+        ImGui::TextColored(ImVec4(1.0f, 0.85f, 0.2f, 1.0f), " [ %d F : %s ] ", rt.Editor.CurrentFloor + 1, flrName.c_str());
         ImGui::SameLine();
-        if (ImGui::Button("Next >", ImVec2(60, 36)) && editor_.CurrentFloor < maxF) {
-            editor_.CurrentFloor++;
-            RefreshSceneEntities(registry);
+        if (ImGui::Button("Next >", ImVec2(60, 36)) && rt.Editor.CurrentFloor < maxF) {
+            rt.Editor.CurrentFloor++;
+            LuminousEditorRefreshSceneEntities(registry);
         }
 
         ImGui::SameLine();
@@ -3181,49 +3186,49 @@ export namespace App::Luminous {
         ImGui::SameLine();
 
         // テストプレイ (F5)
-        auto valRes = editor_.Validate();
+        auto valRes = rt.Editor.Validate();
         if (valRes.IsValid) {
             ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.75f, 0.35f, 1.0f));
             if (ImGui::Button(" TEST PLAY (F5) ", ImVec2(140, 36))) {
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(editor_.Stage, true));
+                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(rt.Editor.Stage, true));
             }
             ImGui::PopStyleColor();
         } else {
             ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.4f, 0.4f, 0.4f, 0.6f));
             if (ImGui::Button(" TEST PLAY (F5) ", ImVec2(140, 36))) {
-                editor_.SetStatusMessage("Cannot Test Play: " + valRes.Errors[0]);
+                rt.Editor.SetStatusMessage("Cannot Test Play: " + valRes.Errors[0]);
             }
             ImGui::PopStyleColor();
         }
 
         ImGui::SameLine();
         if (ImGui::Button("UNDO (Ctrl+Z)", ImVec2(110, 36))) {
-            if (editor_.Undo()) RefreshSceneEntities(registry);
+            if (rt.Editor.Undo()) LuminousEditorRefreshSceneEntities(registry);
         }
 
         ImGui::SameLine();
         if (ImGui::Button("REDO (Ctrl+Y)", ImVec2(110, 36))) {
-            if (editor_.Redo()) RefreshSceneEntities(registry);
+            if (rt.Editor.Redo()) LuminousEditorRefreshSceneEntities(registry);
         }
 
         ImGui::SameLine();
         if (ImGui::Button("SAVE JSON", ImVec2(90, 36))) {
             std::string err;
-            if (editor_.Stage.SaveToFile(editor_.CurrentFilePath, err)) {
-                editor_.SetStatusMessage("Stage Saved Successfully!");
+            if (rt.Editor.Stage.SaveToFile(rt.Editor.CurrentFilePath, err)) {
+                rt.Editor.SetStatusMessage("Stage Saved Successfully!");
             } else {
-                editor_.SetStatusMessage("Save Error: " + err);
+                rt.Editor.SetStatusMessage("Save Error: " + err);
             }
         }
 
         ImGui::SameLine();
         if (ImGui::Button("LOAD JSON", ImVec2(90, 36))) {
             std::string err;
-            if (editor_.Stage.LoadFromFile(editor_.CurrentFilePath, err)) {
-                editor_.SetStatusMessage("Stage Loaded Successfully!");
-                RefreshSceneEntities(registry);
+            if (rt.Editor.Stage.LoadFromFile(rt.Editor.CurrentFilePath, err)) {
+                rt.Editor.SetStatusMessage("Stage Loaded Successfully!");
+                LuminousEditorRefreshSceneEntities(registry);
             } else {
-                editor_.SetStatusMessage("Load Error: " + err);
+                rt.Editor.SetStatusMessage("Load Error: " + err);
             }
         }
 
@@ -3239,43 +3244,43 @@ export namespace App::Luminous {
         ImGui::SetNextWindowSize(ImVec2(350, io.DisplaySize.y - 120), ImGuiCond_Always);
         ImGui::Begin("ASSET_PALETTE", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
-        if (editor_.ToolMode == EditorToolMode::Paint) {
+        if (rt.Editor.ToolMode == EditorToolMode::Paint) {
             // 3D プレビューターンテーブル情報カード
             ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.07f, 0.09f, 0.14f, 0.85f));
             ImGui::BeginChild("BrushCard", ImVec2(0, 140), true);
             ImGui::TextColored(ImVec4(0.4f, 0.85f, 1.0f, 1.0f), "=== BRUSH SETTINGS ===");
-            ImGui::Text("Asset: %s", editor_.SelectedAssetId.c_str());
+            ImGui::Text("Asset: %s", rt.Editor.SelectedAssetId.c_str());
 
-            bool isEdgeSnap = (editor_.SelectedPlacement == PlacementType::EdgeSnap || editor_.SelectedCategory == AssetCategory::Wall);
+            bool isEdgeSnap = (rt.Editor.SelectedPlacement == PlacementType::EdgeSnap || rt.Editor.SelectedCategory == AssetCategory::Wall);
             if (isEdgeSnap) {
                 ImGui::Text("Snap: EdgeSnap (Auto Align)");
-                const char* flipLabel = (editor_.BrushWallFlipYaw > 90.0f) ? "Flip Face 180 deg (R) [180 deg]" : "Flip Face 180 deg (R) [0 deg]";
+                const char* flipLabel = (rt.Editor.BrushWallFlipYaw > 90.0f) ? "Flip Face 180 deg (R) [180 deg]" : "Flip Face 180 deg (R) [0 deg]";
                 if (ImGui::Button(flipLabel, ImVec2(-1, 26))) {
-                    editor_.RotateBrush();
+                    rt.Editor.RotateBrush();
                 }
             } else {
                 ImGui::Text("Snap: %s | Yaw: %.0f deg",
-                    (editor_.SelectedPlacement == PlacementType::CellSnap ? "CellSnap" : "FreeAttach"),
-                    editor_.BrushYaw);
+                    (rt.Editor.SelectedPlacement == PlacementType::CellSnap ? "CellSnap" : "FreeAttach"),
+                    rt.Editor.BrushYaw);
                 if (ImGui::Button("Rotate 90 deg (R)", ImVec2(-1, 26))) {
-                    editor_.RotateBrush();
+                    rt.Editor.RotateBrush();
                 }
             }
 
-            if (editor_.SelectedCategory == AssetCategory::Floor || editor_.SelectedCategory == AssetCategory::Wall) {
-                bool isPhase = (editor_.SelectedPhase == MaterialPhase::Phase);
+            if (rt.Editor.SelectedCategory == AssetCategory::Floor || rt.Editor.SelectedCategory == AssetCategory::Wall) {
+                bool isPhase = (rt.Editor.SelectedPhase == MaterialPhase::Phase);
                 if (ImGui::Checkbox("Phase Inverted (Hole/Light Pass)", &isPhase)) {
-                    editor_.SelectedPhase = isPhase ? MaterialPhase::Phase : MaterialPhase::Normal;
+                    rt.Editor.SelectedPhase = isPhase ? MaterialPhase::Phase : MaterialPhase::Normal;
                 }
             }
-            if (editor_.SelectedAssetId == "Pedestal") {
-                const int32_t orbCount = editor_.CountInitialOrbs();
+            if (rt.Editor.SelectedAssetId == "Pedestal") {
+                const int32_t orbCount = rt.Editor.CountInitialOrbs();
                 const bool orbLimitReached = (orbCount >= MAX_STAGE_ORBS);
                 if (orbLimitReached) {
-                    editor_.BrushInitialOrb = false;
+                    rt.Editor.BrushInitialOrb = false;
                     ImGui::BeginDisabled();
                 }
-                ImGui::Checkbox("Has Initial Orb", &editor_.BrushInitialOrb);
+                ImGui::Checkbox("Has Initial Orb", &rt.Editor.BrushInitialOrb);
                 if (orbLimitReached) ImGui::EndDisabled();
                 ImGui::TextColored(
                     orbLimitReached ? ImVec4(1.0f, 0.45f, 0.35f, 1.0f) : ImVec4(0.65f, 0.75f, 0.85f, 1.0f),
@@ -3292,10 +3297,10 @@ export namespace App::Luminous {
             // カテゴリタブ
             const char* categories[] = { "Floors", "Walls", "Stairs", "Pedestals", "Specials", "Props" };
             for (int i = 0; i < 6; ++i) {
-                bool isCurrent = (activePaletteCategory_ == i);
+                bool isCurrent = (rt.ActivePaletteCategory == i);
                 if (isCurrent) ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.6f, 0.9f, 1.0f));
                 if (ImGui::Button(categories[i], ImVec2(52, 26))) {
-                    activePaletteCategory_ = i;
+                    rt.ActivePaletteCategory = i;
                 }
                 if (isCurrent) ImGui::PopStyleColor();
                 if (i % 3 != 2 && i < 5) ImGui::SameLine();
@@ -3306,21 +3311,21 @@ export namespace App::Luminous {
 
             // アセットカードグリッド
             auto DrawAssetCard = [&](const char* label, const std::string& assetId, AssetCategory cat, PlacementType place) {
-                bool isSelected = (editor_.SelectedAssetId == assetId);
+                bool isSelected = (rt.Editor.SelectedAssetId == assetId);
                 if (isSelected) ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.65f, 0.85f, 1.0f));
                 if (ImGui::Button(label, ImVec2(-1, 30))) {
-                    editor_.SelectAsset(assetId, cat, place);
+                    rt.Editor.SelectAsset(assetId, cat, place);
                 }
                 if (isSelected) ImGui::PopStyleColor();
             };
 
-            if (activePaletteCategory_ == 0) { // Floors
+            if (rt.ActivePaletteCategory == 0) { // Floors
                 DrawAssetCard("Floor_1x1 (Standard Stone)", "Floor_1x1", AssetCategory::Floor, PlacementType::CellSnap);
                 DrawAssetCard("Floor_PatternB (Patterned Cobble)", "Floor_PatternB", AssetCategory::Floor, PlacementType::CellSnap);
                 DrawAssetCard("Floor_SawBlade (Hazard Trap)", "Floor_SawBlade", AssetCategory::Floor, PlacementType::CellSnap);
                 DrawAssetCard("Floor_Spikes (Needle Trap)", "Floor_Spikes", AssetCategory::Floor, PlacementType::CellSnap);
                 DrawAssetCard("Floor_Tile (Decorative Tile)", "Floor_Tile", AssetCategory::Floor, PlacementType::FreeAttach);
-            } else if (activePaletteCategory_ == 1) { // Walls
+            } else if (rt.ActivePaletteCategory == 1) { // Walls
                 DrawAssetCard("Wall_Brick (Solid Stone)", "Wall_Brick", AssetCategory::Wall, PlacementType::EdgeSnap);
                 DrawAssetCard("Wall_Smooth (Smooth Stone)", "Wall_Smooth", AssetCategory::Wall, PlacementType::EdgeSnap);
                 DrawAssetCard("Wall_Grate (Iron Fence - Pass Light)", "Wall_Grate", AssetCategory::Wall, PlacementType::EdgeSnap);
@@ -3329,14 +3334,14 @@ export namespace App::Luminous {
                 DrawAssetCard("Wall_DoorArc (Archway Opening)", "Wall_DoorArc", AssetCategory::Wall, PlacementType::EdgeSnap);
                 DrawAssetCard("Wall_Door (Heavy Door)", "Wall_Door", AssetCategory::Wall, PlacementType::EdgeSnap);
                 DrawAssetCard("Wall_Ruined (Broken Wall)", "Wall_Ruined", AssetCategory::Wall, PlacementType::EdgeSnap);
-            } else if (activePaletteCategory_ == 2) { // Stairs
+            } else if (rt.ActivePaletteCategory == 2) { // Stairs
                 DrawAssetCard("Stairs_Straight (1x2 Rise 3m)", "Stairs_Straight", AssetCategory::Stairs, PlacementType::CellSnap);
-            } else if (activePaletteCategory_ == 3) { // Pedestals
+            } else if (rt.ActivePaletteCategory == 3) { // Pedestals
                 DrawAssetCard("Pedestal (Socket Pillar)", "Pedestal", AssetCategory::Pedestal, PlacementType::FreeAttach);
-            } else if (activePaletteCategory_ == 4) { // Specials
+            } else if (rt.ActivePaletteCategory == 4) { // Specials
                 DrawAssetCard("StartDais (Player Spawn Dais)", "StartDais", AssetCategory::Special, PlacementType::CellSnap);
                 DrawAssetCard("GoalChest (Treasure Goal)", "GoalChest", AssetCategory::Special, PlacementType::FreeAttach);
-            } else if (activePaletteCategory_ == 5) { // Props
+            } else if (rt.ActivePaletteCategory == 5) { // Props
                 DrawAssetCard("Wall Lamp (Prop_Torch)", "Prop_Torch", AssetCategory::Prop, PlacementType::EdgeSnap);
                 DrawAssetCard("Floor Lamp (Prop_Candle)", "Prop_Candle", AssetCategory::Prop, PlacementType::FreeAttach);
                 DrawAssetCard("Prop_Pillar", "Prop_Pillar", AssetCategory::Prop, PlacementType::FreeAttach);
@@ -3374,31 +3379,31 @@ export namespace App::Luminous {
         // セクション 0: ステージ設定・保存 (STAGE SETTINGS & SAVE)
         ImGui::TextColored(ImVec4(0.4f, 0.85f, 1.0f, 1.0f), "=== STAGE SETTINGS ===");
         char nameBuf[128] = {};
-        strncpy_s(nameBuf, editor_.Stage.Name.c_str(), sizeof(nameBuf) - 1);
+        strncpy_s(nameBuf, rt.Editor.Stage.Name.c_str(), sizeof(nameBuf) - 1);
         if (ImGui::InputText("Name##stage_name", nameBuf, sizeof(nameBuf))) {
-            editor_.Stage.Name = nameBuf;
+            rt.Editor.Stage.Name = nameBuf;
         }
         char pathBuf[256] = {};
-        strncpy_s(pathBuf, editor_.CurrentFilePath.c_str(), sizeof(pathBuf) - 1);
+        strncpy_s(pathBuf, rt.Editor.CurrentFilePath.c_str(), sizeof(pathBuf) - 1);
         if (ImGui::InputText("Path##file_path", pathBuf, sizeof(pathBuf))) {
-            editor_.CurrentFilePath = pathBuf;
+            rt.Editor.CurrentFilePath = pathBuf;
         }
         if (ImGui::Button("SAVE STAGE", ImVec2(165, 26))) {
             std::string err;
-            if (editor_.Stage.SaveToFile(editor_.CurrentFilePath, err)) {
-                editor_.SetStatusMessage("Stage saved: " + editor_.CurrentFilePath);
+            if (rt.Editor.Stage.SaveToFile(rt.Editor.CurrentFilePath, err)) {
+                rt.Editor.SetStatusMessage("Stage saved: " + rt.Editor.CurrentFilePath);
             } else {
-                editor_.SetStatusMessage("Save Error: " + err);
+                rt.Editor.SetStatusMessage("Save Error: " + err);
             }
         }
         ImGui::SameLine();
         if (ImGui::Button("LOAD STAGE", ImVec2(165, 26))) {
             std::string err;
-            if (editor_.Stage.LoadFromFile(editor_.CurrentFilePath, err)) {
-                editor_.SetStatusMessage("Stage loaded: " + editor_.CurrentFilePath);
-                RefreshSceneEntities(registry);
+            if (rt.Editor.Stage.LoadFromFile(rt.Editor.CurrentFilePath, err)) {
+                rt.Editor.SetStatusMessage("Stage loaded: " + rt.Editor.CurrentFilePath);
+                LuminousEditorRefreshSceneEntities(registry);
             } else {
-                editor_.SetStatusMessage("Load Error: " + err);
+                rt.Editor.SetStatusMessage("Load Error: " + err);
             }
         }
         ImGui::Spacing();
@@ -3411,46 +3416,46 @@ export namespace App::Luminous {
 
         ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.05f, 0.07f, 0.10f, 0.85f));
         ImGui::BeginChild("LayersList", ImVec2(0, 135), true);
-        auto& floors = editor_.Stage.Floors;
+        auto& floors = rt.Editor.Stage.Floors;
         // 上の階層から順に表示 (逆順)
         for (int i = static_cast<int>(floors.size()) - 1; i >= 0; --i) {
             auto& flr = floors[i];
             ImGui::PushID(flr.FloorIndex);
 
-            bool isCur = (editor_.CurrentFloor == flr.FloorIndex);
+            bool isCur = (rt.Editor.CurrentFloor == flr.FloorIndex);
             if (ImGui::Checkbox("##vis", &flr.Visible)) {
-                RefreshSceneEntities(registry);
+                LuminousEditorRefreshSceneEntities(registry);
             }
             ImGui::SameLine();
 
             if (isCur) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.85f, 0.2f, 1.0f));
             std::string flrLabel = std::format("{}F: {}", flr.FloorIndex + 1, flr.Name);
             if (ImGui::Selectable(flrLabel.c_str(), isCur, 0, ImVec2(140, 20))) {
-                editor_.CurrentFloor = flr.FloorIndex;
-                RefreshSceneEntities(registry);
+                rt.Editor.CurrentFloor = flr.FloorIndex;
+                LuminousEditorRefreshSceneEntities(registry);
             }
             if (isCur) ImGui::PopStyleColor();
 
             ImGui::SameLine();
             if (ImGui::Button("^##up", ImVec2(22, 20))) {
-                editor_.CurrentFloor = flr.FloorIndex;
-                if (editor_.MoveCurrentFloorUp()) {
-                    RefreshSceneEntities(registry);
+                rt.Editor.CurrentFloor = flr.FloorIndex;
+                if (rt.Editor.MoveCurrentFloorUp()) {
+                    LuminousEditorRefreshSceneEntities(registry);
                 }
             }
             ImGui::SameLine();
             if (ImGui::Button("v##dn", ImVec2(22, 20))) {
-                editor_.CurrentFloor = flr.FloorIndex;
-                if (editor_.MoveCurrentFloorDown()) {
-                    RefreshSceneEntities(registry);
+                rt.Editor.CurrentFloor = flr.FloorIndex;
+                if (rt.Editor.MoveCurrentFloorDown()) {
+                    LuminousEditorRefreshSceneEntities(registry);
                 }
             }
             ImGui::SameLine();
             if (floors.size() > 1) {
                 if (ImGui::Button("X##del", ImVec2(22, 20))) {
-                    editor_.CurrentFloor = flr.FloorIndex;
-                    if (editor_.DeleteCurrentFloor()) {
-                        RefreshSceneEntities(registry);
+                    rt.Editor.CurrentFloor = flr.FloorIndex;
+                    if (rt.Editor.DeleteCurrentFloor()) {
+                        LuminousEditorRefreshSceneEntities(registry);
                     }
                 }
             }
@@ -3462,13 +3467,13 @@ export namespace App::Luminous {
 
         // フロア追加ボタン
         if (ImGui::Button("+ Add Floor Above", ImVec2(165, 26))) {
-            editor_.AddFloorAbove();
-            RefreshSceneEntities(registry);
+            rt.Editor.AddFloorAbove();
+            LuminousEditorRefreshSceneEntities(registry);
         }
         ImGui::SameLine();
         if (ImGui::Button("+ Add Floor Below", ImVec2(165, 26))) {
-            editor_.AddFloorBelow();
-            RefreshSceneEntities(registry);
+            rt.Editor.AddFloorBelow();
+            LuminousEditorRefreshSceneEntities(registry);
         }
 
         ImGui::Spacing();
@@ -3477,7 +3482,7 @@ export namespace App::Luminous {
 
         // セクション 2: オブジェクトインスペクタ (OBJECT INSPECTOR)
         ImGui::TextColored(ImVec4(1.0f, 0.85f, 0.2f, 1.0f), "=== OBJECT INSPECTOR ===");
-        auto* selectedObj = editor_.GetSelectedObjectMut();
+        auto* selectedObj = rt.Editor.GetSelectedObjectMut();
         if (selectedObj) {
             ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.08f, 0.08f, 0.05f, 0.85f));
             ImGui::BeginChild("InspectorCard", ImVec2(0, 310), true);
@@ -3485,10 +3490,10 @@ export namespace App::Luminous {
             ImGui::Text("Asset: %s", selectedObj->AssetId.c_str());
             ImGui::Text("Instance ID: #%llu", selectedObj->InstanceId);
             ImGui::Text("Floor: %d F", selectedObj->FloorIndex + 1);
-            if (selectedObj->FloorIndex != editor_.CurrentFloor) {
-                if (ImGui::Button(std::format("Move to Active Floor ({}F)", editor_.CurrentFloor + 1).c_str(), ImVec2(-1, 24))) {
-                    if (editor_.MoveSelectedObjectToFloor(editor_.CurrentFloor)) {
-                        RefreshSceneEntities(registry);
+            if (selectedObj->FloorIndex != rt.Editor.CurrentFloor) {
+                if (ImGui::Button(std::format("Move to Active Floor ({}F)", rt.Editor.CurrentFloor + 1).c_str(), ImVec2(-1, 24))) {
+                    if (rt.Editor.MoveSelectedObjectToFloor(rt.Editor.CurrentFloor)) {
+                        LuminousEditorRefreshSceneEntities(registry);
                     }
                 }
             }
@@ -3496,16 +3501,16 @@ export namespace App::Luminous {
             ImGui::Text("Pos: (%.2f, %.2f, %.2f)", selectedObj->Position.x, selectedObj->Position.y, selectedObj->Position.z);
             ImGui::Text("Yaw: %.0f deg", selectedObj->Rotation.y);
             if (ImGui::Button("Rotate +90 deg (R)", ImVec2(-1, 24))) {
-                if (editor_.RotateSelectedObject(90.0f)) {
-                    RefreshSceneEntities(registry);
+                if (rt.Editor.RotateSelectedObject(90.0f)) {
+                    LuminousEditorRefreshSceneEntities(registry);
                 }
             }
 
             if (selectedObj->Category == AssetCategory::Floor || selectedObj->Category == AssetCategory::Wall) {
                 bool isPhase = (selectedObj->Phase == MaterialPhase::Phase);
                 if (ImGui::Checkbox("Phase Inverted", &isPhase)) {
-                    if (editor_.ToggleSelectedPhase()) {
-                        RefreshSceneEntities(registry);
+                    if (rt.Editor.ToggleSelectedPhase()) {
+                        LuminousEditorRefreshSceneEntities(registry);
                     }
                 }
             }
@@ -3522,12 +3527,12 @@ export namespace App::Luminous {
             }
             if (selectedObj->AssetId == "Pedestal") {
                 bool hasOrb = selectedObj->HasInitialOrb;
-                const int32_t selOrbCount = editor_.CountInitialOrbs();
+                const int32_t selOrbCount = rt.Editor.CountInitialOrbs();
                 const bool selOrbLocked = (!hasOrb && selOrbCount >= MAX_STAGE_ORBS);
                 if (selOrbLocked) ImGui::BeginDisabled();
                 if (ImGui::Checkbox("Has Initial Orb", &hasOrb)) {
-                    if (editor_.ToggleSelectedInitialOrb()) {
-                        RefreshSceneEntities(registry);
+                    if (rt.Editor.ToggleSelectedInitialOrb()) {
+                        LuminousEditorRefreshSceneEntities(registry);
                     }
                 }
                 if (selOrbLocked) ImGui::EndDisabled();
@@ -3540,27 +3545,27 @@ export namespace App::Luminous {
             ImGui::Separator();
             ImGui::TextColored(ImVec4(1.0f, 0.85f, 0.3f, 1.0f), "Light Settings:");
             if (ImGui::Checkbox("Enable Light", &selectedObj->HasLight)) {
-                RefreshSceneEntities(registry);
+                LuminousEditorRefreshSceneEntities(registry);
             }
             if (selectedObj->HasLight) {
                 float col[3] = { selectedObj->LightColor.x, selectedObj->LightColor.y, selectedObj->LightColor.z };
                 if (ImGui::ColorEdit3("Light Color", col)) {
                     selectedObj->LightColor = { col[0], col[1], col[2] };
-                    RefreshSceneEntities(registry);
+                    LuminousEditorRefreshSceneEntities(registry);
                 }
                 if (ImGui::DragFloat("Intensity", &selectedObj->LightIntensity, 0.5f, 0.0f, 100.0f, "%.1f")) {
-                    RefreshSceneEntities(registry);
+                    LuminousEditorRefreshSceneEntities(registry);
                 }
                 if (ImGui::DragFloat("Radius", &selectedObj->LightRadius, 0.5f, 1.0f, 50.0f, "%.1f")) {
-                    RefreshSceneEntities(registry);
+                    LuminousEditorRefreshSceneEntities(registry);
                 }
             }
 
             ImGui::Spacing();
             ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.85f, 0.2f, 0.2f, 1.0f));
             if (ImGui::Button("DELETE OBJECT (Del)", ImVec2(-1, 28))) {
-                if (editor_.DeleteSelectedObject()) {
-                    RefreshSceneEntities(registry);
+                if (rt.Editor.DeleteSelectedObject()) {
+                    LuminousEditorRefreshSceneEntities(registry);
                 }
             }
             ImGui::PopStyleColor();
@@ -3581,7 +3586,7 @@ export namespace App::Luminous {
         ImGui::Text("Start Points: %d / 1", valRes.StartPointCount);
         ImGui::Text("Goal Points:  %d / 1", valRes.GoalPointCount);
         ImGui::Text("Initial Orbs: %d", valRes.InitialOrbCount);
-        ImGui::Text("Total Objects: %zu", editor_.Stage.Objects.size());
+        ImGui::Text("Total Objects: %zu", rt.Editor.Stage.Objects.size());
         ImGui::Spacing();
 
         if (valRes.IsValid) {
@@ -3599,16 +3604,16 @@ export namespace App::Luminous {
         ImGui::SetNextWindowPos(ImVec2(10, io.DisplaySize.y - 34), ImGuiCond_Always);
         ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x - 20, 28), ImGuiCond_Always);
         ImGui::Begin("STATUS_BAR", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
-        const char* modeStr = (editor_.ToolMode == EditorToolMode::Paint ? "PAINT" : "SELECT");
-        const char* camStr = (editor_.CameraMode == EditorCameraMode::TopDown ? "TOP-DOWN" : "3D FLYCAM");
-        if (editor_.HasFloorHit) {
+        const char* modeStr = (rt.Editor.ToolMode == EditorToolMode::Paint ? "PAINT" : "SELECT");
+        const char* camStr = (rt.Editor.CameraMode == EditorCameraMode::TopDown ? "TOP-DOWN" : "3D FLYCAM");
+        if (rt.Editor.HasFloorHit) {
             ImGui::Text("[%s | %s] Cursor: (%d, %d, %dF) | Edge: %s | %s",
                 modeStr, camStr,
-                editor_.HoverCell.X, editor_.HoverCell.Z, editor_.HoverCell.Floor + 1,
-                (editor_.HoverEdge == CellEdge::North ? "N" : (editor_.HoverEdge == CellEdge::South ? "S" : (editor_.HoverEdge == CellEdge::East ? "E" : "W"))),
-                editor_.StatusMessage.c_str());
+                rt.Editor.HoverCell.X, rt.Editor.HoverCell.Z, rt.Editor.HoverCell.Floor + 1,
+                (rt.Editor.HoverEdge == CellEdge::North ? "N" : (rt.Editor.HoverEdge == CellEdge::South ? "S" : (rt.Editor.HoverEdge == CellEdge::East ? "E" : "W"))),
+                rt.Editor.StatusMessage.c_str());
         } else {
-            ImGui::Text("[%s | %s] Cursor: (Out of bounds) | %s", modeStr, camStr, editor_.StatusMessage.c_str());
+            ImGui::Text("[%s | %s] Cursor: (Out of bounds) | %s", modeStr, camStr, rt.Editor.StatusMessage.c_str());
         }
         ImGui::End();
 #endif
