@@ -121,7 +121,16 @@ namespace App {
             .Field("LightRadius", &App::Luminous::PlacedObject::LightRadius);
 
         // ---- プレイヤー ----
-        // 視線の先の対象・クリア演出・グライドなどは毎フレーム決まるので保存しない
+        //
+        //   欄を 2 つに分けてある。
+        //     **作ったときの値** (保存する) … 開始位置・向き・体の寸法・速さの設定
+        //     **走っている間の値** (.Runtime() で保存しない)
+        //                          … いまの速度・接地・掴んでいる宝玉・拾った数
+        //
+        //   混ぜて保存すると、シーンのファイルが「レベル」ではなく
+        //   「セーブデータ」になってしまう (E-05)。
+        //   Position と Yaw/Pitch は開始位置でもあるので保存する
+        //   (書き出すのは編集中だけ、という約束で使う)
         registry.Register<App::Luminous::LuminousPlayerComponent>("LuminousPlayer")
             .Field("Position", &App::Luminous::LuminousPlayerComponent::Position)
             .Field("Yaw", &App::Luminous::LuminousPlayerComponent::Yaw)
@@ -130,15 +139,23 @@ namespace App {
             .Field("Radius", &App::Luminous::LuminousPlayerComponent::Radius)
             .Field("MoveSpeed", &App::Luminous::LuminousPlayerComponent::MoveSpeed)
             .Field("LookSpeed", &App::Luminous::LuminousPlayerComponent::LookSpeed)
-            .Field("IsHoldingOrb", &App::Luminous::LuminousPlayerComponent::IsHoldingOrb).ReadOnly()
-            .Field("HeldOrbId", &App::Luminous::LuminousPlayerComponent::HeldOrbId).ReadOnly()
-            .Field("Velocity", &App::Luminous::LuminousPlayerComponent::Velocity).ReadOnly()
-            .Field("IsGrounded", &App::Luminous::LuminousPlayerComponent::IsGrounded).ReadOnly()
+            .Field("IsHoldingOrb", &App::Luminous::LuminousPlayerComponent::IsHoldingOrb)
+                .ReadOnly().Runtime()
+            .Field("HeldOrbId", &App::Luminous::LuminousPlayerComponent::HeldOrbId)
+                .ReadOnly().Runtime()
+            .Field("Velocity", &App::Luminous::LuminousPlayerComponent::Velocity)
+                .ReadOnly().Runtime()
+            .Field("IsGrounded", &App::Luminous::LuminousPlayerComponent::IsGrounded)
+                .ReadOnly().Runtime()
             .Field("CurrentFloorHeight",
-                   &App::Luminous::LuminousPlayerComponent::CurrentFloorHeight).ReadOnly()
+                   &App::Luminous::LuminousPlayerComponent::CurrentFloorHeight)
+                .ReadOnly().Runtime()
+            // 拾った数・差した数は、そのプレイでの成績 (レベルの一部ではない)
             .Field("OrbPickupCount", &App::Luminous::LuminousPlayerComponent::OrbPickupCount)
+                .Runtime()
             .Field("PedestalInsertCount",
-                   &App::Luminous::LuminousPlayerComponent::PedestalInsertCount);
+                   &App::Luminous::LuminousPlayerComponent::PedestalInsertCount)
+                .Runtime();
     }
 
 } // namespace App
