@@ -2,1106 +2,43 @@
   "entities": [
     {
       "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s361442f20693be58"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "b659b57de1e918b2-2d27bbcb2c662440",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "0331451d304dbe7c-9df63bc01941c142",
-      "parent": "b659b57de1e918b2-2d27bbcb2c662440"
-    },
-    {
-      "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "8bfe17cfcd42b840-6d322dc05ce5d2b9"
+        "LuminousFlameEmitter": {
+          "$shared": "sc74dbfc2a7f4a4a4"
+        },
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sce879e77577d7332"
         },
         "Transform": {
-          "LocalPosition": [4.212, 3.063, 4.212],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "045e74beb4cae651-168ae27fd4f4aa9e"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "897657101c825423-39c96f0752eb0f62"
-        },
-        "Transform": {
-          "LocalPosition": [2.106, 0.0, 4.212],
+          "LocalPosition": [4.9349003, 2.3511999, 4.812624e-09],
           "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
+          "LocalScale": [0.45, 0.72, 0.45]
         }
       },
-      "guid": "0597c9933de1b425-cb49a99f0dc56f40"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s517bc7cf29e8586a"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "110f985634993c86-af24fbc5507fda4e",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "060d59fc79b04745-1370b75cbafec5af",
-      "parent": "110f985634993c86-af24fbc5507fda4e"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s952c73e46b8d5ea6"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "se631ce3d5a50e490"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "7ba1391415164ae8-f7cc64497b5157f7",
-          "RootEntity": "77f1acad0fcd819b-fd77f29f19d480ca",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "06c736215a0d8da3-d68d2d0f4ffa3cc4",
-      "parent": "77f1acad0fcd819b-fd77f29f19d480ca"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s2953ed253dafedd4"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "se62ed23d5a4eb585"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "edb95c9760f11ea0-65ee1382e34efa50",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "07f3c80d15eeb442-5dcfae1c0d8fa0c8",
-      "parent": "edb95c9760f11ea0-65ee1382e34efa50"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s6d5f15bb2b46e712"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "a75f54eac6ae18d9-3fbc9d085c81e81e",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "093df485f845c139-6417da3d48e66448",
-      "parent": "a75f54eac6ae18d9-3fbc9d085c81e81e"
+      "guid": "01703b4cabe5fbb0-7ff677f6702f1c5b"
     },
     {
       "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "a343815347e2e9bd-1e2df0c1654708f0"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sae04795703bfd3a2"
         },
         "Transform": {
-          "LocalPosition": [2.106, 3.063, 0.0],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalPosition": [-3.6, 0.0, -3.7],
+          "LocalRotation": [0.0, 0.1305262, 0.0, 0.9914449],
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "0993afa588518a1a-787deba428866cf4"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s8f6a2cb8eaccb4c0"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "d68274f1c8d04736-c4540f27fe03d13a",
-          "RootEntity": "2f40084ca4b2a1a8-dc41ebf06ff91a63",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "0a8532cc0c871d61-3bac5de292cd8328",
-      "parent": "2f40084ca4b2a1a8-dc41ebf06ff91a63"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s6dcf2748c30bc363"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "fb72b8a29769a27c-4ce6ed77902dfed6",
-          "RootEntity": "ea349c6e2811d00e-6dac8da227e5eea1",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "0ae52a768c04950c-9851d621d666ddab",
-      "parent": "ea349c6e2811d00e-6dac8da227e5eea1"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sec1d3b3799971f74"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "se62ed23d5a4eb585"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "f9f76046f1b0731a-ff9ecd7cab62e0a3",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "0b1d74d4439f395c-2e7e5824a9a77184",
-      "parent": "f9f76046f1b0731a-ff9ecd7cab62e0a3"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s17cbe1346afd850a"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "bbf8790755938caa-3913a5c117eff771",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "0b64b167998d7298-090295c2b3e77154",
-      "parent": "bbf8790755938caa-3913a5c117eff771"
+      "guid": "03c7e8d3c7b91bd4-8f2e8a18d22adfbd"
     },
     {
       "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "782883f9abee8304-5829061d3e9f92ac"
-        },
-        "Transform": {
-          "LocalPosition": [5.045, 1.8, 0.0],
-          "LocalRotation": [0.0, 0.70710677, 0.0, 0.70710677],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "0d6f28c75ede6d98-856502f0ad1a4309"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s086ae5ad7f815bf4"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "f652f67c3b0d39fa-bf94370738ed8618",
-          "RootEntity": "cdef0fc4074622f9-f386acbf44027e08",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "0d76be642bac8798-c8e0369502455fc1",
-      "parent": "cdef0fc4074622f9-f386acbf44027e08"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "73a407533a63340f-84186ecaa7b489fc"
-        },
-        "Transform": {
-          "LocalPosition": [3.7, 0.0, 3.5],
-          "LocalRotation": [0.0, -0.25881904, 0.0, 0.9659258],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "1098ca97d4b63d1a-f38fd592d38394ae"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s6ea9e656f9c6e38e"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "7572a31f2e66cc4c-a9d50ed71137d8f3",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "10c2bbd0b19c2f57-4b2991cd2cadfbe2",
-      "parent": "7572a31f2e66cc4c-a9d50ed71137d8f3"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "c23ee620f6e88d97-8f9494a40d27b6ed"
-        },
-        "Transform": {
-          "LocalPosition": [-2.106, 3.063, 2.106],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "110f985634993c86-af24fbc5507fda4e"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "55ce639a0b03d272-83e2738e54da1de0"
-        },
-        "Transform": {
-          "LocalPosition": [-4.212, 0.0, 5.265],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "117e3b33b3baac58-ac3c812e1218d176"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s5c71c355ed39e182"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "e1ccb3ddab671276-1dfc66c0f5568408",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "13c2b358e816e2e7-8de3d23acf75018f",
-      "parent": "e1ccb3ddab671276-1dfc66c0f5568408"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "9e84040c3b0ae2e2-d0bb3ce356139f7d"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s6861f62dbf38749d"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "9e84040c3b0ae2e2-d0bb3ce356139f7d",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "14cceabb58a3fde8-89c01f71515f54d6",
-      "parent": "9e84040c3b0ae2e2-d0bb3ce356139f7d"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "1a216638c887a009-5ce1f8cd19e428d3"
-        },
-        "Transform": {
-          "$shared": "s6a94f38b407d0381"
-        }
-      },
-      "guid": "15942fbb9cb85779-d538baa93e5d5fcb"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sfdeaa95b85761555"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "ed8e33dbe5e9a0aa-b32cc10afa963f28",
-          "RootEntity": "d02a7a1544ae692e-ce861fb3e8da21ba",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "16c415b8ff005ab0-09a352c03a99b892",
-      "parent": "d02a7a1544ae692e-ce861fb3e8da21ba"
-    },
-    {
-      "components": {
-        "PointLight": {
-          "$shared": "s102b0b21d339018a"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 2.3511999, 4.9349003],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "176f6bd83345f48f-286710f0dd2418e9"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s42664085f955bfb3"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "se631ce3d5a50e490"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "ba04407bedc914f1-d12445ccdb8d7791",
-          "RootEntity": "3351782ad9ba3942-45cc380f8f56d93b",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "181a4d8511e99865-0f4edc4fb71ea021",
-      "parent": "3351782ad9ba3942-45cc380f8f56d93b"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "e1ba3d173315ac97-8ca2c6b94e9e7d37"
-        },
-        "Transform": {
-          "LocalPosition": [-4.212, 0.0, -2.106],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "196e092514c573cf-0ccf3bb7333ddf31"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sfd90b40315d99ca5"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "1c5ffc717d9d1964-c81a25427514c549",
-          "RootEntity": "15942fbb9cb85779-d538baa93e5d5fcb",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "1a216638c887a009-5ce1f8cd19e428d3",
-      "parent": "15942fbb9cb85779-d538baa93e5d5fcb"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "f6bb593366823299-a58e092df8033c01"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s6861f62dbf38749d"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "f6bb593366823299-a58e092df8033c01",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "1a248cc2bdf32bed-6a3a7e0bd1fc3594",
-      "parent": "f6bb593366823299-a58e092df8033c01"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sd41530c2812b225d"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "d0606386cb8ebda8-cccf47259aca30d4",
-          "RootEntity": "460fc162a165b61e-d876bac2460328ec",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "1c267e6a0c6e511d-3118e25535a5f6ec",
-      "parent": "460fc162a165b61e-d876bac2460328ec"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sfd90b40315d99ca5"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "15942fbb9cb85779-d538baa93e5d5fcb",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "1c5ffc717d9d1964-c81a25427514c549",
-      "parent": "15942fbb9cb85779-d538baa93e5d5fcb"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "6557de2473e7c00a-985e2be6796a388d"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s66b0fe772705567f"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "6557de2473e7c00a-985e2be6796a388d",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "1c60b6ac99304ecb-dc342cca6e6f8847",
-      "parent": "6557de2473e7c00a-985e2be6796a388d"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s647637e032dd574e"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "9b07f71e3e177cf6-88b4e1aa8ea79674",
-          "RootEntity": "c6fbe5a87f66a6db-a29d7cee0ed8d37c",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "1d27b4f33f415276-d0dba6036a7ad0c8",
-      "parent": "c6fbe5a87f66a6db-a29d7cee0ed8d37c"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "7e69efc124d9e4b0-b588dd622a3ddb1e"
-        },
-        "Transform": {
-          "LocalPosition": [4.212, 3.063, 0.0],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "1ddc63b658f7d118-66bf40a350458121"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s85bd40a1d72f42f9"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "8adb13c3d474ac82-a1752a3f13671ce3",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "2257a8e9d7f70a6e-d1fa70b61e4311f3",
-      "parent": "8adb13c3d474ac82-a1752a3f13671ce3"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s4ac06b968ff2a5a9"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "9397c105318f547b-9f1af6f7a069446d",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "23aa4f2543e495b0-7d1293a1d40e087d",
-      "parent": "9397c105318f547b-9f1af6f7a069446d"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "6f50dbae2ee52698-250aece8b222049a"
-        },
-        "Transform": {
-          "LocalPosition": [2.106, 0.0, 5.265],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "2521df45dd9692f3-7fdbeeb36a5aeeac"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "LuminousTitleOrbTag": {},
-        "MeshRoot": {
-          "FirstSubMesh": "b905e287ba233f67-29d40c823acef861"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 1.03, 0.0],
-          "LocalRotation": [0.0, 0.0, 0.04997917, 0.99875027],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "25d82b79a1419c00-2f212ee7af2378e1"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "a514250c05acb228-d26d28e474722e17"
-        },
-        "Transform": {
-          "LocalPosition": [-4.212, 3.063, 4.212],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "262ac6cf2422b82a-c49ec20f32ec0549"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "984ae348ec1d420f-3acadf45d8bcd6c4"
-        },
-        "Transform": {
-          "LocalPosition": [5.265, 0.0, 2.106],
-          "LocalRotation": [0.0, 0.70710677, 0.0, 0.70710677],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "2662a90cd18da765-20e6b954bb4db36e"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "42527dbdb405a4fc-ada62e9ee95a2fa4"
-        },
-        "Transform": {
-          "LocalPosition": [-4.212, 0.0, -4.212],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "26cb15c03e8ad84e-3aeeea943d85a8c0"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "c64aaff6dc96fc1d-fef6d0cc0fb0173d"
-        },
-        "Transform": {
-          "LocalPosition": [4.2, 0.0, -4.2],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "26e0865c1ad01f85-9f1098287073c470"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "b29375ca04e0ced4-376b17f01885c53a"
-        },
-        "Transform": {
-          "LocalPosition": [4.2, 0.0, 4.2],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "26e480363487902d-06872a47dd446169"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "b26496d31f180c02-42739738686a98f8"
-        },
-        "Material": {
-          "$shared": "s81ca209fdf0b5e42"
-        },
-        "Mesh": {
-          "$shared": "s13c3f9ad9d80f929"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "b26496d31f180c02-42739738686a98f8",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "26f0982fa8b3e308-1952b261824e853f",
-      "parent": "b26496d31f180c02-42739738686a98f8"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "784e04a858aeda6b-c624ff4f7c6286fb"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s6861f62dbf38749d"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "784e04a858aeda6b-c624ff4f7c6286fb",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "28af231f35a76795-87e18a80b6e82d2e",
-      "parent": "784e04a858aeda6b-c624ff4f7c6286fb"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sbf4b31a650c753be"
-        },
-        "Material": {
-          "$shared": "s81ca209fdf0b5e42"
-        },
-        "Mesh": {
-          "$shared": "sc0b652d7f5e2a621"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "956e65e88c731726-86558f591e114497",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "28d72d01a06ee457-488f0effcd35644a",
-      "parent": "956e65e88c731726-86558f591e114497"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "66f9a188128c57cf-73b834950bd3dec0"
-        },
-        "Transform": {
-          "LocalPosition": [4.212, 0.0, 4.212],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "29a368c0930f7307-da40a570f77bb9a3"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "835d571258a5bc9a-636610410823bd3d"
-        },
-        "Transform": {
-          "LocalPosition": [-4.2, 0.0, -4.2],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "2a1bc056d4ab9be1-92e92b69901da254"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sa5d2e3f5c3da4865"
-        },
-        "Material": {
-          "$shared": "s81ca209fdf0b5e42"
-        },
-        "Mesh": {
-          "$shared": "sd8e3397f6f88efc6"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "3859fc8a093316d7-56c5729d12581f12",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "2ab05b8e96da695f-190de5cff103dd57",
-      "parent": "3859fc8a093316d7-56c5729d12581f12"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s3c1aea5730b7d279"
-        },
-        "Material": {
-          "$shared": "s81ca209fdf0b5e42"
-        },
-        "Mesh": {
-          "$shared": "sc0b652d7f5e2a621"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "890dc0dd651f2121-4aceaa06b3fee713",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "2d5eaa7414506543-a7063d1b4bd197b8",
-      "parent": "890dc0dd651f2121-4aceaa06b3fee713"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s810529030d2fd22f"
-        },
-        "Material": {
-          "$shared": "s81ca209fdf0b5e42"
-        },
-        "Mesh": {
-          "$shared": "sd8e3397f6f88efc6"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "0d6f28c75ede6d98-856502f0ad1a4309",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "2de52c56db4b547d-db7919402bf0a170",
-      "parent": "0d6f28c75ede6d98-856502f0ad1a4309"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "f719767f1466e36d-a9635ebc38e80504"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 0.0, -4.212],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "2ec8ea582d0ac3d7-bb1b25367d7e62a4"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "0a8532cc0c871d61-3bac5de292cd8328"
-        },
-        "Transform": {
-          "LocalPosition": [-4.212, 3.063, 0.0],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "2f40084ca4b2a1a8-dc41ebf06ff91a63"
-    },
-    {
-      "components": {
-        "Hierarchy": {
-          "Parent": "cc6c9a59c3107d59-750b3549375c4367"
-        },
-        "Material": {
-          "$shared": "s9537cc9a89a57948"
-        },
-        "Mesh": {
-          "$shared": "s09d5c8883aa23a02"
-        },
-        "SubMesh": {
-          "RootEntity": "cc6c9a59c3107d59-750b3549375c4367",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        },
-        "TranslucentPassTag": {}
-      },
-      "guid": "3007087e997122a7-2b07766fa70cf5fa",
-      "parent": "cc6c9a59c3107d59-750b3549375c4367"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "b736c3e9784c26b4-8644c14e07b4424f"
-        },
-        "Transform": {
-          "LocalPosition": [-2.106, 3.063, 0.0],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "307a8bdd4395b622-dbe9c1bc3de04f03"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sf2a538bf08cb0b17"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "921b3db5a35e4f46-6f0e8d9cf0631097",
-          "RootEntity": "7aa9b711d37e780b-4c89172f232497a2",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "32fa88843a89d002-da79d1a4897be9d6",
-      "parent": "7aa9b711d37e780b-4c89172f232497a2"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s98596a0667da6f7e"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "se62ed23d5a4eb585"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "8aecf000fa368d6b-60a41c92a97bebd1",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "3305d6f8a0b09c67-9ebed7a1e91f89ad",
-      "parent": "8aecf000fa368d6b-60a41c92a97bebd1"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "181a4d8511e99865-0f4edc4fb71ea021"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
         },
         "Transform": {
           "LocalPosition": [-5.265, 0.0, -2.106],
@@ -1109,189 +46,226 @@
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "3351782ad9ba3942-45cc380f8f56d93b"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s47c9fcaf3666dcba"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "cd3db9d312552413-31dbbb9636387c88",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "3383599769069591-ef4f9d9f5c1f8972",
-      "parent": "cd3db9d312552413-31dbbb9636387c88"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s11823809f9d9a561"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "4b6dea19a3dd4d31-fd1e815bc3b5b790",
-          "RootEntity": "8bd42abafa6e44b4-a9e758cfc95d6b08",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "34e1cdd62ab28553-3922b113c7e73cad",
-      "parent": "8bd42abafa6e44b4-a9e758cfc95d6b08"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s72313373d3de791c"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "b8440e211bc8f853-702b36285192d636",
-          "RootEntity": "abc65f73b1ce891e-0777caefdb3594bf",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "36a3dd1d8a053638-501d27956de26737",
-      "parent": "abc65f73b1ce891e-0777caefdb3594bf"
+      "guid": "05ddc8609bfb74e6-e09ce4a26e03e693"
     },
     {
       "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "c0bf2c39e65ffe4c-0e65bf4d249b6c67"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
         },
         "Transform": {
-          "LocalPosition": [0.0, 0.0, 2.106],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "371a5ba9d2f93632-086faa46cda514b0"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "4e71d87d86214e9f-dd4fa32ba018178a"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 1.8, -5.045],
+          "LocalPosition": [2.106, 0.0, -5.265],
           "LocalRotation": [0.0, 1.0, -0.0, -6.229855e-08],
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "3859fc8a093316d7-56c5729d12581f12"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s3c1aea5730b7d279"
-        },
-        "Material": {
-          "$shared": "se9382b42f55d98a9"
-        },
-        "Mesh": {
-          "$shared": "sc0b94ed7f5e4d52c"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "2d5eaa7414506543-a7063d1b4bd197b8",
-          "RootEntity": "890dc0dd651f2121-4aceaa06b3fee713",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "39625c421ed7b388-128e13989f6e6900",
-      "parent": "890dc0dd651f2121-4aceaa06b3fee713"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "se4616a9be4f33b28"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "8fe1f3d658e70cc5-e3d208151aed0d51",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "3bff7bee9aefc431-80495d2a5e03550c",
-      "parent": "8fe1f3d658e70cc5-e3d208151aed0d51"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s24cef25538279bf3"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "5f78af923356ceb2-d10502d770bfb6d8",
-          "RootEntity": "4770384c514a9daf-4fba6aeb47065f5d",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "3d7274997dc29786-eff9b8d4a9bc07a3",
-      "parent": "4770384c514a9daf-4fba6aeb47065f5d"
+      "guid": "0aff606108976ddd-2d9c7c0f32647451"
     },
     {
       "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "56f344e5a363aa0e-f1bebd2b92b71848"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [4.212, 0.0, 0.0],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "0d0f477cebd7910b-a010bfb3fb690c6e"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "LuminousFlameEmitter": {
+          "$shared": "sc74dbfc2a7f4a4a4"
+        },
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sce879e77577d7332"
+        },
+        "Transform": {
+          "LocalPosition": [-4.9349003, 2.3511999, -1.3129293e-09],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [0.45, 0.72, 0.45]
+        }
+      },
+      "guid": "0d3f77885dea16d8-71056a7ced836974"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-4.212, 3.063, 0.0],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "0d47356e39669f7a-127269fc05acd94e"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [5.265, 0.0, -4.212],
+          "LocalRotation": [0.0, 0.70710677, 0.0, 0.70710677],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "0fa3065179c8151c-45e7ea7735cafcf4"
+    },
+    {
+      "components": {
+        "PointLight": {
+          "$shared": "s102b0b21d339018a"
+        },
+        "Transform": {
+          "LocalPosition": [9.625248e-09, 2.3511999, -4.9349003],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "10c4cdf03305d4f8-af814ef7793317d5"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [0.0, 0.0, -4.212],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "11a3d68d1b5cd5d4-91f7e0e79d09a697"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-4.212, 3.063, 4.212],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "12a51f83e4a11ff0-616ea323edef65c8"
+    },
+    {
+      "components": {
+        "PointLight": {
+          "$shared": "s102b0b21d339018a"
+        },
+        "Transform": {
+          "LocalPosition": [4.9349003, 2.3511999, 4.812624e-09],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "1570225974b433d1-288600882054fa0f"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sa2134603afe7beab"
+        },
+        "Transform": {
+          "LocalPosition": [4.2, 0.0, 4.2],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "170539b87b31dd74-6f2074da1e472732"
+    },
+    {
+      "components": {
+        "PointLight": {
+          "CastShadows": false,
+          "Color": [0.2, 0.5, 0.9],
+          "Intensity": 16.0,
+          "LightSize": 0.05,
+          "Radius": 14.0,
+          "ShadowNearZ": 1.0
+        },
+        "Transform": {
+          "LocalPosition": [3.5, 2.2, 3.5],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "17b042f5dbccaa88-c33d3c529cceaeaa"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-2.106, 0.0, 0.0],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "1a12864dc1f5b49d-2f38d3db8c64b395"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [2.106, 0.0, 5.265],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "1afc1ada88e8c011-93265be85566776e"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-4.212, 0.0, -4.212],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "230085e759cf6b3a-39ad9e8e9e0c0bf9"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
         },
         "Transform": {
           "LocalPosition": [2.106, 3.063, 4.212],
@@ -1299,139 +273,149 @@
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "3fa4fe3ac6c6adbc-2357a5d962f82168"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s6d8e498179e7d4f1"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "4d5561565cfae5c4-8d7a2c58f975623b",
-          "RootEntity": "26cb15c03e8ad84e-3aeeea943d85a8c0",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "42527dbdb405a4fc-ada62e9ee95a2fa4",
-      "parent": "26cb15c03e8ad84e-3aeeea943d85a8c0"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sda8ef79707b8a8e0"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "se62ed23d5a4eb585"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "117e3b33b3baac58-ac3c812e1218d176",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "4374b1dd73815b11-9842fe89548e1a16",
-      "parent": "117e3b33b3baac58-ac3c812e1218d176"
+      "guid": "2455da5f0681b9b3-1fed62431fbaed15"
     },
     {
       "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "697ffd510eb39211-ca733efc7a2a33c5"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
         },
         "Transform": {
-          "LocalPosition": [2.106, 0.0, 2.106],
+          "LocalPosition": [4.212, 3.063, -4.212],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "28e82e1d5ac5db55-78ea66fc69e93233"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [2.106, 0.0, 0.0],
           "LocalRotation": [0.0, 0.0, 0.0, 1.0],
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "447a7631065a0782-a88db73cf07429dd"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sf77b0b8ee74e30be"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "0597c9933de1b425-cb49a99f0dc56f40",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "4588bad260890291-d6c1506843290697",
-      "parent": "0597c9933de1b425-cb49a99f0dc56f40"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s84dc02624091e9f6"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "64d2ed859db38d87-1f4ab52bb5d02b9d",
-          "RootEntity": "4d7d8fa79296b5b0-9cdeed000bd64a70",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "45d6b00c028e5c4a-06217d372043e1f0",
-      "parent": "4d7d8fa79296b5b0-9cdeed000bd64a70"
+      "guid": "2a51bdb77314d3eb-908bab6d8e5c30dc"
     },
     {
       "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "1c267e6a0c6e511d-3118e25535a5f6ec"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
         },
         "Transform": {
-          "LocalPosition": [0.0, 0.0, 4.212],
+          "LocalPosition": [-5.265, 0.0, -4.212],
+          "LocalRotation": [0.0, 0.7071068, -0.0, -0.7071067],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "2ce079b5137d2154-a6b00f9b84b14148"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-2.106, 3.063, 2.106],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "2db28be7f8d0bdfa-42cd7ddd31f2beb8"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-4.212, 3.063, -4.212],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "308774465e13a0eb-8cdf7a1a91ed8bc7"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s46617c783909c8a8"
+        },
+        "Transform": {
+          "LocalPosition": [-5.045, 1.8, 0.0],
+          "LocalRotation": [0.0, 0.7071068, -0.0, -0.7071067],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "34da79a6f423cb2d-f53c087622e5e4bf"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [4.212, 0.0, -2.106],
           "LocalRotation": [0.0, 0.0, 0.0, 1.0],
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "460fc162a165b61e-d876bac2460328ec"
+      "guid": "355b563115868697-7b419a1339fbe2d7"
     },
     {
       "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "47ed0a734ecf5b70-2e8bfcdd4ae17076"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [2.106, 0.0, 4.212],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "384dc0e694b0bd13-99f771dfe2f7c6ae"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [2.106, 3.063, 0.0],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "3c16be0c85d19788-96797bbc01393847"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
         },
         "Transform": {
           "LocalPosition": [-2.106, 0.0, -5.265],
@@ -1439,173 +423,14 @@
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "465814bb47b85703-9c5dee943bab4976"
+      "guid": "41b48cb6242c63d9-1d4af8618bcb81d3"
     },
     {
       "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "3d7274997dc29786-eff9b8d4a9bc07a3"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 3.063, 2.106],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "4770384c514a9daf-4fba6aeb47065f5d"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s07eeb2519b568451"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "d2363e45566ec77f-a6948258aabc2091",
-          "RootEntity": "f5acdb65bf8f9b2f-2f59c87f46756abe",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "477127975d648579-27275953ae5a580e",
-      "parent": "f5acdb65bf8f9b2f-2f59c87f46756abe"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "465814bb47b85703-9c5dee943bab4976"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s6861f62dbf38749d"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "465814bb47b85703-9c5dee943bab4976",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "47ed0a734ecf5b70-2e8bfcdd4ae17076",
-      "parent": "465814bb47b85703-9c5dee943bab4976"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s202ee530e0346fca"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "75b6d55c9d607415-148f3f99242b553d",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "48619c78bf1fb5b4-955441de6c5abd9c",
-      "parent": "75b6d55c9d607415-148f3f99242b553d"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s8da6efc0a0fae21e"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "a2fc85e35bc45452-c1ef0586b4700feb",
-          "RootEntity": "913401f9d3e95147-a993a9ae1e1801da",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "48b35d056894ec77-8502037afb5edb0d",
-      "parent": "913401f9d3e95147-a993a9ae1e1801da"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s11823809f9d9a561"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "8bd42abafa6e44b4-a9e758cfc95d6b08",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "4b6dea19a3dd4d31-fd1e815bc3b5b790",
-      "parent": "8bd42abafa6e44b4-a9e758cfc95d6b08"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s6d8e498179e7d4f1"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "26cb15c03e8ad84e-3aeeea943d85a8c0",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "4d5561565cfae5c4-8d7a2c58f975623b",
-      "parent": "26cb15c03e8ad84e-3aeeea943d85a8c0"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "45d6b00c028e5c4a-06217d372043e1f0"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
         },
         "Transform": {
           "LocalPosition": [2.106, 3.063, -2.106],
@@ -1613,32 +438,676 @@
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "4d7d8fa79296b5b0-9cdeed000bd64a70"
+      "guid": "45ad1c6e03c80f51-159bb3ec50e36b7e"
     },
     {
       "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sa5d2e3f5c3da4865"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "sd8e0357f6f86b323"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "2ab05b8e96da695f-190de5cff103dd57",
-          "RootEntity": "3859fc8a093316d7-56c5729d12581f12",
-          "SubMeshIndex": 0
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s9576d51cf5cf8655"
         },
         "Transform": {
-          "$shared": "s2dcfe48f016261ee"
+          "LocalPosition": [-3.8, 0.0, -3.0],
+          "LocalRotation": [0.0, 0.38268343, 0.0, 0.9238795],
+          "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "4e71d87d86214e9f-dd4fa32ba018178a",
-      "parent": "3859fc8a093316d7-56c5729d12581f12"
+      "guid": "4fe06669d9efe498-66512157d0f8d54a"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-2.106, 0.0, -2.106],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "510cdc2bad14c508-1c096e6e26bb92ca"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-2.106, 3.063, 4.212],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "518e93b837750083-b80107acee1c946a"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [4.212, 3.063, 0.0],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "55323b1636cc53cd-627eee78e5bfa613"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-4.212, 0.0, 4.212],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "5cf0c501a3f23480-0fb4f66135312042"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-4.212, 0.0, 0.0],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "63e03937a565452d-14edad6a35d35f26"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-4.212, 0.0, -2.106],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "6b2cb6a91d8addd4-e4165a9190da8b6d"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [2.106, 0.0, -4.212],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "6bc0614742123559-f06dba54e6698ecf"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [0.0, 3.063, 4.212],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "6ccb5e456eaedad3-a76db155af35cf06"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [0.0, 3.063, 2.106],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "6e43d9b6b4c8de5d-cb69dced8839cbe8"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [2.106, 0.0, -2.106],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "732dfe9cee3599c2-908ecf7c5732bc7b"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [4.212, 0.0, 4.212],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "768c1925d9a1853b-c5ed7d818ab9b108"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [0.0, 3.063, -2.106],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "76de09c40f07320e-6e9ddf4a917ac092"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sae04795703bfd3a2"
+        },
+        "Transform": {
+          "LocalPosition": [3.4, 0.0, -3.7],
+          "LocalRotation": [0.0, 0.57357645, 0.0, 0.81915206],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "78da4065893b9118-0e1f47c1b5f96a4d"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [0.0, 3.063, -4.212],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "8327214fc0c3ef9c-bff3be0a379cd353"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "LuminousFlameEmitter": {
+          "$shared": "sc74dbfc2a7f4a4a4"
+        },
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sce879e77577d7332"
+        },
+        "Transform": {
+          "LocalPosition": [9.625248e-09, 2.3511999, -4.9349003],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [0.45, 0.72, 0.45]
+        }
+      },
+      "guid": "86ef8e683ab83d1c-0e604c06b509002d"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [0.0, 0.0, 4.212],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "8759b3e2747e8b39-1f3e0db24f3e93a8"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [-5.265, 0.0, 4.212],
+          "LocalRotation": [0.0, 0.7071068, -0.0, -0.7071067],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "87c5a9546d45e0cb-c117459ad4d82c79"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s46617c783909c8a8"
+        },
+        "Transform": {
+          "LocalPosition": [0.0, 1.8, -5.045],
+          "LocalRotation": [0.0, 1.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "884ba1d06cf50b9b-87d76e45c8159d2d"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s9576d51cf5cf8655"
+        },
+        "Transform": {
+          "LocalPosition": [3.7, 0.0, 3.5],
+          "LocalRotation": [0.0, -0.25881904, 0.0, 0.9659258],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "8bc0d8b7d317e551-4d8d7307ebeb84be"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-2.106, 3.063, -2.106],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "8cb3a6ecf87f26d6-a37fd5d44a825a98"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [2.106, 3.063, 2.106],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "8e3c4c485450502d-34340766257406dd"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [4.212, 0.0, 2.106],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "8f8b6dfd6e81ba44-45254aca93500413"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [-5.265, 0.0, 0.0],
+          "LocalRotation": [0.0, 0.7071068, -0.0, -0.7071067],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "923be65fad4d3b55-65744d32e55118c7"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-2.106, 0.0, -4.212],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "95a4f766d13a6957-c857d345c64d5d5b"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sa2134603afe7beab"
+        },
+        "Transform": {
+          "LocalPosition": [4.2, 0.0, -4.2],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "96bdbf171147a1b6-2f7cc70c913192a6"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [0.0, 0.0, 5.265],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "96f153adf9357cc3-0ee6af3aa5dbc779"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-4.212, 3.063, -2.106],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "99b7eea671de17ef-45b09d18aea431cb"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [5.265, 0.0, 4.212],
+          "LocalRotation": [0.0, 0.70710677, 0.0, 0.70710677],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "a09ee36f1d2f7708-754f9a50862a9e8d"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-2.106, 0.0, 2.106],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "a0cc4349f18fb319-11d4768c3b3c802a"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [4.212, 0.0, 5.265],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "a1be1e791506caf4-95daf23bd12e619d"
+    },
+    {
+      "components": {
+        "PointLight": {
+          "$shared": "s102b0b21d339018a"
+        },
+        "Transform": {
+          "LocalPosition": [-4.9349003, 2.3511999, -1.3129293e-09],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "a1bfbed5603d0775-3261b88124719deb"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [4.212, 3.063, -2.106],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "a473cbb0545c3580-84a769f808e593a5"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-2.106, 0.0, 4.212],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "a555392184d1f9d4-1906a07d042ae9db"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s46617c783909c8a8"
+        },
+        "Transform": {
+          "LocalPosition": [5.045, 1.8, 0.0],
+          "LocalRotation": [0.0, 0.70710677, 0.0, 0.70710677],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "a9170d292baed551-d40c0107c49252e8"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [-4.212, 0.0, 2.106],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "aacaee62a9658fbf-776e3fd981248b36"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "Mesh": "8cbacd40b460929e-952a7abd6cacc2c3",
+          "Slots": [
+            {
+              "IsVisible": true,
+              "Material": "497adb99f7fc4e3e-54aa1061133042f7",
+              "Overrides": [
+                {
+                  "Name": "BaseColor",
+                  "Number": 0,
+                  "Values": [0.28, 0.28, 0.3, 1.0]
+                },
+                {
+                  "Name": "Roughness",
+                  "Number": 0,
+                  "Values": [0.6]
+                },
+                {
+                  "Name": "Metallic",
+                  "Number": 0,
+                  "Values": [0.15]
+                }
+              ],
+              "Tags": [
+                "GBufferPassTag",
+                "ShadowPassTag"
+              ]
+            }
+          ]
+        },
+        "Transform": {
+          "$shared": "s6a94f38b407d0381"
+        }
+      },
+      "guid": "ac4eaacb2420d57c-bcb486b3efc8468a"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [4.212, 3.063, 4.212],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "b82698a0d7947874-46158566890f6f54"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [-2.106, 0.0, 5.265],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "b91a2f8d6e378d2c-01a4bf3840ff583c"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "$shared": "s6a94f38b407d0381"
+        }
+      },
+      "guid": "ba3354e085093584-e09990c9795eb645"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sa2134603afe7beab"
+        },
+        "Transform": {
+          "LocalPosition": [-4.2, 0.0, -4.2],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "bbc5f38961f51afd-e2a6f4dbae37acb8"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [-4.212, 0.0, 5.265],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "bfd6b65bf88b3378-ae8e065edf445f29"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [4.212, 0.0, -5.265],
+          "LocalRotation": [0.0, 1.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "c02083b33fddd25c-1c19685b7805d749"
     },
     {
       "components": {
@@ -1656,180 +1125,110 @@
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "508f7373a73e51bf-154d4e0d1a2e2bad"
+      "guid": "c2041d380a931233-ed297b61a3d7acdb"
     },
     {
       "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s041f6bb5a6a66027"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "97732745bfe78ba1-f08f7c91d59bdf76",
-          "RootEntity": "72aede007787de58-8acf7123f96eb1c3",
-          "SubMeshIndex": 0
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sa2134603afe7beab"
         },
         "Transform": {
-          "$shared": "s2dcfe48f016261ee"
+          "LocalPosition": [-4.2, 0.0, 4.2],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "5176946843a7fd14-6dbd3796261cfd21",
-      "parent": "72aede007787de58-8acf7123f96eb1c3"
+      "guid": "c2d4bf267ae1d1ac-aa555407e4244338"
     },
     {
       "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s85bd40a1d72f42f9"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "2257a8e9d7f70a6e-d1fa70b61e4311f3",
-          "RootEntity": "8adb13c3d474ac82-a1752a3f13671ce3",
-          "SubMeshIndex": 0
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s46617c783909c8a8"
         },
         "Transform": {
-          "$shared": "s2dcfe48f016261ee"
+          "LocalPosition": [0.0, 1.8, 5.045],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "544eb087e74ea262-39c583819689bb32",
-      "parent": "8adb13c3d474ac82-a1752a3f13671ce3"
+      "guid": "c87d5bf34e86f465-e977af4cfd12817d"
     },
     {
       "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s8193953bc602b433"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "ec518100eea31d26-9e9b7faf55d4fa89",
-          "RootEntity": "a45118301e8866ea-6240d08fe1e5ed29",
-          "SubMeshIndex": 0
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
         },
         "Transform": {
-          "$shared": "s2dcfe48f016261ee"
+          "LocalPosition": [0.0, 0.0, -2.106],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "54bb9645e2333362-4b9cbca02fe6a151",
-      "parent": "a45118301e8866ea-6240d08fe1e5ed29"
+      "guid": "cbba56d486a10ed0-ee38c4827e6926eb"
     },
     {
       "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sda8ef79707b8a8e0"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "se631ce3d5a50e490"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "4374b1dd73815b11-9842fe89548e1a16",
-          "RootEntity": "117e3b33b3baac58-ac3c812e1218d176",
-          "SubMeshIndex": 0
+        "PointLight": {
+          "$shared": "s102b0b21d339018a"
         },
         "Transform": {
-          "$shared": "s2dcfe48f016261ee"
+          "LocalPosition": [0.0, 2.3511999, 4.9349003],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "55ce639a0b03d272-83e2738e54da1de0",
-      "parent": "117e3b33b3baac58-ac3c812e1218d176"
+      "guid": "cf59c73474a5217c-030383de28ae5510"
     },
     {
       "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sc5c982e560b33e18"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "c4c97dbc1644cf08-0759a9dd2258fd88",
-          "RootEntity": "3fa4fe3ac6c6adbc-2357a5d962f82168",
-          "SubMeshIndex": 0
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
         },
         "Transform": {
-          "$shared": "s2dcfe48f016261ee"
+          "LocalPosition": [5.265, 0.0, 2.106],
+          "LocalRotation": [0.0, 0.70710677, 0.0, 0.70710677],
+          "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "56f344e5a363aa0e-f1bebd2b92b71848",
-      "parent": "3fa4fe3ac6c6adbc-2357a5d962f82168"
+      "guid": "d259ec97d5f54bbd-32d8b889bb8dae84"
     },
     {
       "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s444f489ed9d01a50"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "29a368c0930f7307-da40a570f77bb9a3",
-          "SubMeshIndex": 1
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
         },
         "Transform": {
-          "$shared": "s2dcfe48f016261ee"
+          "LocalPosition": [4.212, 0.0, -4.212],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "591d556c4524ad88-655ac5a5f8da9bad",
-      "parent": "29a368c0930f7307-da40a570f77bb9a3"
+      "guid": "d3ebade0068fbeee-c4f26421a5ba33ee"
     },
     {
       "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s3e5dbce5cdde3f1a"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "2ec8ea582d0ac3d7-bb1b25367d7e62a4",
-          "SubMeshIndex": 1
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
         },
         "Transform": {
-          "$shared": "s2dcfe48f016261ee"
+          "LocalPosition": [-5.265, 0.0, 2.106],
+          "LocalRotation": [0.0, 0.7071068, -0.0, -0.7071067],
+          "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "59420b521bea5ff0-b27cea109889cc19",
-      "parent": "2ec8ea582d0ac3d7-bb1b25367d7e62a4"
+      "guid": "d47931f66396d955-c96ba87cb3b35170"
     },
     {
       "components": {
@@ -1849,1634 +1248,14 @@
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "5a8537ebef3b06dd-015abfd9aefa8cc8"
+      "guid": "d5406a65bfe100f2-74596f945b304a0b"
     },
     {
       "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "9b13a80412f360e8-b0dda06158717b5f"
-        },
-        "Transform": {
-          "LocalPosition": [-2.106, 0.0, 4.212],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "5ad878bc3da68aa1-1fdc018e43821bbf"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s4dde7a9f736cb7da"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "196e092514c573cf-0ccf3bb7333ddf31",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "5d8221e426598782-d35cbe4e3f99535e",
-      "parent": "196e092514c573cf-0ccf3bb7333ddf31"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s7eed0294bd1ec870"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "b04918082da05916-51b8c3c95ed6e9b9",
-          "RootEntity": "a62cc434e01cfdc8-691c977931587ef0",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "5de367b87d2008e3-9bfa2761e171a214",
-      "parent": "a62cc434e01cfdc8-691c977931587ef0"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s24cef25538279bf3"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "4770384c514a9daf-4fba6aeb47065f5d",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "5f78af923356ceb2-d10502d770bfb6d8",
-      "parent": "4770384c514a9daf-4fba6aeb47065f5d"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sbf4b31a650c753be"
-        },
-        "Material": {
-          "$shared": "se9382b42f55d98a9"
-        },
-        "Mesh": {
-          "$shared": "sc0b94ed7f5e4d52c"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "28d72d01a06ee457-488f0effcd35644a",
-          "RootEntity": "956e65e88c731726-86558f591e114497",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "5fb37e0f05845304-8384f749912b81a2",
-      "parent": "956e65e88c731726-86558f591e114497"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s2953ed253dafedd4"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "se631ce3d5a50e490"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "07f3c80d15eeb442-5dcfae1c0d8fa0c8",
-          "RootEntity": "edb95c9760f11ea0-65ee1382e34efa50",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "637e925e9f45a869-5cfc55d10228665e",
-      "parent": "edb95c9760f11ea0-65ee1382e34efa50"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "cd6c8b7d33e1ce27-4ff535e9ad85ce3a"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s6861f62dbf38749d"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "cd6c8b7d33e1ce27-4ff535e9ad85ce3a",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "649a91cbcc5c9e12-5b55c153102d1629",
-      "parent": "cd6c8b7d33e1ce27-4ff535e9ad85ce3a"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s84dc02624091e9f6"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "4d7d8fa79296b5b0-9cdeed000bd64a70",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "64d2ed859db38d87-1f4ab52bb5d02b9d",
-      "parent": "4d7d8fa79296b5b0-9cdeed000bd64a70"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "6f9d99010653f69d-1b229c97ae289136"
-        },
-        "Transform": {
-          "LocalPosition": [-2.106, 0.0, -2.106],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "64e37f2029e2ceff-176d81d8ec31b5c2"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s89926b7fbb36e4af"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "a4d369973f2a509d-856e5894bf0ed1b2",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "653a6889d1767c44-d46a38628405e3ee",
-      "parent": "a4d369973f2a509d-856e5894bf0ed1b2"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "1c60b6ac99304ecb-dc342cca6e6f8847"
-        },
-        "Transform": {
-          "LocalPosition": [-4.2, 0.0, 4.2],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "6557de2473e7c00a-985e2be6796a388d"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "b8dcbd178e0e53e5-5529e10f22411a77"
-        },
-        "Transform": {
-          "LocalPosition": [-4.212, 0.0, -5.265],
-          "LocalRotation": [0.0, 1.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "668c2082cc7beccb-188c76be5a88d571"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "bfc53e9995a0f270-f1ef30f3c5a653fe"
-        },
-        "Transform": {
-          "LocalPosition": [-5.265, 0.0, 4.212],
-          "LocalRotation": [0.0, 0.7071068, -0.0, -0.7071067],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "66aa336a0126f3d9-c8fbfe1862db838e"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s444f489ed9d01a50"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "591d556c4524ad88-655ac5a5f8da9bad",
-          "RootEntity": "29a368c0930f7307-da40a570f77bb9a3",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "66f9a188128c57cf-73b834950bd3dec0",
-      "parent": "29a368c0930f7307-da40a570f77bb9a3"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s89926b7fbb36e4af"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "653a6889d1767c44-d46a38628405e3ee",
-          "RootEntity": "a4d369973f2a509d-856e5894bf0ed1b2",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "6793027c900c1018-ad2d064c0d74f3b5",
-      "parent": "a4d369973f2a509d-856e5894bf0ed1b2"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s557a2dc8a10af9b2"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "8f7a0e053160ea73-51f0029c78dd4e3a",
-          "RootEntity": "b54746916c15e4ee-e7c75b5d812e5c57",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "679d7e7536c539e6-298dfccc210c63c8",
-      "parent": "b54746916c15e4ee-e7c75b5d812e5c57"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "9f34f740e1323850-02e1b843b8e65c8b"
-        },
-        "Transform": {
-          "$shared": "s6a94f38b407d0381"
-        }
-      },
-      "guid": "67d6180a3e7f03d3-58345b28a60d74e2"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s4afde756e952d7e8"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "aedaa24ede993a26-93557236caaf61de",
-          "RootEntity": "447a7631065a0782-a88db73cf07429dd",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "697ffd510eb39211-ca733efc7a2a33c5",
-      "parent": "447a7631065a0782-a88db73cf07429dd"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s2cec7e36a5138c2c"
-        },
-        "Material": {
-          "$shared": "s81ca209fdf0b5e42"
-        },
-        "Mesh": {
-          "$shared": "sd8e3397f6f88efc6"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "863084216dfea447-2f6fbbf84a731010",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "6c76a5ddfa2a38b8-142ae79ba1a0e702",
-      "parent": "863084216dfea447-2f6fbbf84a731010"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "a0603d3a597f802e-967d646c7c75635d"
-        },
-        "Transform": {
-          "LocalPosition": [2.106, 0.0, -5.265],
-          "LocalRotation": [0.0, 1.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "6e7248a6d64e5fa7-d9345693502099b7"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "scae9a6600965ff7b"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "se631ce3d5a50e490"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "e5dc04fe93c1237b-61652e6b0cf0673d",
-          "RootEntity": "8308e4423fa0fc3f-58ed51571ae448e3",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "6e832b0d3ff0297a-a5045fd57f42cd78",
-      "parent": "8308e4423fa0fc3f-58ed51571ae448e3"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "LuminousFlameEmitter": {
-          "$shared": "sc74dbfc2a7f4a4a4"
-        },
-        "MeshRoot": {
-          "FirstSubMesh": "f4ca3e9f81a5726d-f74b5420a265518a"
-        },
-        "Transform": {
-          "LocalPosition": [-4.9349003, 2.3511999, -1.3129293e-09],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [0.45, 0.72, 0.45]
-        }
-      },
-      "guid": "6f15f6099c721210-1dcb8668d6c870ab"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "2521df45dd9692f3-7fdbeeb36a5aeeac"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s6861f62dbf38749d"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "2521df45dd9692f3-7fdbeeb36a5aeeac",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "6f50dbae2ee52698-250aece8b222049a",
-      "parent": "2521df45dd9692f3-7fdbeeb36a5aeeac"
-    },
-    {
-      "components": {
-        "Hierarchy": {
-          "Parent": "fc3f20515a27a086-0af2259b3f9d751d"
-        },
-        "Material": {
-          "$shared": "s9537cc9a89a57948"
-        },
-        "Mesh": {
-          "$shared": "s09d5c8883aa23a02"
-        },
-        "SubMesh": {
-          "RootEntity": "fc3f20515a27a086-0af2259b3f9d751d",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        },
-        "TranslucentPassTag": {}
-      },
-      "guid": "6f63c9a61b4c1ecb-9484b96f0451d853",
-      "parent": "fc3f20515a27a086-0af2259b3f9d751d"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s3f6eeddecd2a0cfe"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "fcbd7963f1f2ba64-cc9bdbf0f4aaf136",
-          "RootEntity": "64e37f2029e2ceff-176d81d8ec31b5c2",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "6f9d99010653f69d-1b229c97ae289136",
-      "parent": "64e37f2029e2ceff-176d81d8ec31b5c2"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s16ae20a96d458822"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "se62ed23d5a4eb585"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "2662a90cd18da765-20e6b954bb4db36e",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "718ab5e30b26a459-d0d752188694747e",
-      "parent": "2662a90cd18da765-20e6b954bb4db36e"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s42ff7864020820ae"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "d0c6e5fbf2a6c80a-c752516f7f647dee",
-          "RootEntity": "c1dfa28778b9a6d9-b3850a730bd7234e",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "721e43b4f53ba620-cd48bbbf5e3c0a2d",
-      "parent": "c1dfa28778b9a6d9-b3850a730bd7234e"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sc783a490c22a7c59"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "262ac6cf2422b82a-c49ec20f32ec0549",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "722a699e2c1603d5-e3970278f2fbede9",
-      "parent": "262ac6cf2422b82a-c49ec20f32ec0549"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "5176946843a7fd14-6dbd3796261cfd21"
-        },
-        "Transform": {
-          "LocalPosition": [4.212, 3.063, 2.106],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "72aede007787de58-8acf7123f96eb1c3"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sff11ed23a3e9435f"
-        },
-        "Material": {
-          "$shared": "se9382b42f55d98a9"
-        },
-        "Mesh": {
-          "$shared": "sc0b94ed7f5e4d52c"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "b2e714953ad4df37-14a0b2223f64cc07",
-          "RootEntity": "1098ca97d4b63d1a-f38fd592d38394ae",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "73a407533a63340f-84186ecaa7b489fc",
-      "parent": "1098ca97d4b63d1a-f38fd592d38394ae"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s491587a52be5f8f7"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "045e74beb4cae651-168ae27fd4f4aa9e",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "74e23ffa838012f3-6cfbc839f100b166",
-      "parent": "045e74beb4cae651-168ae27fd4f4aa9e"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "cbcfe6e508151a10-300a362b05e6a242"
-        },
-        "Transform": {
-          "LocalPosition": [-4.212, 3.063, -2.106],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "7572a31f2e66cc4c-a9d50ed71137d8f3"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "a8331b1af62b615a-caf9f6f9f2d6c9bc"
-        },
-        "Transform": {
-          "LocalPosition": [-2.106, 3.063, -2.106],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "75b6d55c9d607415-148f3f99242b553d"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "06c736215a0d8da3-d68d2d0f4ffa3cc4"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 0.0, 5.265],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "77f1acad0fcd819b-fd77f29f19d480ca"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s810529030d2fd22f"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "sd8e0357f6f86b323"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "2de52c56db4b547d-db7919402bf0a170",
-          "RootEntity": "0d6f28c75ede6d98-856502f0ad1a4309",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "782883f9abee8304-5829061d3e9f92ac",
-      "parent": "0d6f28c75ede6d98-856502f0ad1a4309"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "28af231f35a76795-87e18a80b6e82d2e"
-        },
-        "Transform": {
-          "LocalPosition": [-5.265, 0.0, 0.0],
-          "LocalRotation": [0.0, 0.7071068, -0.0, -0.7071067],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "784e04a858aeda6b-c624ff4f7c6286fb"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "32fa88843a89d002-da79d1a4897be9d6"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 3.063, -2.106],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "7aa9b711d37e780b-4c89172f232497a2"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s952c73e46b8d5ea6"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "se62ed23d5a4eb585"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "77f1acad0fcd819b-fd77f29f19d480ca",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "7ba1391415164ae8-f7cc64497b5157f7",
-      "parent": "77f1acad0fcd819b-fd77f29f19d480ca"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s5c9fd333340c9b93"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "e7269444863c6636-1b046787e4ffdae7",
-          "RootEntity": "1ddc63b658f7d118-66bf40a350458121",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "7e69efc124d9e4b0-b588dd622a3ddb1e",
-      "parent": "1ddc63b658f7d118-66bf40a350458121"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s4a788e8fbd5eabab"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "eac721aeb77d2fc9-ae467433076ef702",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "805a6542757905d1-7975a8de1fd3df6f",
-      "parent": "eac721aeb77d2fc9-ae467433076ef702"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "a5cec645e76b5311-eca3f432eba5cbf3"
-        },
-        "Transform": {
-          "LocalPosition": [-5.045, 1.8, 0.0],
-          "LocalRotation": [0.0, 0.7071068, -0.0, -0.7071067],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "805f52ac31236471-ba852dd84bbb84bb"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s7f3d3606e531809f"
-        },
-        "Material": {
-          "$shared": "s81ca209fdf0b5e42"
-        },
-        "Mesh": {
-          "$shared": "sd8e3397f6f88efc6"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "805f52ac31236471-ba852dd84bbb84bb",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "817a31328becc113-6e92edf048c26172",
-      "parent": "805f52ac31236471-ba852dd84bbb84bb"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "6e832b0d3ff0297a-a5045fd57f42cd78"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 0.0, -5.265],
-          "LocalRotation": [0.0, 1.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "8308e4423fa0fc3f-58ed51571ae448e3"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "2a1bc056d4ab9be1-92e92b69901da254"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s66b0fe772705567f"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "2a1bc056d4ab9be1-92e92b69901da254",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "835d571258a5bc9a-636610410823bd3d",
-      "parent": "2a1bc056d4ab9be1-92e92b69901da254"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s6d5f15bb2b46e712"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "093df485f845c139-6417da3d48e66448",
-          "RootEntity": "a75f54eac6ae18d9-3fbc9d085c81e81e",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "845490dc8ce1e2f7-910da896358cb777",
-      "parent": "a75f54eac6ae18d9-3fbc9d085c81e81e"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "b1963a3022fc058a-66331780fc4b1292"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 1.8, 5.045],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "863084216dfea447-2f6fbbf84a731010"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s17cbe1346afd850a"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "0b64b167998d7298-090295c2b3e77154",
-          "RootEntity": "bbf8790755938caa-3913a5c117eff771",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "8630f3c91101c649-229a953aa12f7ffc",
-      "parent": "bbf8790755938caa-3913a5c117eff771"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "se4616a9be4f33b28"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "3bff7bee9aefc431-80495d2a5e03550c",
-          "RootEntity": "8fe1f3d658e70cc5-e3d208151aed0d51",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "86fd73457e0bcc2d-2d8c2c247d703e5f",
-      "parent": "8fe1f3d658e70cc5-e3d208151aed0d51"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "39625c421ed7b388-128e13989f6e6900"
-        },
-        "Transform": {
-          "LocalPosition": [-3.8, 0.0, -3.0],
-          "LocalRotation": [0.0, 0.38268343, 0.0, 0.9238795],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "890dc0dd651f2121-4aceaa06b3fee713"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sf77b0b8ee74e30be"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "4588bad260890291-d6c1506843290697",
-          "RootEntity": "0597c9933de1b425-cb49a99f0dc56f40",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "897657101c825423-39c96f0752eb0f62",
-      "parent": "0597c9933de1b425-cb49a99f0dc56f40"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s4ac06b968ff2a5a9"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "23aa4f2543e495b0-7d1293a1d40e087d",
-          "RootEntity": "9397c105318f547b-9f1af6f7a069446d",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "8ad068dc581f7394-dc018c74b4373469",
-      "parent": "9397c105318f547b-9f1af6f7a069446d"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "544eb087e74ea262-39c583819689bb32"
-        },
-        "Transform": {
-          "LocalPosition": [2.106, 0.0, -4.212],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "8adb13c3d474ac82-a1752a3f13671ce3"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "d42e67b5e1b4ecb7-daacad51b8e97903"
-        },
-        "Transform": {
-          "LocalPosition": [4.212, 0.0, 5.265],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "8aecf000fa368d6b-60a41c92a97bebd1"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "34e1cdd62ab28553-3922b113c7e73cad"
-        },
-        "Transform": {
-          "LocalPosition": [-4.212, 3.063, 2.106],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "8bd42abafa6e44b4-a9e758cfc95d6b08"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s491587a52be5f8f7"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "74e23ffa838012f3-6cfbc839f100b166",
-          "RootEntity": "045e74beb4cae651-168ae27fd4f4aa9e",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "8bfe17cfcd42b840-6d322dc05ce5d2b9",
-      "parent": "045e74beb4cae651-168ae27fd4f4aa9e"
-    },
-    {
-      "components": {
-        "PointLight": {
-          "$shared": "s102b0b21d339018a"
-        },
-        "Transform": {
-          "LocalPosition": [9.625248e-09, 2.3511999, -4.9349003],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "8db9669f26720673-0481cdef575fcb7b"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s557a2dc8a10af9b2"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "b54746916c15e4ee-e7c75b5d812e5c57",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "8f7a0e053160ea73-51f0029c78dd4e3a",
-      "parent": "b54746916c15e4ee-e7c75b5d812e5c57"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "86fd73457e0bcc2d-2d8c2c247d703e5f"
-        },
-        "Transform": {
-          "LocalPosition": [-4.212, 3.063, -4.212],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "8fe1f3d658e70cc5-e3d208151aed0d51"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "48b35d056894ec77-8502037afb5edb0d"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 3.063, 0.0],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "913401f9d3e95147-a993a9ae1e1801da"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sf2a538bf08cb0b17"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "7aa9b711d37e780b-4c89172f232497a2",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "921b3db5a35e4f46-6f0e8d9cf0631097",
-      "parent": "7aa9b711d37e780b-4c89172f232497a2"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s73e323a5d78b6bce"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "se62ed23d5a4eb585"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "f7dc8a9a2642fec5-e803e3d2bf3bec52",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "92f78367c72b34c4-ea7cc507825f7c16",
-      "parent": "f7dc8a9a2642fec5-e803e3d2bf3bec52"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "8ad068dc581f7394-dc018c74b4373469"
-        },
-        "Transform": {
-          "LocalPosition": [-4.212, 0.0, 2.106],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "9397c105318f547b-9f1af6f7a069446d"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "5fb37e0f05845304-8384f749912b81a2"
-        },
-        "Transform": {
-          "LocalPosition": [3.8, 0.0, -3.1],
-          "LocalRotation": [0.0, 0.087155744, 0.0, 0.9961947],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "956e65e88c731726-86558f591e114497"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sd4f43c741035c33e"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "a2f9d76e7a0163ac-5d82525a5ab69051",
-          "RootEntity": "ecdcdfbb6700a714-ea84f1d976978e29",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "96ba97151c08de2a-5e67c9d6bf45b2ca",
-      "parent": "ecdcdfbb6700a714-ea84f1d976978e29"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s041f6bb5a6a66027"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "72aede007787de58-8acf7123f96eb1c3",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "97732745bfe78ba1-f08f7c91d59bdf76",
-      "parent": "72aede007787de58-8acf7123f96eb1c3"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sd52d3a434d3354ad"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "c867b08503ba62c7-75cd98be9224612e",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "97a39d74e5805f88-fa84c43eb107c07f",
-      "parent": "c867b08503ba62c7-75cd98be9224612e"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s16ae20a96d458822"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "se631ce3d5a50e490"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "718ab5e30b26a459-d0d752188694747e",
-          "RootEntity": "2662a90cd18da765-20e6b954bb4db36e",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "984ae348ec1d420f-3acadf45d8bcd6c4",
-      "parent": "2662a90cd18da765-20e6b954bb4db36e"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s647637e032dd574e"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "c6fbe5a87f66a6db-a29d7cee0ed8d37c",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "9b07f71e3e177cf6-88b4e1aa8ea79674",
-      "parent": "c6fbe5a87f66a6db-a29d7cee0ed8d37c"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s45c5878e71584781"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "f1488e405134f6f1-4429fae462411fe3",
-          "RootEntity": "5ad878bc3da68aa1-1fdc018e43821bbf",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "9b13a80412f360e8-b0dda06158717b5f",
-      "parent": "5ad878bc3da68aa1-1fdc018e43821bbf"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s8e53acc9f556c686"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "307a8bdd4395b622-dbe9c1bc3de04f03",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "9c07706f85c2bd38-99f8bf5b3b854e0c",
-      "parent": "307a8bdd4395b622-dbe9c1bc3de04f03"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "14cceabb58a3fde8-89c01f71515f54d6"
-        },
-        "Transform": {
-          "LocalPosition": [5.265, 0.0, 4.212],
-          "LocalRotation": [0.0, 0.70710677, 0.0, 0.70710677],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "9e84040c3b0ae2e2-d0bb3ce356139f7d"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s73e323a5d78b6bce"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "se631ce3d5a50e490"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "92f78367c72b34c4-ea7cc507825f7c16",
-          "RootEntity": "f7dc8a9a2642fec5-e803e3d2bf3bec52",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "9e8aa24eef245a3f-2b7f0598605dfc0e",
-      "parent": "f7dc8a9a2642fec5-e803e3d2bf3bec52"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "67d6180a3e7f03d3-58345b28a60d74e2"
-        },
-        "Material": {
-          "Definition": "497adb99f7fc4e3e-54aa1061133042f7",
-          "Dynamic": false,
-          "Overrides": [
-            {
-              "Name": "BaseColor",
-              "Number": 0,
-              "Values": [0.28, 0.28, 0.3, 1.0]
-            },
-            {
-              "Name": "Roughness",
-              "Number": 0,
-              "Values": [0.6]
-            },
-            {
-              "Name": "Metallic",
-              "Number": 0,
-              "Values": [0.15]
-            }
-          ]
-        },
-        "Mesh": {
-          "IsVisible": true,
-          "Mesh": "8cbacd40b460929e-952a7abd6cacc2c3",
-          "SubMeshIndex": 0
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "67d6180a3e7f03d3-58345b28a60d74e2",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "9f34f740e1323850-02e1b843b8e65c8b",
-      "parent": "67d6180a3e7f03d3-58345b28a60d74e2"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "6e7248a6d64e5fa7-d9345693502099b7"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s6861f62dbf38749d"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "6e7248a6d64e5fa7-d9345693502099b7",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "a0603d3a597f802e-967d646c7c75635d",
-      "parent": "6e7248a6d64e5fa7-d9345693502099b7"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sd4f43c741035c33e"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "ecdcdfbb6700a714-ea84f1d976978e29",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "a2f9d76e7a0163ac-5d82525a5ab69051",
-      "parent": "ecdcdfbb6700a714-ea84f1d976978e29"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s8da6efc0a0fae21e"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "913401f9d3e95147-a993a9ae1e1801da",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "a2fc85e35bc45452-c1ef0586b4700feb",
-      "parent": "913401f9d3e95147-a993a9ae1e1801da"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s9f4974daad4eba8a"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "b7160390e87ae85e-435f93dd26c7b5f2",
-          "RootEntity": "0993afa588518a1a-787deba428866cf4",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "a343815347e2e9bd-1e2df0c1654708f0",
-      "parent": "0993afa588518a1a-787deba428866cf4"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "54bb9645e2333362-4b9cbca02fe6a151"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
         },
         "Transform": {
           "LocalPosition": [-2.106, 3.063, -4.212],
@@ -3484,1625 +1263,29 @@
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "a45118301e8866ea-6240d08fe1e5ed29"
+      "guid": "de8c53efd038315a-83aa2afa178191ef"
     },
     {
       "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "6793027c900c1018-ad2d064c0d74f3b5"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
         },
         "Transform": {
-          "LocalPosition": [4.212, 0.0, -4.212],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "a4d369973f2a509d-856e5894bf0ed1b2"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sc783a490c22a7c59"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "722a699e2c1603d5-e3970278f2fbede9",
-          "RootEntity": "262ac6cf2422b82a-c49ec20f32ec0549",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "a514250c05acb228-d26d28e474722e17",
-      "parent": "262ac6cf2422b82a-c49ec20f32ec0549"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s7f3d3606e531809f"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "sd8e0357f6f86b323"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "817a31328becc113-6e92edf048c26172",
-          "RootEntity": "805f52ac31236471-ba852dd84bbb84bb",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "a5cec645e76b5311-eca3f432eba5cbf3",
-      "parent": "805f52ac31236471-ba852dd84bbb84bb"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "5de367b87d2008e3-9bfa2761e171a214"
-        },
-        "Transform": {
-          "LocalPosition": [2.106, 0.0, -2.106],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "a62cc434e01cfdc8-691c977931587ef0"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s361442f20693be58"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "0331451d304dbe7c-9df63bc01941c142",
-          "RootEntity": "b659b57de1e918b2-2d27bbcb2c662440",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "a739b3450484626d-3ff3d968cbcba680",
-      "parent": "b659b57de1e918b2-2d27bbcb2c662440"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "845490dc8ce1e2f7-910da896358cb777"
-        },
-        "Transform": {
-          "LocalPosition": [-4.212, 0.0, 4.212],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "a75f54eac6ae18d9-3fbc9d085c81e81e"
-    },
-    {
-      "components": {
-        "PointLight": {
-          "CastShadows": false,
-          "Color": [0.2, 0.5, 0.9],
-          "Intensity": 16.0,
-          "LightSize": 0.05,
-          "Radius": 14.0,
-          "ShadowNearZ": 1.0
-        },
-        "Transform": {
-          "LocalPosition": [3.5, 2.2, 3.5],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "a7998f82e96fd7b0-c364f4a177ca55b8"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s202ee530e0346fca"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "48619c78bf1fb5b4-955441de6c5abd9c",
-          "RootEntity": "75b6d55c9d607415-148f3f99242b553d",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "a8331b1af62b615a-caf9f6f9f2d6c9bc",
-      "parent": "75b6d55c9d607415-148f3f99242b553d"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "36a3dd1d8a053638-501d27956de26737"
-        },
-        "Transform": {
-          "LocalPosition": [4.212, 0.0, 0.0],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "abc65f73b1ce891e-0777caefdb3594bf"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s4afde756e952d7e8"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "447a7631065a0782-a88db73cf07429dd",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "aedaa24ede993a26-93557236caaf61de",
-      "parent": "447a7631065a0782-a88db73cf07429dd"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s7eed0294bd1ec870"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "a62cc434e01cfdc8-691c977931587ef0",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "b04918082da05916-51b8c3c95ed6e9b9",
-      "parent": "a62cc434e01cfdc8-691c977931587ef0"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s2cec7e36a5138c2c"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "sd8e0357f6f86b323"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "6c76a5ddfa2a38b8-142ae79ba1a0e702",
-          "RootEntity": "863084216dfea447-2f6fbbf84a731010",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "b1963a3022fc058a-66331780fc4b1292",
-      "parent": "863084216dfea447-2f6fbbf84a731010"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "26f0982fa8b3e308-1952b261824e853f"
-        },
-        "Transform": {
-          "LocalPosition": [3.4, 0.0, -3.7],
-          "LocalRotation": [0.0, 0.57357645, 0.0, 0.81915206],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "b26496d31f180c02-42739738686a98f8"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "26e480363487902d-06872a47dd446169"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s66b0fe772705567f"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "26e480363487902d-06872a47dd446169",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "b29375ca04e0ced4-376b17f01885c53a",
-      "parent": "26e480363487902d-06872a47dd446169"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sff11ed23a3e9435f"
-        },
-        "Material": {
-          "$shared": "s81ca209fdf0b5e42"
-        },
-        "Mesh": {
-          "$shared": "sc0b652d7f5e2a621"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "1098ca97d4b63d1a-f38fd592d38394ae",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "b2e714953ad4df37-14a0b2223f64cc07",
-      "parent": "1098ca97d4b63d1a-f38fd592d38394ae"
-    },
-    {
-      "components": {
-        "PointLight": {
-          "$shared": "s102b0b21d339018a"
-        },
-        "Transform": {
-          "LocalPosition": [4.9349003, 2.3511999, 4.812624e-09],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "b3023bc60de5ce93-7df6719e17bb9654"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "679d7e7536c539e6-298dfccc210c63c8"
-        },
-        "Transform": {
-          "LocalPosition": [4.212, 3.063, -4.212],
+          "LocalPosition": [-2.106, 3.063, 0.0],
           "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "b54746916c15e4ee-e7c75b5d812e5c57"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s7e1443d82a4f4eb6"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "se62ed23d5a4eb585"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "668c2082cc7beccb-188c76be5a88d571",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "b649d21d67b79a86-1fde92ffeed1fd3d",
-      "parent": "668c2082cc7beccb-188c76be5a88d571"
+      "guid": "dfadb58568958bbb-17e3ad7e2f45097a"
     },
     {
       "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "a739b3450484626d-3ff3d968cbcba680"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 3.063, -4.212],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "b659b57de1e918b2-2d27bbcb2c662440"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s9f4974daad4eba8a"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "0993afa588518a1a-787deba428866cf4",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "b7160390e87ae85e-435f93dd26c7b5f2",
-      "parent": "0993afa588518a1a-787deba428866cf4"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s8e53acc9f556c686"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "9c07706f85c2bd38-99f8bf5b3b854e0c",
-          "RootEntity": "307a8bdd4395b622-dbe9c1bc3de04f03",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "b736c3e9784c26b4-8644c14e07b4424f",
-      "parent": "307a8bdd4395b622-dbe9c1bc3de04f03"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s72313373d3de791c"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "abc65f73b1ce891e-0777caefdb3594bf",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "b8440e211bc8f853-702b36285192d636",
-      "parent": "abc65f73b1ce891e-0777caefdb3594bf"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s7e1443d82a4f4eb6"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "se631ce3d5a50e490"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "b649d21d67b79a86-1fde92ffeed1fd3d",
-          "RootEntity": "668c2082cc7beccb-188c76be5a88d571",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "b8dcbd178e0e53e5-5529e10f22411a77",
-      "parent": "668c2082cc7beccb-188c76be5a88d571"
-    },
-    {
-      "components": {
-        "Hierarchy": {
-          "Parent": "25d82b79a1419c00-2f212ee7af2378e1"
-        },
-        "Material": {
-          "Definition": "d03eb15c31b14abf-ca5adf57d3b85ba9",
-          "Dynamic": false,
-          "Overrides": []
-        },
-        "Mesh": {
-          "$shared": "s09d5c8883aa23a02"
-        },
-        "SubMesh": {
-          "RootEntity": "25d82b79a1419c00-2f212ee7af2378e1",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        },
-        "TranslucentPassTag": {}
-      },
-      "guid": "b905e287ba233f67-29d40c823acef861",
-      "parent": "25d82b79a1419c00-2f212ee7af2378e1"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s42664085f955bfb3"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "se62ed23d5a4eb585"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "3351782ad9ba3942-45cc380f8f56d93b",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "ba04407bedc914f1-d12445ccdb8d7791",
-      "parent": "3351782ad9ba3942-45cc380f8f56d93b"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "8630f3c91101c649-229a953aa12f7ffc"
-        },
-        "Transform": {
-          "LocalPosition": [4.212, 0.0, 2.106],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "bbf8790755938caa-3913a5c117eff771"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "66aa336a0126f3d9-c8fbfe1862db838e"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s6861f62dbf38749d"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "66aa336a0126f3d9-c8fbfe1862db838e",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "bfc53e9995a0f270-f1ef30f3c5a653fe",
-      "parent": "66aa336a0126f3d9-c8fbfe1862db838e"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sc90e5722df63ea76"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "e3a388d963a4cdf2-fee16d082d38496f",
-          "RootEntity": "371a5ba9d2f93632-086faa46cda514b0",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "c0bf2c39e65ffe4c-0e65bf4d249b6c67",
-      "parent": "371a5ba9d2f93632-086faa46cda514b0"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "721e43b4f53ba620-cd48bbbf5e3c0a2d"
-        },
-        "Transform": {
-          "LocalPosition": [2.106, 3.063, -4.212],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "c1dfa28778b9a6d9-b3850a730bd7234e"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s517bc7cf29e8586a"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "060d59fc79b04745-1370b75cbafec5af",
-          "RootEntity": "110f985634993c86-af24fbc5507fda4e",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "c23ee620f6e88d97-8f9494a40d27b6ed",
-      "parent": "110f985634993c86-af24fbc5507fda4e"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sc5c982e560b33e18"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "3fa4fe3ac6c6adbc-2357a5d962f82168",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "c4c97dbc1644cf08-0759a9dd2258fd88",
-      "parent": "3fa4fe3ac6c6adbc-2357a5d962f82168"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "ddf9b38d899532de-b9fdcfea9b04b19a"
-        },
-        "Transform": {
-          "LocalPosition": [-3.6, 0.0, -3.7],
-          "LocalRotation": [0.0, 0.1305262, 0.0, 0.9914449],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "c58e0d1a5ed72759-127491e48e0e8cea"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sec1d3b3799971f74"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "se631ce3d5a50e490"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "0b1d74d4439f395c-2e7e5824a9a77184",
-          "RootEntity": "f9f76046f1b0731a-ff9ecd7cab62e0a3",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "c63a1ca10222887c-ce0340260bd5e18a",
-      "parent": "f9f76046f1b0731a-ff9ecd7cab62e0a3"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "26e0865c1ad01f85-9f1098287073c470"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s66b0fe772705567f"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "26e0865c1ad01f85-9f1098287073c470",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "c64aaff6dc96fc1d-fef6d0cc0fb0173d",
-      "parent": "26e0865c1ad01f85-9f1098287073c470"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "efef27f054c7df6d-6690ad3e244ede9d"
-        },
-        "Transform": {
-          "LocalPosition": [5.265, 0.0, -4.212],
-          "LocalRotation": [0.0, 0.70710677, 0.0, 0.70710677],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "c68b7a2ff0cfa53d-9d6ae9ef79ed716e"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "1d27b4f33f415276-d0dba6036a7ad0c8"
-        },
-        "Transform": {
-          "LocalPosition": [2.106, 0.0, 0.0],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "c6fbe5a87f66a6db-a29d7cee0ed8d37c"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "de59a24f828c5355-76f3f7c3158e7d75"
-        },
-        "Transform": {
-          "LocalPosition": [-2.106, 0.0, 2.106],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "c71edaa267c8b21b-f8295116682d50a6"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "f5571c44efa5561d-6f278ddeeaebb086"
-        },
-        "Transform": {
-          "LocalPosition": [4.212, 3.063, -2.106],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "c867b08503ba62c7-75cd98be9224612e"
-    },
-    {
-      "components": {
-        "PointLight": {
-          "$shared": "s102b0b21d339018a"
-        },
-        "Transform": {
-          "LocalPosition": [-4.9349003, 2.3511999, -1.3129293e-09],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "c8dcf051fa5fb0fb-587d889a63945eea"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s6ea9e656f9c6e38e"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "10c2bbd0b19c2f57-4b2991cd2cadfbe2",
-          "RootEntity": "7572a31f2e66cc4c-a9d50ed71137d8f3",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "cbcfe6e508151a10-300a362b05e6a242",
-      "parent": "7572a31f2e66cc4c-a9d50ed71137d8f3"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "LuminousFlameEmitter": {
-          "$shared": "sc74dbfc2a7f4a4a4"
-        },
-        "MeshRoot": {
-          "FirstSubMesh": "3007087e997122a7-2b07766fa70cf5fa"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 2.3511999, 4.9349003],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [0.45, 0.72, 0.45]
-        }
-      },
-      "guid": "cc6c9a59c3107d59-750b3549375c4367"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "eff3f61f81270fef-767ed6f6da3bd523"
-        },
-        "Transform": {
-          "LocalPosition": [4.212, 0.0, -2.106],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "cd3db9d312552413-31dbbb9636387c88"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "649a91cbcc5c9e12-5b55c153102d1629"
-        },
-        "Transform": {
-          "LocalPosition": [5.265, 0.0, 0.0],
-          "LocalRotation": [0.0, 0.70710677, 0.0, 0.70710677],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "cd6c8b7d33e1ce27-4ff535e9ad85ce3a"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "0d76be642bac8798-c8e0369502455fc1"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 3.063, 4.212],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "cdef0fc4074622f9-f386acbf44027e08"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "16c415b8ff005ab0-09a352c03a99b892"
-        },
-        "Transform": {
-          "LocalPosition": [-4.212, 0.0, 0.0],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "d02a7a1544ae692e-ce861fb3e8da21ba"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sd41530c2812b225d"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "460fc162a165b61e-d876bac2460328ec",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "d0606386cb8ebda8-cccf47259aca30d4",
-      "parent": "460fc162a165b61e-d876bac2460328ec"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s42ff7864020820ae"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "c1dfa28778b9a6d9-b3850a730bd7234e",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "d0c6e5fbf2a6c80a-c752516f7f647dee",
-      "parent": "c1dfa28778b9a6d9-b3850a730bd7234e"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s07eeb2519b568451"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "f5acdb65bf8f9b2f-2f59c87f46756abe",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "d2363e45566ec77f-a6948258aabc2091",
-      "parent": "f5acdb65bf8f9b2f-2f59c87f46756abe"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s98596a0667da6f7e"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "se631ce3d5a50e490"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "3305d6f8a0b09c67-9ebed7a1e91f89ad",
-          "RootEntity": "8aecf000fa368d6b-60a41c92a97bebd1",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "d42e67b5e1b4ecb7-daacad51b8e97903",
-      "parent": "8aecf000fa368d6b-60a41c92a97bebd1"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "eb96378d6b3b111d-978de9ed85491a73"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s6861f62dbf38749d"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "eb96378d6b3b111d-978de9ed85491a73",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "d587008f78694bce-2a62c29c844b6a99",
-      "parent": "eb96378d6b3b111d-978de9ed85491a73"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s8f6a2cb8eaccb4c0"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "2f40084ca4b2a1a8-dc41ebf06ff91a63",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "d68274f1c8d04736-c4540f27fe03d13a",
-      "parent": "2f40084ca4b2a1a8-dc41ebf06ff91a63"
-    },
-    {
-      "components": {
-        "Hierarchy": {
-          "Parent": "e26c653e7ef776af-086ab73a53dd3f59"
-        },
-        "Material": {
-          "$shared": "s9537cc9a89a57948"
-        },
-        "Mesh": {
-          "$shared": "s09d5c8883aa23a02"
-        },
-        "SubMesh": {
-          "RootEntity": "e26c653e7ef776af-086ab73a53dd3f59",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        },
-        "TranslucentPassTag": {}
-      },
-      "guid": "d8a6209723d2dc75-d4a9ec16eeeb672d",
-      "parent": "e26c653e7ef776af-086ab73a53dd3f59"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "c58e0d1a5ed72759-127491e48e0e8cea"
-        },
-        "Material": {
-          "$shared": "s81ca209fdf0b5e42"
-        },
-        "Mesh": {
-          "$shared": "s13c3f9ad9d80f929"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "c58e0d1a5ed72759-127491e48e0e8cea",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "ddf9b38d899532de-b9fdcfea9b04b19a",
-      "parent": "c58e0d1a5ed72759-127491e48e0e8cea"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s12bad9ca459798a3"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "e8161880287f2b28-ed0c5bc543992871",
-          "RootEntity": "c71edaa267c8b21b-f8295116682d50a6",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "de59a24f828c5355-76f3f7c3158e7d75",
-      "parent": "c71edaa267c8b21b-f8295116682d50a6"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s5c71c355ed39e182"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "13c2b358e816e2e7-8de3d23acf75018f",
-          "RootEntity": "e1ccb3ddab671276-1dfc66c0f5568408",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "df68b986194f28e6-f83a78223bb25a4d",
-      "parent": "e1ccb3ddab671276-1dfc66c0f5568408"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s4dde7a9f736cb7da"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "5d8221e426598782-d35cbe4e3f99535e",
-          "RootEntity": "196e092514c573cf-0ccf3bb7333ddf31",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "e1ba3d173315ac97-8ca2c6b94e9e7d37",
-      "parent": "196e092514c573cf-0ccf3bb7333ddf31"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "df68b986194f28e6-f83a78223bb25a4d"
-        },
-        "Transform": {
-          "LocalPosition": [-2.106, 0.0, -4.212],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "e1ccb3ddab671276-1dfc66c0f5568408"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s4a788e8fbd5eabab"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "805a6542757905d1-7975a8de1fd3df6f",
-          "RootEntity": "eac721aeb77d2fc9-ae467433076ef702",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "e236826b921bca30-f8eb4f7dd61acefc",
-      "parent": "eac721aeb77d2fc9-ae467433076ef702"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "LuminousFlameEmitter": {
-          "$shared": "sc74dbfc2a7f4a4a4"
-        },
-        "MeshRoot": {
-          "FirstSubMesh": "d8a6209723d2dc75-d4a9ec16eeeb672d"
-        },
-        "Transform": {
-          "LocalPosition": [9.625248e-09, 2.3511999, -4.9349003],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [0.45, 0.72, 0.45]
-        }
-      },
-      "guid": "e26c653e7ef776af-086ab73a53dd3f59"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sc90e5722df63ea76"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "371a5ba9d2f93632-086faa46cda514b0",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "e3a388d963a4cdf2-fee16d082d38496f",
-      "parent": "371a5ba9d2f93632-086faa46cda514b0"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "scae9a6600965ff7b"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "se62ed23d5a4eb585"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "8308e4423fa0fc3f-58ed51571ae448e3",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "e5dc04fe93c1237b-61652e6b0cf0673d",
-      "parent": "8308e4423fa0fc3f-58ed51571ae448e3"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s5c9fd333340c9b93"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "1ddc63b658f7d118-66bf40a350458121",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "e7269444863c6636-1b046787e4ffdae7",
-      "parent": "1ddc63b658f7d118-66bf40a350458121"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s12bad9ca459798a3"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "c71edaa267c8b21b-f8295116682d50a6",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "e8161880287f2b28-ed0c5bc543992871",
-      "parent": "c71edaa267c8b21b-f8295116682d50a6"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "0ae52a768c04950c-9851d621d666ddab"
-        },
-        "Transform": {
-          "LocalPosition": [2.106, 3.063, 2.106],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "ea349c6e2811d00e-6dac8da227e5eea1"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "e236826b921bca30-f8eb4f7dd61acefc"
-        },
-        "Transform": {
-          "LocalPosition": [-2.106, 3.063, 4.212],
-          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "eac721aeb77d2fc9-ae467433076ef702"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "d587008f78694bce-2a62c29c844b6a99"
-        },
-        "Transform": {
-          "LocalPosition": [-5.265, 0.0, -4.212],
-          "LocalRotation": [0.0, 0.7071068, -0.0, -0.7071067],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "eb96378d6b3b111d-978de9ed85491a73"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s8193953bc602b433"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "a45118301e8866ea-6240d08fe1e5ed29",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "ec518100eea31d26-9e9b7faf55d4fa89",
-      "parent": "a45118301e8866ea-6240d08fe1e5ed29"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "96ba97151c08de2a-5e67c9d6bf45b2ca"
-        },
-        "Transform": {
-          "LocalPosition": [0.0, 0.0, -2.106],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "ecdcdfbb6700a714-ea84f1d976978e29"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sfdeaa95b85761555"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "d02a7a1544ae692e-ce861fb3e8da21ba",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "ed8e33dbe5e9a0aa-b32cc10afa963f28",
-      "parent": "d02a7a1544ae692e-ce861fb3e8da21ba"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "637e925e9f45a869-5cfc55d10228665e"
-        },
-        "Transform": {
-          "LocalPosition": [4.212, 0.0, -5.265],
-          "LocalRotation": [0.0, 1.0, -0.0, -6.229855e-08],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "edb95c9760f11ea0-65ee1382e34efa50"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "Parent": "c68b7a2ff0cfa53d-9d6ae9ef79ed716e"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s6861f62dbf38749d"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "c68b7a2ff0cfa53d-9d6ae9ef79ed716e",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "efef27f054c7df6d-6690ad3e244ede9d",
-      "parent": "c68b7a2ff0cfa53d-9d6ae9ef79ed716e"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s47c9fcaf3666dcba"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "3383599769069591-ef4f9d9f5c1f8972",
-          "RootEntity": "cd3db9d312552413-31dbbb9636387c88",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "eff3f61f81270fef-767ed6f6da3bd523",
-      "parent": "cd3db9d312552413-31dbbb9636387c88"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s45c5878e71584781"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "5ad878bc3da68aa1-1fdc018e43821bbf",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "f1488e405134f6f1-4429fae462411fe3",
-      "parent": "5ad878bc3da68aa1-1fdc018e43821bbf"
-    },
-    {
-      "components": {
-        "Hierarchy": {
-          "Parent": "6f15f6099c721210-1dcb8668d6c870ab"
-        },
-        "Material": {
-          "$shared": "s9537cc9a89a57948"
-        },
-        "Mesh": {
-          "$shared": "s09d5c8883aa23a02"
-        },
-        "SubMesh": {
-          "RootEntity": "6f15f6099c721210-1dcb8668d6c870ab",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        },
-        "TranslucentPassTag": {}
-      },
-      "guid": "f4ca3e9f81a5726d-f74b5420a265518a",
-      "parent": "6f15f6099c721210-1dcb8668d6c870ab"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "sd52d3a434d3354ad"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "97a39d74e5805f88-fa84c43eb107c07f",
-          "RootEntity": "c867b08503ba62c7-75cd98be9224612e",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "f5571c44efa5561d-6f278ddeeaebb086",
-      "parent": "c867b08503ba62c7-75cd98be9224612e"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "477127975d648579-27275953ae5a580e"
-        },
-        "Transform": {
-          "LocalPosition": [-2.106, 0.0, 0.0],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "f5acdb65bf8f9b2f-2f59c87f46756abe"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s086ae5ad7f815bf4"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "cdef0fc4074622f9-f386acbf44027e08",
-          "SubMeshIndex": 1
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "f652f67c3b0d39fa-bf94370738ed8618",
-      "parent": "cdef0fc4074622f9-f386acbf44027e08"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "1a248cc2bdf32bed-6a3a7e0bd1fc3594"
-        },
-        "Transform": {
-          "LocalPosition": [-2.106, 0.0, 5.265],
-          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
-          "LocalScale": [1.0, 1.0, 1.0]
-        }
-      },
-      "guid": "f6bb593366823299-a58e092df8033c01"
-    },
-    {
-      "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s3e5dbce5cdde3f1a"
-        },
-        "Material": {
-          "$shared": "sb8dddfeec6dd5fa1"
-        },
-        "Mesh": {
-          "$shared": "s1934b35c7645504e"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "NextSubMesh": "59420b521bea5ff0-b27cea109889cc19",
-          "RootEntity": "2ec8ea582d0ac3d7-bb1b25367d7e62a4",
-          "SubMeshIndex": 0
-        },
-        "Transform": {
-          "$shared": "s2dcfe48f016261ee"
-        }
-      },
-      "guid": "f719767f1466e36d-a9635ebc38e80504",
-      "parent": "2ec8ea582d0ac3d7-bb1b25367d7e62a4"
-    },
-    {
-      "components": {
-        "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "9e8aa24eef245a3f-2b7f0598605dfc0e"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
         },
         "Transform": {
           "LocalPosition": [5.265, 0.0, -2.106],
@@ -5110,45 +1293,52 @@
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "f7dc8a9a2642fec5-e803e3d2bf3bec52"
+      "guid": "dff7b9411fb9ddce-3f6ff2c6c8aff354"
     },
     {
       "components": {
         "Hierarchy": {},
-        "MeshRoot": {
-          "FirstSubMesh": "c63a1ca10222887c-ce0340260bd5e18a"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
         },
         "Transform": {
-          "LocalPosition": [-5.265, 0.0, 2.106],
-          "LocalRotation": [0.0, 0.7071068, -0.0, -0.7071067],
+          "LocalPosition": [-4.212, 0.0, -5.265],
+          "LocalRotation": [0.0, 1.0, -0.0, -6.229855e-08],
           "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "f9f76046f1b0731a-ff9ecd7cab62e0a3"
+      "guid": "e15b648ba7c8bc47-0b6f6fb97e804354"
     },
     {
       "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s6dcf2748c30bc363"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "ea349c6e2811d00e-6dac8da227e5eea1",
-          "SubMeshIndex": 1
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
         },
         "Transform": {
-          "$shared": "s2dcfe48f016261ee"
+          "LocalPosition": [-4.212, 3.063, 2.106],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "fb72b8a29769a27c-4ce6ed77902dfed6",
-      "parent": "ea349c6e2811d00e-6dac8da227e5eea1"
+      "guid": "e563fcca5c6a7a01-a725dc242efc32ae"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [4.212, 3.063, 2.106],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "e64a771e8678e3df-e385a0b12f057d25"
     },
     {
       "components": {
@@ -5156,79 +1346,152 @@
         "LuminousFlameEmitter": {
           "$shared": "sc74dbfc2a7f4a4a4"
         },
-        "MeshRoot": {
-          "FirstSubMesh": "6f63c9a61b4c1ecb-9484b96f0451d853"
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sce879e77577d7332"
         },
         "Transform": {
-          "LocalPosition": [4.9349003, 2.3511999, 4.812624e-09],
+          "LocalPosition": [0.0, 2.3511999, 4.9349003],
           "LocalRotation": [0.0, 0.0, 0.0, 1.0],
           "LocalScale": [0.45, 0.72, 0.45]
         }
       },
-      "guid": "fc3f20515a27a086-0af2259b3f9d751d"
+      "guid": "e900e3c27324572b-0c93ac3963f77af3"
     },
     {
       "components": {
-        "GBufferPassTag": {},
-        "Hierarchy": {
-          "$shared": "s3f6eeddecd2a0cfe"
-        },
-        "Material": {
-          "$shared": "s02cf8a767ef62671"
-        },
-        "Mesh": {
-          "$shared": "s1930af5c764160ab"
-        },
-        "ShadowPassTag": {},
-        "SubMesh": {
-          "RootEntity": "64e37f2029e2ceff-176d81d8ec31b5c2",
-          "SubMeshIndex": 1
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
         },
         "Transform": {
-          "$shared": "s2dcfe48f016261ee"
+          "LocalPosition": [0.0, 0.0, -5.265],
+          "LocalRotation": [0.0, 1.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
         }
       },
-      "guid": "fcbd7963f1f2ba64-cc9bdbf0f4aaf136",
-      "parent": "64e37f2029e2ceff-176d81d8ec31b5c2"
+      "guid": "e982ab71f5bb494b-718dfa213544c8ee"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s9576d51cf5cf8655"
+        },
+        "Transform": {
+          "LocalPosition": [3.8, 0.0, -3.1],
+          "LocalRotation": [0.0, 0.087155744, 0.0, 0.9961947],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "ea5e067921e3813d-3f14eb514b53df9e"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [5.265, 0.0, 0.0],
+          "LocalRotation": [0.0, 0.70710677, 0.0, 0.70710677],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "ee3bac917b4efda2-6e0d92f83fddcfd2"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [2.106, 0.0, 2.106],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "f01582a2e2da0b92-9c215910d910b5e1"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [2.106, 3.063, -4.212],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "f1e325fb38fefe2d-c55ff2667b555384"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [0.0, 0.0, 2.106],
+          "LocalRotation": [0.0, 0.0, 0.0, 1.0],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "f7dedf1aa792d810-aeecec618a91281c"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "LuminousTitleOrbTag": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "Mesh": "a3ba81075dca7f61-02c1c60d3f4850af",
+          "Slots": [
+            {
+              "IsVisible": true,
+              "Material": "d03eb15c31b14abf-ca5adf57d3b85ba9",
+              "Overrides": [],
+              "Tags": [
+                "TranslucentPassTag"
+              ]
+            }
+          ]
+        },
+        "Transform": {
+          "LocalPosition": [0.0, 1.03, 0.0],
+          "LocalRotation": [0.0, 0.0, 0.04997917, 0.99875027],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "fe2ad1dad5eeed08-0346e03c350f4f92"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [0.0, 3.063, 0.0],
+          "LocalRotation": [1.0, -0.0, -0.0, -6.229855e-08],
+          "LocalScale": [1.0, 1.0, 1.0]
+        }
+      },
+      "guid": "ff053d20179eeb25-737e4fa2aa88f207"
     }
   ],
   "name": "Luminous.Title",
   "shared": {
-    "s02cf8a767ef62671": {
-      "Definition": "a8c196c4b22897c7-bd11ed20b27c2ea3",
-      "Dynamic": false,
-      "Overrides": [
-        {
-          "Name": "BaseColor",
-          "Number": 0,
-          "Values": [0.159, 0.205, 0.337, 1.0]
-        },
-        {
-          "Name": "Roughness",
-          "Number": 0,
-          "Values": [0.8]
-        },
-        {
-          "Name": "Metallic",
-          "Number": 0,
-          "Values": [0.05]
-        }
-      ]
-    },
-    "s041f6bb5a6a66027": {
-      "Parent": "72aede007787de58-8acf7123f96eb1c3"
-    },
-    "s07eeb2519b568451": {
-      "Parent": "f5acdb65bf8f9b2f-2f59c87f46756abe"
-    },
-    "s086ae5ad7f815bf4": {
-      "Parent": "cdef0fc4074622f9-f386acbf44027e08"
-    },
-    "s09d5c8883aa23a02": {
-      "IsVisible": true,
-      "Mesh": "a3ba81075dca7f61-02c1c60d3f4850af",
-      "SubMeshIndex": 0
-    },
     "s102b0b21d339018a": {
       "CastShadows": true,
       "Color": [1.0, 0.62, 0.22],
@@ -5237,356 +1500,359 @@
       "Radius": 10.0,
       "ShadowNearZ": 0.05
     },
-    "s11823809f9d9a561": {
-      "Parent": "8bd42abafa6e44b4-a9e758cfc95d6b08"
-    },
-    "s12bad9ca459798a3": {
-      "Parent": "c71edaa267c8b21b-f8295116682d50a6"
-    },
-    "s13c3f9ad9d80f929": {
-      "IsVisible": true,
-      "Mesh": "ad2fa73f3ed49065-11844654d72804ed",
-      "SubMeshIndex": 0
-    },
-    "s16ae20a96d458822": {
-      "Parent": "2662a90cd18da765-20e6b954bb4db36e"
-    },
-    "s17cbe1346afd850a": {
-      "Parent": "bbf8790755938caa-3913a5c117eff771"
-    },
-    "s1930af5c764160ab": {
-      "IsVisible": true,
-      "Mesh": "7bd827f5f9252b87-9745d1c821b3601f",
-      "SubMeshIndex": 1
-    },
-    "s1934b35c7645504e": {
-      "IsVisible": true,
-      "Mesh": "7bd827f5f9252b87-9745d1c821b3601f",
-      "SubMeshIndex": 0
-    },
-    "s202ee530e0346fca": {
-      "Parent": "75b6d55c9d607415-148f3f99242b553d"
-    },
-    "s24cef25538279bf3": {
-      "Parent": "4770384c514a9daf-4fba6aeb47065f5d"
-    },
-    "s2953ed253dafedd4": {
-      "Parent": "edb95c9760f11ea0-65ee1382e34efa50"
-    },
-    "s2cec7e36a5138c2c": {
-      "Parent": "863084216dfea447-2f6fbbf84a731010"
-    },
-    "s2dcfe48f016261ee": {
-      "LocalPosition": [0.0, 0.0, -0.0],
-      "LocalRotation": [-0.0, 0.0, -0.0, 1.0],
-      "LocalScale": [1.0, 1.0, 1.0]
-    },
-    "s361442f20693be58": {
-      "Parent": "b659b57de1e918b2-2d27bbcb2c662440"
-    },
-    "s3c1aea5730b7d279": {
-      "Parent": "890dc0dd651f2121-4aceaa06b3fee713"
-    },
-    "s3e5dbce5cdde3f1a": {
-      "Parent": "2ec8ea582d0ac3d7-bb1b25367d7e62a4"
-    },
-    "s3f6eeddecd2a0cfe": {
-      "Parent": "64e37f2029e2ceff-176d81d8ec31b5c2"
-    },
-    "s42664085f955bfb3": {
-      "Parent": "3351782ad9ba3942-45cc380f8f56d93b"
-    },
-    "s42ff7864020820ae": {
-      "Parent": "c1dfa28778b9a6d9-b3850a730bd7234e"
-    },
-    "s444f489ed9d01a50": {
-      "Parent": "29a368c0930f7307-da40a570f77bb9a3"
-    },
-    "s45c5878e71584781": {
-      "Parent": "5ad878bc3da68aa1-1fdc018e43821bbf"
-    },
-    "s47c9fcaf3666dcba": {
-      "Parent": "cd3db9d312552413-31dbbb9636387c88"
-    },
-    "s491587a52be5f8f7": {
-      "Parent": "045e74beb4cae651-168ae27fd4f4aa9e"
-    },
-    "s4a788e8fbd5eabab": {
-      "Parent": "eac721aeb77d2fc9-ae467433076ef702"
-    },
-    "s4ac06b968ff2a5a9": {
-      "Parent": "9397c105318f547b-9f1af6f7a069446d"
-    },
-    "s4afde756e952d7e8": {
-      "Parent": "447a7631065a0782-a88db73cf07429dd"
-    },
-    "s4dde7a9f736cb7da": {
-      "Parent": "196e092514c573cf-0ccf3bb7333ddf31"
-    },
-    "s517bc7cf29e8586a": {
-      "Parent": "110f985634993c86-af24fbc5507fda4e"
-    },
-    "s557a2dc8a10af9b2": {
-      "Parent": "b54746916c15e4ee-e7c75b5d812e5c57"
-    },
-    "s5c71c355ed39e182": {
-      "Parent": "e1ccb3ddab671276-1dfc66c0f5568408"
-    },
-    "s5c9fd333340c9b93": {
-      "Parent": "1ddc63b658f7d118-66bf40a350458121"
-    },
-    "s647637e032dd574e": {
-      "Parent": "c6fbe5a87f66a6db-a29d7cee0ed8d37c"
-    },
-    "s66b0fe772705567f": {
-      "IsVisible": true,
-      "Mesh": "793360355318e064-3d89aecb5d940c69",
-      "SubMeshIndex": 0
-    },
-    "s6861f62dbf38749d": {
-      "IsVisible": true,
+    "s2aa195dd83d254ed": {
       "Mesh": "ecd6396d90838ebd-48fadb992f53e817",
-      "SubMeshIndex": 0
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [0.159, 0.205, 0.337, 1.0]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [0.8]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [0.05]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
+    },
+    "s46617c783909c8a8": {
+      "Mesh": "bdbf2871c9dbda30-763835d267b9410f",
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [0.095, 0.117, 0.188, 1.0]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [0.85]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [0.1]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        },
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [0.381, 0.133, 0.032, 1.0]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [0.65]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [0.02]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
+    },
+    "s5349f78b0c4499a8": {
+      "Mesh": "7bd827f5f9252b87-9745d1c821b3601f",
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [0.095, 0.117, 0.188, 1.0]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [0.85]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [0.1]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        },
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [0.159, 0.205, 0.337, 1.0]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [0.8]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [0.05]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
     },
     "s6a94f38b407d0381": {
       "LocalPosition": [0.0, 0.0, 0.0],
       "LocalRotation": [0.0, 0.0, 0.0, 1.0],
       "LocalScale": [1.0, 1.0, 1.0]
     },
-    "s6d5f15bb2b46e712": {
-      "Parent": "a75f54eac6ae18d9-3fbc9d085c81e81e"
-    },
-    "s6d8e498179e7d4f1": {
-      "Parent": "26cb15c03e8ad84e-3aeeea943d85a8c0"
-    },
-    "s6dcf2748c30bc363": {
-      "Parent": "ea349c6e2811d00e-6dac8da227e5eea1"
-    },
-    "s6ea9e656f9c6e38e": {
-      "Parent": "7572a31f2e66cc4c-a9d50ed71137d8f3"
-    },
-    "s72313373d3de791c": {
-      "Parent": "abc65f73b1ce891e-0777caefdb3594bf"
-    },
-    "s73e323a5d78b6bce": {
-      "Parent": "f7dc8a9a2642fec5-e803e3d2bf3bec52"
-    },
-    "s7e1443d82a4f4eb6": {
-      "Parent": "668c2082cc7beccb-188c76be5a88d571"
-    },
-    "s7eed0294bd1ec870": {
-      "Parent": "a62cc434e01cfdc8-691c977931587ef0"
-    },
-    "s7f3d3606e531809f": {
-      "Parent": "805f52ac31236471-ba852dd84bbb84bb"
-    },
-    "s810529030d2fd22f": {
-      "Parent": "0d6f28c75ede6d98-856502f0ad1a4309"
-    },
-    "s8193953bc602b433": {
-      "Parent": "a45118301e8866ea-6240d08fe1e5ed29"
-    },
-    "s81ca209fdf0b5e42": {
-      "Definition": "a8c196c4b22897c7-bd11ed20b27c2ea3",
-      "Dynamic": false,
-      "Overrides": [
+    "s8639ddb058ec053a": {
+      "Mesh": "b1d7425c6724cfa6-4d085d7352af4fa9",
+      "Slots": [
         {
-          "Name": "BaseColor",
-          "Number": 0,
-          "Values": [0.381, 0.133, 0.032, 1.0]
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [0.095, 0.117, 0.188, 1.0]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [0.85]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [0.1]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
         },
         {
-          "Name": "Roughness",
-          "Number": 0,
-          "Values": [0.65]
-        },
-        {
-          "Name": "Metallic",
-          "Number": 0,
-          "Values": [0.02]
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [0.159, 0.205, 0.337, 1.0]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [0.8]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [0.05]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
         }
       ]
     },
-    "s84dc02624091e9f6": {
-      "Parent": "4d7d8fa79296b5b0-9cdeed000bd64a70"
-    },
-    "s85bd40a1d72f42f9": {
-      "Parent": "8adb13c3d474ac82-a1752a3f13671ce3"
-    },
-    "s89926b7fbb36e4af": {
-      "Parent": "a4d369973f2a509d-856e5894bf0ed1b2"
-    },
-    "s8da6efc0a0fae21e": {
-      "Parent": "913401f9d3e95147-a993a9ae1e1801da"
-    },
-    "s8e53acc9f556c686": {
-      "Parent": "307a8bdd4395b622-dbe9c1bc3de04f03"
-    },
-    "s8f6a2cb8eaccb4c0": {
-      "Parent": "2f40084ca4b2a1a8-dc41ebf06ff91a63"
-    },
-    "s952c73e46b8d5ea6": {
-      "Parent": "77f1acad0fcd819b-fd77f29f19d480ca"
-    },
-    "s9537cc9a89a57948": {
-      "Definition": "1771061f0d7f540f-97e4b76cddd649af",
-      "Dynamic": false,
-      "Overrides": [
-        {
-          "Name": "CoreColor",
-          "Number": 0,
-          "Values": [1.0, 0.62, 0.22, 0.95]
-        },
-        {
-          "Name": "RimColor",
-          "Number": 0,
-          "Values": [1.0, 0.744, 0.242, 0.9]
-        },
-        {
-          "Name": "FresnelPower",
-          "Number": 0,
-          "Values": [1.6]
-        },
-        {
-          "Name": "EmissiveIntensity",
-          "Number": 0,
-          "Values": [4.4]
-        }
-      ]
-    },
-    "s98596a0667da6f7e": {
-      "Parent": "8aecf000fa368d6b-60a41c92a97bebd1"
-    },
-    "s9f4974daad4eba8a": {
-      "Parent": "0993afa588518a1a-787deba428866cf4"
-    },
-    "sa5d2e3f5c3da4865": {
-      "Parent": "3859fc8a093316d7-56c5729d12581f12"
-    },
-    "sb8dddfeec6dd5fa1": {
-      "Definition": "a8c196c4b22897c7-bd11ed20b27c2ea3",
-      "Dynamic": false,
-      "Overrides": [
-        {
-          "Name": "BaseColor",
-          "Number": 0,
-          "Values": [0.095, 0.117, 0.188, 1.0]
-        },
-        {
-          "Name": "Roughness",
-          "Number": 0,
-          "Values": [0.85]
-        },
-        {
-          "Name": "Metallic",
-          "Number": 0,
-          "Values": [0.1]
-        }
-      ]
-    },
-    "sbf4b31a650c753be": {
-      "Parent": "956e65e88c731726-86558f591e114497"
-    },
-    "sc0b652d7f5e2a621": {
-      "IsVisible": true,
+    "s9576d51cf5cf8655": {
       "Mesh": "6c89e824a53be3bc-c4d3e6c4c0f3dac1",
-      "SubMeshIndex": 1
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [0.356, 0.429, 0.578, 1.0]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [0.7]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [0.2]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        },
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [0.381, 0.133, 0.032, 1.0]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [0.65]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [0.02]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
     },
-    "sc0b94ed7f5e4d52c": {
-      "IsVisible": true,
-      "Mesh": "6c89e824a53be3bc-c4d3e6c4c0f3dac1",
-      "SubMeshIndex": 0
+    "sa2134603afe7beab": {
+      "Mesh": "793360355318e064-3d89aecb5d940c69",
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [0.159, 0.205, 0.337, 1.0]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [0.8]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [0.05]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
     },
-    "sc5c982e560b33e18": {
-      "Parent": "3fa4fe3ac6c6adbc-2357a5d962f82168"
+    "sae04795703bfd3a2": {
+      "Mesh": "ad2fa73f3ed49065-11844654d72804ed",
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [0.381, 0.133, 0.032, 1.0]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [0.65]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [0.02]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
     },
     "sc74dbfc2a7f4a4a4": {
       "BaseScale": 0.082,
       "Count": 8,
       "Radius": 0.115
     },
-    "sc783a490c22a7c59": {
-      "Parent": "262ac6cf2422b82a-c49ec20f32ec0549"
-    },
-    "sc90e5722df63ea76": {
-      "Parent": "371a5ba9d2f93632-086faa46cda514b0"
-    },
-    "scae9a6600965ff7b": {
-      "Parent": "8308e4423fa0fc3f-58ed51571ae448e3"
-    },
-    "sd41530c2812b225d": {
-      "Parent": "460fc162a165b61e-d876bac2460328ec"
-    },
-    "sd4f43c741035c33e": {
-      "Parent": "ecdcdfbb6700a714-ea84f1d976978e29"
-    },
-    "sd52d3a434d3354ad": {
-      "Parent": "c867b08503ba62c7-75cd98be9224612e"
-    },
-    "sd8e0357f6f86b323": {
-      "IsVisible": true,
-      "Mesh": "bdbf2871c9dbda30-763835d267b9410f",
-      "SubMeshIndex": 0
-    },
-    "sd8e3397f6f88efc6": {
-      "IsVisible": true,
-      "Mesh": "bdbf2871c9dbda30-763835d267b9410f",
-      "SubMeshIndex": 1
-    },
-    "sda8ef79707b8a8e0": {
-      "Parent": "117e3b33b3baac58-ac3c812e1218d176"
-    },
-    "se4616a9be4f33b28": {
-      "Parent": "8fe1f3d658e70cc5-e3d208151aed0d51"
-    },
-    "se62ed23d5a4eb585": {
-      "IsVisible": true,
-      "Mesh": "b1d7425c6724cfa6-4d085d7352af4fa9",
-      "SubMeshIndex": 1
-    },
-    "se631ce3d5a50e490": {
-      "IsVisible": true,
-      "Mesh": "b1d7425c6724cfa6-4d085d7352af4fa9",
-      "SubMeshIndex": 0
-    },
-    "se9382b42f55d98a9": {
-      "Definition": "a8c196c4b22897c7-bd11ed20b27c2ea3",
-      "Dynamic": false,
-      "Overrides": [
+    "sce879e77577d7332": {
+      "Mesh": "a3ba81075dca7f61-02c1c60d3f4850af",
+      "Slots": [
         {
-          "Name": "BaseColor",
-          "Number": 0,
-          "Values": [0.356, 0.429, 0.578, 1.0]
-        },
-        {
-          "Name": "Roughness",
-          "Number": 0,
-          "Values": [0.7]
-        },
-        {
-          "Name": "Metallic",
-          "Number": 0,
-          "Values": [0.2]
+          "IsVisible": true,
+          "Material": "1771061f0d7f540f-97e4b76cddd649af",
+          "Overrides": [
+            {
+              "Name": "CoreColor",
+              "Number": 0,
+              "Values": [1.0, 0.62, 0.22, 0.95]
+            },
+            {
+              "Name": "RimColor",
+              "Number": 0,
+              "Values": [1.0, 0.744, 0.242, 0.9]
+            },
+            {
+              "Name": "FresnelPower",
+              "Number": 0,
+              "Values": [1.6]
+            },
+            {
+              "Name": "EmissiveIntensity",
+              "Number": 0,
+              "Values": [4.4]
+            }
+          ],
+          "Tags": [
+            "TranslucentPassTag"
+          ]
         }
       ]
-    },
-    "sec1d3b3799971f74": {
-      "Parent": "f9f76046f1b0731a-ff9ecd7cab62e0a3"
-    },
-    "sf2a538bf08cb0b17": {
-      "Parent": "7aa9b711d37e780b-4c89172f232497a2"
-    },
-    "sf77b0b8ee74e30be": {
-      "Parent": "0597c9933de1b425-cb49a99f0dc56f40"
-    },
-    "sfd90b40315d99ca5": {
-      "Parent": "15942fbb9cb85779-d538baa93e5d5fcb"
-    },
-    "sfdeaa95b85761555": {
-      "Parent": "d02a7a1544ae692e-ce861fb3e8da21ba"
-    },
-    "sff11ed23a3e9435f": {
-      "Parent": "1098ca97d4b63d1a-f38fd592d38394ae"
     }
   },
   "systems": [
