@@ -1,0 +1,40 @@
+{
+  "blend": "Translucent",
+  "domains": [
+    "All"
+  ],
+  "name": "CutoutCollar",
+  "shader": "Materials/OneColor.hlsli",
+  "shadingModel": "Unlit",
+  "twoSided": true,
+  "vertexShader": "VertexShaders/Default_VS.hlsli",
+  "parameters": [
+    {
+      "name": "BaseColor",
+      "type": "float4",
+      "default": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Emissive",
+      "type": "float3"
+    },
+    {
+      "name": "Roughness",
+      "type": "float",
+      "default": 0.5
+    },
+    {
+      "name": "Metallic",
+      "type": "float"
+    },
+    {
+      "name": "Padding",
+      "type": "float3"
+    }
+  ]
+}

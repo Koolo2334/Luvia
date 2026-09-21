@@ -1,0 +1,33 @@
+{
+  "blend": "Translucent",
+  "domains": [
+    "All"
+  ],
+  "name": "MysticParticle",
+  "shader": "Materials/MysticParticle.hlsli",
+  "shadingModel": "Unlit",
+  "twoSided": true,
+  "vertexShader": "VertexShaders/Default_VS.hlsli",
+  "parameters": [
+    {
+      "name": "ParticleColor",
+      "type": "float4"
+    },
+    {
+      "name": "SparkleSpeed",
+      "type": "float"
+    },
+    {
+      "name": "SparkleScale",
+      "type": "float"
+    },
+    {
+      "name": "EmissiveIntensity",
+      "type": "float"
+    },
+    {
+      "name": "Padding",
+      "type": "float"
+    }
+  ]
+}

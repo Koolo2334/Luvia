@@ -1,0 +1,6984 @@
+{
+  "name": "Stage 5: Echo Cloister",
+  "floors": [
+    {
+      "floor_index": 0,
+      "grid_depth": 16,
+      "grid_width": 16,
+      "name": "1F",
+      "visible": true
+    },
+    {
+      "floor_index": 1,
+      "grid_depth": 16,
+      "grid_width": 16,
+      "name": "2F",
+      "visible": true
+    }
+  ],
+  "objects": [
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        8
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1001,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        0.0,
+        17.901
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        9
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1002,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        0.0,
+        20.007
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        8
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1003,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        0.0,
+        17.901
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        9
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1004,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        0.0,
+        20.007
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        8
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1005,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        0.0,
+        17.901
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        9
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1006,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        0.0,
+        20.007
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        10
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1007,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        0.0,
+        22.113
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        11
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1008,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        0.0,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        12
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1009,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        0.0,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        10
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1010,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        0.0,
+        22.113
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        11
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1011,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        0.0,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        12
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1012,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        0.0,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        10
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1013,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        0.0,
+        22.113
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        11
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1014,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        0.0,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        12
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1015,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        0.0,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        10
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1016,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        0.0,
+        22.113
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        11
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1017,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 1,
+      "placement": 0,
+      "pos": [
+        32.643,
+        0.0,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        12
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1018,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 1,
+      "placement": 0,
+      "pos": [
+        32.643,
+        0.0,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        13
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1019,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        0.0,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        14
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1020,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        0.0,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        15
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1021,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        16,
+        14
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1022,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        34.749,
+        0.0,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        16,
+        15
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1023,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        34.749,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        17,
+        14
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1024,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        36.855,
+        0.0,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        17,
+        15
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1025,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        36.855,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        13
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1026,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        0.0,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        14
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1027,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        0.0,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        15
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1028,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        16
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1029,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        0.0,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1030,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        0.0,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        16
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1031,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        0.0,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1032,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        0.0,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        16
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1033,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        0.0,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1034,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        0.0,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        16
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1035,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        0.0,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1036,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        0.0,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        11,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1037,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 1,
+      "placement": 0,
+      "pos": [
+        24.219,
+        0.0,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        8,
+        15
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1038,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        17.901,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        8,
+        16
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1039,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        17.901,
+        0.0,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        8,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1040,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        17.901,
+        0.0,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        9,
+        15
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1041,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        20.007,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        9,
+        16
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1042,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        20.007,
+        0.0,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        9,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1043,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        20.007,
+        0.0,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        15
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1044,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        16
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1045,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        0.0,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1046,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        0.0,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        11
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1047,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        0.0,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        12
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1048,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        0.0,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        13
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1049,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        0.0,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        14
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1050,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        0.0,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        11,
+        11
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1051,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        24.219,
+        0.0,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_DoorArc",
+      "category": 1,
+      "cell": [
+        13,
+        9
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1052,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        28.431,
+        0.0,
+        21.06
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_DoorArc",
+      "category": 1,
+      "cell": [
+        14,
+        10
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1053,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        31.59,
+        0.0,
+        22.113
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Grate",
+      "category": 1,
+      "cell": [
+        14,
+        11
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1054,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        31.59,
+        0.0,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Grate",
+      "category": 1,
+      "cell": [
+        14,
+        12
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1055,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        31.59,
+        0.0,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        12
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1056,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 1,
+      "placement": 1,
+      "pos": [
+        26.325,
+        0.0,
+        27.378
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        15
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1057,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 1,
+      "placement": 1,
+      "pos": [
+        33.696,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Grate",
+      "category": 1,
+      "cell": [
+        15,
+        15
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1058,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        32.643,
+        0.0,
+        33.696
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_DoorArc",
+      "category": 1,
+      "cell": [
+        11,
+        11
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1059,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        25.272,
+        0.0,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        8,
+        15
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1060,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        17.901,
+        0.0,
+        31.59
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        8,
+        15
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1061,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        16.848,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        8,
+        16
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1062,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        16.848,
+        0.0,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        8,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1063,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        17.901,
+        0.0,
+        37.908
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        8,
+        17
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1064,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        16.848,
+        0.0,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        9,
+        15
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1065,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        20.007,
+        0.0,
+        31.59
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        9,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1066,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        20.007,
+        0.0,
+        37.908
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        10,
+        11
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1067,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        22.113,
+        0.0,
+        23.166
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        10,
+        11
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1068,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        21.06,
+        0.0,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        10,
+        12
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1069,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        23.166,
+        0.0,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        10,
+        12
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1070,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        21.06,
+        0.0,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        10,
+        13
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1071,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        23.166,
+        0.0,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        10,
+        13
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1072,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        21.06,
+        0.0,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        10,
+        14
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1073,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        23.166,
+        0.0,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        10,
+        14
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1074,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        21.06,
+        0.0,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        10,
+        15
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1075,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        23.166,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        10,
+        16
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1076,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        23.166,
+        0.0,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        10,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1077,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        22.113,
+        0.0,
+        37.908
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        11,
+        11
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1078,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        24.219,
+        0.0,
+        25.272
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        11,
+        11
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1079,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        24.219,
+        0.0,
+        23.166
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        11,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1080,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        24.219,
+        0.0,
+        37.908
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        11,
+        17
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1081,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        24.219,
+        0.0,
+        35.802
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        8
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1082,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        26.325,
+        0.0,
+        16.848
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        8
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1083,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        25.272,
+        0.0,
+        17.901
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        9
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1084,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        26.325,
+        0.0,
+        21.06
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        9
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1085,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        25.272,
+        0.0,
+        20.007
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        10
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1086,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        25.272,
+        0.0,
+        22.113
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        12
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1087,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        25.272,
+        0.0,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        13
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1088,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        27.378,
+        0.0,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        13
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1089,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        25.272,
+        0.0,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        14
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1090,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        27.378,
+        0.0,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        14
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1091,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        25.272,
+        0.0,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        15
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1092,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        27.378,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        15
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1093,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        25.272,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        16
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1094,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        25.272,
+        0.0,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        12,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1095,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        26.325,
+        0.0,
+        37.908
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        13,
+        8
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1096,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        28.431,
+        0.0,
+        16.848
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        13,
+        12
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1097,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        28.431,
+        0.0,
+        27.378
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        13,
+        16
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1098,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        28.431,
+        0.0,
+        33.696
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        13,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1099,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        28.431,
+        0.0,
+        37.908
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        14,
+        8
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1100,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        30.537,
+        0.0,
+        16.848
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        14,
+        8
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1101,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        31.59,
+        0.0,
+        17.901
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        14,
+        9
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1102,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        30.537,
+        0.0,
+        21.06
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        14,
+        9
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1103,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        31.59,
+        0.0,
+        20.007
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        14,
+        12
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1104,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        30.537,
+        0.0,
+        27.378
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        14,
+        16
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1105,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        30.537,
+        0.0,
+        33.696
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        14,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1106,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        30.537,
+        0.0,
+        37.908
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        10
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1107,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        32.643,
+        0.0,
+        21.06
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        10
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1108,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        33.696,
+        0.0,
+        22.113
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        11
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1109,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        33.696,
+        0.0,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        12
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1110,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        33.696,
+        0.0,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        13
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1111,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        33.696,
+        0.0,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        13
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1112,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        31.59,
+        0.0,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        14
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1113,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        33.696,
+        0.0,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        14
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1114,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        31.59,
+        0.0,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        15
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1115,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        31.59,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        16
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1116,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        33.696,
+        0.0,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1117,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        32.643,
+        0.0,
+        37.908
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        15,
+        17
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1118,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        33.696,
+        0.0,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        16,
+        14
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1119,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        34.749,
+        0.0,
+        29.484
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        16,
+        15
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1120,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        34.749,
+        0.0,
+        33.696
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        17,
+        14
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1121,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        36.855,
+        0.0,
+        29.484
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        17,
+        14
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1122,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        37.908,
+        0.0,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        17,
+        15
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1123,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        36.855,
+        0.0,
+        33.696
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "category": 1,
+      "cell": [
+        17,
+        15
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1124,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        37.908,
+        0.0,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "StartDais",
+      "category": 4,
+      "cell": [
+        13,
+        8
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1125,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        0.0,
+        17.901
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Pedestal",
+      "category": 3,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": true,
+      "has_light": false,
+      "instance_id": 1126,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        31.157,
+        0.0,
+        24.769
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Pedestal",
+      "category": 3,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1127,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        33.193,
+        0.0,
+        34.199
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Pedestal",
+      "category": 3,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": true,
+      "has_light": false,
+      "instance_id": 1128,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        22.113,
+        0.0,
+        37.475
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Pedestal",
+      "category": 3,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1129,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        17.351,
+        0.0,
+        32.093
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "GoalChest",
+      "category": 4,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1130,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        36.955,
+        0.0,
+        32.993
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Pillar",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1131,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        25.605,
+        0.0,
+        21.393
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Pillar",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1132,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        25.605,
+        0.0,
+        27.045
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Pillar",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1133,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        31.257,
+        0.0,
+        21.393
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Pillar",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1134,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        31.257,
+        0.0,
+        27.045
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Torch",
+      "category": 5,
+      "cell": [
+        12,
+        8
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": true,
+      "instance_id": 1135,
+      "light_color": [
+        1.0,
+        0.7,
+        0.28
+      ],
+      "light_intensity": 22.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        25.595,
+        1.8,
+        17.901
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Torch",
+      "category": 5,
+      "cell": [
+        14,
+        8
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": true,
+      "instance_id": 1136,
+      "light_color": [
+        1.0,
+        0.7,
+        0.28
+      ],
+      "light_intensity": 22.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        31.267,
+        1.8,
+        17.901
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Torch",
+      "category": 5,
+      "cell": [
+        12,
+        11
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": true,
+      "instance_id": 1137,
+      "light_color": [
+        0.25,
+        0.95,
+        0.8
+      ],
+      "light_intensity": 22.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        25.595,
+        1.8,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Torch",
+      "category": 5,
+      "cell": [
+        13,
+        12
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": true,
+      "instance_id": 1138,
+      "light_color": [
+        0.25,
+        0.95,
+        0.8
+      ],
+      "light_intensity": 22.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        28.431,
+        1.8,
+        27.055
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Torch",
+      "category": 5,
+      "cell": [
+        15,
+        14
+      ],
+      "edge": 2,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": true,
+      "instance_id": 1139,
+      "light_color": [
+        0.25,
+        0.95,
+        0.8
+      ],
+      "light_intensity": 22.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        33.373,
+        1.8,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Torch",
+      "category": 5,
+      "cell": [
+        13,
+        17
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": true,
+      "instance_id": 1140,
+      "light_color": [
+        0.25,
+        0.95,
+        0.8
+      ],
+      "light_intensity": 22.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        28.431,
+        1.8,
+        37.585
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Torch",
+      "category": 5,
+      "cell": [
+        8,
+        16
+      ],
+      "edge": 3,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": true,
+      "instance_id": 1141,
+      "light_color": [
+        0.25,
+        0.95,
+        0.8
+      ],
+      "light_intensity": 22.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        17.171,
+        1.8,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Torch",
+      "category": 5,
+      "cell": [
+        17,
+        15
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": true,
+      "instance_id": 1142,
+      "light_color": [
+        1.0,
+        0.82,
+        0.4
+      ],
+      "light_intensity": 22.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        36.855,
+        1.8,
+        33.373
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Torch",
+      "category": 5,
+      "cell": [
+        16,
+        14
+      ],
+      "edge": 1,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": true,
+      "instance_id": 1143,
+      "light_color": [
+        1.0,
+        0.82,
+        0.4
+      ],
+      "light_intensity": 22.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 1,
+      "pos": [
+        34.749,
+        1.8,
+        29.807
+      ],
+      "rot": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Barrel",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1144,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        25.725,
+        0.0,
+        17.301
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_WoodenBox",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1145,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        31.137,
+        0.0,
+        17.301
+      ],
+      "rot": [
+        0.0,
+        20.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_WoodenBox",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1146,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        31.187,
+        0.0,
+        20.107
+      ],
+      "rot": [
+        0.0,
+        80.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_BrickPile",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1147,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        33.193,
+        0.0,
+        21.563
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Rock",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1148,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        33.243,
+        0.0,
+        28.631
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Barrel",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1149,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        25.725,
+        0.0,
+        37.455
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Barrel",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1150,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        28.231,
+        0.0,
+        37.505
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Debris",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1151,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        30.837,
+        0.0,
+        37.455
+      ],
+      "rot": [
+        0.0,
+        40.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Brick",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1152,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        22.713,
+        0.0,
+        34.649
+      ],
+      "rot": [
+        0.0,
+        30.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_WoodenBox",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1153,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        17.301,
+        0.0,
+        37.455
+      ],
+      "rot": [
+        0.0,
+        10.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_BrickPile",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1154,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        20.107,
+        0.0,
+        37.505
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Skull",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1155,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        22.663,
+        0.0,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Skull",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1156,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        34.199,
+        0.0,
+        33.243
+      ],
+      "rot": [
+        0.0,
+        200.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Skull",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1157,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        37.455,
+        0.0,
+        29.987
+      ],
+      "rot": [
+        0.0,
+        160.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Candle",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": true,
+      "instance_id": 1158,
+      "light_color": [
+        1.0,
+        0.66,
+        0.35
+      ],
+      "light_intensity": 1.0,
+      "light_radius": 6.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        34.099,
+        0.0,
+        32.843
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Candle",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": true,
+      "instance_id": 1159,
+      "light_color": [
+        1.0,
+        0.66,
+        0.35
+      ],
+      "light_intensity": 1.0,
+      "light_radius": 6.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        37.555,
+        0.0,
+        30.637
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Prop_Candle",
+      "category": 5,
+      "cell": [
+        0,
+        0
+      ],
+      "edge": 0,
+      "floor": 0,
+      "has_initial_orb": false,
+      "has_light": true,
+      "instance_id": 1160,
+      "light_color": [
+        1.0,
+        0.66,
+        0.35
+      ],
+      "light_intensity": 1.0,
+      "light_radius": 6.0,
+      "phase": 0,
+      "placement": 2,
+      "pos": [
+        21.513,
+        0.0,
+        23.619
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        8,
+        15
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1161,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        17.901,
+        3.063,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        8,
+        16
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1162,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        17.901,
+        3.063,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        8,
+        17
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1163,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        17.901,
+        3.063,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        9,
+        15
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1164,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        20.007,
+        3.063,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        9,
+        16
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1165,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        20.007,
+        3.063,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        9,
+        17
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1166,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        20.007,
+        3.063,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        11
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1167,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        3.063,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        12
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1168,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        3.063,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        13
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1169,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        3.063,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        14
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1170,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        3.063,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        15
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1171,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        3.063,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        16
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1172,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        3.063,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        10,
+        17
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1173,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        22.113,
+        3.063,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        11,
+        11
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1174,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        24.219,
+        3.063,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        11,
+        17
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1175,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        24.219,
+        3.063,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        8
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1176,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        3.063,
+        17.901
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        9
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1177,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        3.063,
+        20.007
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        10
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1178,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        3.063,
+        22.113
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        11
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1179,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        3.063,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        12
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1180,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        3.063,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        13
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1181,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        3.063,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        14
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1182,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        3.063,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        15
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1183,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        3.063,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        16
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1184,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        3.063,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        12,
+        17
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1185,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        26.325,
+        3.063,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        8
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1186,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        3.063,
+        17.901
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        9
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1187,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        3.063,
+        20.007
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        10
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1188,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        3.063,
+        22.113
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        11
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1189,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        3.063,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        12
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1190,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        3.063,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        16
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1191,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        3.063,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        13,
+        17
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1192,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        28.431,
+        3.063,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        8
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1193,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        3.063,
+        17.901
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        9
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1194,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        3.063,
+        20.007
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        10
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1195,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        3.063,
+        22.113
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        11
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1196,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        3.063,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        12
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1197,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        3.063,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        16
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1198,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        3.063,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        14,
+        17
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1199,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        30.537,
+        3.063,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        10
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1200,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        3.063,
+        22.113
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        11
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1201,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        3.063,
+        24.219
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        12
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1202,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        3.063,
+        26.325
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        13
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1203,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        3.063,
+        28.431
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        14
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1204,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        3.063,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        15
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1205,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        3.063,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        16
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1206,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        3.063,
+        34.749
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        15,
+        17
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1207,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        32.643,
+        3.063,
+        36.855
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        16,
+        14
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1208,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        34.749,
+        3.063,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        16,
+        15
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1209,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        34.749,
+        3.063,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        17,
+        14
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1210,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        36.855,
+        3.063,
+        30.537
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    },
+    {
+      "asset_id": "Floor_1x1",
+      "category": 0,
+      "cell": [
+        17,
+        15
+      ],
+      "edge": 0,
+      "floor": 1,
+      "has_initial_orb": false,
+      "has_light": false,
+      "instance_id": 1211,
+      "light_color": [
+        1.0,
+        0.7,
+        0.3
+      ],
+      "light_intensity": 20.0,
+      "light_radius": 10.0,
+      "phase": 0,
+      "placement": 0,
+      "pos": [
+        36.855,
+        3.063,
+        32.643
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_facing": 0
+    }
+  ]
+}

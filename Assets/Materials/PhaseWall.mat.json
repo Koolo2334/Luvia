@@ -1,0 +1,70 @@
+{
+  "blend": "Opaque",
+  "domains": [
+    "All"
+  ],
+  "name": "PhaseWall",
+  "shader": "Materials/PhaseWall.hlsli",
+  "shadingModel": "StandardPBR",
+  "twoSided": true,
+  "vertexShader": "VertexShaders/Default_VS.hlsli",
+  "parameters": [
+    {
+      "name": "DarkColor",
+      "type": "float4",
+      "default": [
+        0.08,
+        0.02,
+        0.15,
+        1.0
+      ]
+    },
+    {
+      "name": "LitColor",
+      "type": "float4",
+      "default": [
+        0.2,
+        0.85,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "OrbPositions",
+      "type": "float4",
+      "count": 8
+    },
+    {
+      "name": "ActiveOrbCount",
+      "type": "float"
+    },
+    {
+      "name": "DissolveEdge",
+      "type": "float"
+    },
+    {
+      "name": "PulseSpeed",
+      "type": "float"
+    },
+    {
+      "name": "EmissiveBoost",
+      "type": "float"
+    },
+    {
+      "name": "OrbOcclusionAtlasIndex",
+      "type": "float"
+    },
+    {
+      "name": "OrbOcclusionNearZ",
+      "type": "float"
+    },
+    {
+      "name": "OrbOcclusionFarZ",
+      "type": "float"
+    },
+    {
+      "name": "OrbOcclusionEnabled",
+      "type": "float"
+    }
+  ]
+}

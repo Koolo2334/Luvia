@@ -1,0 +1,9 @@
+{
+  "keys": [
+    { "time": 0.0, "value": 0.0, "interp": "cubic" },
+    { "time": 0.4, "value": 0.9, "interp": "cubic" },
+    { "time": 0.7, "value": 0.35, "interp": "linear" },
+    { "time": 1.0, "value": 1.0, "interp": "constant" },
+    { "time": 1.4, "value": 0.6, "interp": "cubic" }
+  ]
+}

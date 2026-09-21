@@ -1,0 +1,9 @@
+﻿{
+  "engine": "RaDX Engine",
+  "engineVersion": "0.3",
+  "name": "Luvia",
+  "defaultScene": "Luminous.Title",
+  "renderPipeline": "Deferred",
+  "gameModule": "Luvia.dll",
+  "features": [ "OrbOcclusion" ]
+}

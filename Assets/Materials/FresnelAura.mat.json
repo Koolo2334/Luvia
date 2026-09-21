@@ -1,0 +1,37 @@
+{
+  "blend": "Translucent",
+  "domains": [
+    "All"
+  ],
+  "name": "FresnelAura",
+  "shader": "Materials/FresnelAura.hlsli",
+  "shadingModel": "Unlit",
+  "twoSided": true,
+  "vertexShader": "VertexShaders/Default_VS.hlsli",
+  "parameters": [
+    {
+      "name": "BaseColor",
+      "type": "float4"
+    },
+    {
+      "name": "Emissive",
+      "type": "float3"
+    },
+    {
+      "name": "FresnelPower",
+      "type": "float"
+    },
+    {
+      "name": "InnerOpacity",
+      "type": "float"
+    },
+    {
+      "name": "PulsateSpeed",
+      "type": "float"
+    },
+    {
+      "name": "Padding",
+      "type": "float2"
+    }
+  ]
+}

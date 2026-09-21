@@ -1,0 +1,6 @@
+﻿# RaDX Engine が作るもの (消しても作り直せる)
+Binaries/
+Intermediate/
+Saved/
+*.vcxproj.user
+*.sln

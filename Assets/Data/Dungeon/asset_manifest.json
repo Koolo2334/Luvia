@@ -1,0 +1,786 @@
+{
+  "grid_unit": {
+    "width": 2.106,
+    "depth": 2.106,
+    "height": 3.063
+  },
+  "categories": [
+    "Floor",
+    "Wall",
+    "Stairs",
+    "Pedestal",
+    "Special",
+    "Prop"
+  ],
+  "assets": [
+    {
+      "asset_id": "Floor_1x1",
+      "display_name": "通常/反転 石畳床 (1x1)",
+      "category": "Floor",
+      "grid_placement_type": "CellSnap",
+      "occupancy_size": [
+        1,
+        1
+      ],
+      "dimensions": [
+        2.106,
+        2.106,
+        0.2
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          2.106,
+          0.2,
+          2.106
+        ],
+        "offset": [
+          0.0,
+          -0.1,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Floor_1x1.obj",
+      "is_material_switchable": true,
+      "description": "ダンジョンの標準的な石畳床。通常床（常時足場）または反転床（光照射で消失し進入不可穴化）として切り替え可能。"
+    },
+    {
+      "asset_id": "Floor_SawBlade",
+      "display_name": "回転刃トラップ床 (1x1)",
+      "category": "Floor",
+      "grid_placement_type": "CellSnap",
+      "occupancy_size": [
+        1,
+        1
+      ],
+      "dimensions": [
+        2.106,
+        2.106,
+        0.13
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          2.106,
+          0.2,
+          2.106
+        ],
+        "offset": [
+          0.0,
+          -0.1,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Floor_SawBlade.obj",
+      "is_material_switchable": false,
+      "description": "床に回転鋸刃の溝が彫られた石床。トラップギミック演出用。"
+    },
+    {
+      "asset_id": "Floor_Spikes",
+      "display_name": "ニードルトラップ床 (1x1)",
+      "category": "Floor",
+      "grid_placement_type": "CellSnap",
+      "occupancy_size": [
+        1,
+        1
+      ],
+      "dimensions": [
+        2.106,
+        2.106,
+        0.302
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          2.106,
+          0.2,
+          2.106
+        ],
+        "offset": [
+          0.0,
+          -0.1,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Floor_Spikes.obj",
+      "is_material_switchable": false,
+      "description": "飛び出す鉄串ニードル穴が備えられた石床。"
+    },
+    {
+      "asset_id": "Floor_Tile",
+      "display_name": "化粧敷石タイル (0.5x0.5)",
+      "category": "Floor",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        0.5,
+        0.5
+      ],
+      "dimensions": [
+        1.053,
+        1.053,
+        0.05
+      ],
+      "collision": {
+        "type": "None"
+      },
+      "model_path": "Assets/Models/Dungeon/Floor_Tile.obj",
+      "is_material_switchable": false,
+      "description": "床装飾用の小さな四角形敷石。"
+    },
+    {
+      "asset_id": "Wall_Smooth",
+      "display_name": "平滑石壁 (1辺)",
+      "category": "Wall",
+      "grid_placement_type": "EdgeSnap",
+      "occupancy_size": [
+        1
+      ],
+      "dimensions": [
+        2.106,
+        0.313,
+        3.063
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          2.106,
+          3.063,
+          0.313
+        ],
+        "offset": [
+          0.0,
+          1.531,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Wall_Smooth.obj",
+      "is_material_switchable": true,
+      "description": "標準的な平滑石壁。通常壁（常時剛体、光遮蔽）または反転壁（光照射ですり抜け透過、光非遮蔽）として切り替え可能。"
+    },
+    {
+      "asset_id": "Wall_Brick",
+      "display_name": "レンガ石壁 (1辺)",
+      "category": "Wall",
+      "grid_placement_type": "EdgeSnap",
+      "occupancy_size": [
+        1
+      ],
+      "dimensions": [
+        2.106,
+        0.313,
+        3.063
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          2.106,
+          3.063,
+          0.313
+        ],
+        "offset": [
+          0.0,
+          1.531,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Wall_Brick.obj",
+      "is_material_switchable": true,
+      "description": "凹凸のあるレンガ調石壁。反転壁としても切り替え可能。"
+    },
+    {
+      "asset_id": "Wall_Window",
+      "display_name": "格子窓付き石壁 (1辺)",
+      "category": "Wall",
+      "grid_placement_type": "EdgeSnap",
+      "occupancy_size": [
+        1
+      ],
+      "dimensions": [
+        2.106,
+        0.546,
+        3.063
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          2.106,
+          3.063,
+          0.546
+        ],
+        "offset": [
+          0.0,
+          1.531,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Wall_Window.obj",
+      "is_material_switchable": false,
+      "description": "アーチ状の鉄格子窓が開口された壁。窓の隙間から向こう側が見渡せる。"
+    },
+    {
+      "asset_id": "Wall_Grate",
+      "display_name": "鉄格子フェンス (1辺)",
+      "category": "Wall",
+      "grid_placement_type": "EdgeSnap",
+      "occupancy_size": [
+        1
+      ],
+      "dimensions": [
+        2.106,
+        0.114,
+        3.063
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          2.106,
+          3.063,
+          0.114
+        ],
+        "offset": [
+          0.0,
+          1.531,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Wall_Grate.obj",
+      "is_material_switchable": false,
+      "description": "牢屋の鉄格子。プレイヤーの通行は完全に遮断するが、光の反転判定（オクルージョン計算）に対しては完全透過する特殊構造物。"
+    },
+    {
+      "asset_id": "Wall_Railing",
+      "display_name": "石造り手すり/欄干 (1辺)",
+      "category": "Wall",
+      "grid_placement_type": "EdgeSnap",
+      "occupancy_size": [
+        1
+      ],
+      "dimensions": [
+        2.104,
+        0.263,
+        0.979
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          2.104,
+          0.979,
+          0.263
+        ],
+        "offset": [
+          0.0,
+          0.49,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Wall_Railing.obj",
+      "is_material_switchable": false,
+      "description": "階段や吹き抜け周りに設置する腰高（約1m）の石製フェンス。"
+    },
+    {
+      "asset_id": "Wall_DoorArc",
+      "display_name": "通路用アーチ門",
+      "category": "Wall",
+      "grid_placement_type": "EdgeSnap",
+      "occupancy_size": [
+        1
+      ],
+      "dimensions": [
+        3.313,
+        0.731,
+        3.525
+      ],
+      "collision": {
+        "type": "Compound"
+      },
+      "model_path": "Assets/Models/Dungeon/Wall_DoorArc.obj",
+      "is_material_switchable": false,
+      "description": "通路の接続部に配置する重厚な石造アーチ。"
+    },
+    {
+      "asset_id": "Wall_Door",
+      "display_name": "頑丈な木製扉",
+      "category": "Wall",
+      "grid_placement_type": "EdgeSnap",
+      "occupancy_size": [
+        1
+      ],
+      "dimensions": [
+        2.125,
+        0.37,
+        2.846
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          2.125,
+          2.846,
+          0.37
+        ],
+        "offset": [
+          0.0,
+          1.423,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Wall_Door.obj",
+      "is_material_switchable": false,
+      "description": "鉄補強されたダンジョンの木製ドア。"
+    },
+    {
+      "asset_id": "Wall_Ruined",
+      "display_name": "崩壊した石壁 (3マス幅)",
+      "category": "Wall",
+      "grid_placement_type": "EdgeSnap",
+      "occupancy_size": [
+        3
+      ],
+      "dimensions": [
+        6.319,
+        1.904,
+        3.066
+      ],
+      "collision": {
+        "type": "Compound"
+      },
+      "model_path": "Assets/Models/Dungeon/Wall_Ruined.obj",
+      "is_material_switchable": false,
+      "description": "中央部が瓦礫となって崩壊した3マス幅の石壁。壁に沿ってスナップ配置可能。"
+    },
+    {
+      "asset_id": "Stairs_Straight",
+      "display_name": "直進石階段 (1x2)",
+      "category": "Stairs",
+      "grid_placement_type": "CellSnap",
+      "occupancy_size": [
+        1,
+        2
+      ],
+      "dimensions": [
+        2.106,
+        4.206,
+        3.063
+      ],
+      "collision": {
+        "type": "Ramp",
+        "size": [
+          2.106,
+          3.063,
+          4.206
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Stairs_Straight.obj",
+      "is_material_switchable": false,
+      "description": "1フロア分の高低差（3.063m）を昇降接続する1x2セルの石階段。"
+    },
+    {
+      "asset_id": "StartDais",
+      "display_name": "召喚陣の基台 (Start Point)",
+      "category": "Special",
+      "grid_placement_type": "CellSnap",
+      "occupancy_size": [
+        1,
+        1
+      ],
+      "dimensions": [
+        1.84,
+        1.84,
+        0.28
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          1.84,
+          0.28,
+          1.84
+        ],
+        "offset": [
+          0.0,
+          0.14,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/StartDais.obj",
+      "is_material_switchable": false,
+      "description": "プレイヤーの初期出現位置を定義する古の召喚陣基台。全階層を通じて唯一1個のみ配置可能。"
+    },
+    {
+      "asset_id": "GoalChest",
+      "display_name": "秘宝の宝箱 (Goal Point)",
+      "category": "Special",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        1,
+        1
+      ],
+      "dimensions": [
+        1.355,
+        0.954,
+        0.9
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          1.355,
+          0.9,
+          0.954
+        ],
+        "offset": [
+          0.0,
+          0.45,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/GoalChest.obj",
+      "is_material_switchable": false,
+      "description": "ダンジョンの最奥に眠る黄金の宝箱。インタラクトすることでステージクリア。全階層を通じて唯一1個のみ配置可能。"
+    },
+    {
+      "asset_id": "Pedestal",
+      "display_name": "宝玉の石製台座 (Pedestal)",
+      "category": "Pedestal",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        1,
+        1
+      ],
+      "dimensions": [
+        0.64,
+        0.64,
+        1.017
+      ],
+      "collision": {
+        "type": "Cylinder",
+        "radius": 0.32,
+        "height": 1.017,
+        "offset": [
+          0.0,
+          0.508,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Pedestal.obj",
+      "is_material_switchable": true,
+      "description": "宝玉を1個設置可能な腰高の石柱ソケット。エディタ上で初期宝玉の有無を設定可能。光を遮蔽しない。"
+    },
+    {
+      "asset_id": "LuminousOrb",
+      "display_name": "反転の宝玉 (Luminous Orb)",
+      "category": "Special",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        0.5,
+        0.5
+      ],
+      "dimensions": [
+        0.322,
+        0.306,
+        0.36
+      ],
+      "collision": {
+        "type": "Sphere",
+        "radius": 0.18
+      },
+      "model_path": "Assets/Models/Dungeon/LuminousOrb.obj",
+      "is_material_switchable": false,
+      "description": "半径Rの全方位球面光を放ち、反転マテリアルの状態を反転させる多面体クリスタル宝玉。"
+    },
+    {
+      "asset_id": "Prop_Pillar",
+      "display_name": "石柱 (Pillar)",
+      "category": "Prop",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        1,
+        1
+      ],
+      "dimensions": [
+        0.895,
+        0.895,
+        3.089
+      ],
+      "collision": {
+        "type": "Cylinder",
+        "radius": 0.45,
+        "height": 3.089
+      },
+      "model_path": "Assets/Models/Dungeon/Prop_Pillar.obj",
+      "is_material_switchable": false,
+      "description": "天井を支える装飾石柱。光を遮蔽しない。"
+    },
+    {
+      "asset_id": "Prop_Torch",
+      "display_name": "壁掛け松明 (Torch)",
+      "category": "Prop",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        0.5,
+        0.5
+      ],
+      "dimensions": [
+        0.23,
+        0.333,
+        0.566
+      ],
+      "collision": {
+        "type": "None"
+      },
+      "model_path": "Assets/Models/Dungeon/Prop_Torch.obj",
+      "is_material_switchable": false,
+      "description": "壁面に取り付けるダンジョンの松明。"
+    },
+    {
+      "asset_id": "Prop_Candle",
+      "display_name": "蝋燭 (Candle)",
+      "category": "Prop",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        0.2,
+        0.2
+      ],
+      "dimensions": [
+        0.075,
+        0.087,
+        0.231
+      ],
+      "collision": {
+        "type": "None"
+      },
+      "model_path": "Assets/Models/Dungeon/Prop_Candle.obj",
+      "is_material_switchable": false,
+      "description": "床や台の上に置く小さなキャンドル。"
+    },
+    {
+      "asset_id": "Prop_Barrel",
+      "display_name": "木樽 (Barrel)",
+      "category": "Prop",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        1,
+        1
+      ],
+      "dimensions": [
+        1.382,
+        1.453,
+        1.506
+      ],
+      "collision": {
+        "type": "Cylinder",
+        "radius": 0.7,
+        "height": 1.5
+      },
+      "model_path": "Assets/Models/Dungeon/Prop_Barrel.obj",
+      "is_material_switchable": false,
+      "description": "酒や食料を保管していた木製の大樽。"
+    },
+    {
+      "asset_id": "Prop_WoodenBox",
+      "display_name": "木箱 (Wooden Box)",
+      "category": "Prop",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        0.5,
+        0.5
+      ],
+      "dimensions": [
+        0.546,
+        0.546,
+        0.546
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          0.546,
+          0.546,
+          0.546
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Prop_WoodenBox.obj",
+      "is_material_switchable": false,
+      "description": "小型の木製コンテナ木箱。"
+    },
+    {
+      "asset_id": "Prop_Rock",
+      "display_name": "巨岩 (Rock)",
+      "category": "Prop",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        1,
+        1
+      ],
+      "dimensions": [
+        1.272,
+        1.551,
+        1.27
+      ],
+      "collision": {
+        "type": "Sphere",
+        "radius": 0.7
+      },
+      "model_path": "Assets/Models/Dungeon/Prop_Rock.obj",
+      "is_material_switchable": false,
+      "description": "ダンジョン通路に転がる岩塊。"
+    },
+    {
+      "asset_id": "Prop_Debris",
+      "display_name": "瓦礫の山 (Debris)",
+      "category": "Prop",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        1,
+        1
+      ],
+      "dimensions": [
+        2.211,
+        2.106,
+        0.635
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          2.1,
+          0.6,
+          2.1
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Prop_Debris.obj",
+      "is_material_switchable": false,
+      "description": "崩壊した壁や天井の破片が散乱した瓦礫山。"
+    },
+    {
+      "asset_id": "Prop_Skull",
+      "display_name": "頭蓋骨 (Skull)",
+      "category": "Prop",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        0.5,
+        0.5
+      ],
+      "dimensions": [
+        0.446,
+        0.527,
+        0.545
+      ],
+      "collision": {
+        "type": "None"
+      },
+      "model_path": "Assets/Models/Dungeon/Prop_Skull.obj",
+      "is_material_switchable": false,
+      "description": "骸骨の頭蓋骨。ダンジョンの不気味な雰囲気を演出。"
+    },
+    {
+      "asset_id": "Prop_Bone",
+      "display_name": "骨 (Bone)",
+      "category": "Prop",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        0.5,
+        0.2
+      ],
+      "dimensions": [
+        0.602,
+        0.099,
+        0.104
+      ],
+      "collision": {
+        "type": "None"
+      },
+      "model_path": "Assets/Models/Dungeon/Prop_Bone.obj",
+      "is_material_switchable": false,
+      "description": "床に転がる人骨。"
+    },
+    {
+      "asset_id": "Floor_PatternB",
+      "display_name": "模様石畳床B (Patterned Cobble)",
+      "category": "Floor",
+      "grid_placement_type": "CellSnap",
+      "occupancy_size": [
+        1,
+        1
+      ],
+      "dimensions": [
+        2.106,
+        2.106,
+        0.323
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          2.106,
+          0.1,
+          2.106
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Floor_PatternB.obj",
+      "is_material_switchable": true,
+      "description": "別の敷石パターンを持つ装飾石畳床。"
+    },
+    {
+      "asset_id": "Prop_Brick",
+      "display_name": "単体レンガ (Brick)",
+      "category": "Prop",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        0.5,
+        0.5
+      ],
+      "dimensions": [
+        0.527,
+        0.313,
+        0.306
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          0.527,
+          0.306,
+          0.313
+        ],
+        "offset": [
+          0.0,
+          0.153,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Prop_Brick.obj",
+      "is_material_switchable": false,
+      "description": "床に落ちている石レンガの小片。"
+    },
+    {
+      "asset_id": "Prop_BrickPile",
+      "display_name": "レンガ山瓦礫 (Brick Pile)",
+      "category": "Prop",
+      "grid_placement_type": "FreeAttach",
+      "occupancy_size": [
+        1,
+        1
+      ],
+      "dimensions": [
+        1.529,
+        1.105,
+        0.624
+      ],
+      "collision": {
+        "type": "Box",
+        "size": [
+          1.529,
+          0.624,
+          1.105
+        ],
+        "offset": [
+          0.0,
+          0.312,
+          0.0
+        ]
+      },
+      "model_path": "Assets/Models/Dungeon/Prop_BrickPile.obj",
+      "is_material_switchable": false,
+      "description": "崩れ落ちて積み重なったレンガ瓦礫の小山。"
+    }
+  ]
+}

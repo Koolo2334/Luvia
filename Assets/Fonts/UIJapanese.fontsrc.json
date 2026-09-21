@@ -1,0 +1,13 @@
+{
+  "font": "Yu Gothic UI",
+  "size": 48,
+  "sdf": true,
+  "distanceRange": 4,
+  "supersample": 4,
+  "ranges": [
+    [32, 126],
+    [12288, 12543],
+    [65281, 65376]
+  ],
+  "text": "日本語表示確認用文字列。漢字も出ます、括弧「テスト」（例）も。"
+}

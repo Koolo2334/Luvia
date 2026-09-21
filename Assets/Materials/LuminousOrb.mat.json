@@ -1,0 +1,52 @@
+{
+  "blend": "Translucent",
+  "domains": [
+    "All"
+  ],
+  "name": "LuminousOrb",
+  "shader": "Materials/LuminousOrb.hlsli",
+  "shadingModel": "Unlit",
+  "vertexShader": "VertexShaders/Default_VS.hlsli",
+  "parameters": [
+    {
+      "name": "CoreColor",
+      "type": "float4",
+      "default": [
+        1.0,
+        0.85,
+        0.25,
+        1.0
+      ]
+    },
+    {
+      "name": "RimColor",
+      "type": "float4",
+      "default": [
+        0.25,
+        0.85,
+        1.0,
+        0.95
+      ]
+    },
+    {
+      "name": "FresnelPower",
+      "type": "float",
+      "default": 3.5
+    },
+    {
+      "name": "PulseSpeed",
+      "type": "float",
+      "default": 7.853982
+    },
+    {
+      "name": "Dispersion",
+      "type": "float",
+      "default": 0.2
+    },
+    {
+      "name": "EmissiveIntensity",
+      "type": "float",
+      "default": 2.0
+    }
+  ]
+}

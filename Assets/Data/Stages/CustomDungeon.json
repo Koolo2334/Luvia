@@ -1,0 +1,42 @@
+{
+  "StageName": "Deep Chamber of Eternity",
+  "Author": "Architect",
+  "Objects": [
+    {
+      "InstanceId": 1,
+      "AssetId": "StartDais",
+      "Category": "Pedestal",
+      "Position": {
+        "x": 5.0,
+        "y": 0.0,
+        "z": 2.0
+      },
+      "Rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "FloorIndex": 0,
+      "Phase": "Normal",
+      "HasInitialOrb": false
+    },
+    {
+      "InstanceId": 2,
+      "AssetId": "GoalChest",
+      "Category": "Pedestal",
+      "Position": {
+        "x": 5.0,
+        "y": 0.0,
+        "z": 8.0
+      },
+      "Rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "FloorIndex": 0,
+      "Phase": "Normal",
+      "HasInitialOrb": false
+    }
+  ]
+}

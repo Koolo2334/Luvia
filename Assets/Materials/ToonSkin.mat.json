@@ -1,0 +1,16 @@
+{
+  "blend": "Opaque",
+  "domains": [
+    "All"
+  ],
+  "name": "ToonSkin",
+  "shader": "Materials/ToonSkin.hlsli",
+  "shadingModel": "StandardPBR",
+  "vertexShader": "VertexShaders/Default_VS.hlsli",
+  "parameters": [
+    {
+      "name": "AlbedoMapIndex",
+      "type": "uint"
+    }
+  ]
+}
