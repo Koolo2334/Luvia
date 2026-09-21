@@ -54,6 +54,7 @@ import App.Luminous.TitleRuntime;
 import App.Luminous.EditorRuntime;
 import App.Luminous.PlayRuntime;
 import App.Luminous.Session;
+import App.Luminous.SceneTags;
 import App.Luminous.StageData;
 import App.Luminous.TerrainSystem;
 import App.Luminous.PlayerSystem;
@@ -1141,6 +1142,10 @@ export namespace App::Luminous {
                 .LocalScale = { 0.45f, 0.72f, 0.45f }
             });
             Engine::Graphics::MeshAttacher::AttachToEntity(registry, fEnt, flameMesh, flameMat);
+            // 火の粉を組み直す種を**そのエンティティに載せる**。
+            //   これで .scene.json から起こしても同じ火の粉が出る
+            registry.emplace<LuminousFlameEmitterComponent>(fEnt,
+                LuminousFlameEmitterComponent{ .Count = 8, .Radius = 0.115f, .BaseScale = 0.082f });
             rt.RoomEntities.push_back(fEnt);
 
             // 火の粉パーティクル (各ランプ8個、上昇・螺旋拡散。丸スプライトのビルボードで描画)
@@ -1190,6 +1195,7 @@ export namespace App::Luminous {
             .LocalScale = { 1.0f, 1.0f, 1.0f }
         });
         Engine::Graphics::MeshAttacher::AttachToEntity(registry, rt.OrbMesh, orbMesh, orbMat);
+        registry.emplace<LuminousTitleOrbTag>(rt.OrbMesh);
         rt.RoomEntities.push_back(rt.OrbMesh);
 
         // 宝玉の温かな黄金ポイントライト
@@ -1229,8 +1235,8 @@ export namespace App::Luminous {
             .NearZ = 0.1f,
             .FarZ = 200.0f
         });
+        registry.emplace<LuminousTitleCameraTag>(rt.Camera);
         Engine::Graphics::CameraAPI::SetActiveCamera(registry, rt.Camera);
-
 
         ctx.RegisterSystem(Engine::Core::SystemPhase::Update, "LuminousTitleUpdateSystem",
                            &LuminousTitleUpdate);
@@ -1262,7 +1268,58 @@ export namespace App::Luminous {
         }
     }
 
+    // ------------------------------------------------------------------------
+    // .scene.json から起動したときの組み直し (タイトル)。
+    //
+    //   保存できるのはエンティティだけなので、「どれがカメラか」「火の粉を
+    //   どこから出すか」は**エンティティに載せた印**から引き直す。
+    //   コードのシーンから来たときは、すぐ帰る
+    // ------------------------------------------------------------------------
+    inline void LuminousTitleRestoreFromEntities(entt::registry& registry) {
+        auto& rt = TitleRuntime(registry);
+        if (rt.Camera != entt::null && registry.valid(rt.Camera)) return;
+
+        const auto cameras = registry.view<LuminousTitleCameraTag>();
+        if (cameras.empty()) return;   // まだ読み込み途中
+
+        // 入場時の一手。コードのシーンでは OnSetup がやっていたもの
+        rt.Camera = cameras.front();
+        Engine::Graphics::CameraAPI::SetActiveCamera(registry, rt.Camera);
+        Input::SetCursorLocked(false);
+        LuminousTransition::Get().BeginSceneEnter();
+
+        const auto orbs = registry.view<LuminousTitleOrbTag>();
+        if (!orbs.empty()) rt.OrbMesh = orbs.front();
+
+        // 火の粉を種から組み直す。
+        //   **番号の順に並べる**。エンティティを見る順は決まっていないので、
+        //   そのままだと起動のたびに粒の位相が入れ替わりかねない
+        rt.FlameParticles.clear();
+        std::vector<entt::entity> emitters;
+        for (const auto entity : registry.view<LuminousFlameEmitterComponent,
+                                               Engine::Core::TransformComponent>()) {
+            emitters.push_back(entity);
+        }
+        std::sort(emitters.begin(), emitters.end());
+        for (const auto entity : emitters) {
+            const auto& emitter = registry.get<LuminousFlameEmitterComponent>(entity);
+            const auto& trans = registry.get<Engine::Core::TransformComponent>(entity);
+            for (int i = 0; i < emitter.Count; ++i) {
+                LuminousTitleRuntime::TitleFlameParticle fp;
+                fp.CurrentPosition = trans.LocalPosition;
+                fp.Origin = trans.LocalPosition;
+                fp.Phase = static_cast<float>(i) * (XM_2PI / static_cast<float>(emitter.Count));
+                fp.Speed = 0.14f + static_cast<float>(i % 4) * 0.035f;
+                fp.Radius = emitter.Radius;
+                fp.BaseScale = emitter.BaseScale;
+                rt.FlameParticles.push_back(fp);
+            }
+        }
+    }
+
     inline void LuminousTitleUpdate(const Engine::Core::SystemContext& ctx) {
+        // データだけのシーンから来たときは、ここで持ち物を組み直す
+        LuminousTitleRestoreFromEntities(ctx.GetRegistry());
         auto& rt = TitleRuntime(ctx.GetRegistry());
         float dt = ctx.GetDeltaTime();
         rt.Timer += dt;

@@ -11,6 +11,7 @@ import App.Graphics.PassTags;
 import App.Luminous.PlayerSystem;
 import App.Luminous.OrbOcclusionData;
 import App.Luminous.Types;
+import App.Luminous.SceneTags;
 
 // ============================================================================
 // ゲーム側のコンポーネントをリフレクションへ登録する
@@ -46,6 +47,20 @@ namespace App {
         registry.Register<App::Graphics::TranslucentPassTag>("TranslucentPassTag");
         registry.Register<App::Graphics::CharacterPassTag>("CharacterPassTag");
         registry.Register<App::Luminous::OrbOccluderTag>("OrbOccluderTag");
+        // シーンを .scene.json から起こすための印。
+        //   持ち物が覚えていた entt::entity は保存できない (メモリ上の番号なので)。
+        //   代わりに印を載せておき、読み込んだ後に view で引き直す
+        registry.Register<App::Luminous::LuminousTitleCameraTag>("LuminousTitleCameraTag");
+        registry.Register<App::Luminous::LuminousTitleOrbTag>("LuminousTitleOrbTag");
+
+        // ---- 火の粉の種 ----
+        //
+        //   粒そのものは毎フレーム組み直す派生物なので保存しない。
+        //   組み直すのに要る種だけを載せる
+        registry.Register<App::Luminous::LuminousFlameEmitterComponent>("LuminousFlameEmitter")
+            .Field("Count", &App::Luminous::LuminousFlameEmitterComponent::Count)
+            .Field("Radius", &App::Luminous::LuminousFlameEmitterComponent::Radius)
+            .Field("BaseScale", &App::Luminous::LuminousFlameEmitterComponent::BaseScale);
 
         // ---- 環境光 ----
         registry.Register<App::Graphics::SkyLightComponent>("SkyLight")
