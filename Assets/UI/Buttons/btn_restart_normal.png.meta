@@ -1,10 +1,10 @@
 {
   "guid": "48695d88c180216d-739e2f7e82d44f79",
   "importer": {
-    "colorSpace": "linear",
+    "colorSpace": "srgb",
     "compress": false,
     "generateMips": false,
-    "normalMap": true,
+    "normalMap": false,
     "preload": false
   },
   "type": "Texture"
