@@ -2,7 +2,7 @@
   "engine": "RaDX Engine",
   "engineVersion": "0.3",
   "name": "Luvia",
-  "defaultScene": "Luminous.Title",
+  "defaultScene": "Assets/Scenes/Luminous.Title.scene.json",
   "renderPipeline": "Deferred",
   "gameModule": "Luvia.dll",
   "features": [ "OrbOcclusion" ]
