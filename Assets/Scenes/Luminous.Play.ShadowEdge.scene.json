@@ -9,6 +9,10 @@
     {
       "name": "LuminousPlayUpdateSystem",
       "phase": "Update"
+    },
+    {
+      "name": "LuminousPlayTeardownSystem",
+      "phase": "Teardown"
     }
   ],
   "entities": [

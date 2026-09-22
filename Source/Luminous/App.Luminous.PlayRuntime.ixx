@@ -1,5 +1,6 @@
 ﻿module;
 
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -106,6 +107,10 @@ export namespace App::Luminous {
         bool ReturnToEditorOnExit = false;
         // 基本ステージの登録番号 (1 始まり)。0 はユーザー作成ステージ等で実績を記録しない
         int StageNumber = 0;
+        // いま建っているステージのファイル (計画 18)。
+        //   「もう一度」で建て直すときに要る。コードのシーンへ
+        //   LuminousStage を丸ごと渡していた頃は、ここが要らなかった
+        std::string StagePath;
 
         // ---- 画面に出す小物 ----
         StageIntroOverlay StageIntro;

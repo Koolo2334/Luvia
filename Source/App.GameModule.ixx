@@ -17,6 +17,8 @@ export module App.GameModule;
 import Engine.Core.GameModule;
 import Engine.Core.SystemManager;
 import Engine.Core.SystemContext;
+import Engine.Core.SceneFile;   // DataScene (シーンのファイルから起こす)
+import App.Luminous.Transition;   // LuminousScenes (シーンのファイルのパス)
 import Engine.Debug.Log;
 import Engine.Graphics.RenderPipeline;
 
@@ -59,56 +61,35 @@ namespace App {
                 frame++;
                 ENGINE_LOG_INFO("App", "[AutoTest] Luminous SystemContext Update Frame {}", frame);
 
+                // **行き先はファイルのパス** (計画 18 の段 3)。
+                //   コードのシーンを作って渡していた頃の巡回を、そのまま
+                //   データのシーンへ置き換えたもの。シーンの入れ替わりと
+                //   片付け (Teardown のシステム) が通ることを、ここで見ている
+                const auto go = [&sys](const char* path) {
+                    sys.RequestSceneLoad(std::make_shared<Engine::Core::DataScene>(path));
+                };
                 if (frame == 10) {
-                    ENGINE_LOG_INFO("App", "[AutoTest] Frame 10: LuminousTitleScene verified. Requesting LuminousEditorScene...");
-                    sys.RequestSceneLoad(std::make_shared<LuminousEditorScene>());
+                    ENGINE_LOG_INFO("App", "[AutoTest] Frame 10: Title verified. Requesting Editor...");
+                    go(LuminousScenes::Editor);
                 }
                 else if (frame == 25) {
-                    ENGINE_LOG_INFO("App", "[AutoTest] Frame 25: LuminousEditorScene verified. Requesting LuminousPlayScene...");
-                    sys.RequestSceneLoad(std::make_shared<LuminousPlayScene>());
+                    ENGINE_LOG_INFO("App", "[AutoTest] Frame 25: Editor verified. Requesting Play...");
+                    go(LuminousScenes::Play);
                 }
                 else if (frame == 45) {
-                    ENGINE_LOG_INFO("App", "[AutoTest] Frame 45: LuminousPlayScene verified. Requesting LuminousTitleScene...");
-                    sys.RequestSceneLoad(std::make_shared<LuminousTitleScene>());
+                    ENGINE_LOG_INFO("App", "[AutoTest] Frame 45: Play verified. Requesting StageSelect...");
+                    go(LuminousScenes::StageSelect);
                 }
-                else if (frame == 60) {
+                else if (frame == 55) {
+                    ENGINE_LOG_INFO("App", "[AutoTest] Frame 55: StageSelect verified. Requesting Title...");
+                    go(LuminousScenes::Title);
+                }
+                else if (frame == 70) {
                     ENGINE_LOG_INFO("App", "[AutoTest] ALL LUMINOUS SHIFT SCENES & PIPELINES VERIFIED SUCCESSFULLY WITH 0 RUNTIME ERRORS!");
                     owner->NotifyAutoTestCompleted();
                     PostQuitMessage(0);
                 }
             });
-    }
-
-    void RegisterScenes(GameModuleContext& ctx) {
-        ctx.RegisterScene("Luminous.Title", [] { return std::make_shared<LuminousTitleScene>(); },
-            "タイトル画面");
-        ctx.RegisterScene("Luminous.StageSelect",
-            [] { return std::make_shared<LuminousTitleScene>(LuminousTitleScene::TitleView::StageSelect); },
-            "ステージ選択");
-        ctx.RegisterScene("Luminous.Play", [] { return std::make_shared<LuminousPlayScene>(); },
-            "本編");
-        ctx.RegisterScene("Luminous.Play.MultiFloor",
-            [] { return std::make_shared<LuminousPlayScene>(LuminousStage::CreateMultiFloorSampleStage()); },
-            "多層ステージの見本");
-        ctx.RegisterScene("Luminous.Play.ShadowEdge",
-            [] { return std::make_shared<LuminousPlayScene>(LuminousStage::CreateShadowEdgeTestStage()); },
-            "影の境目の確認");
-        ctx.RegisterScene("Luminous.Play.ShadowOpen",
-            [] { return std::make_shared<LuminousPlayScene>(LuminousStage::CreateShadowTraversalTestStage(false)); });
-        ctx.RegisterScene("Luminous.Play.Shadow",
-            [] { return std::make_shared<LuminousPlayScene>(LuminousStage::CreateShadowTraversalTestStage()); });
-        ctx.RegisterScene("Luminous.Editor", [] { return std::make_shared<LuminousEditorScene>(); },
-            "ステージエディタ");
-        ctx.RegisterScene("Luminous.Editor.Walls", [] { return std::make_shared<LuminousEditorScene>(1); });
-        ctx.RegisterScene("Luminous.Editor.Specials", [] { return std::make_shared<LuminousEditorScene>(4); });
-        ctx.RegisterScene("Luminous.Editor.Props", [] { return std::make_shared<LuminousEditorScene>(5); });
-
-        // 番号つきの基本ステージ (--base-stage=N)。番号は起動オプションから読む
-        ctx.RegisterScene("Luminous.Play.BaseStage", [&ctx] {
-            const int stageNumber = ctx.GetIntOption("--base-stage=", 1);
-            return std::make_shared<LuminousPlayScene>(
-                LuminousStageCatalog::Load(stageNumber - 1), false, stageNumber);
-            }, "--base-stage=N で指定した基本ステージ");
     }
 
     // 起動オプションとシーンの対応。**長い綴りを先に**書く
@@ -142,8 +123,8 @@ namespace App {
         RegisterLuminousSystems();
         MakeLuminousLifecycleTestSystem(ctx);
 
-        // 3. シーン
-        RegisterScenes(ctx);
+        // 3. シーン。**コードのシーンはもう無い** (計画 18 の段 3)。
+        //   起動オプションの行き先も、すべて .scene.json のパス
         RegisterSceneAliases(ctx);
         ctx.SetDefaultScene("Assets/Scenes/Luminous.Title.scene.json");
 

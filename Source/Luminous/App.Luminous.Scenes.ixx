@@ -592,14 +592,7 @@ export namespace App::Luminous {
     }
 
     // ========================================================================
-    // 前方宣言
-    // ========================================================================
-    class LuminousTitleScene;
-    class LuminousPlayScene;
-    class LuminousEditorScene;
-
-    // ========================================================================
-    // LuminousTitleScene (タイトルシーン - 完全ImGuiフリー＆360度パノラマ回転背景)
+    // タイトル画面 (完全 ImGui フリー、360 度パノラマ回転背景)
     // ========================================================================
     // タイトル画面の処理 (レジストリだけを見る自由関数)
     void LuminousTitleRenderMenu(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick);
@@ -607,32 +600,8 @@ export namespace App::Luminous {
     void LuminousTitleRenderCustomStageList(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick);
     void LuminousTitleUpdate(const Engine::Core::SystemContext& ctx);
 
-    class LuminousTitleScene : public Engine::Core::IScene {
-    public:
-        // 実体は App.Luminous.TitleRuntime にある。
-        //   これまでどおり LuminousTitleScene::TitleView と書けるように残す
-        using TitleView = LuminousTitleView;
-
-    private:
-        // 持ち物は **レジストリ** にある (LuminousTitleRuntime)。
-        //   取り出すのは TitleRuntime(registry)。
-        //   pendingView_ は、作るときに渡された初期画面の置き場
-        //   (レジストリはまだ無いので、OnSetup で移す)
-        TitleView pendingView_ = TitleView::MainMenu;
-
-    public:
-        LuminousTitleScene() = default;
-        explicit LuminousTitleScene(TitleView initialView) : pendingView_(initialView) {}
-
-        // ゲームシーンは100% ImGui非使用 (完全画像UI化)
-        bool IsImGuiEnabled() const override { return false; }
-
-        void OnSetup(Engine::Core::SceneContext& ctx) override;
-        void OnTeardown(Engine::Core::SceneContext& ctx) override;
-    };
-
     // ========================================================================
-    // LuminousPlayScene (FPSゲーム本編シーン - 完全ImGuiフリー画像UI＆空間音響)
+    // 本編 (FPS。完全 ImGui フリーの画像 UI と空間音響)
     // ========================================================================
     // ========================================================================
     // 本編の処理 (シーンの持ち物ではなく、**レジストリだけを見る自由関数**)
@@ -840,6 +809,28 @@ export namespace App::Luminous {
     //   どちらも空なら基本ステージ 1。
     //   建てたものには GeneratedTag が付くので、シーンのファイルには残らない
     // ------------------------------------------------------------------------
+    // 遊ぶステージを決めて本編のシーンへ移る (計画 18 の段 3)。
+    //
+    //   コードのシーンを作って渡していた頃は `LuminousPlayScene(stage, …)` と
+    //   書けたが、いま行き先は**ファイル**なので、その場で決まる値は
+    //   LuminousSession (シーンをまたいで残る持ち物) へ預ける
+    inline void LuminousGoToStage(entt::registry& registry, std::string stagePath,
+                                  int stageNumber = 0, bool returnToEditor = false) {
+        LuminousSession& session = Session(registry);
+        session.StagePath = std::move(stagePath);
+        session.StageNumber = stageNumber;
+        session.ReturnToEditor = returnToEditor;
+        LuminousTransition::Get().ChangeScene(LuminousScenes::Play);
+    }
+
+    // 登録ステージ (1 始まりの番号) へ移る。ファイルが無ければ何もしない
+    inline void LuminousGoToBaseStage(entt::registry& registry, int stageNumber,
+                                      bool returnToEditor = false) {
+        if (const auto* entry = LuminousStageCatalog::GetByStageNumber(stageNumber)) {
+            LuminousGoToStage(registry, entry->StageFilePath, stageNumber, returnToEditor);
+        }
+    }
+
     inline void LuminousStageBuildSystem(const Engine::Core::SystemContext& ctx) {
         auto& registry = ctx.GetRegistry();
         auto& rt = PlayRuntime(registry);
@@ -888,6 +879,12 @@ export namespace App::Luminous {
         }
         rt.StageNumber = stageNumber;
         rt.ReturnToEditorOnExit = returnToEditor;
+        // 「もう一度」で建て直すときに要る (計画 18 の段 3)
+        rt.StagePath = path;
+        // 預かったものは**1 度きり**。次のシーンへ持ち越さない
+        //   (持ち越すと、あとでステージエディタを開いたときに
+        //    前に遊んだステージが勝手に開く)
+        Session(registry).StagePath.clear();
 
         LuminousPlayEnsureCoreEntities(registry);
         LuminousPlaySpawnStageObjects(registry);
@@ -942,6 +939,10 @@ export namespace App::Luminous {
     void LuminousTitleUpdate(const Engine::Core::SystemContext& ctx);
     void LuminousEditorUpdate(const Engine::Core::SystemContext& ctx);
     void LuminousEditorBuildSystem(const Engine::Core::SystemContext& ctx);
+    // 片付け (Teardown フェーズ。計画 18 の段 3)
+    void LuminousTitleTeardown(const Engine::Core::SystemContext& ctx);
+    void LuminousPlayTeardown(const Engine::Core::SystemContext& ctx);
+    void LuminousEditorTeardown(const Engine::Core::SystemContext& ctx);
 
     // ゲームの立ち上げで 1 度だけ呼ぶ。
     //   ここで名前を通しておくと、.scene.json の "systems" から引けるようになる
@@ -956,46 +957,18 @@ export namespace App::Luminous {
             "LuminousEditorBuildSystem", Engine::Core::SystemPhase::Update, &LuminousEditorBuildSystem);
         Engine::Core::SystemRegistry::Get().Register(
             "LuminousEditorUpdateSystem", Engine::Core::SystemPhase::Update, &LuminousEditorUpdate);
+        // 片付け。**Teardown フェーズ**で登録するので、シーンのファイルには
+        //   名前を並べるだけでよい ("phase" は読むときに使われない)
+        Engine::Core::SystemRegistry::Get().Register(
+            "LuminousTitleTeardownSystem", Engine::Core::SystemPhase::Teardown, &LuminousTitleTeardown);
+        Engine::Core::SystemRegistry::Get().Register(
+            "LuminousPlayTeardownSystem", Engine::Core::SystemPhase::Teardown, &LuminousPlayTeardown);
+        Engine::Core::SystemRegistry::Get().Register(
+            "LuminousEditorTeardownSystem", Engine::Core::SystemPhase::Teardown, &LuminousEditorTeardown);
     }
 
-    class LuminousPlayScene : public Engine::Core::IScene {
-    private:
-        // 本編の持ち物は **レジストリ** にある (LuminousPlayRuntime)。
-        //   取り出すのは PlayRuntime(registry)。
-        //   ここに置いてあった頃は、更新処理を名前つきのシステムに
-        //   分けられなかった (`this` を捕まえたラムダでしか書けないため)。
-        //   pendingStage_ は、シーンを作るときに渡されたステージの置き場。
-        //   レジストリはまだ無いので、OnSetup で実行時データへ移す
-        LuminousStage pendingStage_;
-        bool pendingReturnToEditor_ = false;
-        int pendingStageNumber_ = 0;
-        entt::entity runtimeEntity_ = entt::null;
-        // IsImGuiEnabled はエンジンが registry 抜きで呼ぶので、ここで覚えておく
-        entt::registry* world_ = nullptr;
-        // プレイヤーの状態は **エンティティに載っている** (rt.PlayerCamera)。
-        //   シーンが抱えていた頃は、インスペクターにも出ず、保存もされなかった。
-        //   取り出すのは PlayerState(registry)
-
-    public:
-        // ゲーム本編は画像 UI のみ。F12 デバッグツール使用中だけ ImGui を有効にする
-        bool IsImGuiEnabled() const override {
-            return world_ ? PlayRuntime(*world_).DebugTool.IsActive() : false;
-        }
-
-        LuminousPlayScene() {
-            pendingStage_ = LuminousStage::CreateSampleStage();
-        }
-
-        explicit LuminousPlayScene(LuminousStage stage, bool returnToEditor = false, int stageNumber = 0)
-            : pendingStage_(std::move(stage)), pendingReturnToEditor_(returnToEditor),
-              pendingStageNumber_(stageNumber) {}
-
-        void OnSetup(Engine::Core::SceneContext& ctx) override;
-        void OnTeardown(Engine::Core::SceneContext& ctx) override;
-    };
-
     // ========================================================================
-    // LuminousEditorScene (統合ステージエディタシーン - エディタのみImGui使用)
+    // ステージエディタ (ここだけ ImGui を使う)
     // ========================================================================
     // ステージエディタの処理 (レジストリだけを見る自由関数)
     void LuminousEditorRefreshSceneEntities(entt::registry& registry);
@@ -1005,295 +978,18 @@ export namespace App::Luminous {
     void LuminousEditorRenderUI(const Engine::Core::SystemContext& ctx);
     void LuminousEditorUpdate(const Engine::Core::SystemContext& ctx);
 
-    class LuminousEditorScene : public Engine::Core::IScene {
-    private:
-        // 持ち物は **レジストリ** にある (LuminousEditorRuntime)。
-        //   取り出すのは EditorRuntime(registry)。
-        //   pending* は、作るときに渡されたものの置き場
-        //   (レジストリはまだ無いので、OnSetup で移す)
-        LuminousStage pendingStage_;
-        bool hasPendingStage_ = false;
-        int pendingCategory_ = 0;
-
-    public:
-        // エディタシーンのみImGuiを許可 (Shipping構成でも動作)
-        bool IsImGuiEnabled() const override { return true; }
-
-        LuminousEditorScene() = default;
-        explicit LuminousEditorScene(int initialCategory) : pendingCategory_(initialCategory) {}
-        explicit LuminousEditorScene(LuminousStage stage)
-            : pendingStage_(std::move(stage)), hasPendingStage_(true) {}
-        LuminousEditorScene(LuminousStage stage, int initialCategory)
-            : pendingStage_(std::move(stage)), hasPendingStage_(true),
-              pendingCategory_(initialCategory) {}
-
-        void OnSetup(Engine::Core::SceneContext& ctx) override;
-        void OnTeardown(Engine::Core::SceneContext& ctx) override;
-    };
-
     // ========================================================================
-    // LuminousTitleScene 実装
+    // タイトル画面の実装
     // ========================================================================
-    inline void LuminousTitleScene::OnSetup(Engine::Core::SceneContext& ctx) {
-        // 持ち物をレジストリに作る (シーンが終わるときに一緒に片付く)
-        const entt::entity titleRuntimeEnt = ctx.CreateEntity();
-        ctx.GetRegistry().emplace<Engine::Core::GeneratedTag>(titleRuntimeEnt);
-        auto& rt = ctx.GetRegistry().emplace<LuminousTitleRuntime>(titleRuntimeEnt);
-        rt.View = pendingView_;
-        // 暗転した状態でシーンを開始し、マテリアルのコンパイル完了後に明転する
-        LuminousTransition::Get().BeginSceneEnter();
-        Input::SetCursorLocked(false);
-        auto& registry = ctx.GetRegistry();
-        auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
-        auto* meshMgr = Engine::Core::GetService<Engine::Graphics::MeshManager>(registry);
 
-        rt.RoomEntities.clear();
-
-
-
-
-
-        auto floorPrefabs      = GetAssetSubmeshPrefabs("Floor_1x1", materialMgr);
-        auto wallPrefabs       = GetAssetSubmeshPrefabs("Wall_Brick", materialMgr);
-        auto smoothWallPrefabs = GetAssetSubmeshPrefabs("Wall_Smooth", materialMgr);
-        auto pedPrefabs        = GetAssetSubmeshPrefabs("Pedestal", materialMgr);
-        auto pillarPrefabs     = GetAssetSubmeshPrefabs("Prop_Pillar", materialMgr);
-        auto torchPrefabs      = GetAssetSubmeshPrefabs("Prop_Torch", materialMgr);
-        auto woodenBoxPrefabs  = GetAssetSubmeshPrefabs("Prop_WoodenBox", materialMgr);
-        auto barrelPrefabs     = GetAssetSubmeshPrefabs("Prop_Barrel", materialMgr);
-        auto orbMat            = CreateLuminousOrbPrefab(materialMgr);
-
-        auto floorMesh      = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/Floor_1x1.obj");
-        auto wallMesh       = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/Wall_Brick.obj");
-        auto smoothWallMesh = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/Wall_Smooth.obj");
-        auto pedMesh        = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/Pedestal.obj");
-        auto pillarMesh     = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/Prop_Pillar.obj");
-        auto torchMesh      = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/Prop_Torch.obj");
-        auto boxMesh        = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/Prop_WoodenBox.obj");
-        auto barrelMesh     = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/Prop_Barrel.obj");
-        auto orbMesh        = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/LuminousOrb.obj");
-
-        // 5x5 床面 & 天井 (Y = GRID_FLOOR_HEIGHT = 3.063m)
-        for (int x = -2; x <= 2; ++x) {
-            for (int z = -2; z <= 2; ++z) {
-                // 床 (Y = 0)
-                auto fEnt = ctx.CreateEntity();
-                registry.emplace<Engine::Core::TransformComponent>(fEnt, Engine::Core::TransformComponent{
-                    .LocalPosition = { static_cast<float>(x) * GRID_CELL_SIZE, 0.0f, static_cast<float>(z) * GRID_CELL_SIZE }
-                });
-                Engine::Graphics::MeshAttacher::AttachToEntity(registry, fEnt, floorMesh, floorPrefabs);
-                rt.RoomEntities.push_back(fEnt);
-
-                // 天井 (Y = 3.063m, 下向きに反転)
-                auto cEnt = ctx.CreateEntity();
-                auto& cTrans = registry.emplace<Engine::Core::TransformComponent>(cEnt);
-                cTrans.LocalPosition = { static_cast<float>(x) * GRID_CELL_SIZE, GRID_FLOOR_HEIGHT, static_cast<float>(z) * GRID_CELL_SIZE };
-                XMStoreFloat4(&cTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(180.0f), 0.0f, 0.0f));
-                Engine::Graphics::MeshAttacher::AttachToEntity(registry, cEnt, floorMesh, floorPrefabs);
-                rt.RoomEntities.push_back(cEnt);
-            }
-        }
-
-        // 周囲4面の外壁 (North, South, East, West)
-        for (int i = -2; i <= 2; ++i) {
-            float coord = static_cast<float>(i) * GRID_CELL_SIZE;
-            float bound = 2.5f * GRID_CELL_SIZE;
-
-            // North Wall
-            auto wN = ctx.CreateEntity();
-            registry.emplace<Engine::Core::TransformComponent>(wN, Engine::Core::TransformComponent{
-                .LocalPosition = { coord, 0.0f, bound }
-            });
-            Engine::Graphics::MeshAttacher::AttachToEntity(registry, wN, (i % 2 == 0) ? wallMesh : smoothWallMesh, (i % 2 == 0) ? wallPrefabs : smoothWallPrefabs);
-            rt.RoomEntities.push_back(wN);
-
-            // South Wall
-            auto wS = ctx.CreateEntity();
-            auto& tS = registry.emplace<Engine::Core::TransformComponent>(wS);
-            tS.LocalPosition = { coord, 0.0f, -bound };
-            XMStoreFloat4(&tS.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(180.0f), 0.0f));
-            Engine::Graphics::MeshAttacher::AttachToEntity(registry, wS, (i % 2 == 0) ? wallMesh : smoothWallMesh, (i % 2 == 0) ? wallPrefabs : smoothWallPrefabs);
-            rt.RoomEntities.push_back(wS);
-
-            // East Wall
-            auto wE = ctx.CreateEntity();
-            auto& tE = registry.emplace<Engine::Core::TransformComponent>(wE);
-            tE.LocalPosition = { bound, 0.0f, coord };
-            XMStoreFloat4(&tE.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(90.0f), 0.0f));
-            Engine::Graphics::MeshAttacher::AttachToEntity(registry, wE, (i % 2 == 0) ? smoothWallMesh : wallMesh, (i % 2 == 0) ? smoothWallPrefabs : wallPrefabs);
-            rt.RoomEntities.push_back(wE);
-
-            // West Wall
-            auto wW = ctx.CreateEntity();
-            auto& tW = registry.emplace<Engine::Core::TransformComponent>(wW);
-            tW.LocalPosition = { -bound, 0.0f, coord };
-            XMStoreFloat4(&tW.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(270.0f), 0.0f));
-            Engine::Graphics::MeshAttacher::AttachToEntity(registry, wW, (i % 2 == 0) ? smoothWallMesh : wallMesh, (i % 2 == 0) ? smoothWallPrefabs : wallPrefabs);
-            rt.RoomEntities.push_back(wW);
-        }
-
-        // 四隅の装飾石柱 (Prop_Pillar)
-        float cornerOffsets[4][2] = { { -4.2f, -4.2f }, { 4.2f, -4.2f }, { -4.2f, 4.2f }, { 4.2f, 4.2f } };
-        for (int c = 0; c < 4; ++c) {
-            auto cEnt = ctx.CreateEntity();
-            registry.emplace<Engine::Core::TransformComponent>(cEnt, Engine::Core::TransformComponent{
-                .LocalPosition = { cornerOffsets[c][0], 0.0f, cornerOffsets[c][1] }
-            });
-            Engine::Graphics::MeshAttacher::AttachToEntity(registry, cEnt, pillarMesh, pillarPrefabs);
-            rt.RoomEntities.push_back(cEnt);
-        }
-
-        // 4壁面の松明と暖色炎ライト (部屋の内側を向く正規Yaw角: North=0, South=180, East=90, West=270)
-        float wallTorchDist = 2.5f * GRID_CELL_SIZE - 0.22f;
-        struct WallTorchDef { XMFLOAT3 pos; float yaw; };
-        WallTorchDef torches[4] = {
-            { { 0.0f, 1.8f, wallTorchDist }, 0.0f },    // North壁: 室内(南)を向く
-            { { 0.0f, 1.8f, -wallTorchDist }, 180.0f }, // South壁: 室内(北)を向く
-            { { wallTorchDist, 1.8f, 0.0f }, 90.0f },   // East壁:  室内(西)を向く
-            { { -wallTorchDist, 1.8f, 0.0f }, 270.0f }  // West壁:  室内(東)を向く
-        };
-        auto flameMesh = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/LuminousOrb.obj");
-        auto flameMat  = CreateFlameEmissivePrefab(materialMgr, { 1.0f, 0.62f, 0.22f }, 20.0f);
-
-        for (const auto& tDef : torches) {
-            auto tEnt = ctx.CreateEntity();
-            auto& tTrans = registry.emplace<Engine::Core::TransformComponent>(tEnt);
-            tTrans.LocalPosition = tDef.pos;
-            XMStoreFloat4(&tTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(tDef.yaw), 0.0f));
-            Engine::Graphics::MeshAttacher::AttachToEntity(registry, tEnt, torchMesh, torchPrefabs);
-            rt.RoomEntities.push_back(tEnt);
-
-            float radY = XMConvertToRadians(tDef.yaw);
-            constexpr float tipOffsetY = 0.5512f;
-            constexpr float tipOffsetZ = -0.1101f;
-            XMFLOAT3 flamePos = {
-                tDef.pos.x + tipOffsetZ * std::sin(radY),
-                tDef.pos.y + tipOffsetY,
-                tDef.pos.z + tipOffsetZ * std::cos(radY)
-            };
-
-            // 松明の炎の明かり
-            auto lEnt = ctx.CreateEntity();
-            registry.emplace<Engine::Core::TransformComponent>(lEnt, Engine::Core::TransformComponent{
-                .LocalPosition = flamePos
-            });
-            registry.emplace<Engine::Graphics::PointLightComponent>(lEnt, Engine::Graphics::PointLightComponent{
-                .Color = { 1.0f, 0.62f, 0.22f },
-                .Intensity = 20.0f,
-                .Radius = 10.0f,
-                .CastShadows = true,
-                .ShadowNearZ = g_LuminousConfig.PropLightNearClip
-            });
-            rt.RoomEntities.push_back(lEnt);
-
-            // 炎エミッシブオブジェクト (3倍サイズ)
-            auto fEnt = ctx.CreateEntity();
-            registry.emplace<Engine::Core::TransformComponent>(fEnt, Engine::Core::TransformComponent{
-                .LocalPosition = flamePos,
-                .LocalScale = { 0.45f, 0.72f, 0.45f }
-            });
-            Engine::Graphics::MeshAttacher::AttachToEntity(registry, fEnt, flameMesh, flameMat);
-            // 火の粉を組み直す種を**そのエンティティに載せる**。
-            //   これで .scene.json から起こしても同じ火の粉が出る
-            registry.emplace<LuminousFlameEmitterComponent>(fEnt,
-                LuminousFlameEmitterComponent{ .Count = 8, .Radius = 0.115f, .BaseScale = 0.082f });
-            rt.RoomEntities.push_back(fEnt);
-
-            // 火の粉パーティクル (各ランプ8個、上昇・螺旋拡散。丸スプライトのビルボードで描画)
-            for (int pIdx = 0; pIdx < 8; ++pIdx) {
-                constexpr float pScale = 0.082f;
-                LuminousTitleRuntime::TitleFlameParticle fp;
-                fp.CurrentPosition = flamePos;
-                fp.Origin = flamePos;
-                fp.Phase = static_cast<float>(pIdx) * (XM_2PI / 8.0f);
-                fp.Speed = 0.14f + static_cast<float>(pIdx % 4) * 0.035f;
-                fp.Radius = 0.115f;
-                fp.BaseScale = pScale;
-                rt.FlameParticles.push_back(fp);
-            }
-        }
-
-        // ダンジョン小道具 (木箱・木樽)
-        struct PropDef { const char* meshKey; XMFLOAT3 pos; float yaw; };
-        PropDef props[] = {
-            { "box", { -3.6f, 0.0f, -3.7f }, 15.0f },
-            { "barrel", { -3.8f, 0.0f, -3.0f }, 45.0f },
-            { "barrel", { 3.7f, 0.0f, 3.5f }, -30.0f },
-            { "box", { 3.4f, 0.0f, -3.7f }, 70.0f },
-            { "barrel", { 3.8f, 0.0f, -3.1f }, 10.0f }
-        };
-        for (const auto& p : props) {
-            auto pEnt = ctx.CreateEntity();
-            auto& pTrans = registry.emplace<Engine::Core::TransformComponent>(pEnt);
-            pTrans.LocalPosition = p.pos;
-            XMStoreFloat4(&pTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(0.0f, XMConvertToRadians(p.yaw), 0.0f));
-            Engine::Graphics::MeshAttacher::AttachToEntity(registry, pEnt, (p.meshKey == "box") ? boxMesh : barrelMesh, (p.meshKey == "box") ? woodenBoxPrefabs : barrelPrefabs);
-            rt.RoomEntities.push_back(pEnt);
-        }
-
-        // 中央の台座
-        auto pedEnt = ctx.CreateEntity();
-        registry.emplace<Engine::Core::TransformComponent>(pedEnt, Engine::Core::TransformComponent{
-            .LocalPosition = { 0.0f, 0.0f, 0.0f }
-        });
-        Engine::Graphics::MeshAttacher::AttachToEntity(registry, pedEnt, pedMesh, pedPrefabs);
-        rt.RoomEntities.push_back(pedEnt);
-
-        // 台座上の浮遊宝玉
-        rt.OrbMesh = ctx.CreateEntity();
-        registry.emplace<Engine::Core::TransformComponent>(rt.OrbMesh, Engine::Core::TransformComponent{
-            .LocalPosition = { 0.0f, PEDESTAL_SOCKET_HEIGHT - 0.02f, 0.0f },
-            .LocalScale = { 1.0f, 1.0f, 1.0f }
-        });
-        Engine::Graphics::MeshAttacher::AttachToEntity(registry, rt.OrbMesh, orbMesh, orbMat);
-        registry.emplace<LuminousTitleOrbTag>(rt.OrbMesh);
-        rt.RoomEntities.push_back(rt.OrbMesh);
-
-        // 宝玉の温かな黄金ポイントライト
-        rt.OrbLight = ctx.CreateEntity();
-        registry.emplace<Engine::Core::TransformComponent>(rt.OrbLight, Engine::Core::TransformComponent{
-            .LocalPosition = { 0.0f, PEDESTAL_SOCKET_HEIGHT - 0.02f, 0.0f }
-        });
-        registry.emplace<Engine::Graphics::PointLightComponent>(rt.OrbLight, Engine::Graphics::PointLightComponent{
-            .Color = { 1.0f, 0.88f, 0.35f },
-            .Intensity = 42.0f,
-            .Radius = 16.0f,
-            .CastShadows = true
-        });
-        rt.RoomEntities.push_back(rt.OrbLight);
-
-        // 部屋隅の青色神秘アンビエントライト
-        auto blueLightEnt = ctx.CreateEntity();
-        registry.emplace<Engine::Core::TransformComponent>(blueLightEnt, Engine::Core::TransformComponent{
-            .LocalPosition = { 3.5f, 2.2f, 3.5f }
-        });
-        registry.emplace<Engine::Graphics::PointLightComponent>(blueLightEnt, Engine::Graphics::PointLightComponent{
-            .Color = { 0.20f, 0.50f, 0.90f },
-            .Intensity = 16.0f,
-            .Radius = 14.0f,
-            .CastShadows = false
-        });
-        rt.RoomEntities.push_back(blueLightEnt);
-
-        // カメラ: 宝玉周回軌道初期位置
-        rt.Camera = ctx.CreateEntity();
-        auto& camTrans = registry.emplace<Engine::Core::TransformComponent>(rt.Camera);
-        camTrans.LocalPosition = { 2.85f, 1.32f, 0.0f };
-        XMStoreFloat4(&camTrans.LocalRotation, XMQuaternionIdentity());
-        registry.emplace<Engine::Graphics::CameraComponent>(rt.Camera, Engine::Graphics::CameraComponent{
-            .FovY = XMConvertToRadians(60.0f),
-            .AspectRatio = 1920.0f / 1080.0f,
-            .NearZ = 0.1f,
-            .FarZ = 200.0f
-        });
-        registry.emplace<LuminousTitleCameraTag>(rt.Camera);
-        Engine::Graphics::CameraAPI::SetActiveCamera(registry, rt.Camera);
-
-        ctx.RegisterSystem(Engine::Core::SystemPhase::Update, "LuminousTitleUpdateSystem",
-                           &LuminousTitleUpdate);
-    }
-
-    inline void LuminousTitleScene::OnTeardown(Engine::Core::SceneContext& ctx) {
+    // ------------------------------------------------------------------------
+    // 片付け (計画 18 の段 3)。
+    //
+    //   コードのシーンの OnTeardown だったもの。データのシーンには C++ の
+    //   シーンが無いので、**Teardown フェーズのシステム**にした。
+    //   `.scene.json` の "systems" に名前を並べれば、同じところで走る
+    // ------------------------------------------------------------------------
+    inline void LuminousTitleTeardown(const Engine::Core::SystemContext& ctx) {
         auto& rt = TitleRuntime(ctx.GetRegistry());
         Input::SetCursorLocked(false);
         auto& registry = ctx.GetRegistry();
@@ -1537,8 +1233,7 @@ export namespace App::Luminous {
             case Action::Start: {
                 const int total = LuminousStageCatalog::Count();
                 const int nextStage = ProfileManager::Get().GetNextUncompletedStageIndex(total);
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(
-                    LuminousStageCatalog::Load(nextStage - 1), false, nextStage));
+                LuminousGoToBaseStage(ctx.GetRegistry(), nextStage);
                 return;
             }
             case Action::StageSelect:
@@ -1546,7 +1241,7 @@ export namespace App::Luminous {
                 rt.Cursor.Reset();
                 return;
             case Action::Editor:
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousEditorScene>());
+                LuminousTransition::Get().ChangeScene(LuminousScenes::Editor);
                 return;
             case Action::Exit:
                 PostQuitMessage(0);
@@ -1644,8 +1339,7 @@ export namespace App::Luminous {
             if (clicked) {
                 if (unlocked) {
                     Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                    LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(
-                        LuminousStageCatalog::Load(i), false, stageNumber));
+                    LuminousGoToBaseStage(ctx.GetRegistry(), stageNumber);
                     return;
                 }
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Cancel.FilePath, LuminousAudioConfig::SE_UI_Cancel.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
@@ -1740,9 +1434,10 @@ export namespace App::Luminous {
             if ((isOver && isMouseClick) || rt.Cursor.Activated(i)) {
                 LuminousStage customStage;
                 std::string err;
+                // 読めるかどうかだけ先に確かめ、**行き先にはパスを渡す**
                 if (customStage.LoadFromFile(customStages[i].second, err)) {
                     Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                    LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(customStage, false));
+                    LuminousGoToStage(ctx.GetRegistry(), customStages[i].second);
                     return;
                 }
             }
@@ -1782,47 +1477,17 @@ export namespace App::Luminous {
     }
 
     // ========================================================================
-    // LuminousPlayScene 実装
+    // 本編の実装
     // ========================================================================
-    inline void LuminousPlayScene::OnSetup(Engine::Core::SceneContext& ctx) {
-        // 本編の持ち物をレジストリに作る (シーンが終わるときに一緒に片付く)
-        runtimeEntity_ = ctx.CreateEntity();
-        // 走っている間だけの持ち物。.scene.json には書き出さない
-        ctx.GetRegistry().emplace<Engine::Core::GeneratedTag>(runtimeEntity_);
-        world_ = &ctx.GetRegistry();
-        auto& rt = ctx.GetRegistry().emplace<LuminousPlayRuntime>(runtimeEntity_);
-        rt.Stage = std::move(pendingStage_);
-        rt.ReturnToEditorOnExit = pendingReturnToEditor_;
-        rt.StageNumber = pendingStageNumber_;
-        auto& registry = ctx.GetRegistry();
 
-        rt.FootstepToggle = false;
-        rt.LastFootstepIndex = 0;
-        rt.FootstepPhaseValid = false;
-        rt.PrevHoldingOrb = false;
-        rt.PrevGliding = false;
-        rt.ClearFanfarePlayed = false;
-
-        // 1〜3. 遊ぶのに欠かせないもの (カメラ・環境光・手持ちの宝玉)。
-        //   データだけのシーンから起こすときと同じ道を通す
-        LuminousPlayEnsureCoreEntities(registry);
-
-        // 4. ステージオブジェクトのスポーン
-        LuminousPlaySpawnStageObjects(registry);
-
-        // 5〜9. ステージから、遊びに要るものを組み立てる
-        LuminousPlayBuildRuntime(registry);
-
-
-        // 10. 毎フレーム更新システムを、このシーンで回す。
-        //   名前で引けるようにする登録は **ゲームモジュール側** (RegisterLuminousSystems)。
-        //   シーンより先に済ませておかないと、.scene.json から起動したときに
-        //   「そんなシステムは無い」と言われる
-        ctx.RegisterSystem(Engine::Core::SystemPhase::Update, "LuminousPlayUpdateSystem",
-                           &LuminousPlayUpdate);
-    }
-
-    inline void LuminousPlayScene::OnTeardown(Engine::Core::SceneContext& ctx) {
+    // ------------------------------------------------------------------------
+    // 片付け (計画 18 の段 3)。
+    //
+    //   コードのシーンの OnTeardown だったもの。データのシーンには C++ の
+    //   シーンが無いので、**Teardown フェーズのシステム**にした。
+    //   `.scene.json` の "systems" に名前を並べれば、同じところで走る
+    // ------------------------------------------------------------------------
+    inline void LuminousPlayTeardown(const Engine::Core::SystemContext& ctx) {
         auto& rt = PlayRuntime(ctx.GetRegistry());
         Input::SetCursorLocked(false);
 
@@ -2644,19 +2309,22 @@ export namespace App::Luminous {
                 return;
             case 1:
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(rt.Stage, rt.ReturnToEditorOnExit, rt.StageNumber));
+                LuminousGoToStage(registry, rt.StagePath, rt.StageNumber, rt.ReturnToEditorOnExit);
                 return;
             case 2:
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousTitleScene>(LuminousTitleScene::TitleView::StageSelect));
+                LuminousTransition::Get().ChangeScene(LuminousScenes::StageSelect);
                 return;
             case 3:
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousEditorScene>(rt.Stage));
+                // エディタは「いま遊んでいるステージ」を開く。
+                //   行き先はファイルなので、パスを預けて渡す (計画 18 の段 3)
+                Session(registry).StagePath = rt.StagePath;
+                LuminousTransition::Get().ChangeScene(LuminousScenes::Editor);
                 return;
             case 4:
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousTitleScene>());
+                LuminousTransition::Get().ChangeScene(LuminousScenes::Title);
                 return;
             default:
                 break;
@@ -2756,25 +2424,27 @@ export namespace App::Luminous {
                 const int total = LuminousStageCatalog::Count();
                 if (rt.StageNumber >= 1 && rt.StageNumber < total) {
                     // 登録ステージの次へ
-                    LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(
-                        LuminousStageCatalog::Load(rt.StageNumber), rt.ReturnToEditorOnExit, rt.StageNumber + 1));
+                    LuminousGoToBaseStage(registry, rt.StageNumber + 1, rt.ReturnToEditorOnExit);
                 } else if (rt.StageNumber >= total && total > 0) {
-                    LuminousTransition::Get().ChangeScene(std::make_shared<LuminousTitleScene>(LuminousTitleScene::TitleView::StageSelect));
+                    LuminousTransition::Get().ChangeScene(LuminousScenes::StageSelect);
                 } else if (rt.Stage.Name.find("Stage 1") != std::string::npos) {
-                    LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(LuminousStage::CreateMultiFloorSampleStage(), rt.ReturnToEditorOnExit));
+                    // 確認用のステージも**ファイルになっている** (計画 18 の段 2)
+                    LuminousGoToStage(registry, "Assets/Data/TestStages/multi_floor.json",
+                                      0, rt.ReturnToEditorOnExit);
                 } else {
-                    LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(LuminousStage::CreateSampleStage(), rt.ReturnToEditorOnExit));
+                    LuminousGoToStage(registry, "Assets/Data/TestStages/sample.json",
+                                      0, rt.ReturnToEditorOnExit);
                 }
                 return;
             }
             case 1:
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(rt.Stage, rt.ReturnToEditorOnExit, rt.StageNumber));
+                LuminousGoToStage(registry, rt.StagePath, rt.StageNumber, rt.ReturnToEditorOnExit);
                 return;
             case 2:
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousTitleScene>(LuminousTitleScene::TitleView::StageSelect));
+                LuminousTransition::Get().ChangeScene(LuminousScenes::StageSelect);
                 return;
             case 3:
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousTitleScene>());
+                LuminousTransition::Get().ChangeScene(LuminousScenes::Title);
                 return;
             default:
                 break;
@@ -2796,34 +2466,21 @@ export namespace App::Luminous {
     }
 
     // ========================================================================
-    // LuminousEditorScene 実装
+    // ステージエディタの実装
     // ========================================================================
-    inline void LuminousEditorScene::OnSetup(Engine::Core::SceneContext& ctx) {
-        // 持ち物をレジストリに作る (シーンが終わるときに一緒に片付く)
-        const entt::entity editorRuntimeEnt = ctx.CreateEntity();
-        ctx.GetRegistry().emplace<Engine::Core::GeneratedTag>(editorRuntimeEnt);
-        auto& rt = ctx.GetRegistry().emplace<LuminousEditorRuntime>(editorRuntimeEnt);
-        rt.ActivePaletteCategory = pendingCategory_;
-        if (hasPendingStage_) rt.Editor.Stage = std::move(pendingStage_);
-        auto& registry = ctx.GetRegistry();
 
-        // 編集に欠かせないもの (カメラ・環境光・下見のゴースト)。
-        //   データだけのシーンから起こすときと同じ道を通す
-        LuminousEditorEnsureCoreEntities(registry);
-
-        // ステージエンティティの生成
-        LuminousEditorRefreshSceneEntities(registry);
-
-        // 毎フレーム更新
-        ctx.RegisterSystem(Engine::Core::SystemPhase::Update, "LuminousEditorUpdateSystem",
-                           &LuminousEditorUpdate);
-    }
-
-    inline void LuminousEditorScene::OnTeardown(Engine::Core::SceneContext& ctx) {
+    // ------------------------------------------------------------------------
+    // 片付け (計画 18 の段 3)。
+    //
+    //   コードのシーンの OnTeardown だったもの。データのシーンには C++ の
+    //   シーンが無いので、**Teardown フェーズのシステム**にした。
+    //   `.scene.json` の "systems" に名前を並べれば、同じところで走る
+    // ------------------------------------------------------------------------
+    inline void LuminousEditorTeardown(const Engine::Core::SystemContext& ctx) {
         auto& rt = EditorRuntime(ctx.GetRegistry());
         Input::SetCursorLocked(false);
         auto& registry = ctx.GetRegistry();
-        if (auto* debug = ctx.FindService<Engine::Debug::DebugSettings>()) {
+        if (auto* debug = Engine::Core::FindService<Engine::Debug::DebugSettings>(registry)) {
             debug->ShowEngineControlPanel = rt.SavedShowEnginePanel;
         }
 
@@ -2923,6 +2580,23 @@ export namespace App::Luminous {
     //   .scene.json の "systems" に並べておけば、シーンの C++ が無くても開く。
     //   本編の LuminousStageBuildSystem と同じ形
     // ------------------------------------------------------------------------
+    // ステージエディタからのテストプレイ (計画 18 の段 3)。
+    //
+    //   編集中のステージは**まだファイルになっていない**ので、そのままでは
+    //   行き先 (データのシーン) に渡せない。一時ファイルへ書いてからパスを預ける。
+    //   ファイルに残るので、落ちたときに何を試していたかも後から見られる
+    inline void LuminousEditorTestPlay(entt::registry& registry) {
+        auto& rt = EditorRuntime(registry);
+        const std::string scratch = "Saved/EditorTestPlay.stage.json";
+        std::string error;
+        if (!rt.Editor.Stage.SaveToFile(Engine::Common::Paths::ResolveString(scratch), error)) {
+            rt.Editor.SetStatusMessage("Cannot Test Play: " + error);
+            ENGINE_LOG_ERROR("Luminous", "テストプレイ用の書き出しに失敗 '{}': {}", scratch, error);
+            return;
+        }
+        LuminousGoToStage(registry, scratch, 0, /*returnToEditor*/ true);
+    }
+
     inline void LuminousEditorBuildSystem(const Engine::Core::SystemContext& ctx) {
         auto& registry = ctx.GetRegistry();
         auto& rt = EditorRuntime(registry);
@@ -2930,6 +2604,23 @@ export namespace App::Luminous {
         // シーンのファイルが「どの並びを開いて始めるか」を言っていれば、それに従う
         //   (コードのシーンでは作るときの引数だったもの。計画 18 の段 2)
         rt.ActivePaletteCategory = SceneSetting<LuminousEditorSettings>(registry).PaletteCategory;
+
+        // 本編から「このステージを開いて」と言われていれば、それを読む (計画 18 の段 3)。
+        //   コードのシーンへ LuminousStage を丸ごと渡していた頃の代わり
+        LuminousSession& session = Session(registry);
+        if (!session.StagePath.empty()) {
+            std::string error;
+            if (rt.Editor.Stage.LoadFromFile(
+                    Engine::Common::Paths::ResolveString(session.StagePath), error)) {
+                ENGINE_LOG_INFO("Luminous", "ステージエディタで開きました '{}'", session.StagePath);
+            } else {
+                ENGINE_LOG_WARN("Luminous", "ステージエディタで開けません '{}': {}",
+                                session.StagePath, error);
+            }
+            // **1 度きり**。次に開いたときまで持ち越さない
+            session.StagePath.clear();
+        }
+
         LuminousEditorEnsureCoreEntities(registry);
         LuminousEditorRefreshSceneEntities(registry);
     }
@@ -3335,7 +3026,7 @@ export namespace App::Luminous {
         if (Input::GetKeyDown(KeyCode::F5)) {
             auto val = rt.Editor.Validate();
             if (val.IsValid) {
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(rt.Editor.Stage, true));
+                LuminousEditorTestPlay(registry);
             } else {
                 rt.Editor.SetStatusMessage("Cannot Test Play: " + (val.Errors.empty() ? "Validation Failed" : val.Errors[0]));
             }
@@ -3424,7 +3115,7 @@ export namespace App::Luminous {
         if (valRes.IsValid) {
             ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.75f, 0.35f, 1.0f));
             if (ImGui::Button(" TEST PLAY (F5) ", ImVec2(140, 36))) {
-                LuminousTransition::Get().ChangeScene(std::make_shared<LuminousPlayScene>(rt.Editor.Stage, true));
+                LuminousEditorTestPlay(registry);
             }
             ImGui::PopStyleColor();
         } else {
@@ -3468,7 +3159,7 @@ export namespace App::Luminous {
 
         ImGui::SameLine();
         if (ImGui::Button("TITLE", ImVec2(80, 36))) {
-            LuminousTransition::Get().ChangeScene(std::make_shared<LuminousTitleScene>());
+            LuminousTransition::Get().ChangeScene(LuminousScenes::Title);
         }
 
         ImGui::End();

@@ -10,6 +10,7 @@
 export module App.Luminous.Transition;
 
 import Engine.Core.Scene;
+import Engine.Core.SceneFile;   // DataScene (シーンのファイルへ切り替える)
 import Engine.Core.SystemContext;
 import Engine.Graphics.UIRenderer;
 import Engine.Audio.Core;
@@ -19,6 +20,21 @@ import Engine.Graphics.Components.Material;
 import Engine.Core.Services;
 
 export namespace App::Luminous {
+
+    // ========================================================================
+    // シーンのファイル (計画 18)
+    //
+    //   遷移の行き先は**ファイルのパス**。コードのシーンを作って渡していた頃は、
+    //   同じ場面がコードとデータの 2 か所にあり、片方を直すともう片方とずれた。
+    //   「どのステージを遊ぶか」のような**その場で決まる値**は
+    //   LuminousSession に置く (シーンをまたいで残る持ち物)
+    // ========================================================================
+    namespace LuminousScenes {
+        inline constexpr const char* Title       = "Assets/Scenes/Luminous.Title.scene.json";
+        inline constexpr const char* StageSelect = "Assets/Scenes/Luminous.StageSelect.scene.json";
+        inline constexpr const char* Play        = "Assets/Scenes/Luminous.Play.scene.json";
+        inline constexpr const char* Editor      = "Assets/Scenes/Luminous.Editor.scene.json";
+    }
 
     // ========================================================================
     // LuminousTransition
@@ -50,6 +66,12 @@ export namespace App::Luminous {
         static constexpr float ASSET_WAIT_TIMEOUT = 8.0f;
 
         enum class State { Idle, FadeOut, WaitAssets, FadeIn };
+
+        // シーンのファイルへ切り替える (暗転してから実際に切り替わる)。
+        //   **こちらを使う**。コードのシーンを渡す下の形は、いずれ消える
+        void ChangeScene(std::string scenePath) {
+            ChangeScene(std::make_shared<Engine::Core::DataScene>(std::move(scenePath)));
+        }
 
         // 新しいシーンへの切り替えを予約する (暗転してから実際に切り替わる)
         void ChangeScene(std::shared_ptr<Engine::Core::IScene> next) {

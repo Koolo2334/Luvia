@@ -37,6 +37,10 @@
     {
       "name": "LuminousTitleUpdateSystem",
       "phase": "Update"
+    },
+    {
+      "name": "LuminousTitleTeardownSystem",
+      "phase": "Teardown"
     }
   ],
   "version": 1
