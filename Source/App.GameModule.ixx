@@ -125,7 +125,7 @@ namespace App {
         ctx.RegisterSceneAlias("--editor-walls", "Assets/Scenes/Luminous.Editor.Walls.scene.json");
         ctx.RegisterSceneAlias("--editor", "Assets/Scenes/Luminous.Editor.scene.json");
         ctx.RegisterSceneAlias("--base-stage=", "Assets/Scenes/Luminous.Play.scene.json");
-        ctx.RegisterSceneAlias("--stageselect", "Luminous.StageSelect");
+        ctx.RegisterSceneAlias("--stageselect", "Assets/Scenes/Luminous.StageSelect.scene.json");
         ctx.RegisterSceneAlias("--play-shadow-edge", "Assets/Scenes/Luminous.Play.ShadowEdge.scene.json");
         ctx.RegisterSceneAlias("--play-shadow-open", "Assets/Scenes/Luminous.Play.ShadowOpen.scene.json");
         ctx.RegisterSceneAlias("--play-shadow", "Assets/Scenes/Luminous.Play.Shadow.scene.json");
@@ -145,7 +145,7 @@ namespace App {
         // 3. シーン
         RegisterScenes(ctx);
         RegisterSceneAliases(ctx);
-        ctx.SetDefaultScene("Luminous.Title");
+        ctx.SetDefaultScene("Assets/Scenes/Luminous.Title.scene.json");
 
         // 4. 描画に差し込む機能
         ctx.RegisterPipelineFeature([](Engine::Graphics::RenderPipelineBase& pipeline) {

@@ -1,0 +1,3351 @@
+{
+  "entities": [
+    {
+      "components": {
+        "Hierarchy": {},
+        "LuminousFlameEmitter": {
+          "$shared": "sc74dbfc2a7f4a4a4"
+        },
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sce879e77577d7332"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.9349003,
+            2.3511999,
+            4.812624e-09
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            0.45,
+            0.72,
+            0.45
+          ]
+        }
+      },
+      "guid": "01703b4cabe5fbb0-7ff677f6702f1c5b",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sae04795703bfd3a2"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -3.6,
+            0.0,
+            -3.7
+          ],
+          "LocalRotation": [
+            0.0,
+            0.1305262,
+            0.0,
+            0.9914449
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "03c7e8d3c7b91bd4-8f2e8a18d22adfbd",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -5.265,
+            0.0,
+            -2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.7071068,
+            -0.0,
+            -0.7071067
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "05ddc8609bfb74e6-e09ce4a26e03e693",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [
+            2.106,
+            0.0,
+            -5.265
+          ],
+          "LocalRotation": [
+            0.0,
+            1.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "0aff606108976ddd-2d9c7c0f32647451",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.212,
+            0.0,
+            0.0
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "0d0f477cebd7910b-a010bfb3fb690c6e",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "LuminousFlameEmitter": {
+          "$shared": "sc74dbfc2a7f4a4a4"
+        },
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sce879e77577d7332"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.9349003,
+            2.3511999,
+            -1.3129293e-09
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            0.45,
+            0.72,
+            0.45
+          ]
+        }
+      },
+      "guid": "0d3f77885dea16d8-71056a7ced836974",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.212,
+            3.063,
+            0.0
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "0d47356e39669f7a-127269fc05acd94e",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [
+            5.265,
+            0.0,
+            -4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.70710677,
+            0.0,
+            0.70710677
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "0fa3065179c8151c-45e7ea7735cafcf4",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "PointLight": {
+          "$shared": "s102b0b21d339018a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            9.625248e-09,
+            2.3511999,
+            -4.9349003
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "10c4cdf03305d4f8-af814ef7793317d5",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            0.0,
+            -4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "11a3d68d1b5cd5d4-91f7e0e79d09a697",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.212,
+            3.063,
+            4.212
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "12a51f83e4a11ff0-616ea323edef65c8",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "PointLight": {
+          "$shared": "s102b0b21d339018a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.9349003,
+            2.3511999,
+            4.812624e-09
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "1570225974b433d1-288600882054fa0f",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sa2134603afe7beab"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.2,
+            0.0,
+            4.2
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "170539b87b31dd74-6f2074da1e472732",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "PointLight": {
+          "CastShadows": false,
+          "Color": [
+            0.2,
+            0.5,
+            0.9
+          ],
+          "Intensity": 16.0,
+          "LightSize": 0.05,
+          "Radius": 14.0,
+          "ShadowNearZ": 1.0
+        },
+        "Transform": {
+          "LocalPosition": [
+            3.5,
+            2.2,
+            3.5
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "17b042f5dbccaa88-c33d3c529cceaeaa",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -2.106,
+            0.0,
+            0.0
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "1a12864dc1f5b49d-2f38d3db8c64b395",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [
+            2.106,
+            0.0,
+            5.265
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "1afc1ada88e8c011-93265be85566776e",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.212,
+            0.0,
+            -4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "230085e759cf6b3a-39ad9e8e9e0c0bf9",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            2.106,
+            3.063,
+            4.212
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "2455da5f0681b9b3-1fed62431fbaed15",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.212,
+            3.063,
+            -4.212
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "28e82e1d5ac5db55-78ea66fc69e93233",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            2.106,
+            0.0,
+            0.0
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "2a51bdb77314d3eb-908bab6d8e5c30dc",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -5.265,
+            0.0,
+            -4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.7071068,
+            -0.0,
+            -0.7071067
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "2ce079b5137d2154-a6b00f9b84b14148",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -2.106,
+            3.063,
+            2.106
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "2db28be7f8d0bdfa-42cd7ddd31f2beb8",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.212,
+            3.063,
+            -4.212
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "308774465e13a0eb-8cdf7a1a91ed8bc7",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s46617c783909c8a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -5.045,
+            1.8,
+            0.0
+          ],
+          "LocalRotation": [
+            0.0,
+            0.7071068,
+            -0.0,
+            -0.7071067
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "34da79a6f423cb2d-f53c087622e5e4bf",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.212,
+            0.0,
+            -2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "355b563115868697-7b419a1339fbe2d7",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            2.106,
+            0.0,
+            4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "384dc0e694b0bd13-99f771dfe2f7c6ae",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            2.106,
+            3.063,
+            0.0
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "3c16be0c85d19788-96797bbc01393847",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "Name": {
+          "Name": "TitleRoom"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -2.106,
+            0.0,
+            -5.265
+          ],
+          "LocalRotation": [
+            0.0,
+            1.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "41b48cb6242c63d9-1d4af8618bcb81d3",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            2.106,
+            3.063,
+            -2.106
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "45ad1c6e03c80f51-159bb3ec50e36b7e",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s9576d51cf5cf8655"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -3.8,
+            0.0,
+            -3.0
+          ],
+          "LocalRotation": [
+            0.0,
+            0.38268343,
+            0.0,
+            0.9238795
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "4fe06669d9efe498-66512157d0f8d54a",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -2.106,
+            0.0,
+            -2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "510cdc2bad14c508-1c096e6e26bb92ca",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -2.106,
+            3.063,
+            4.212
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "518e93b837750083-b80107acee1c946a",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.212,
+            3.063,
+            0.0
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "55323b1636cc53cd-627eee78e5bfa613",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.212,
+            0.0,
+            4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "5cf0c501a3f23480-0fb4f66135312042",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.212,
+            0.0,
+            0.0
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "63e03937a565452d-14edad6a35d35f26",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.212,
+            0.0,
+            -2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "6b2cb6a91d8addd4-e4165a9190da8b6d",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            2.106,
+            0.0,
+            -4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "6bc0614742123559-f06dba54e6698ecf",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            3.063,
+            4.212
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "6ccb5e456eaedad3-a76db155af35cf06",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            3.063,
+            2.106
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "6e43d9b6b4c8de5d-cb69dced8839cbe8",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            2.106,
+            0.0,
+            -2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "732dfe9cee3599c2-908ecf7c5732bc7b",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.212,
+            0.0,
+            4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "768c1925d9a1853b-c5ed7d818ab9b108",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            3.063,
+            -2.106
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "76de09c40f07320e-6e9ddf4a917ac092",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sae04795703bfd3a2"
+        },
+        "Transform": {
+          "LocalPosition": [
+            3.4,
+            0.0,
+            -3.7
+          ],
+          "LocalRotation": [
+            0.0,
+            0.57357645,
+            0.0,
+            0.81915206
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "78da4065893b9118-0e1f47c1b5f96a4d",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            3.063,
+            -4.212
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "8327214fc0c3ef9c-bff3be0a379cd353",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "LuminousFlameEmitter": {
+          "$shared": "sc74dbfc2a7f4a4a4"
+        },
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sce879e77577d7332"
+        },
+        "Transform": {
+          "LocalPosition": [
+            9.625248e-09,
+            2.3511999,
+            -4.9349003
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            0.45,
+            0.72,
+            0.45
+          ]
+        }
+      },
+      "guid": "86ef8e683ab83d1c-0e604c06b509002d",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            0.0,
+            4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "8759b3e2747e8b39-1f3e0db24f3e93a8",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -5.265,
+            0.0,
+            4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.7071068,
+            -0.0,
+            -0.7071067
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "87c5a9546d45e0cb-c117459ad4d82c79",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s46617c783909c8a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            1.8,
+            -5.045
+          ],
+          "LocalRotation": [
+            0.0,
+            1.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "884ba1d06cf50b9b-87d76e45c8159d2d",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s9576d51cf5cf8655"
+        },
+        "Transform": {
+          "LocalPosition": [
+            3.7,
+            0.0,
+            3.5
+          ],
+          "LocalRotation": [
+            0.0,
+            -0.25881904,
+            0.0,
+            0.9659258
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "8bc0d8b7d317e551-4d8d7307ebeb84be",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -2.106,
+            3.063,
+            -2.106
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "8cb3a6ecf87f26d6-a37fd5d44a825a98",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            2.106,
+            3.063,
+            2.106
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "8e3c4c485450502d-34340766257406dd",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.212,
+            0.0,
+            2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "8f8b6dfd6e81ba44-45254aca93500413",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -5.265,
+            0.0,
+            0.0
+          ],
+          "LocalRotation": [
+            0.0,
+            0.7071068,
+            -0.0,
+            -0.7071067
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "923be65fad4d3b55-65744d32e55118c7",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -2.106,
+            0.0,
+            -4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "95a4f766d13a6957-c857d345c64d5d5b",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sa2134603afe7beab"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.2,
+            0.0,
+            -4.2
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "96bdbf171147a1b6-2f7cc70c913192a6",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            0.0,
+            5.265
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "96f153adf9357cc3-0ee6af3aa5dbc779",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.212,
+            3.063,
+            -2.106
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "99b7eea671de17ef-45b09d18aea431cb",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [
+            5.265,
+            0.0,
+            4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.70710677,
+            0.0,
+            0.70710677
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "a09ee36f1d2f7708-754f9a50862a9e8d",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -2.106,
+            0.0,
+            2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "a0cc4349f18fb319-11d4768c3b3c802a",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.212,
+            0.0,
+            5.265
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "a1be1e791506caf4-95daf23bd12e619d",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "PointLight": {
+          "$shared": "s102b0b21d339018a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.9349003,
+            2.3511999,
+            -1.3129293e-09
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "a1bfbed5603d0775-3261b88124719deb",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.212,
+            3.063,
+            -2.106
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "a473cbb0545c3580-84a769f808e593a5",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -2.106,
+            0.0,
+            4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "a555392184d1f9d4-1906a07d042ae9db",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s46617c783909c8a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            5.045,
+            1.8,
+            0.0
+          ],
+          "LocalRotation": [
+            0.0,
+            0.70710677,
+            0.0,
+            0.70710677
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "a9170d292baed551-d40c0107c49252e8",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.212,
+            0.0,
+            2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "aacaee62a9658fbf-776e3fd981248b36",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "Mesh": "8cbacd40b460929e-952a7abd6cacc2c3",
+          "Slots": [
+            {
+              "IsVisible": true,
+              "Material": "497adb99f7fc4e3e-54aa1061133042f7",
+              "Overrides": [
+                {
+                  "Name": "BaseColor",
+                  "Number": 0,
+                  "Values": [
+                    0.28,
+                    0.28,
+                    0.3,
+                    1.0
+                  ]
+                },
+                {
+                  "Name": "Roughness",
+                  "Number": 0,
+                  "Values": [
+                    0.6
+                  ]
+                },
+                {
+                  "Name": "Metallic",
+                  "Number": 0,
+                  "Values": [
+                    0.15
+                  ]
+                }
+              ],
+              "Tags": [
+                "GBufferPassTag",
+                "ShadowPassTag"
+              ]
+            }
+          ]
+        },
+        "Transform": {
+          "$shared": "s6a94f38b407d0381"
+        }
+      },
+      "guid": "ac4eaacb2420d57c-bcb486b3efc8468a",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.212,
+            3.063,
+            4.212
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "b82698a0d7947874-46158566890f6f54",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -2.106,
+            0.0,
+            5.265
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "b91a2f8d6e378d2c-01a4bf3840ff583c",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "$shared": "s6a94f38b407d0381"
+        }
+      },
+      "guid": "ba3354e085093584-e09990c9795eb645",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sa2134603afe7beab"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.2,
+            0.0,
+            -4.2
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "bbc5f38961f51afd-e2a6f4dbae37acb8",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.212,
+            0.0,
+            5.265
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "bfd6b65bf88b3378-ae8e065edf445f29",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.212,
+            0.0,
+            -5.265
+          ],
+          "LocalRotation": [
+            0.0,
+            1.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "c02083b33fddd25c-1c19685b7805d749",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "PointLight": {
+          "CastShadows": true,
+          "Color": [
+            1.0,
+            0.88,
+            0.35
+          ],
+          "Intensity": 42.0,
+          "LightSize": 0.05,
+          "Radius": 16.0,
+          "ShadowNearZ": 1.0
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            1.03,
+            0.0
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "c2041d380a931233-ed297b61a3d7acdb",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sa2134603afe7beab"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.2,
+            0.0,
+            4.2
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "c2d4bf267ae1d1ac-aa555407e4244338",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s46617c783909c8a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            1.8,
+            5.045
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "c87d5bf34e86f465-e977af4cfd12817d",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            0.0,
+            -2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "cbba56d486a10ed0-ee38c4827e6926eb",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "PointLight": {
+          "$shared": "s102b0b21d339018a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            2.3511999,
+            4.9349003
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "cf59c73474a5217c-030383de28ae5510",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            5.265,
+            0.0,
+            2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.70710677,
+            0.0,
+            0.70710677
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "d259ec97d5f54bbd-32d8b889bb8dae84",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.212,
+            0.0,
+            -4.212
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "d3ebade0068fbeee-c4f26421a5ba33ee",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -5.265,
+            0.0,
+            2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.7071068,
+            -0.0,
+            -0.7071067
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "d47931f66396d955-c96ba87cb3b35170",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Camera": {
+          "AspectRatio": 1.7777778,
+          "FarZ": 200.0,
+          "FovY": 1.0471976,
+          "NearZ": 0.1,
+          "OrthoHeight": 10.0,
+          "OrthoWidth": 10.0,
+          "Type": "Perspective"
+        },
+        "LuminousTitleCameraTag": {},
+        "Transform": {
+          "LocalPosition": [
+            2.85,
+            1.32,
+            0.0
+          ],
+          "LocalRotation": [
+            0.08639165,
+            -0.8280526,
+            0.13303149,
+            0.53774357
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "d5406a65bfe100f2-74596f945b304a0b",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -2.106,
+            3.063,
+            -4.212
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "de8c53efd038315a-83aa2afa178191ef",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -2.106,
+            3.063,
+            0.0
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "dfadb58568958bbb-17e3ad7e2f45097a",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            5.265,
+            0.0,
+            -2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.70710677,
+            0.0,
+            0.70710677
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "dff7b9411fb9ddce-3f6ff2c6c8aff354",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.212,
+            0.0,
+            -5.265
+          ],
+          "LocalRotation": [
+            0.0,
+            1.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "e15b648ba7c8bc47-0b6f6fb97e804354",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            -4.212,
+            3.063,
+            2.106
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "e563fcca5c6a7a01-a725dc242efc32ae",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            4.212,
+            3.063,
+            2.106
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "e64a771e8678e3df-e385a0b12f057d25",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "LuminousFlameEmitter": {
+          "$shared": "sc74dbfc2a7f4a4a4"
+        },
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "sce879e77577d7332"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            2.3511999,
+            4.9349003
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            0.45,
+            0.72,
+            0.45
+          ]
+        }
+      },
+      "guid": "e900e3c27324572b-0c93ac3963f77af3",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s8639ddb058ec053a"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            0.0,
+            -5.265
+          ],
+          "LocalRotation": [
+            0.0,
+            1.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "e982ab71f5bb494b-718dfa213544c8ee",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s9576d51cf5cf8655"
+        },
+        "Transform": {
+          "LocalPosition": [
+            3.8,
+            0.0,
+            -3.1
+          ],
+          "LocalRotation": [
+            0.0,
+            0.087155744,
+            0.0,
+            0.9961947
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "ea5e067921e3813d-3f14eb514b53df9e",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s2aa195dd83d254ed"
+        },
+        "Transform": {
+          "LocalPosition": [
+            5.265,
+            0.0,
+            0.0
+          ],
+          "LocalRotation": [
+            0.0,
+            0.70710677,
+            0.0,
+            0.70710677
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "ee3bac917b4efda2-6e0d92f83fddcfd2",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            2.106,
+            0.0,
+            2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "f01582a2e2da0b92-9c215910d910b5e1",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            2.106,
+            3.063,
+            -4.212
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "f1e325fb38fefe2d-c55ff2667b555384",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            0.0,
+            2.106
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "f7dedf1aa792d810-aeecec618a91281c",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "LuminousTitleOrbTag": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "Mesh": "a3ba81075dca7f61-02c1c60d3f4850af",
+          "Slots": [
+            {
+              "IsVisible": true,
+              "Material": "d03eb15c31b14abf-ca5adf57d3b85ba9",
+              "Overrides": [],
+              "Tags": [
+                "TranslucentPassTag"
+              ]
+            }
+          ]
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            1.03,
+            0.0
+          ],
+          "LocalRotation": [
+            0.0,
+            0.0,
+            0.04997917,
+            0.99875027
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "fe2ad1dad5eeed08-0346e03c350f4f92",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
+        "MeshRoot": {},
+        "MeshSource": {
+          "$shared": "s5349f78b0c4499a8"
+        },
+        "Transform": {
+          "LocalPosition": [
+            0.0,
+            3.063,
+            0.0
+          ],
+          "LocalRotation": [
+            1.0,
+            -0.0,
+            -0.0,
+            -6.229855e-08
+          ],
+          "LocalScale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "guid": "ff053d20179eeb25-737e4fa2aa88f207",
+      "parent": "3f216f8f586d16bb-5ec56e424afeb267"
+    }
+  ],
+  "name": "Luminous.TitleRoom",
+  "shared": {
+    "s102b0b21d339018a": {
+      "CastShadows": true,
+      "Color": [
+        1.0,
+        0.62,
+        0.22
+      ],
+      "Intensity": 20.0,
+      "LightSize": 0.05,
+      "Radius": 10.0,
+      "ShadowNearZ": 0.05
+    },
+    "s2aa195dd83d254ed": {
+      "Mesh": "ecd6396d90838ebd-48fadb992f53e817",
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [
+                0.159,
+                0.205,
+                0.337,
+                1.0
+              ]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [
+                0.8
+              ]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [
+                0.05
+              ]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
+    },
+    "s46617c783909c8a8": {
+      "Mesh": "bdbf2871c9dbda30-763835d267b9410f",
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [
+                0.095,
+                0.117,
+                0.188,
+                1.0
+              ]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [
+                0.85
+              ]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [
+                0.1
+              ]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        },
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [
+                0.381,
+                0.133,
+                0.032,
+                1.0
+              ]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [
+                0.65
+              ]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [
+                0.02
+              ]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
+    },
+    "s5349f78b0c4499a8": {
+      "Mesh": "7bd827f5f9252b87-9745d1c821b3601f",
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [
+                0.095,
+                0.117,
+                0.188,
+                1.0
+              ]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [
+                0.85
+              ]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [
+                0.1
+              ]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        },
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [
+                0.159,
+                0.205,
+                0.337,
+                1.0
+              ]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [
+                0.8
+              ]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [
+                0.05
+              ]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
+    },
+    "s6a94f38b407d0381": {
+      "LocalPosition": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "s8639ddb058ec053a": {
+      "Mesh": "b1d7425c6724cfa6-4d085d7352af4fa9",
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [
+                0.095,
+                0.117,
+                0.188,
+                1.0
+              ]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [
+                0.85
+              ]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [
+                0.1
+              ]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        },
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [
+                0.159,
+                0.205,
+                0.337,
+                1.0
+              ]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [
+                0.8
+              ]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [
+                0.05
+              ]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
+    },
+    "s9576d51cf5cf8655": {
+      "Mesh": "6c89e824a53be3bc-c4d3e6c4c0f3dac1",
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [
+                0.356,
+                0.429,
+                0.578,
+                1.0
+              ]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [
+                0.7
+              ]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [
+                0.2
+              ]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        },
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [
+                0.381,
+                0.133,
+                0.032,
+                1.0
+              ]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [
+                0.65
+              ]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [
+                0.02
+              ]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
+    },
+    "sa2134603afe7beab": {
+      "Mesh": "793360355318e064-3d89aecb5d940c69",
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [
+                0.159,
+                0.205,
+                0.337,
+                1.0
+              ]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [
+                0.8
+              ]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [
+                0.05
+              ]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
+    },
+    "sae04795703bfd3a2": {
+      "Mesh": "ad2fa73f3ed49065-11844654d72804ed",
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "a8c196c4b22897c7-bd11ed20b27c2ea3",
+          "Overrides": [
+            {
+              "Name": "BaseColor",
+              "Number": 0,
+              "Values": [
+                0.381,
+                0.133,
+                0.032,
+                1.0
+              ]
+            },
+            {
+              "Name": "Roughness",
+              "Number": 0,
+              "Values": [
+                0.65
+              ]
+            },
+            {
+              "Name": "Metallic",
+              "Number": 0,
+              "Values": [
+                0.02
+              ]
+            }
+          ],
+          "Tags": [
+            "GBufferPassTag",
+            "ShadowPassTag"
+          ]
+        }
+      ]
+    },
+    "sc74dbfc2a7f4a4a4": {
+      "BaseScale": 0.082,
+      "Count": 8,
+      "Radius": 0.115
+    },
+    "sce879e77577d7332": {
+      "Mesh": "a3ba81075dca7f61-02c1c60d3f4850af",
+      "Slots": [
+        {
+          "IsVisible": true,
+          "Material": "1771061f0d7f540f-97e4b76cddd649af",
+          "Overrides": [
+            {
+              "Name": "CoreColor",
+              "Number": 0,
+              "Values": [
+                1.0,
+                0.62,
+                0.22,
+                0.95
+              ]
+            },
+            {
+              "Name": "RimColor",
+              "Number": 0,
+              "Values": [
+                1.0,
+                0.744,
+                0.242,
+                0.9
+              ]
+            },
+            {
+              "Name": "FresnelPower",
+              "Number": 0,
+              "Values": [
+                1.6
+              ]
+            },
+            {
+              "Name": "EmissiveIntensity",
+              "Number": 0,
+              "Values": [
+                4.4
+              ]
+            }
+          ],
+          "Tags": [
+            "TranslucentPassTag"
+          ]
+        }
+      ]
+    }
+  },
+  "version": 1
+}

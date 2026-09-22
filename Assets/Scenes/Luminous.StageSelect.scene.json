@@ -3,6 +3,18 @@
     {
       "components": {
         "Hierarchy": {},
+        "LuminousTitleSettings": {
+          "View": "StageSelect"
+        },
+        "Name": {
+          "Name": "TitleSettings"
+        }
+      },
+      "guid": "08662710a4ac3d48-dbb181ef84cde4b8"
+    },
+    {
+      "components": {
+        "Hierarchy": {},
         "Name": {
           "Name": "TitleRoom"
         },
@@ -29,10 +41,10 @@
           ]
         }
       },
-      "guid": "f7178bc3c9249946-6bdc88973eee4356"
+      "guid": "3426f5417e5c564f-cdecfaab06f92c29"
     }
   ],
-  "name": "Luminous.Title",
+  "name": "Luminous.StageSelect",
   "systems": [
     {
       "name": "LuminousTitleUpdateSystem",
