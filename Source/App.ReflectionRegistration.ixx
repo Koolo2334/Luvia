@@ -12,6 +12,7 @@ import App.Luminous.PlayerSystem;
 import App.Luminous.OrbOcclusionData;
 import App.Luminous.Types;
 import App.Luminous.SceneTags;
+import App.Luminous.TitleRuntime;   // LuminousTitleView
 
 // ============================================================================
 // ゲーム側のコンポーネントをリフレクションへ登録する
@@ -61,6 +62,27 @@ namespace App {
             .Field("Count", &App::Luminous::LuminousFlameEmitterComponent::Count)
             .Field("Radius", &App::Luminous::LuminousFlameEmitterComponent::Radius)
             .Field("BaseScale", &App::Luminous::LuminousFlameEmitterComponent::BaseScale);
+
+        // ---- シーンごとの設定 (計画 18 の段 2) ----
+        //
+        //   コードのシーンが**作るときの引数**で分けていた変種を、部品にした。
+        //   シーンのファイルに 1 体置いておくと、組み立てるシステムが読む。
+        //   登録するとインスペクターにも出るので、開いたまま直せる
+        registry.RegisterEnum<App::Luminous::LuminousTitleView>("LuminousTitleView")
+            .Value("MainMenu", App::Luminous::LuminousTitleView::MainMenu)
+            .Value("StageSelect", App::Luminous::LuminousTitleView::StageSelect)
+            .Value("CustomStageList", App::Luminous::LuminousTitleView::CustomStageList);
+
+        registry.Register<App::Luminous::LuminousTitleSettings>("LuminousTitleSettings")
+            .Field("View", &App::Luminous::LuminousTitleSettings::View);
+
+        registry.Register<App::Luminous::LuminousPlaySettings>("LuminousPlaySettings")
+            .Field("StagePath", &App::Luminous::LuminousPlaySettings::StagePath)
+            .Field("StageNumber", &App::Luminous::LuminousPlaySettings::StageNumber)
+            .Field("ReturnToEditor", &App::Luminous::LuminousPlaySettings::ReturnToEditor);
+
+        registry.Register<App::Luminous::LuminousEditorSettings>("LuminousEditorSettings")
+            .Field("PaletteCategory", &App::Luminous::LuminousEditorSettings::PaletteCategory);
 
         // ---- 環境光 ----
         registry.Register<App::Graphics::SkyLightComponent>("SkyLight")

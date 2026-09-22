@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <cstdio>
+#include <cstdlib>
 #include <unordered_map>
 #include <cmath>
 #include <algorithm>
@@ -816,11 +817,27 @@ export namespace App::Luminous {
     }
 
     // ------------------------------------------------------------------------
+    // シーンのファイルが置いた「そのシーンの設定」を取る (計画 18 の段 2)。
+    //
+    //   コードのシーンが**作るときの引数**で変種を分けていたものの行き先。
+    //   置いてなければ既定値 (= 引数なしで作ったときと同じ) を返すので、
+    //   設定を書いていない古いシーンのファイルもそのまま動く
+    // ------------------------------------------------------------------------
+    template <typename T>
+    [[nodiscard]] inline T SceneSetting(entt::registry& registry) {
+        const auto view = registry.view<T>();
+        if (view.empty()) return T{};
+        return registry.get<T>(view.front());
+    }
+
+    // ------------------------------------------------------------------------
     // ステージの資産から世界を建てる (名前つきのシステム)。
     //
     //   .scene.json の "systems" に並べておけば、シーンの C++ が無くても建つ。
-    //   どのステージを建てるかは、シーンをまたいで残る LuminousSession が持つ
-    //   (シーンに引数を渡す仕組みは作らない。懸念 B を参照)。
+    //   どのステージを建てるかは 2 段で決まる。
+    //     1. シーンをまたいで残る LuminousSession (ステージ選択から来たとき)
+    //     2. シーンのファイルが置いた LuminousPlaySettings (直に開いたとき)
+    //   どちらも空なら基本ステージ 1。
     //   建てたものには GeneratedTag が付くので、シーンのファイルには残らない
     // ------------------------------------------------------------------------
     inline void LuminousStageBuildSystem(const Engine::Core::SystemContext& ctx) {
@@ -828,12 +845,40 @@ export namespace App::Luminous {
         auto& rt = PlayRuntime(registry);
         if (!rt.Stage.Objects.empty()) return;   // もう建っている
 
+        // 1. 遊ぶ人が選んだもの (ステージ選択・エディタのテストプレイから来たとき)
         const LuminousSession& session = Session(registry);
-        // どれも選ばれていなければ基本ステージ 1 (--base-stage=1 と同じ絵になる)
-        const bool isDefault = session.StagePath.empty();
-        const std::string path = isDefault
-            ? std::string("Assets/Data/BaseStages/stage_01.json")
-            : session.StagePath;
+        // 2. シーンのファイルが言っているもの (そのシーンを直に開いたとき)
+        const LuminousPlaySettings settings = SceneSetting<LuminousPlaySettings>(registry);
+
+        // どれを使うかは**細かく言った側が勝つ**。
+        //   遊ぶ人の選択 > 起動オプション > シーンのファイルの既定 > 基本ステージ 1
+        std::string path = session.StagePath;
+        int stageNumber = session.StageNumber;
+        bool returnToEditor = session.ReturnToEditor;
+
+        // 2. 開発用の起動オプション --base-stage=N。
+        //    **シーンを作るときの引数ではなく、ここで読む**。
+        //    そうするとシーンのファイルは 1 つで済み、番号だけが外から変わる
+        if (path.empty()) {
+            if (const auto option = Engine::Common::CommandLine::Get().Value("base-stage")) {
+                const int number = std::atoi(option->c_str());
+                if (const auto* entry = LuminousStageCatalog::GetByStageNumber(number)) {
+                    path = entry->StageFilePath;
+                    stageNumber = number;
+                }
+            }
+        }
+        // 3. シーンのファイルが言っている既定
+        if (path.empty()) {
+            path = settings.StagePath;
+            stageNumber = settings.StageNumber;
+            returnToEditor = settings.ReturnToEditor;
+        }
+        // 4. どれも無ければ基本ステージ 1
+        if (path.empty()) {
+            path = "Assets/Data/BaseStages/stage_01.json";
+            stageNumber = 1;
+        }
 
         std::string error;
         // パスはプロジェクトからの相対で書く。実際の場所は Paths が決める
@@ -841,8 +886,8 @@ export namespace App::Luminous {
             ENGINE_LOG_ERROR("Luminous", "ステージを読めませんでした '{}': {}", path, error);
             return;
         }
-        rt.StageNumber = isDefault ? 1 : session.StageNumber;
-        rt.ReturnToEditorOnExit = session.ReturnToEditor;
+        rt.StageNumber = stageNumber;
+        rt.ReturnToEditorOnExit = returnToEditor;
 
         LuminousPlayEnsureCoreEntities(registry);
         LuminousPlaySpawnStageObjects(registry);
@@ -1287,6 +1332,10 @@ export namespace App::Luminous {
 
         const auto cameras = registry.view<LuminousTitleCameraTag>();
         if (cameras.empty()) return;   // まだ読み込み途中
+
+        // シーンのファイルが「どの画面から始めるか」を言っていれば、それに従う
+        //   (コードのシーンでは作るときの引数だったもの。計画 18 の段 2)
+        rt.View = SceneSetting<LuminousTitleSettings>(registry).View;
 
         // 入場時の一手。コードのシーンでは OnSetup がやっていたもの
         rt.Camera = cameras.front();
@@ -2878,6 +2927,9 @@ export namespace App::Luminous {
         auto& registry = ctx.GetRegistry();
         auto& rt = EditorRuntime(registry);
         if (rt.Camera != entt::null && registry.valid(rt.Camera)) return;   // もう建っている
+        // シーンのファイルが「どの並びを開いて始めるか」を言っていれば、それに従う
+        //   (コードのシーンでは作るときの引数だったもの。計画 18 の段 2)
+        rt.ActivePaletteCategory = SceneSetting<LuminousEditorSettings>(registry).PaletteCategory;
         LuminousEditorEnsureCoreEntities(registry);
         LuminousEditorRefreshSceneEntities(registry);
     }

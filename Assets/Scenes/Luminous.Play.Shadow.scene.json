@@ -1,6 +1,6 @@
 ﻿{
   "version": 1,
-  "name": "Luminous.Play",
+  "name": "Luminous.Play.Shadow",
   "systems": [
     {
       "name": "LuminousStageBuildSystem",
@@ -13,10 +13,10 @@
   ],
   "entities": [
     {
-      "guid": "5aaf662bdf2be0dd-4eb3a5cb6d1f106c",
+      "guid": "9debe4e941aefc75-2b62d207099dc90c",
       "components": {
         "LuminousPlaySettings": {
-          "StagePath": "Assets/Data/TestStages/sample.json"
+          "StagePath": "Assets/Data/TestStages/shadow.json"
         }
       }
     }

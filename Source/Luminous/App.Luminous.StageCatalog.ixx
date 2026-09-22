@@ -5,10 +5,12 @@
 #include <filesystem>
 
 #include <DirectXMath.h>
+#include <EngineDebug.h>
 export module App.Luminous.StageCatalog;
 
 import App.Luminous.StageData;
 import Engine.Common.Config;
+import Engine.Debug.Log;
 
 export namespace App::Luminous {
 
@@ -40,6 +42,9 @@ export namespace App::Luminous {
     inline const std::string BASE_STAGE_DIR = "Assets/Data/BaseStages/";
     // エディタで作ったユーザーステージのディレクトリ (従来どおり)
     inline const std::string USER_STAGE_DIR = "Assets/Data/Stages/";
+    // 確認用のステージ (多層・影の境目など) のディレクトリ。
+    //   コードの中にしか無かったものを、データのファイルにして置く場所 (計画 18)
+    inline const std::string TEST_STAGE_DIR = "Assets/Data/TestStages/";
 
     struct LuminousStageCatalog {
         // --------------------------------------------------------------------
@@ -130,6 +135,53 @@ export namespace App::Luminous {
 
                 std::string err;
                 stage.SaveToFile(path, err);
+            }
+        }
+
+        // --------------------------------------------------------------------
+        // 確認用のステージを、データのファイルにしておく (計画 18 の段 2)。
+        //
+        //   多層・影の境目・影の踏破は、これまで**コードの中にしか無かった**。
+        //   そのため `Luminous.Play.MultiFloor` のような変種は、
+        //   「作るときに引数でステージを渡すコードのシーン」でしか開けなかった。
+        //
+        //   ファイルにしておけば、変種は `.scene.json` に
+        //   `LuminousPlaySettings { StagePath }` を 1 つ書くだけで済み、
+        //   エディタでも開ける。基本ステージ (EnsureBaseStageFiles) と同じやり方。
+        //
+        //   **既にあるファイルは触らない**。人が手で直したものを壊さないため
+        // --------------------------------------------------------------------
+        static void EnsureTestStageFiles() {
+            namespace fs = std::filesystem;
+            std::error_code ec;
+            const fs::path root = Engine::Common::Paths::Project();
+            fs::create_directories(root / TEST_STAGE_DIR, ec);
+
+            struct Entry {
+                const char* File;
+                const char* Name;
+                LuminousStage (*Make)();
+            };
+            static const Entry kEntries[] = {
+                { "sample.json",      "見本",       [] { return LuminousStage::CreateSampleStage(); } },
+                { "multi_floor.json", "多層の見本", [] { return LuminousStage::CreateMultiFloorSampleStage(); } },
+                { "shadow_edge.json", "影の境目",   [] { return LuminousStage::CreateShadowEdgeTestStage(); } },
+                { "shadow_open.json", "影の踏破 (開けた場所)",
+                  [] { return LuminousStage::CreateShadowTraversalTestStage(false); } },
+                { "shadow.json",      "影の踏破",
+                  [] { return LuminousStage::CreateShadowTraversalTestStage(true); } },
+            };
+
+            for (const Entry& entry : kEntries) {
+                const std::string path =
+                    Engine::Common::Paths::ToUtf8(root / TEST_STAGE_DIR / entry.File);
+                if (fs::exists(path, ec)) continue;
+                LuminousStage stage = entry.Make();
+                stage.Name = entry.Name;
+                std::string err;
+                if (!stage.SaveToFile(path, err)) {
+                    ENGINE_LOG_ERROR("Luminous", "確認用ステージを書けませんでした '{}': {}", path, err);
+                }
             }
         }
 

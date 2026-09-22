@@ -1,6 +1,6 @@
 ﻿{
   "version": 1,
-  "name": "Luminous.Editor",
+  "name": "Luminous.Editor.Walls",
   "imgui": true,
   "systems": [
     {
@@ -14,10 +14,10 @@
   ],
   "entities": [
     {
-      "guid": "169b6ce6dd4de372-1c82ecd251d5ba9a",
+      "guid": "7eaaec3d0efec0c4-308fbcd82b4acef4",
       "components": {
         "LuminousEditorSettings": {
-          "PaletteCategory": 0
+          "PaletteCategory": 1
         }
       }
     }

@@ -1,6 +1,6 @@
 ﻿{
   "version": 1,
-  "name": "Luminous.Play",
+  "name": "Luminous.Play.MultiFloor",
   "systems": [
     {
       "name": "LuminousStageBuildSystem",
@@ -13,10 +13,10 @@
   ],
   "entities": [
     {
-      "guid": "5aaf662bdf2be0dd-4eb3a5cb6d1f106c",
+      "guid": "d974b8af1e34e91b-9c8aa2e71751a166",
       "components": {
         "LuminousPlaySettings": {
-          "StagePath": "Assets/Data/TestStages/sample.json"
+          "StagePath": "Assets/Data/TestStages/multi_floor.json"
         }
       }
     }

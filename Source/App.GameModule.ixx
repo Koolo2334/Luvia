@@ -111,20 +111,26 @@ namespace App {
             }, "--base-stage=N で指定した基本ステージ");
     }
 
-    // 起動オプションとシーン名の対応。**長い綴りを先に**書く
+    // 起動オプションとシーンの対応。**長い綴りを先に**書く
     // (--editor-walls が --editor に食われないようにするため)
+    //
+    //   行き先は**データのシーン (.scene.json) のパス**。
+    //   コードで登録した名前を指していた頃は、エディタで開けず、保存もできず、
+    //   中身を直すにはコンパイルが要った (計画 18 の段 2)。
+    //   `--base-stage=N` だけはシーンが 1 つで、番号は
+    //   LuminousStageBuildSystem が起動オプションから読む
     void RegisterSceneAliases(GameModuleContext& ctx) {
-        ctx.RegisterSceneAlias("--editor-specials", "Luminous.Editor.Specials");
-        ctx.RegisterSceneAlias("--editor-props", "Luminous.Editor.Props");
-        ctx.RegisterSceneAlias("--editor-walls", "Luminous.Editor.Walls");
-        ctx.RegisterSceneAlias("--editor", "Luminous.Editor");
-        ctx.RegisterSceneAlias("--base-stage=", "Luminous.Play.BaseStage");
+        ctx.RegisterSceneAlias("--editor-specials", "Assets/Scenes/Luminous.Editor.Specials.scene.json");
+        ctx.RegisterSceneAlias("--editor-props", "Assets/Scenes/Luminous.Editor.Props.scene.json");
+        ctx.RegisterSceneAlias("--editor-walls", "Assets/Scenes/Luminous.Editor.Walls.scene.json");
+        ctx.RegisterSceneAlias("--editor", "Assets/Scenes/Luminous.Editor.scene.json");
+        ctx.RegisterSceneAlias("--base-stage=", "Assets/Scenes/Luminous.Play.scene.json");
         ctx.RegisterSceneAlias("--stageselect", "Luminous.StageSelect");
-        ctx.RegisterSceneAlias("--play-shadow-edge", "Luminous.Play.ShadowEdge");
-        ctx.RegisterSceneAlias("--play-shadow-open", "Luminous.Play.ShadowOpen");
-        ctx.RegisterSceneAlias("--play-shadow", "Luminous.Play.Shadow");
-        ctx.RegisterSceneAlias("--play2", "Luminous.Play.MultiFloor");
-        ctx.RegisterSceneAlias("--play", "Luminous.Play");
+        ctx.RegisterSceneAlias("--play-shadow-edge", "Assets/Scenes/Luminous.Play.ShadowEdge.scene.json");
+        ctx.RegisterSceneAlias("--play-shadow-open", "Assets/Scenes/Luminous.Play.ShadowOpen.scene.json");
+        ctx.RegisterSceneAlias("--play-shadow", "Assets/Scenes/Luminous.Play.Shadow.scene.json");
+        ctx.RegisterSceneAlias("--play2", "Assets/Scenes/Luminous.Play.MultiFloor.scene.json");
+        ctx.RegisterSceneAlias("--play", "Assets/Scenes/Luminous.Play.scene.json");
     }
 
     void RegisterGameModule(GameModuleContext& ctx) {
@@ -149,6 +155,7 @@ namespace App {
         // 5. ゲーム固有の立ち上げ
         LuminousInput::RegisterBindings();               // 入力バインド
         LuminousStageCatalog::EnsureBaseStageFiles();    // 基本ステージ JSON の実体化
+        LuminousStageCatalog::EnsureTestStageFiles();    // 確認用ステージ JSON の実体化 (計画 18)
 
         // 開発用にシーンを直接指定して起動したときだけデバッグキーを使えるようにする。
         // 通常起動 (タイトルから) ではレギュレーション外の入力を受け付けない
