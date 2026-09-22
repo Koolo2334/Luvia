@@ -10,7 +10,8 @@
   "parameters": [
     {
       "name": "AlbedoMapIndex",
-      "type": "uint"
+      "type": "texture",
+      "default": "$White"
     }
   ]
 }
