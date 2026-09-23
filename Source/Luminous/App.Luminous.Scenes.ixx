@@ -713,6 +713,19 @@ export namespace App::Luminous {
     //   ステージの中身とは別扱いにしてある。ステージは差し替わるが、
     //   この 3 つはどのステージでも要るため
     // ------------------------------------------------------------------------
+    // ダンジョンの環境光。本編と、エディタで見せるとき (AU-24) の両方で置く
+    inline void LuminousPlaySpawnAmbientLight(entt::registry& registry) {
+        auto ambientEnt = CreateGeneratedEntity(registry);
+        auto& ambTrans = registry.emplace<Engine::Core::TransformComponent>(ambientEnt);
+        ambTrans.LocalPosition = { 10.0f, 30.0f, 10.0f };
+        XMStoreFloat4(&ambTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(70.0f), XMConvertToRadians(30.0f), 0.0f));
+        registry.emplace<Engine::Graphics::DirectionalLightComponent>(ambientEnt, Engine::Graphics::DirectionalLightComponent{
+            .Color = { 0.85f, 0.90f, 1.0f },
+            .Intensity = g_LuminousConfig.AmbientLightIntensity,
+            .CastShadows = false
+        });
+    }
+
     inline void LuminousPlayEnsureCoreEntities(entt::registry& registry) {
         auto& rt = PlayRuntime(registry);
         if (rt.PlayerCamera != entt::null && registry.valid(rt.PlayerCamera)) return;
@@ -752,15 +765,7 @@ export namespace App::Luminous {
         Engine::Graphics::CameraAPI::SetActiveCamera(registry, rt.PlayerCamera);
 
         // ダンジョン環境光 (Ambient Light)
-        auto ambientEnt = CreateGeneratedEntity(registry);
-        auto& ambTrans = registry.emplace<Engine::Core::TransformComponent>(ambientEnt);
-        ambTrans.LocalPosition = { 10.0f, 30.0f, 10.0f };
-        XMStoreFloat4(&ambTrans.LocalRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(70.0f), XMConvertToRadians(30.0f), 0.0f));
-        registry.emplace<Engine::Graphics::DirectionalLightComponent>(ambientEnt, Engine::Graphics::DirectionalLightComponent{
-            .Color = { 0.85f, 0.90f, 1.0f },
-            .Intensity = g_LuminousConfig.AmbientLightIntensity,
-            .CastShadows = false
-        });
+        LuminousPlaySpawnAmbientLight(registry);
 
         // 手持ち宝玉用エンティティとポイントライト
         auto orbMesh = meshMgr->GetOrLoadMesh("Assets/Models/Dungeon/LuminousOrb.obj");
@@ -938,6 +943,31 @@ export namespace App::Luminous {
     }
 
     // ------------------------------------------------------------------------
+    // エディタで止めている間に、ステージの見た目だけを建てる (19 の AU-24)。
+    //
+    //   本編のシーンは「設定 1 体 + 組み立てシステム」なので、エディタで開くと空だった。
+    //   シーンのファイルが言うステージ (無ければ基本ステージ 1) の床・壁・置き物と
+    //   環境光だけを建てる。カメラ・プレイヤー・暗転・カーソルの固定には触らない。
+    //   作ったもの (遊ぶための持ち物 PlayRuntime も含む) はエディタが印を付け、
+    //   プレイを始める前にまとめて片付ける。プレイではこれまでどおり
+    //   LuminousStageBuildSystem が本物を建てる
+    // ------------------------------------------------------------------------
+    inline void LuminousStagePreview(const Engine::Core::SystemContext& ctx) {
+        auto& registry = ctx.GetRegistry();
+        const LuminousPlaySettings settings = SceneSetting<LuminousPlaySettings>(registry);
+        const std::string path = settings.StagePath.empty()
+            ? std::string("Assets/Data/BaseStages/stage_01.json") : settings.StagePath;
+        auto& rt = PlayRuntime(registry);
+        std::string error;
+        if (!rt.Stage.LoadFromFile(Engine::Common::Paths::ResolveString(path), error)) {
+            ENGINE_LOG_WARN("Luminous", "エディタで見せるステージを読めませんでした '{}': {}", path, error);
+            return;
+        }
+        LuminousPlaySpawnStageObjects(registry);
+        LuminousPlaySpawnAmbientLight(registry);
+    }
+
+    // ------------------------------------------------------------------------
     // .scene.json から起動したときの組み直し。
     //
     //   データだけのシーンには C++ のシーンが無いので、持ち物が空のまま。
@@ -993,6 +1023,9 @@ export namespace App::Luminous {
     inline void RegisterLuminousSystems() {
         Engine::Core::SystemRegistry::Get().Register(
             "LuminousStageBuildSystem", Engine::Core::SystemPhase::Update, &LuminousStageBuildSystem);
+        // エディタで止めている間は、ステージの見た目だけを見せる (19 の AU-24)
+        Engine::Core::SystemRegistry::Get().RegisterEditorPreview(
+            "LuminousStageBuildSystem", &LuminousStagePreview);
         Engine::Core::SystemRegistry::Get().Register(
             "LuminousPlayUpdateSystem", Engine::Core::SystemPhase::Update, &LuminousPlayUpdate);
         Engine::Core::SystemRegistry::Get().Register(
