@@ -53,7 +53,8 @@ namespace App {
     // 自動テストでシーンを順に巡回して、全部立ち上がることを確かめる
     void MakeLuminousLifecycleTestSystem(GameModuleContext& ctx) {
         GameModuleContext* owner = &ctx;
-        ctx.RegisterSystem("LuminousLifecycleTestSystem", SystemPhase::Update,
+        // **いつも回す**と名乗る (どのシーンに居ても巡回できるように)
+        ctx.RegisterGlobalSystem("LuminousLifecycleTestSystem", SystemPhase::Update,
             [owner](SystemContext& sys) {
                 if (!owner->IsAutoTest()) return;
 
