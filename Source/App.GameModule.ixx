@@ -99,19 +99,22 @@ namespace App {
     //   行き先は**データのシーン (.scene.json) のパス**。
     //   コードで登録した名前を指していた頃は、エディタで開けず、保存もできず、
     //   中身を直すにはコンパイルが要った (計画 18 の段 2)。
-    //   `--base-stage=N` だけはシーンが 1 つで、番号は
-    //   LuminousStageBuildSystem が起動オプションから読む
+    //
+    //   **シーンは本編 (Play) とステージエディタ (Editor) の 1 本ずつ** (19 の AU-24)。
+    //   以前は「どのステージか」「どの並びのタブか」だけが違う殻を 1 本ずつ持っていた
+    //   (Play が 5 本、Editor が 4 本)。違いは起動オプションのまま残し、
+    //   LuminousStageBuildSystem / LuminousEditorBuildSystem が読む (LuminousDevLaunch)
     void RegisterSceneAliases(GameModuleContext& ctx) {
-        ctx.RegisterSceneAlias("--editor-specials", "Assets/Scenes/Luminous.Editor.Specials.scene.json");
-        ctx.RegisterSceneAlias("--editor-props", "Assets/Scenes/Luminous.Editor.Props.scene.json");
-        ctx.RegisterSceneAlias("--editor-walls", "Assets/Scenes/Luminous.Editor.Walls.scene.json");
+        ctx.RegisterSceneAlias("--editor-specials", "Assets/Scenes/Luminous.Editor.scene.json");
+        ctx.RegisterSceneAlias("--editor-props", "Assets/Scenes/Luminous.Editor.scene.json");
+        ctx.RegisterSceneAlias("--editor-walls", "Assets/Scenes/Luminous.Editor.scene.json");
         ctx.RegisterSceneAlias("--editor", "Assets/Scenes/Luminous.Editor.scene.json");
         ctx.RegisterSceneAlias("--base-stage=", "Assets/Scenes/Luminous.Play.scene.json");
         ctx.RegisterSceneAlias("--stageselect", "Assets/Scenes/Luminous.StageSelect.scene.json");
-        ctx.RegisterSceneAlias("--play-shadow-edge", "Assets/Scenes/Luminous.Play.ShadowEdge.scene.json");
-        ctx.RegisterSceneAlias("--play-shadow-open", "Assets/Scenes/Luminous.Play.ShadowOpen.scene.json");
-        ctx.RegisterSceneAlias("--play-shadow", "Assets/Scenes/Luminous.Play.Shadow.scene.json");
-        ctx.RegisterSceneAlias("--play2", "Assets/Scenes/Luminous.Play.MultiFloor.scene.json");
+        ctx.RegisterSceneAlias("--play-shadow-edge", "Assets/Scenes/Luminous.Play.scene.json");
+        ctx.RegisterSceneAlias("--play-shadow-open", "Assets/Scenes/Luminous.Play.scene.json");
+        ctx.RegisterSceneAlias("--play-shadow", "Assets/Scenes/Luminous.Play.scene.json");
+        ctx.RegisterSceneAlias("--play2", "Assets/Scenes/Luminous.Play.scene.json");
         ctx.RegisterSceneAlias("--play", "Assets/Scenes/Luminous.Play.scene.json");
     }
 

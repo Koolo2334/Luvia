@@ -8,6 +8,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <optional>
 #include <cstdio>
 #include <cstdlib>
 #include <unordered_map>
@@ -831,6 +832,47 @@ export namespace App::Luminous {
         }
     }
 
+    // ------------------------------------------------------------------------
+    // 開発用の起動オプション (19 の AU-24)。
+    //
+    //   以前は変種ごとにシーンの殻があった (Luminous.Play.Shadow など)。
+    //   殻をやめて、起動オプションが言うステージ / 並びのタブをここで返す。
+    //   **最初の 1 回だけ**使う (殻を直に開いたときと同じ。あとでタイトルから
+    //   本編やエディタへ入り直したときには効かない)
+    // ------------------------------------------------------------------------
+    namespace LuminousDevLaunch {
+        inline std::string TakeStagePath() {
+            static bool taken = false;
+            if (taken) return {};
+            taken = true;
+            struct Option { const char* Flag; const char* StagePath; };
+            static constexpr Option kOptions[] = {
+                { "play-shadow-edge", "Assets/Data/TestStages/shadow_edge.json" },
+                { "play-shadow-open", "Assets/Data/TestStages/shadow_open.json" },
+                { "play-shadow",      "Assets/Data/TestStages/shadow.json" },
+                { "play2",            "Assets/Data/TestStages/multi_floor.json" },
+            };
+            for (const Option& option : kOptions) {
+                if (Engine::Common::CommandLine::Get().Has(option.Flag)) return option.StagePath;
+            }
+            return {};
+        }
+
+        inline std::optional<int> TakePaletteCategory() {
+            static bool taken = false;
+            if (taken) return std::nullopt;
+            taken = true;
+            struct Option { const char* Flag; int Category; };
+            static constexpr Option kOptions[] = {
+                { "editor-walls", 1 }, { "editor-specials", 4 }, { "editor-props", 5 },
+            };
+            for (const Option& option : kOptions) {
+                if (Engine::Common::CommandLine::Get().Has(option.Flag)) return option.Category;
+            }
+            return std::nullopt;
+        }
+    }
+
     inline void LuminousStageBuildSystem(const Engine::Core::SystemContext& ctx) {
         auto& registry = ctx.GetRegistry();
         auto& rt = PlayRuntime(registry);
@@ -859,6 +901,8 @@ export namespace App::Luminous {
                 }
             }
         }
+        // 2b. 開発用の起動オプション --play-shadow など (以前は変種のシーンの殻が言っていた)
+        if (path.empty()) path = LuminousDevLaunch::TakeStagePath();
         // 3. シーンのファイルが言っている既定
         if (path.empty()) {
             path = settings.StagePath;
@@ -2604,6 +2648,10 @@ export namespace App::Luminous {
         // シーンのファイルが「どの並びを開いて始めるか」を言っていれば、それに従う
         //   (コードのシーンでは作るときの引数だったもの。計画 18 の段 2)
         rt.ActivePaletteCategory = SceneSetting<LuminousEditorSettings>(registry).PaletteCategory;
+        // 開発用の起動オプション --editor-walls など (以前は変種のシーンの殻が言っていた。AU-24)
+        if (const std::optional<int> category = LuminousDevLaunch::TakePaletteCategory()) {
+            rt.ActivePaletteCategory = *category;
+        }
 
         // 本編から「このステージを開いて」と言われていれば、それを読む (計画 18 の段 3)。
         //   コードのシーンへ LuminousStage を丸ごと渡していた頃の代わり
