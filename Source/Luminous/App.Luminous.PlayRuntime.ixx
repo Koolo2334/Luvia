@@ -17,7 +17,6 @@ import App.Luminous.Optics;
 import App.Luminous.OrbSystem;
 import App.Luminous.DebugTools;
 import App.Luminous.Transition;
-import App.Luminous.MenuCursor;
 import Engine.UI.Types;
 import Engine.UI.System;
 import App.Luminous.UIScreens;
@@ -120,7 +119,6 @@ export namespace App::Luminous {
         StageIntroOverlay StageIntro;
         bool StageIntroStarted = false;
         LuminousDebugTool DebugTool;
-        LuminousMenuCursor Cursor;
 
         // ---- 音と画像 UI の状態 ----
         bool FootstepToggle = false;
@@ -129,8 +127,6 @@ export namespace App::Luminous {
         bool PrevHoldingOrb = false;
         bool PrevGliding = false;
         bool ClearFanfarePlayed = false;
-        int LastHoveredBtn = -1;
-        bool WasMouseDown = false;
 
         // 画面の UI (21 の U8。片付けで閉じる)
         Engine::UI::UIInstanceId HudUi;

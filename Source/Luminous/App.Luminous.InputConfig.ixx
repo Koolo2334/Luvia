@@ -229,58 +229,6 @@ export namespace App::Luminous {
     };
 
     // ========================================================================
-    // メニューのカーソル移動 (キーボード W/S/A/D・十字キー・左スティック)
-    // 押した瞬間に 1 回、押し続けると一定間隔でリピートする。
-    // 1 フレームに 1 回だけ Poll すること。
-    // ========================================================================
-    enum class LuminousNavDir { None, Up, Down, Left, Right };
-
-    struct LuminousMenuNav {
-        static constexpr float REPEAT_DELAY = 0.38f;
-        static constexpr float REPEAT_INTERVAL = 0.11f;
-
-        static LuminousNavDir Poll(float dt) {
-            const auto& ui = LuminousInput::UI();
-            LuminousNavDir dir = LuminousNavDir::None;
-            if (ui.GetButtonHold(LuminousActions::NavUp)) dir = LuminousNavDir::Up;
-            else if (ui.GetButtonHold(LuminousActions::NavDown)) dir = LuminousNavDir::Down;
-            else if (ui.GetButtonHold(LuminousActions::NavLeft)) dir = LuminousNavDir::Left;
-            else if (ui.GetButtonHold(LuminousActions::NavRight)) dir = LuminousNavDir::Right;
-
-            if (dir == LuminousNavDir::None) {
-                s_Held = LuminousNavDir::None;
-                s_Timer = 0.0f;
-                return LuminousNavDir::None;
-            }
-            if (dir != s_Held) {
-                s_Held = dir;
-                s_Timer = REPEAT_DELAY;
-                return dir;
-            }
-            s_Timer -= dt;
-            if (s_Timer <= 0.0f) {
-                s_Timer = REPEAT_INTERVAL;
-                return dir;
-            }
-            return LuminousNavDir::None;
-        }
-
-        // 縦並びメニュー用: 上/左で -1、下/右で +1
-        static int LinearStep(LuminousNavDir dir) {
-            switch (dir) {
-            case LuminousNavDir::Up:
-            case LuminousNavDir::Left:  return -1;
-            case LuminousNavDir::Down:
-            case LuminousNavDir::Right: return 1;
-            default: return 0;
-            }
-        }
-
-        static inline LuminousNavDir s_Held = LuminousNavDir::None;
-        static inline float s_Timer = 0.0f;
-    };
-
-    // ========================================================================
     // 直近に操作された入力デバイスの追跡と、操作説明のボタン画像
     // ------------------------------------------------------------------------
     // 画面下の操作説明 (宝玉を取る等) やポーズ画面の操作一覧に出すボタン画像を、

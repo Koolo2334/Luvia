@@ -152,14 +152,6 @@ export namespace App::Luminous {
             const bool visible = alpha_ > 0.001f;
             ui->SetVisibility(root, visible ? Engine::UI::UIVisibility::Visible : Engine::UI::UIVisibility::Collapsed);
             if (visible) ui->SetColor(root, { 1.0f, 1.0f, 1.0f, alpha_ });
-            // 前の描き方 (画面全体の DrawPanel) と四角を比べる (--set luvia.uiCompare=true)
-            LuminousUICompare::Check("Fade", *ui, fadeUi_, [this] { DrawLegacy(); });
-        }
-
-        // 前の描き方 (比べる道具のためだけに残す。U8 が済んだら消す)
-        void DrawLegacy() const {
-            if (alpha_ <= 0.001f) return;
-            Engine::Graphics::UIRenderer::Get().DrawPanel(0.0f, 0.0f, 1920.0f, 1080.0f, { 0.0f, 0.0f, 0.0f, alpha_ });
         }
 
         void Reset() {
@@ -249,18 +241,6 @@ export namespace App::Luminous {
             return a * a * (3.0f - 2.0f * a);
         }
 
-        // 前の描き方 (比べる道具のためだけに残す。21 の U8 が済んだら消す。今は UI の仕組みの StageIntro.ui.json が出す)
-        void Draw(float screenW, float screenH) const {
-            const float a = Alpha();
-            if (a <= 0.002f) return;
-
-            const float w = std::min(1000.0f, screenW * 0.62f);
-            const float h = w * 0.30f;
-            Engine::Graphics::UIRenderer::Get().DrawImage(
-                imagePath_,
-                (screenW - w) * 0.5f, (screenH - h) * 0.5f, w, h,
-                { 1.0f, 1.0f, 1.0f, a });
-        }
 
     private:
         std::string imagePath_;

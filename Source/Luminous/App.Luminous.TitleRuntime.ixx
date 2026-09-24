@@ -9,7 +9,6 @@
 
 export module App.Luminous.TitleRuntime;
 
-import App.Luminous.MenuCursor;
 import Engine.Core.Components.Lifecycle;
 import Engine.UI.Types;
 import Engine.UI.System;
@@ -38,7 +37,6 @@ export namespace App::Luminous {
 
     struct LuminousTitleRuntime {
         LuminousTitleView View = LuminousTitleView::MainMenu;
-        int Selection = 0;
         float Timer = 0.0f;
         float CameraYaw = 0.0f;
 
@@ -61,9 +59,6 @@ export namespace App::Luminous {
         };
         std::vector<TitleFlameParticle> FlameParticles;
 
-        int LastHoveredBtn = -1;
-        bool WasMouseDown = false;
-        LuminousMenuCursor Cursor;
         bool BgmStarted = false;
 
         // 画面の UI (21 の U8。今の画面のものだけを開いておき、片付けで閉じる)
