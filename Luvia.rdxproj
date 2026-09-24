@@ -5,5 +5,6 @@
   "defaultScene": "Assets/Scenes/Luminous.Title.scene.json",
   "renderPipeline": "Deferred",
   "gameModule": "Luvia.dll",
-  "features": [ "OrbOcclusion" ]
+  "features": [ "OrbOcclusion" ],
+  "uiLegacyTextureGamma": true
 }
