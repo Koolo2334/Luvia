@@ -11,6 +11,8 @@ export module App.Luminous.EditorRuntime;
 
 import App.Luminous.EditorSystem;
 import Engine.Core.Components.Lifecycle;
+import Engine.UI.Types;
+import Engine.UI.System;
 
 // ============================================================================
 // ステージエディタを動かしている間の持ち物 (LuminousEditorRuntime)
@@ -44,9 +46,12 @@ export namespace App::Luminous {
 
         // 0: Floors, 1: Walls, 2: Stairs, 3: Pedestals, 4: Specials, 5: Props
         int ActivePaletteCategory = 0;
-        bool ShowSavePopup = false;
-        bool ShowLoadPopup = false;
-        char FilePathBuffer[256] = "Assets/Data/Stages/CustomDungeon.json";
+
+        // 画面 (UI の仕組み。StageEditor.ui.json。21 の U9。片付けで閉じる)
+        Engine::UI::UIInstanceId EditorUi;
+        int PaletteShown = -1;              // パレットの一覧に入れたカテゴリ
+        std::string PaletteSelectedShown;   // 一覧で「選んでいる」にしたもの
+        std::string FloorsShown;            // 階の一覧に入れた中身 (変わったら入れ直す)
     };
 
     // いま開いているステージエディタの持ち物。無ければ作って返す

@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "styles": {
+    "EdText": {
+      "font": "Assets/UI/Fonts/font_atlas.json",
+      "fontSize": 15,
+      "color": [0.92, 0.94, 0.97, 1]
+    },
+    "EdLabel": {
+      "font": "Assets/UI/Fonts/font_atlas.json",
+      "fontSize": 14,
+      "color": [0.95, 0.97, 1, 1],
+      "hAlign": "center",
+      "vAlign": "center"
+    },
+    "EdDim": {
+      "font": "Assets/UI/Fonts/font_atlas.json",
+      "fontSize": 14,
+      "color": [0.55, 0.58, 0.64, 1]
+    },
+    "EdButton": {
+      "background": [0.2, 0.36, 0.58, 0.85],
+      "hoveredColor": [0.26, 0.59, 0.98, 1],
+      "pressedColor": [0.06, 0.53, 0.98, 1],
+      "selectedColor": [0.2, 0.6, 0.9, 1],
+      "focusable": false,
+      "contentPadding": 0
+    },
+    "EdPanel": {
+      "background": [0.06, 0.07, 0.09, 0.94],
+      "borderColor": [0.43, 0.43, 0.5, 0.5],
+      "borderWidth": 1,
+      "hitTest": true
+    },
+    "EdCard": {
+      "background": [0.07, 0.09, 0.14, 0.85],
+      "borderColor": [0.43, 0.43, 0.5, 0.5],
+      "borderWidth": 1
+    },
+    "EdLine": {
+      "background": [0.43, 0.43, 0.5, 0.5]
+    },
+    "EdField": {
+      "background": [0.16, 0.29, 0.48, 0.54],
+      "hoveredColor": [0.26, 0.59, 0.98, 0.4],
+      "focusable": false
+    },
+    "EdToggle": {
+      "boxSize": 18,
+      "spacing": 8,
+      "boxColor": [0.16, 0.29, 0.48, 0.54],
+      "hoveredColor": [0.26, 0.59, 0.98, 0.4],
+      "checkColor": [0.26, 0.59, 0.98, 1],
+      "focusable": false
+    }
+  }
+}

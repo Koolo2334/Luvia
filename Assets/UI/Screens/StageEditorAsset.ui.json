@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "styleImports": [
+    "Assets/UI/Screens/StageEditorStyles.ui.json"
+  ],
+  "root": {
+    "kind": "Button",
+    "name": "Card",
+    "style": "EdButton",
+    "size": [330, 30],
+    "children": [
+      {
+        "kind": "Text",
+        "style": "EdText",
+        "text": "",
+        "name": "Label",
+        "hAlign": "start",
+        "vAlign": "center",
+        "padding": [10, 0, 0, 0]
+      }
+    ]
+  }
+}

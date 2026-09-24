@@ -1,0 +1,1227 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "styleImports": [
+    "Assets/UI/Screens/StageEditorStyles.ui.json"
+  ],
+  "root": {
+    "kind": "Canvas",
+    "name": "Root",
+    "children": [
+      {
+        "kind": "Border",
+        "name": "TopBar",
+        "style": "EdPanel",
+        "anchor": "stretch-top",
+        "offset": [10, 10],
+        "size": [10, 56],
+        "contentPadding": [10, 10, 10, 10],
+        "children": [
+          {
+            "kind": "HorizontalBox",
+            "spacing": 8,
+            "name": "TopRow",
+            "vAlign": "center",
+            "children": [
+              {
+                "kind": "Button",
+                "name": "Paint",
+                "style": "EdButton",
+                "size": [156, 36],
+                "sizeRule": "fixed",
+                "selectedColor": [0.15, 0.7, 0.4, 1],
+                "children": [
+                  {
+                    "kind": "Text",
+                    "name": "PaintLabel",
+                    "style": "EdLabel",
+                    "text": "[1] PAINT BRUSH"
+                  }
+                ]
+              },
+              {
+                "kind": "Button",
+                "name": "Select",
+                "style": "EdButton",
+                "size": [174, 36],
+                "sizeRule": "fixed",
+                "selectedColor": [0.85, 0.65, 0.15, 1],
+                "children": [
+                  {
+                    "kind": "Text",
+                    "name": "SelectLabel",
+                    "style": "EdLabel",
+                    "text": "[2] SELECT OBJECT"
+                  }
+                ]
+              },
+              {
+                "kind": "Text",
+                "style": "EdDim",
+                "text": "|",
+                "vAlign": "center"
+              },
+              {
+                "kind": "Button",
+                "name": "Camera",
+                "style": "EdButton",
+                "size": [156, 36],
+                "sizeRule": "fixed",
+                "selectedColor": [0.2, 0.55, 0.9, 1],
+                "children": [
+                  {
+                    "kind": "Text",
+                    "name": "CameraLabel",
+                    "style": "EdLabel",
+                    "text": "[TAB] TOP-DOWN"
+                  }
+                ]
+              },
+              {
+                "kind": "Text",
+                "style": "EdDim",
+                "text": "|",
+                "vAlign": "center"
+              },
+              {
+                "kind": "Button",
+                "name": "FloorPrev",
+                "style": "EdButton",
+                "size": [80, 36],
+                "sizeRule": "fixed",
+                "children": [
+                  {
+                    "kind": "Text",
+                    "name": "FloorPrevLabel",
+                    "style": "EdLabel",
+                    "text": "< PREV"
+                  }
+                ]
+              },
+              {
+                "kind": "Text",
+                "style": "EdText",
+                "text": " [ 1 F : Floor 1 ] ",
+                "name": "FloorLabel",
+                "color": [1, 0.85, 0.2, 1],
+                "vAlign": "center"
+              },
+              {
+                "kind": "Button",
+                "name": "FloorNext",
+                "style": "EdButton",
+                "size": [80, 36],
+                "sizeRule": "fixed",
+                "children": [
+                  {
+                    "kind": "Text",
+                    "name": "FloorNextLabel",
+                    "style": "EdLabel",
+                    "text": "NEXT >"
+                  }
+                ]
+              },
+              {
+                "kind": "Text",
+                "style": "EdDim",
+                "text": "|",
+                "vAlign": "center"
+              },
+              {
+                "kind": "Button",
+                "name": "TestPlay",
+                "style": "EdButton",
+                "size": [150, 36],
+                "sizeRule": "fixed",
+                "background": [0.4, 0.4, 0.4, 0.6],
+                "selectedColor": [0.15, 0.75, 0.35, 1],
+                "children": [
+                  {
+                    "kind": "Text",
+                    "name": "TestPlayLabel",
+                    "style": "EdLabel",
+                    "text": "TEST PLAY (F5)"
+                  }
+                ]
+              },
+              {
+                "kind": "Button",
+                "name": "Undo",
+                "style": "EdButton",
+                "size": [140, 36],
+                "sizeRule": "fixed",
+                "children": [
+                  {
+                    "kind": "Text",
+                    "name": "UndoLabel",
+                    "style": "EdLabel",
+                    "text": "UNDO (Ctrl+Z)"
+                  }
+                ]
+              },
+              {
+                "kind": "Button",
+                "name": "Redo",
+                "style": "EdButton",
+                "size": [140, 36],
+                "sizeRule": "fixed",
+                "children": [
+                  {
+                    "kind": "Text",
+                    "name": "RedoLabel",
+                    "style": "EdLabel",
+                    "text": "REDO (Ctrl+Y)"
+                  }
+                ]
+              },
+              {
+                "kind": "Button",
+                "name": "SaveJson",
+                "style": "EdButton",
+                "size": [104, 36],
+                "sizeRule": "fixed",
+                "children": [
+                  {
+                    "kind": "Text",
+                    "name": "SaveJsonLabel",
+                    "style": "EdLabel",
+                    "text": "SAVE JSON"
+                  }
+                ]
+              },
+              {
+                "kind": "Button",
+                "name": "LoadJson",
+                "style": "EdButton",
+                "size": [104, 36],
+                "sizeRule": "fixed",
+                "children": [
+                  {
+                    "kind": "Text",
+                    "name": "LoadJsonLabel",
+                    "style": "EdLabel",
+                    "text": "LOAD JSON"
+                  }
+                ]
+              },
+              {
+                "kind": "Button",
+                "name": "Title",
+                "style": "EdButton",
+                "size": [72, 36],
+                "sizeRule": "fixed",
+                "children": [
+                  {
+                    "kind": "Text",
+                    "name": "TitleLabel",
+                    "style": "EdLabel",
+                    "text": "TITLE"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "Border",
+        "name": "LeftPanel",
+        "style": "EdPanel",
+        "anchor": "stretch-left",
+        "offset": [10, 76],
+        "size": [350, 44],
+        "contentPadding": [10, 10, 10, 10],
+        "children": [
+          {
+            "kind": "VerticalBox",
+            "spacing": 0,
+            "name": "LeftColumn",
+            "children": [
+              {
+                "kind": "VerticalBox",
+                "spacing": 8,
+                "name": "PaintPanel",
+                "sizeRule": "fill",
+                "children": [
+                  {
+                    "kind": "Border",
+                    "name": "BrushCard",
+                    "style": "EdCard",
+                    "contentPadding": [8, 8, 8, 8],
+                    "children": [
+                      {
+                        "kind": "VerticalBox",
+                        "spacing": 6,
+                        "name": "BrushColumn",
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "=== BRUSH SETTINGS ===",
+                            "name": "BrushTitle",
+                            "color": [0.4, 0.85, 1, 1]
+                          },
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "Asset: -",
+                            "name": "BrushAsset"
+                          },
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "Snap: -",
+                            "name": "BrushSnap"
+                          },
+                          {
+                            "kind": "Button",
+                            "name": "BrushRotate",
+                            "style": "EdButton",
+                            "size": [0, 26],
+                            "sizeRule": "fixed",
+                            "children": [
+                              {
+                                "kind": "Text",
+                                "name": "BrushRotateLabel",
+                                "style": "EdLabel",
+                                "text": "Rotate 90 deg (R)"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "Toggle",
+                            "name": "BrushPhase",
+                            "style": "EdToggle",
+                            "children": [
+                              {
+                                "kind": "Text",
+                                "style": "EdText",
+                                "text": "Phase Inverted (Hole/Light Pass)",
+                                "name": "BrushPhaseLabel",
+                                "vAlign": "center"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "Toggle",
+                            "name": "BrushOrb",
+                            "style": "EdToggle",
+                            "children": [
+                              {
+                                "kind": "Text",
+                                "style": "EdText",
+                                "text": "Has Initial Orb",
+                                "name": "BrushOrbLabel",
+                                "vAlign": "center"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "Orbs: 0 / 0",
+                            "name": "BrushOrbCount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "Border",
+                    "style": "EdLine",
+                    "size": [0, 1],
+                    "sizeRule": "fixed"
+                  },
+                  {
+                    "kind": "HorizontalBox",
+                    "spacing": 6,
+                    "name": "CatRow1",
+                    "children": [
+                      {
+                        "kind": "Button",
+                        "name": "Cat0",
+                        "style": "EdButton",
+                        "size": [106, 26],
+                        "sizeRule": "fixed",
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "name": "Cat0Label",
+                            "style": "EdLabel",
+                            "text": "Floors"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "Button",
+                        "name": "Cat1",
+                        "style": "EdButton",
+                        "size": [106, 26],
+                        "sizeRule": "fixed",
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "name": "Cat1Label",
+                            "style": "EdLabel",
+                            "text": "Walls"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "Button",
+                        "name": "Cat2",
+                        "style": "EdButton",
+                        "size": [106, 26],
+                        "sizeRule": "fixed",
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "name": "Cat2Label",
+                            "style": "EdLabel",
+                            "text": "Stairs"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "HorizontalBox",
+                    "spacing": 6,
+                    "name": "CatRow2",
+                    "children": [
+                      {
+                        "kind": "Button",
+                        "name": "Cat3",
+                        "style": "EdButton",
+                        "size": [106, 26],
+                        "sizeRule": "fixed",
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "name": "Cat3Label",
+                            "style": "EdLabel",
+                            "text": "Pedestals"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "Button",
+                        "name": "Cat4",
+                        "style": "EdButton",
+                        "size": [106, 26],
+                        "sizeRule": "fixed",
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "name": "Cat4Label",
+                            "style": "EdLabel",
+                            "text": "Specials"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "Button",
+                        "name": "Cat5",
+                        "style": "EdButton",
+                        "size": [106, 26],
+                        "sizeRule": "fixed",
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "name": "Cat5Label",
+                            "style": "EdLabel",
+                            "text": "Props"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "Border",
+                    "style": "EdLine",
+                    "size": [0, 1],
+                    "sizeRule": "fixed"
+                  },
+                  {
+                    "kind": "List",
+                    "name": "Assets",
+                    "sizeRule": "fill",
+                    "item": "Assets/UI/Screens/StageEditorAsset.ui.json",
+                    "slots": 16,
+                    "itemHeight": 30,
+                    "spacing": 4,
+                    "selection": "none"
+                  }
+                ]
+              },
+              {
+                "kind": "VerticalBox",
+                "spacing": 5,
+                "name": "SelectPanel",
+                "visibility": "collapsed",
+                "children": [
+                  {
+                    "kind": "Border",
+                    "name": "SelectCard",
+                    "style": "EdCard",
+                    "background": [0.12, 0.1, 0.04, 0.85],
+                    "contentPadding": [8, 8, 8, 8],
+                    "children": [
+                      {
+                        "kind": "VerticalBox",
+                        "spacing": 6,
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "=== SELECTION MODE ===",
+                            "color": [1, 0.85, 0.2, 1]
+                          },
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "Click any object in the 3D viewport"
+                          },
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "or Top-down view to select it."
+                          },
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "[L-Click] Pick Object",
+                            "color": [0.4, 0.85, 1, 1]
+                          },
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "[Del / Backspace] Delete",
+                            "color": [1, 0.4, 0.4, 1]
+                          },
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "[R] Rotate 90 deg",
+                            "color": [0.4, 1, 0.6, 1]
+                          },
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "Inspect & edit properties on the"
+                          },
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "right panel."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "Border",
+        "name": "RightPanel",
+        "style": "EdPanel",
+        "anchor": "stretch-right",
+        "offset": [-560, 76],
+        "size": [360, 44],
+        "contentPadding": [10, 10, 10, 10],
+        "children": [
+          {
+            "kind": "VerticalBox",
+            "spacing": 6,
+            "name": "RightColumn",
+            "children": [
+              {
+                "kind": "Text",
+                "style": "EdText",
+                "text": "=== STAGE SETTINGS ===",
+                "color": [0.4, 0.85, 1, 1]
+              },
+              {
+                "kind": "HorizontalBox",
+                "spacing": 6,
+                "name": "NameRow",
+                "children": [
+                  {
+                    "kind": "Text",
+                    "style": "EdText",
+                    "text": "Name",
+                    "vAlign": "center",
+                    "size": [52, 24],
+                    "sizeRule": "fixed"
+                  },
+                  {
+                    "kind": "InputField",
+                    "name": "StageName",
+                    "style": "EdField",
+                    "size": [282, 24],
+                    "sizeRule": "fixed",
+                    "maxLength": 120,
+                    "children": [
+                      {
+                        "kind": "Text",
+                        "style": "EdText",
+                        "text": "",
+                        "name": "StageNameText",
+                        "vAlign": "center"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "HorizontalBox",
+                "spacing": 6,
+                "name": "PathRow",
+                "children": [
+                  {
+                    "kind": "Text",
+                    "style": "EdText",
+                    "text": "Path",
+                    "vAlign": "center",
+                    "size": [52, 24],
+                    "sizeRule": "fixed"
+                  },
+                  {
+                    "kind": "InputField",
+                    "name": "StagePath",
+                    "style": "EdField",
+                    "size": [282, 24],
+                    "sizeRule": "fixed",
+                    "maxLength": 120,
+                    "children": [
+                      {
+                        "kind": "Text",
+                        "style": "EdText",
+                        "text": "",
+                        "name": "StagePathText",
+                        "vAlign": "center"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "HorizontalBox",
+                "spacing": 6,
+                "name": "StageFileRow",
+                "children": [
+                  {
+                    "kind": "Button",
+                    "name": "SaveStage",
+                    "style": "EdButton",
+                    "size": [167, 26],
+                    "sizeRule": "fixed",
+                    "children": [
+                      {
+                        "kind": "Text",
+                        "name": "SaveStageLabel",
+                        "style": "EdLabel",
+                        "text": "SAVE STAGE"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "Button",
+                    "name": "LoadStage",
+                    "style": "EdButton",
+                    "size": [167, 26],
+                    "sizeRule": "fixed",
+                    "children": [
+                      {
+                        "kind": "Text",
+                        "name": "LoadStageLabel",
+                        "style": "EdLabel",
+                        "text": "LOAD STAGE"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "Border",
+                "style": "EdLine",
+                "size": [0, 1],
+                "sizeRule": "fixed"
+              },
+              {
+                "kind": "Text",
+                "style": "EdText",
+                "text": "=== DYNAMIC FLOOR LAYERS ===",
+                "color": [0.4, 0.85, 1, 1]
+              },
+              {
+                "kind": "Border",
+                "name": "LayersCard",
+                "style": "EdCard",
+                "background": [0.05, 0.07, 0.1, 0.85],
+                "size": [0, 135],
+                "sizeRule": "fixed",
+                "contentPadding": [4, 4, 4, 4],
+                "children": [
+                  {
+                    "kind": "List",
+                    "name": "Floors",
+                    "item": "Assets/UI/Screens/StageEditorFloor.ui.json",
+                    "slots": 8,
+                    "itemHeight": 22,
+                    "spacing": 2,
+                    "selection": "none"
+                  }
+                ]
+              },
+              {
+                "kind": "HorizontalBox",
+                "spacing": 6,
+                "name": "FloorAddRow",
+                "children": [
+                  {
+                    "kind": "Button",
+                    "name": "AddAbove",
+                    "style": "EdButton",
+                    "size": [167, 26],
+                    "sizeRule": "fixed",
+                    "children": [
+                      {
+                        "kind": "Text",
+                        "name": "AddAboveLabel",
+                        "style": "EdLabel",
+                        "text": "+ Add Floor Above"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "Button",
+                    "name": "AddBelow",
+                    "style": "EdButton",
+                    "size": [167, 26],
+                    "sizeRule": "fixed",
+                    "children": [
+                      {
+                        "kind": "Text",
+                        "name": "AddBelowLabel",
+                        "style": "EdLabel",
+                        "text": "+ Add Floor Below"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "Border",
+                "style": "EdLine",
+                "size": [0, 1],
+                "sizeRule": "fixed"
+              },
+              {
+                "kind": "Text",
+                "style": "EdText",
+                "text": "=== OBJECT INSPECTOR ===",
+                "color": [1, 0.85, 0.2, 1]
+              },
+              {
+                "kind": "Border",
+                "name": "Inspector",
+                "style": "EdCard",
+                "background": [0.08, 0.08, 0.05, 0.85],
+                "contentPadding": [8, 8, 8, 8],
+                "visibility": "collapsed",
+                "children": [
+                  {
+                    "kind": "VerticalBox",
+                    "spacing": 4,
+                    "name": "InspectorColumn",
+                    "children": [
+                      {
+                        "kind": "Text",
+                        "style": "EdText",
+                        "text": "Asset: -",
+                        "name": "InsAsset"
+                      },
+                      {
+                        "kind": "Text",
+                        "style": "EdText",
+                        "text": "Instance ID: -",
+                        "name": "InsId"
+                      },
+                      {
+                        "kind": "Text",
+                        "style": "EdText",
+                        "text": "Floor: -",
+                        "name": "InsFloor"
+                      },
+                      {
+                        "kind": "Button",
+                        "name": "InsMoveFloor",
+                        "style": "EdButton",
+                        "size": [0, 24],
+                        "sizeRule": "fixed",
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "name": "InsMoveFloorLabel",
+                            "style": "EdLabel",
+                            "text": "Move to Active Floor (1F)"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "Text",
+                        "style": "EdText",
+                        "text": "Pos: -",
+                        "name": "InsPos"
+                      },
+                      {
+                        "kind": "Text",
+                        "style": "EdText",
+                        "text": "Yaw: -",
+                        "name": "InsYaw"
+                      },
+                      {
+                        "kind": "Button",
+                        "name": "InsRotate",
+                        "style": "EdButton",
+                        "size": [0, 24],
+                        "sizeRule": "fixed",
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "name": "InsRotateLabel",
+                            "style": "EdLabel",
+                            "text": "Rotate +90 deg (R)"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "Toggle",
+                        "name": "InsPhase",
+                        "style": "EdToggle",
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "Phase Inverted",
+                            "name": "InsPhaseLabel",
+                            "vAlign": "center"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "VerticalBox",
+                        "spacing": 4,
+                        "name": "InsFacingBox",
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "Player Spawn Facing:",
+                            "color": [0.45, 0.9, 1, 1]
+                          },
+                          {
+                            "kind": "HorizontalBox",
+                            "spacing": 6,
+                            "name": "FacingRow1",
+                            "children": [
+                              {
+                                "kind": "Button",
+                                "name": "Facing0",
+                                "style": "EdButton",
+                                "size": [159, 24],
+                                "sizeRule": "fixed",
+                                "children": [
+                                  {
+                                    "kind": "Text",
+                                    "name": "Facing0Label",
+                                    "style": "EdLabel",
+                                    "text": "North (+Z)"
+                                  }
+                                ]
+                              },
+                              {
+                                "kind": "Button",
+                                "name": "Facing1",
+                                "style": "EdButton",
+                                "size": [159, 24],
+                                "sizeRule": "fixed",
+                                "children": [
+                                  {
+                                    "kind": "Text",
+                                    "name": "Facing1Label",
+                                    "style": "EdLabel",
+                                    "text": "East (+X)"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "HorizontalBox",
+                            "spacing": 6,
+                            "name": "FacingRow2",
+                            "children": [
+                              {
+                                "kind": "Button",
+                                "name": "Facing2",
+                                "style": "EdButton",
+                                "size": [159, 24],
+                                "sizeRule": "fixed",
+                                "children": [
+                                  {
+                                    "kind": "Text",
+                                    "name": "Facing2Label",
+                                    "style": "EdLabel",
+                                    "text": "South (-Z)"
+                                  }
+                                ]
+                              },
+                              {
+                                "kind": "Button",
+                                "name": "Facing3",
+                                "style": "EdButton",
+                                "size": [159, 24],
+                                "sizeRule": "fixed",
+                                "children": [
+                                  {
+                                    "kind": "Text",
+                                    "name": "Facing3Label",
+                                    "style": "EdLabel",
+                                    "text": "West (-X)"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "Yaw at spawn: 0 deg",
+                            "name": "InsFacingYaw",
+                            "color": [0.65, 0.75, 0.85, 1]
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "VerticalBox",
+                        "spacing": 4,
+                        "name": "InsOrbBox",
+                        "children": [
+                          {
+                            "kind": "Toggle",
+                            "name": "InsOrb",
+                            "style": "EdToggle",
+                            "children": [
+                              {
+                                "kind": "Text",
+                                "style": "EdText",
+                                "text": "Has Initial Orb",
+                                "name": "InsOrbLabel",
+                                "vAlign": "center"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "Stage Orbs: 0 / 0",
+                            "name": "InsOrbCount",
+                            "color": [0.65, 0.75, 0.85, 1]
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "Border",
+                        "style": "EdLine",
+                        "size": [0, 1],
+                        "sizeRule": "fixed"
+                      },
+                      {
+                        "kind": "Text",
+                        "style": "EdText",
+                        "text": "Light Settings:",
+                        "color": [1, 0.85, 0.3, 1]
+                      },
+                      {
+                        "kind": "Toggle",
+                        "name": "InsLight",
+                        "style": "EdToggle",
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "style": "EdText",
+                            "text": "Enable Light",
+                            "name": "InsLightLabel",
+                            "vAlign": "center"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "VerticalBox",
+                        "spacing": 4,
+                        "name": "InsLightBox",
+                        "children": [
+                          {
+                            "kind": "HorizontalBox",
+                            "spacing": 4,
+                            "name": "LightColorRow",
+                            "children": [
+                              {
+                                "kind": "Text",
+                                "style": "EdText",
+                                "text": "Color",
+                                "vAlign": "center",
+                                "size": [48, 24],
+                                "sizeRule": "fixed"
+                              },
+                              {
+                                "kind": "NumberField",
+                                "name": "LightR",
+                                "style": "EdField",
+                                "size": [72, 24],
+                                "sizeRule": "fixed",
+                                "min": 0,
+                                "max": 1,
+                                "step": 0.05,
+                                "dragSpeed": 0.005,
+                                "decimals": 2,
+                                "prefix": "R ",
+                                "fillColor": [0.26, 0.59, 0.98, 0.25],
+                                "children": [
+                                  {
+                                    "kind": "Text",
+                                    "name": "LightRText",
+                                    "style": "EdLabel",
+                                    "text": ""
+                                  }
+                                ]
+                              },
+                              {
+                                "kind": "NumberField",
+                                "name": "LightG",
+                                "style": "EdField",
+                                "size": [72, 24],
+                                "sizeRule": "fixed",
+                                "min": 0,
+                                "max": 1,
+                                "step": 0.05,
+                                "dragSpeed": 0.005,
+                                "decimals": 2,
+                                "prefix": "G ",
+                                "fillColor": [0.26, 0.59, 0.98, 0.25],
+                                "children": [
+                                  {
+                                    "kind": "Text",
+                                    "name": "LightGText",
+                                    "style": "EdLabel",
+                                    "text": ""
+                                  }
+                                ]
+                              },
+                              {
+                                "kind": "NumberField",
+                                "name": "LightB",
+                                "style": "EdField",
+                                "size": [72, 24],
+                                "sizeRule": "fixed",
+                                "min": 0,
+                                "max": 1,
+                                "step": 0.05,
+                                "dragSpeed": 0.005,
+                                "decimals": 2,
+                                "prefix": "B ",
+                                "fillColor": [0.26, 0.59, 0.98, 0.25],
+                                "children": [
+                                  {
+                                    "kind": "Text",
+                                    "name": "LightBText",
+                                    "style": "EdLabel",
+                                    "text": ""
+                                  }
+                                ]
+                              },
+                              {
+                                "kind": "Border",
+                                "name": "LightSwatch",
+                                "background": [1, 1, 1, 1],
+                                "borderColor": [0.43, 0.43, 0.5, 0.8],
+                                "borderWidth": 1,
+                                "size": [24, 24],
+                                "sizeRule": "fixed"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "NumberField",
+                            "name": "LightIntensity",
+                            "style": "EdField",
+                            "size": [0, 24],
+                            "sizeRule": "fixed",
+                            "min": 0,
+                            "max": 100,
+                            "step": 5.0,
+                            "dragSpeed": 0.5,
+                            "decimals": 1,
+                            "prefix": "Intensity ",
+                            "fillColor": [0.26, 0.59, 0.98, 0.25],
+                            "children": [
+                              {
+                                "kind": "Text",
+                                "name": "LightIntensityText",
+                                "style": "EdLabel",
+                                "text": ""
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "NumberField",
+                            "name": "LightRadius",
+                            "style": "EdField",
+                            "size": [0, 24],
+                            "sizeRule": "fixed",
+                            "min": 1,
+                            "max": 50,
+                            "step": 5.0,
+                            "dragSpeed": 0.5,
+                            "decimals": 1,
+                            "prefix": "Radius ",
+                            "fillColor": [0.26, 0.59, 0.98, 0.25],
+                            "children": [
+                              {
+                                "kind": "Text",
+                                "name": "LightRadiusText",
+                                "style": "EdLabel",
+                                "text": ""
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "Button",
+                        "name": "InsDelete",
+                        "style": "EdButton",
+                        "size": [0, 28],
+                        "sizeRule": "fixed",
+                        "background": [0.85, 0.2, 0.2, 1],
+                        "hoveredColor": [0.95, 0.35, 0.35, 1],
+                        "pressedColor": [0.7, 0.15, 0.15, 1],
+                        "children": [
+                          {
+                            "kind": "Text",
+                            "name": "InsDeleteLabel",
+                            "style": "EdLabel",
+                            "text": "DELETE OBJECT (Del)"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "VerticalBox",
+                "spacing": 4,
+                "name": "InspectorNone",
+                "children": [
+                  {
+                    "kind": "Text",
+                    "style": "EdDim",
+                    "text": "No object selected."
+                  },
+                  {
+                    "kind": "Text",
+                    "style": "EdDim",
+                    "text": "Click an object in the viewport or"
+                  },
+                  {
+                    "kind": "Text",
+                    "style": "EdDim",
+                    "text": "press [2] to enter Select Mode."
+                  }
+                ]
+              },
+              {
+                "kind": "Border",
+                "style": "EdLine",
+                "size": [0, 1],
+                "sizeRule": "fixed"
+              },
+              {
+                "kind": "Text",
+                "style": "EdText",
+                "text": "=== STAGE VALIDATION ===",
+                "color": [0.4, 0.85, 1, 1]
+              },
+              {
+                "kind": "Text",
+                "style": "EdText",
+                "text": "Start Points: 0 / 1",
+                "name": "ValStart"
+              },
+              {
+                "kind": "Text",
+                "style": "EdText",
+                "text": "Goal Points:  0 / 1",
+                "name": "ValGoal"
+              },
+              {
+                "kind": "Text",
+                "style": "EdText",
+                "text": "Initial Orbs: 0",
+                "name": "ValOrbs"
+              },
+              {
+                "kind": "Text",
+                "style": "EdText",
+                "text": "Total Objects: 0",
+                "name": "ValTotal"
+              },
+              {
+                "kind": "Text",
+                "style": "EdText",
+                "text": "Status: -",
+                "name": "ValStatus"
+              },
+              {
+                "kind": "Text",
+                "style": "EdText",
+                "text": "",
+                "name": "ValErrors",
+                "color": [1, 0.4, 0.4, 1]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "Border",
+        "name": "StatusBar",
+        "style": "EdPanel",
+        "anchor": "stretch-bottom",
+        "offset": [10, -34],
+        "size": [10, 28],
+        "contentPadding": [8, 0, 8, 0],
+        "children": [
+          {
+            "kind": "Text",
+            "style": "EdText",
+            "text": "",
+            "name": "Status",
+            "vAlign": "center"
+          }
+        ]
+      }
+    ]
+  }
+}

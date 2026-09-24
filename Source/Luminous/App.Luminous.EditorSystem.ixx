@@ -11,12 +11,15 @@
 #include <algorithm>
 #include <cmath>
 
+#include <EngineDebug.h>
+
 export module App.Luminous.EditorSystem;
 
 import Engine.Input;
 import Engine.Math;
 import App.Luminous.Types;
 import App.Luminous.StageData;
+import Engine.Debug.Log;
 
 export namespace App::Luminous {
 
@@ -1036,6 +1039,7 @@ export namespace App::Luminous {
         void SetStatusMessage(const std::string& msg) {
             StatusMessage = msg;
             StatusMessageTimer = 3.5f;
+            ENGINE_LOG_INFO("LuviaEditor", "{}", msg);   // 自動の確かめ (ui_driver) がログで読む
         }
 
         void UpdateStatusTimer(float dt) {

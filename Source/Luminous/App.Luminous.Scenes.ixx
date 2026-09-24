@@ -18,10 +18,7 @@
 #include <DirectXMath.h>
 #include <entt/entt.hpp>
 #include <EngineDebug.h>
-
-#ifndef IMGUI_DISABLE
-#include <imGui/imgui.h>
-#endif
+#include <span>
 
 export module App.Luminous.Scenes;
 
@@ -1038,7 +1035,7 @@ export namespace App::Luminous {
     }
 
     // ========================================================================
-    // ステージエディタ (ここだけ ImGui を使う)
+    // ステージエディタ (画面は UI の仕組み。StageEditor.ui.json。21 の U9)
     // ========================================================================
     // ステージエディタの処理 (レジストリだけを見る自由関数)
     void LuminousEditorRefreshSceneEntities(entt::registry& registry);
@@ -2514,6 +2511,8 @@ export namespace App::Luminous {
     inline void LuminousEditorTeardown(const Engine::Core::SystemContext& ctx) {
         auto& rt = EditorRuntime(ctx.GetRegistry());
         Input::SetCursorLocked(false);
+        if (auto* ui = ctx.FindService<Engine::UI::UISystem>()) ui->Close(rt.EditorUi);
+        rt.EditorUi = {};
         auto& registry = ctx.GetRegistry();
         if (auto* debug = Engine::Core::FindService<Engine::Debug::DebugSettings>(registry)) {
             debug->ShowEngineControlPanel = rt.SavedShowEnginePanel;
@@ -2921,24 +2920,13 @@ export namespace App::Luminous {
             }
         }
 
-#ifndef IMGUI_DISABLE
-        auto& io = ImGui::GetIO();
-        // ImGui はクライアント領域の実ピクセル座標、3D ピッキングはゲームの仮想解像度で扱う
-        // (フルスクリーンで黒帯が付いても両者がずれないようにする)
-        Vector2 mousePos = Input::GetMouseClientPosition();
-        io.AddMousePosEvent(mousePos.x, mousePos.y);
-        io.AddMouseButtonEvent(0, Input::GetKeyHold(KeyCode::MOUSE_LEFT));
-        io.AddMouseButtonEvent(1, Input::GetKeyHold(KeyCode::MOUSE_RIGHT));
-        bool isHoveringUI = io.WantCaptureMouse || (mousePos.y <= 68.0f) || (mousePos.x <= 365.0f && mousePos.y >= 70.0f) || (mousePos.x >= io.DisplaySize.x - 440.0f);
+        // マウスが画面の UI (StageEditor.ui.json の帯・パネル) の上なら、置く・選ぶをしない。
+        //   UI の仕組みの当たりで見る (パネルは当たるので、下の 3D へ通さない)。3D のピッキングはゲームの仮想解像度
+        auto* editorUi = ctx.FindService<Engine::UI::UISystem>();
+        const bool isHoveringUI = editorUi && editorUi->WantsPointer();
         const auto& viewMapping = Input::GetViewportMapping();
         int screenW = (std::max)(1, static_cast<int>(viewMapping.VirtualWidth));
         int screenH = (std::max)(1, static_cast<int>(viewMapping.VirtualHeight));
-#else
-        Vector2 mousePos = Input::GetMousePosition();
-        bool isHoveringUI = (mousePos.y <= 68.0f) || (mousePos.x <= 365.0f && mousePos.y >= 70.0f);
-        int screenW = 1920;
-        int screenH = 1080;
-#endif
 
         // 3. Undo / Redo
         if (Input::GetKeyHold(KeyCode::CTRL)) {
@@ -3078,508 +3066,405 @@ export namespace App::Luminous {
         LuminousTransition::Get().Draw(ctx.GetRegistry());
     }
 
-    inline void LuminousEditorRenderUI(const Engine::Core::SystemContext& ctx) {
-        auto& rt = EditorRuntime(ctx.GetRegistry());
-#ifndef IMGUI_DISABLE
-        ImGuiIO& io = ImGui::GetIO();
+    // ------------------------------------------------------------------------
+    // STAGE EDITOR の画面 (UI の仕組み。StageEditor.ui.json。21 の U9。前は ImGui)
+    //
+    //   上の帯 (道具・カメラ・階・テストプレイ・元に戻す・保存)、左 (ブラシとパレット / 選ぶときの案内)、
+    //   右 (ステージ・階の一覧・選んだものを調べる・確かめる)、下の帯 (知らせ)。
+    //   ボタン・欄はマウスで使う (フォーカスを取らない)。W/A/S/D・L はカメラなどに使うので、UI のナビゲーションにしない。
+    //   毎フレーム、前の UI の Update で起きたこと (押した・値を変えた・文字を変えた) を先に行い、
+    //   それからエディタの今の状態を画面へ写す (変わったところだけが描き直される)
+    // ------------------------------------------------------------------------
+
+    // パレット (カテゴリごとの置けるもの)
+    struct LuminousPaletteItem {
+        const char* Label;
+        const char* AssetId;
+        AssetCategory Category;
+        PlacementType Placement;
+    };
+    inline const LuminousPaletteItem kPaletteFloors[] = {
+        { "Floor_1x1 (Standard Stone)", "Floor_1x1", AssetCategory::Floor, PlacementType::CellSnap },
+        { "Floor_PatternB (Patterned Cobble)", "Floor_PatternB", AssetCategory::Floor, PlacementType::CellSnap },
+        { "Floor_SawBlade (Hazard Trap)", "Floor_SawBlade", AssetCategory::Floor, PlacementType::CellSnap },
+        { "Floor_Spikes (Needle Trap)", "Floor_Spikes", AssetCategory::Floor, PlacementType::CellSnap },
+        { "Floor_Tile (Decorative Tile)", "Floor_Tile", AssetCategory::Floor, PlacementType::FreeAttach },
+    };
+    inline const LuminousPaletteItem kPaletteWalls[] = {
+        { "Wall_Brick (Solid Stone)", "Wall_Brick", AssetCategory::Wall, PlacementType::EdgeSnap },
+        { "Wall_Smooth (Smooth Stone)", "Wall_Smooth", AssetCategory::Wall, PlacementType::EdgeSnap },
+        { "Wall_Grate (Iron Fence - Pass Light)", "Wall_Grate", AssetCategory::Wall, PlacementType::EdgeSnap },
+        { "Wall_Window (Arch Window)", "Wall_Window", AssetCategory::Wall, PlacementType::EdgeSnap },
+        { "Wall_Railing (Low Railing)", "Wall_Railing", AssetCategory::Wall, PlacementType::EdgeSnap },
+        { "Wall_DoorArc (Archway Opening)", "Wall_DoorArc", AssetCategory::Wall, PlacementType::EdgeSnap },
+        { "Wall_Door (Heavy Door)", "Wall_Door", AssetCategory::Wall, PlacementType::EdgeSnap },
+        { "Wall_Ruined (Broken Wall)", "Wall_Ruined", AssetCategory::Wall, PlacementType::EdgeSnap },
+    };
+    inline const LuminousPaletteItem kPaletteStairs[] = {
+        { "Stairs_Straight (1x2 Rise 3m)", "Stairs_Straight", AssetCategory::Stairs, PlacementType::CellSnap },
+    };
+    inline const LuminousPaletteItem kPalettePedestals[] = {
+        { "Pedestal (Socket Pillar)", "Pedestal", AssetCategory::Pedestal, PlacementType::FreeAttach },
+    };
+    inline const LuminousPaletteItem kPaletteSpecials[] = {
+        { "StartDais (Player Spawn Dais)", "StartDais", AssetCategory::Special, PlacementType::CellSnap },
+        { "GoalChest (Treasure Goal)", "GoalChest", AssetCategory::Special, PlacementType::FreeAttach },
+    };
+    inline const LuminousPaletteItem kPaletteProps[] = {
+        { "Wall Lamp (Prop_Torch)", "Prop_Torch", AssetCategory::Prop, PlacementType::EdgeSnap },
+        { "Floor Lamp (Prop_Candle)", "Prop_Candle", AssetCategory::Prop, PlacementType::FreeAttach },
+        { "Prop_Pillar", "Prop_Pillar", AssetCategory::Prop, PlacementType::FreeAttach },
+        { "Prop_Barrel", "Prop_Barrel", AssetCategory::Prop, PlacementType::FreeAttach },
+        { "Prop_WoodenBox", "Prop_WoodenBox", AssetCategory::Prop, PlacementType::FreeAttach },
+        { "Prop_Brick (Single Brick)", "Prop_Brick", AssetCategory::Prop, PlacementType::FreeAttach },
+        { "Prop_BrickPile (Rubble Pile)", "Prop_BrickPile", AssetCategory::Prop, PlacementType::FreeAttach },
+        { "Prop_Rock", "Prop_Rock", AssetCategory::Prop, PlacementType::FreeAttach },
+        { "Prop_Debris", "Prop_Debris", AssetCategory::Prop, PlacementType::FreeAttach },
+        { "Prop_Skull", "Prop_Skull", AssetCategory::Prop, PlacementType::FreeAttach },
+    };
+    inline std::span<const LuminousPaletteItem> LuminousPalette(int category) {
+        switch (category) {
+        case 0: return kPaletteFloors;
+        case 1: return kPaletteWalls;
+        case 2: return kPaletteStairs;
+        case 3: return kPalettePedestals;
+        case 4: return kPaletteSpecials;
+        case 5: return kPaletteProps;
+        default: return {};
+        }
+    }
+
+    // 押したもの (名前で見る。一覧の中は「一覧.項目の枠の番号.名前」)
+    inline void LuminousEditorOnClicked(const Engine::Core::SystemContext& ctx, Engine::UI::UISystem& ui,
+                                        const std::string& name, Engine::UI::UIElement element) {
         auto& registry = ctx.GetRegistry();
-
-        // 1. 上部コントロールバー (EDITOR_TOP_BAR)
-        ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_Always);
-        ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x - 20, 56), ImGuiCond_Always);
-        ImGui::Begin("EDITOR_TOP_BAR", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
-
-        // ツールモード切替ボタン (1: Paint, 2: Select)
-        bool isPaint = (rt.Editor.ToolMode == EditorToolMode::Paint);
-        if (isPaint) ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.70f, 0.40f, 1.0f));
-        if (ImGui::Button("[1] PAINT BRUSH", ImVec2(130, 36))) {
-            rt.Editor.ToolMode = EditorToolMode::Paint;
-            LuminousEditorRefreshSceneEntities(registry);
-        }
-        if (isPaint) ImGui::PopStyleColor();
-
-        ImGui::SameLine();
-        bool isSelect = (rt.Editor.ToolMode == EditorToolMode::Select);
-        if (isSelect) ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.85f, 0.65f, 0.15f, 1.0f));
-        if (ImGui::Button("[2] SELECT OBJECT", ImVec2(130, 36))) {
-            rt.Editor.ToolMode = EditorToolMode::Select;
-            LuminousEditorRefreshSceneEntities(registry);
-        }
-        if (isSelect) ImGui::PopStyleColor();
-
-        ImGui::SameLine();
-        ImGui::TextDisabled("|");
-        ImGui::SameLine();
-
-        // カメラモード切替ボタン (Tab: TopDown / 3D Flycam)
-        bool isFlycam = (rt.Editor.CameraMode == EditorCameraMode::Flycam3D);
-        if (isFlycam) ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.20f, 0.55f, 0.90f, 1.0f));
-        const char* camBtnText = isFlycam ? "[TAB] 3D FLYCAM" : "[TAB] TOP-DOWN";
-        if (ImGui::Button(camBtnText, ImVec2(130, 36))) {
-            rt.Editor.ToggleCameraMode();
-            if (rt.Editor.CameraMode == EditorCameraMode::TopDown) {
-                Input::SetCursorLocked(false);
-            }
-            LuminousEditorRefreshSceneEntities(registry);
-        }
-        if (isFlycam) ImGui::PopStyleColor();
-
-        ImGui::SameLine();
-        ImGui::TextDisabled("|");
-        ImGui::SameLine();
-
-        // フロア切替
-        int minF = rt.Editor.Stage.GetMinFloor();
-        int maxF = rt.Editor.Stage.GetMaxFloor();
-        if (ImGui::Button("< Prev", ImVec2(60, 36)) && rt.Editor.CurrentFloor > minF) {
-            rt.Editor.CurrentFloor--;
-            LuminousEditorRefreshSceneEntities(registry);
-        }
-        ImGui::SameLine();
-        const auto* curFlrCfg = rt.Editor.Stage.FindFloor(rt.Editor.CurrentFloor);
-        std::string flrName = curFlrCfg ? curFlrCfg->Name : ("Floor " + std::to_string(rt.Editor.CurrentFloor + 1));
-        ImGui::TextColored(ImVec4(1.0f, 0.85f, 0.2f, 1.0f), " [ %d F : %s ] ", rt.Editor.CurrentFloor + 1, flrName.c_str());
-        ImGui::SameLine();
-        if (ImGui::Button("Next >", ImVec2(60, 36)) && rt.Editor.CurrentFloor < maxF) {
-            rt.Editor.CurrentFloor++;
-            LuminousEditorRefreshSceneEntities(registry);
-        }
-
-        ImGui::SameLine();
-        ImGui::TextDisabled("|");
-        ImGui::SameLine();
-
-        // テストプレイ (F5)
-        auto valRes = rt.Editor.Validate();
-        if (valRes.IsValid) {
-            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.75f, 0.35f, 1.0f));
-            if (ImGui::Button(" TEST PLAY (F5) ", ImVec2(140, 36))) {
-                LuminousEditorTestPlay(registry);
-            }
-            ImGui::PopStyleColor();
-        } else {
-            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.4f, 0.4f, 0.4f, 0.6f));
-            if (ImGui::Button(" TEST PLAY (F5) ", ImVec2(140, 36))) {
-                rt.Editor.SetStatusMessage("Cannot Test Play: " + valRes.Errors[0]);
-            }
-            ImGui::PopStyleColor();
-        }
-
-        ImGui::SameLine();
-        if (ImGui::Button("UNDO (Ctrl+Z)", ImVec2(110, 36))) {
-            if (rt.Editor.Undo()) LuminousEditorRefreshSceneEntities(registry);
-        }
-
-        ImGui::SameLine();
-        if (ImGui::Button("REDO (Ctrl+Y)", ImVec2(110, 36))) {
-            if (rt.Editor.Redo()) LuminousEditorRefreshSceneEntities(registry);
-        }
-
-        ImGui::SameLine();
-        if (ImGui::Button("SAVE JSON", ImVec2(90, 36))) {
+        auto& rt = EditorRuntime(registry);
+        auto& ed = rt.Editor;
+        const auto refresh = [&] { LuminousEditorRefreshSceneEntities(registry); };
+        const auto save = [&](bool longMessage) {
             std::string err;
-            if (rt.Editor.Stage.SaveToFile(rt.Editor.CurrentFilePath, err)) {
-                rt.Editor.SetStatusMessage("Stage Saved Successfully!");
+            if (ed.Stage.SaveToFile(ed.CurrentFilePath, err)) {
+                ed.SetStatusMessage(longMessage ? "Stage saved: " + ed.CurrentFilePath : std::string("Stage Saved Successfully!"));
             } else {
-                rt.Editor.SetStatusMessage("Save Error: " + err);
+                ed.SetStatusMessage("Save Error: " + err);
             }
-        }
-
-        ImGui::SameLine();
-        if (ImGui::Button("LOAD JSON", ImVec2(90, 36))) {
+        };
+        const auto load = [&](bool longMessage) {
             std::string err;
-            if (rt.Editor.Stage.LoadFromFile(rt.Editor.CurrentFilePath, err)) {
-                rt.Editor.SetStatusMessage("Stage Loaded Successfully!");
-                LuminousEditorRefreshSceneEntities(registry);
+            if (ed.Stage.LoadFromFile(ed.CurrentFilePath, err)) {
+                ed.SetStatusMessage(longMessage ? "Stage loaded: " + ed.CurrentFilePath : std::string("Stage Loaded Successfully!"));
+                refresh();
             } else {
-                rt.Editor.SetStatusMessage("Load Error: " + err);
+                ed.SetStatusMessage("Load Error: " + err);
+            }
+        };
+
+        if (name == "Paint") { ed.ToolMode = EditorToolMode::Paint; refresh(); }
+        else if (name == "Select") { ed.ToolMode = EditorToolMode::Select; refresh(); }
+        else if (name == "Camera") {
+            ed.ToggleCameraMode();
+            if (ed.CameraMode == EditorCameraMode::TopDown) Input::SetCursorLocked(false);
+            refresh();
+        }
+        else if (name == "FloorPrev") { if (ed.CurrentFloor > ed.Stage.GetMinFloor()) { ed.CurrentFloor--; refresh(); } }
+        else if (name == "FloorNext") { if (ed.CurrentFloor < ed.Stage.GetMaxFloor()) { ed.CurrentFloor++; refresh(); } }
+        else if (name == "TestPlay") {
+            const auto val = ed.Validate();
+            if (val.IsValid) LuminousEditorTestPlay(registry);
+            else ed.SetStatusMessage("Cannot Test Play: " + (val.Errors.empty() ? std::string("Validation Failed") : val.Errors[0]));
+        }
+        else if (name == "Undo") { if (ed.Undo()) refresh(); }
+        else if (name == "Redo") { if (ed.Redo()) refresh(); }
+        else if (name == "SaveJson") save(false);
+        else if (name == "LoadJson") load(false);
+        else if (name == "SaveStage") save(true);
+        else if (name == "LoadStage") load(true);
+        else if (name == "Title") LuminousTransition::Get().ChangeScene(LuminousScenes::Title);
+        else if (name == "BrushRotate") ed.RotateBrush();
+        else if (name.size() == 4 && name.starts_with("Cat")) rt.ActivePaletteCategory = name[3] - '0';
+        else if (name == "AddAbove") { ed.AddFloorAbove(); refresh(); }
+        else if (name == "AddBelow") { ed.AddFloorBelow(); refresh(); }
+        else if (name == "InsMoveFloor") { if (ed.MoveSelectedObjectToFloor(ed.CurrentFloor)) refresh(); }
+        else if (name == "InsRotate") { if (ed.RotateSelectedObject(90.0f)) refresh(); }
+        else if (name == "InsDelete") { if (ed.DeleteSelectedObject()) refresh(); }
+        else if (name.size() == 7 && name.starts_with("Facing")) {
+            if (auto* obj = ed.GetSelectedObjectMut()) obj->Facing = static_cast<SpawnFacing>(name[6] - '0');
+        }
+        else if (name.starts_with("Assets.")) {
+            const auto palette = LuminousPalette(rt.ActivePaletteCategory);
+            const uint32_t index = ui.GetListIndex(element);
+            if (index < palette.size()) ed.SelectAsset(palette[index].AssetId, palette[index].Category, palette[index].Placement);
+        }
+        else if (name.starts_with("Floors.") && !name.ends_with(".Visible")) {
+            // 階の一覧は上の階から並べている (見える / 見えないの切り替えは値が変わったところで)
+            auto& floors = ed.Stage.Floors;
+            const uint32_t index = ui.GetListIndex(element);
+            if (index >= floors.size()) return;
+            const int floorIndex = floors[floors.size() - 1 - index].FloorIndex;
+            ed.CurrentFloor = floorIndex;
+            if (name.ends_with(".Up")) { if (ed.MoveCurrentFloorUp()) refresh(); }
+            else if (name.ends_with(".Down")) { if (ed.MoveCurrentFloorDown()) refresh(); }
+            else if (name.ends_with(".Delete")) { if (floors.size() > 1 && ed.DeleteCurrentFloor()) refresh(); }
+            else refresh();
+        }
+    }
+
+    // 値を変えた (切り替え・数値の欄)
+    inline void LuminousEditorOnValueChanged(const Engine::Core::SystemContext& ctx, Engine::UI::UISystem& ui,
+                                             const std::string& name, Engine::UI::UIElement element, float value) {
+        auto& registry = ctx.GetRegistry();
+        auto& rt = EditorRuntime(registry);
+        auto& ed = rt.Editor;
+        const auto refresh = [&] { LuminousEditorRefreshSceneEntities(registry); };
+        const bool on = value != 0.0f;
+        auto* obj = ed.GetSelectedObjectMut();
+
+        if (name == "BrushPhase") ed.SelectedPhase = on ? MaterialPhase::Phase : MaterialPhase::Normal;
+        else if (name == "BrushOrb") ed.BrushInitialOrb = on;
+        else if (name == "InsPhase") { if (obj && (obj->Phase == MaterialPhase::Phase) != on && ed.ToggleSelectedPhase()) refresh(); }
+        else if (name == "InsOrb") { if (obj && obj->HasInitialOrb != on && ed.ToggleSelectedInitialOrb()) refresh(); }
+        else if (name == "InsLight") { if (obj) { obj->HasLight = on; refresh(); } }
+        else if (name == "LightR") { if (obj) { obj->LightColor.x = value; refresh(); } }
+        else if (name == "LightG") { if (obj) { obj->LightColor.y = value; refresh(); } }
+        else if (name == "LightB") { if (obj) { obj->LightColor.z = value; refresh(); } }
+        else if (name == "LightIntensity") { if (obj) { obj->LightIntensity = value; refresh(); } }
+        else if (name == "LightRadius") { if (obj) { obj->LightRadius = value; refresh(); } }
+        else if (name.starts_with("Floors.") && name.ends_with(".Visible")) {
+            auto& floors = ed.Stage.Floors;
+            const uint32_t index = ui.GetListIndex(element);
+            if (index < floors.size()) {
+                floors[floors.size() - 1 - index].Visible = on;
+                refresh();
             }
         }
+    }
 
-        ImGui::SameLine();
-        if (ImGui::Button("TITLE", ImVec2(80, 36))) {
-            LuminousTransition::Get().ChangeScene(LuminousScenes::Title);
+    inline void LuminousEditorRenderUI(const Engine::Core::SystemContext& ctx) {
+        auto& registry = ctx.GetRegistry();
+        auto& rt = EditorRuntime(registry);
+        auto* ui = ctx.FindService<Engine::UI::UISystem>();
+        if (!ui) return;
+        using Engine::UI::UIElement;
+        using Engine::UI::UIColor;
+        using Engine::UI::UIVisibility;
+        auto& ed = rt.Editor;
+
+        if (!ui->IsOpen(rt.EditorUi)) {
+            rt.EditorUi = ui->Open(LuminousScreenAssets::StageEditor, { .SortOrder = LuminousScreenOrder::Hud });
+            rt.PaletteShown = -1;
+            rt.PaletteSelectedShown.clear();
+            rt.FloorsShown.clear();
+            // 一覧の中身 (見えている行だけ。中の名前は項目の根から引く)
+            entt::registry* reg = &registry;
+            ui->OnListItem(ui->Find(rt.EditorUi, "Assets"), [ui, reg](const Engine::UI::UIListItem& item) {
+                auto& r = EditorRuntime(*reg);
+                const auto palette = LuminousPalette(r.ActivePaletteCategory);
+                if (item.Index >= palette.size()) return;
+                ui->SetText(ui->FindChild(item.Root, "Label"), palette[item.Index].Label);
+                ui->SetValue(item.Root, r.Editor.SelectedAssetId == palette[item.Index].AssetId ? 1.0f : 0.0f);
+            });
+            ui->OnListItem(ui->Find(rt.EditorUi, "Floors"), [ui, reg](const Engine::UI::UIListItem& item) {
+                auto& r = EditorRuntime(*reg);
+                const auto& floors = r.Editor.Stage.Floors;
+                if (item.Index >= floors.size()) return;
+                const auto& flr = floors[floors.size() - 1 - item.Index];   // 上の階から
+                const bool current = r.Editor.CurrentFloor == flr.FloorIndex;
+                ui->SetValue(ui->FindChild(item.Root, "Visible"), flr.Visible ? 1.0f : 0.0f);
+                ui->SetValue(ui->FindChild(item.Root, "Pick"), current ? 1.0f : 0.0f);
+                const UIElement label = ui->FindChild(item.Root, "PickLabel");
+                ui->SetText(label, std::format("{}F: {}", flr.FloorIndex + 1, flr.Name));
+                // 今の階は黄色 (文字の色 0.92, 0.94, 0.97 に掛けて 1, 0.85, 0.2)
+                ui->SetColor(label, current ? UIColor{ 1.0f / 0.92f, 0.85f / 0.94f, 0.2f / 0.97f, 1.0f } : UIColor{ 1.0f, 1.0f, 1.0f, 1.0f });
+                ui->SetVisibility(ui->FindChild(item.Root, "Delete"), floors.size() > 1 ? UIVisibility::Visible : UIVisibility::Hidden);
+            });
         }
+        const auto el = [&](const char* name) { return ui->Find(rt.EditorUi, name); };
+        const auto show = [&](const char* name, bool visible) {
+            ui->SetVisibility(el(name), visible ? UIVisibility::Visible : UIVisibility::Collapsed);
+        };
+        const auto setText = [&](const char* name, const std::string& text) { ui->SetText(el(name), text); };
+        const auto setOn = [&](const char* name, bool on) {
+            const UIElement e = el(name);
+            if ((ui->GetValue(e) != 0.0f) != on) ui->SetValue(e, on ? 1.0f : 0.0f);
+        };
+        const auto setNumber = [&](const char* name, float value) {
+            const UIElement e = el(name);
+            if (!(ui->GetEditing() == e) && std::abs(ui->GetValue(e) - value) > 1.0e-5f) ui->SetValue(e, value);
+        };
+        // 文字の色 (EdText の 0.92, 0.94, 0.97 に掛けて、その色にする)
+        const auto textColor = [&](const char* name, float r, float g, float b) {
+            ui->SetColor(el(name), { r / 0.92f, g / 0.94f, b / 0.97f, 1.0f });
+        };
 
-        ImGui::End();
+        // 1. 前の UI の Update で起きたこと
+        if (const Engine::UI::UIDocument* doc = ui->GetDocument(rt.EditorUi)) {
+            for (const Engine::UI::UIEventRecord& e : ui->GetEvents()) {
+                if (!(e.Element.Instance == rt.EditorUi)) continue;
+                const std::string& name = doc->Name[e.Element.Row];
+                switch (e.Type) {
+                case Engine::UI::UIEventType::Clicked:
+                    LuminousEditorOnClicked(ctx, *ui, name, e.Element);
+                    break;
+                case Engine::UI::UIEventType::ValueChanged:
+                    LuminousEditorOnValueChanged(ctx, *ui, name, e.Element, e.Value);
+                    break;
+                case Engine::UI::UIEventType::TextChanged:
+                case Engine::UI::UIEventType::TextCommitted:
+                    if (name == "StageName") ed.Stage.Name = std::string(ui->GetText(e.Element));
+                    else if (name == "StagePath") ed.CurrentFilePath = std::string(ui->GetText(e.Element));
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+        // 打ち終えた欄のフォーカスは外す (W/A/S/D・L が UI の操作にならないように)
+        if (!ui->IsEditingText() && ui->GetFocus().Instance == rt.EditorUi) ui->ClearFocus();
 
-        // 2. 左側パレットUI (ASSET_PALETTE)
-        ImGui::SetNextWindowPos(ImVec2(10, 76), ImGuiCond_Always);
-        ImGui::SetNextWindowSize(ImVec2(350, io.DisplaySize.y - 120), ImGuiCond_Always);
-        ImGui::Begin("ASSET_PALETTE", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+        // 2. 上の帯
+        const bool isPaint = ed.ToolMode == EditorToolMode::Paint;
+        const bool isFlycam = ed.CameraMode == EditorCameraMode::Flycam3D;
+        setOn("Paint", isPaint);
+        setOn("Select", ed.ToolMode == EditorToolMode::Select);
+        setOn("Camera", isFlycam);
+        setText("CameraLabel", isFlycam ? "[TAB] 3D FLYCAM" : "[TAB] TOP-DOWN");
+        const auto* curFlrCfg = ed.Stage.FindFloor(ed.CurrentFloor);
+        const std::string flrName = curFlrCfg ? curFlrCfg->Name : ("Floor " + std::to_string(ed.CurrentFloor + 1));
+        setText("FloorLabel", std::format(" [ {} F : {} ] ", ed.CurrentFloor + 1, flrName));
+        const auto valRes = ed.Validate();
+        setOn("TestPlay", valRes.IsValid);   // 出せるときは緑
 
-        if (rt.Editor.ToolMode == EditorToolMode::Paint) {
-            // 3D プレビューターンテーブル情報カード
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.07f, 0.09f, 0.14f, 0.85f));
-            ImGui::BeginChild("BrushCard", ImVec2(0, 140), true);
-            ImGui::TextColored(ImVec4(0.4f, 0.85f, 1.0f, 1.0f), "=== BRUSH SETTINGS ===");
-            ImGui::Text("Asset: %s", rt.Editor.SelectedAssetId.c_str());
-
-            bool isEdgeSnap = (rt.Editor.SelectedPlacement == PlacementType::EdgeSnap || rt.Editor.SelectedCategory == AssetCategory::Wall);
+        // 3. 左 (ブラシとパレット / 選ぶときの案内)
+        show("PaintPanel", isPaint);
+        show("SelectPanel", !isPaint);
+        if (isPaint) {
+            setText("BrushAsset", "Asset: " + ed.SelectedAssetId);
+            const bool isEdgeSnap = ed.SelectedPlacement == PlacementType::EdgeSnap || ed.SelectedCategory == AssetCategory::Wall;
             if (isEdgeSnap) {
-                ImGui::Text("Snap: EdgeSnap (Auto Align)");
-                const char* flipLabel = (rt.Editor.BrushWallFlipYaw > 90.0f) ? "Flip Face 180 deg (R) [180 deg]" : "Flip Face 180 deg (R) [0 deg]";
-                if (ImGui::Button(flipLabel, ImVec2(-1, 26))) {
-                    rt.Editor.RotateBrush();
-                }
+                setText("BrushSnap", "Snap: EdgeSnap (Auto Align)");
+                setText("BrushRotateLabel", ed.BrushWallFlipYaw > 90.0f ? "Flip Face 180 deg (R) [180 deg]" : "Flip Face 180 deg (R) [0 deg]");
             } else {
-                ImGui::Text("Snap: %s | Yaw: %.0f deg",
-                    (rt.Editor.SelectedPlacement == PlacementType::CellSnap ? "CellSnap" : "FreeAttach"),
-                    rt.Editor.BrushYaw);
-                if (ImGui::Button("Rotate 90 deg (R)", ImVec2(-1, 26))) {
-                    rt.Editor.RotateBrush();
-                }
+                setText("BrushSnap", std::format("Snap: {} | Yaw: {:.0f} deg",
+                    ed.SelectedPlacement == PlacementType::CellSnap ? "CellSnap" : "FreeAttach", ed.BrushYaw));
+                setText("BrushRotateLabel", "Rotate 90 deg (R)");
             }
-
-            if (rt.Editor.SelectedCategory == AssetCategory::Floor || rt.Editor.SelectedCategory == AssetCategory::Wall) {
-                bool isPhase = (rt.Editor.SelectedPhase == MaterialPhase::Phase);
-                if (ImGui::Checkbox("Phase Inverted (Hole/Light Pass)", &isPhase)) {
-                    rt.Editor.SelectedPhase = isPhase ? MaterialPhase::Phase : MaterialPhase::Normal;
-                }
+            const bool floorOrWall = ed.SelectedCategory == AssetCategory::Floor || ed.SelectedCategory == AssetCategory::Wall;
+            show("BrushPhase", floorOrWall);
+            setOn("BrushPhase", ed.SelectedPhase == MaterialPhase::Phase);
+            const bool isPedestal = ed.SelectedAssetId == "Pedestal";
+            show("BrushOrb", isPedestal);
+            show("BrushOrbCount", isPedestal);
+            if (isPedestal) {
+                const int32_t orbCount = ed.CountInitialOrbs();
+                const bool orbLimitReached = orbCount >= MAX_STAGE_ORBS;
+                if (orbLimitReached) ed.BrushInitialOrb = false;
+                ui->SetEnabled(el("BrushOrb"), !orbLimitReached);
+                setOn("BrushOrb", ed.BrushInitialOrb);
+                setText("BrushOrbCount", std::format("Orbs: {} / {}{}", orbCount, MAX_STAGE_ORBS, orbLimitReached ? "  (limit reached)" : ""));
+                if (orbLimitReached) textColor("BrushOrbCount", 1.0f, 0.45f, 0.35f);
+                else textColor("BrushOrbCount", 0.65f, 0.75f, 0.85f);
             }
-            if (rt.Editor.SelectedAssetId == "Pedestal") {
-                const int32_t orbCount = rt.Editor.CountInitialOrbs();
-                const bool orbLimitReached = (orbCount >= MAX_STAGE_ORBS);
-                if (orbLimitReached) {
-                    rt.Editor.BrushInitialOrb = false;
-                    ImGui::BeginDisabled();
-                }
-                ImGui::Checkbox("Has Initial Orb", &rt.Editor.BrushInitialOrb);
-                if (orbLimitReached) ImGui::EndDisabled();
-                ImGui::TextColored(
-                    orbLimitReached ? ImVec4(1.0f, 0.45f, 0.35f, 1.0f) : ImVec4(0.65f, 0.75f, 0.85f, 1.0f),
-                    "Orbs: %d / %d%s", orbCount, MAX_STAGE_ORBS,
-                    orbLimitReached ? "  (limit reached)" : "");
-            }
-            ImGui::EndChild();
-            ImGui::PopStyleColor();
-
-            ImGui::Spacing();
-            ImGui::Separator();
-            ImGui::Spacing();
-
-            // カテゴリタブ
-            const char* categories[] = { "Floors", "Walls", "Stairs", "Pedestals", "Specials", "Props" };
-            for (int i = 0; i < 6; ++i) {
-                bool isCurrent = (rt.ActivePaletteCategory == i);
-                if (isCurrent) ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.6f, 0.9f, 1.0f));
-                if (ImGui::Button(categories[i], ImVec2(52, 26))) {
-                    rt.ActivePaletteCategory = i;
-                }
-                if (isCurrent) ImGui::PopStyleColor();
-                if (i % 3 != 2 && i < 5) ImGui::SameLine();
-            }
-            ImGui::Spacing();
-            ImGui::Separator();
-            ImGui::Spacing();
-
-            // アセットカードグリッド
-            auto DrawAssetCard = [&](const char* label, const std::string& assetId, AssetCategory cat, PlacementType place) {
-                bool isSelected = (rt.Editor.SelectedAssetId == assetId);
-                if (isSelected) ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.65f, 0.85f, 1.0f));
-                if (ImGui::Button(label, ImVec2(-1, 30))) {
-                    rt.Editor.SelectAsset(assetId, cat, place);
-                }
-                if (isSelected) ImGui::PopStyleColor();
-            };
-
-            if (rt.ActivePaletteCategory == 0) { // Floors
-                DrawAssetCard("Floor_1x1 (Standard Stone)", "Floor_1x1", AssetCategory::Floor, PlacementType::CellSnap);
-                DrawAssetCard("Floor_PatternB (Patterned Cobble)", "Floor_PatternB", AssetCategory::Floor, PlacementType::CellSnap);
-                DrawAssetCard("Floor_SawBlade (Hazard Trap)", "Floor_SawBlade", AssetCategory::Floor, PlacementType::CellSnap);
-                DrawAssetCard("Floor_Spikes (Needle Trap)", "Floor_Spikes", AssetCategory::Floor, PlacementType::CellSnap);
-                DrawAssetCard("Floor_Tile (Decorative Tile)", "Floor_Tile", AssetCategory::Floor, PlacementType::FreeAttach);
-            } else if (rt.ActivePaletteCategory == 1) { // Walls
-                DrawAssetCard("Wall_Brick (Solid Stone)", "Wall_Brick", AssetCategory::Wall, PlacementType::EdgeSnap);
-                DrawAssetCard("Wall_Smooth (Smooth Stone)", "Wall_Smooth", AssetCategory::Wall, PlacementType::EdgeSnap);
-                DrawAssetCard("Wall_Grate (Iron Fence - Pass Light)", "Wall_Grate", AssetCategory::Wall, PlacementType::EdgeSnap);
-                DrawAssetCard("Wall_Window (Arch Window)", "Wall_Window", AssetCategory::Wall, PlacementType::EdgeSnap);
-                DrawAssetCard("Wall_Railing (Low Railing)", "Wall_Railing", AssetCategory::Wall, PlacementType::EdgeSnap);
-                DrawAssetCard("Wall_DoorArc (Archway Opening)", "Wall_DoorArc", AssetCategory::Wall, PlacementType::EdgeSnap);
-                DrawAssetCard("Wall_Door (Heavy Door)", "Wall_Door", AssetCategory::Wall, PlacementType::EdgeSnap);
-                DrawAssetCard("Wall_Ruined (Broken Wall)", "Wall_Ruined", AssetCategory::Wall, PlacementType::EdgeSnap);
-            } else if (rt.ActivePaletteCategory == 2) { // Stairs
-                DrawAssetCard("Stairs_Straight (1x2 Rise 3m)", "Stairs_Straight", AssetCategory::Stairs, PlacementType::CellSnap);
-            } else if (rt.ActivePaletteCategory == 3) { // Pedestals
-                DrawAssetCard("Pedestal (Socket Pillar)", "Pedestal", AssetCategory::Pedestal, PlacementType::FreeAttach);
-            } else if (rt.ActivePaletteCategory == 4) { // Specials
-                DrawAssetCard("StartDais (Player Spawn Dais)", "StartDais", AssetCategory::Special, PlacementType::CellSnap);
-                DrawAssetCard("GoalChest (Treasure Goal)", "GoalChest", AssetCategory::Special, PlacementType::FreeAttach);
-            } else if (rt.ActivePaletteCategory == 5) { // Props
-                DrawAssetCard("Wall Lamp (Prop_Torch)", "Prop_Torch", AssetCategory::Prop, PlacementType::EdgeSnap);
-                DrawAssetCard("Floor Lamp (Prop_Candle)", "Prop_Candle", AssetCategory::Prop, PlacementType::FreeAttach);
-                DrawAssetCard("Prop_Pillar", "Prop_Pillar", AssetCategory::Prop, PlacementType::FreeAttach);
-                DrawAssetCard("Prop_Barrel", "Prop_Barrel", AssetCategory::Prop, PlacementType::FreeAttach);
-                DrawAssetCard("Prop_WoodenBox", "Prop_WoodenBox", AssetCategory::Prop, PlacementType::FreeAttach);
-                DrawAssetCard("Prop_Brick (Single Brick)", "Prop_Brick", AssetCategory::Prop, PlacementType::FreeAttach);
-                DrawAssetCard("Prop_BrickPile (Rubble Pile)", "Prop_BrickPile", AssetCategory::Prop, PlacementType::FreeAttach);
-                DrawAssetCard("Prop_Rock", "Prop_Rock", AssetCategory::Prop, PlacementType::FreeAttach);
-                DrawAssetCard("Prop_Debris", "Prop_Debris", AssetCategory::Prop, PlacementType::FreeAttach);
-                DrawAssetCard("Prop_Skull", "Prop_Skull", AssetCategory::Prop, PlacementType::FreeAttach);
-            }
-        } else {
-            // 選択モード時のガイド
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.10f, 0.04f, 0.85f));
-            ImGui::BeginChild("SelectGuideCard", ImVec2(0, 160), true);
-            ImGui::TextColored(ImVec4(1.0f, 0.85f, 0.2f, 1.0f), "=== SELECTION MODE ===");
-            ImGui::Spacing();
-            ImGui::TextWrapped("Click any object in the 3D viewport or Top-down view to select it.");
-            ImGui::Spacing();
-            ImGui::TextColored(ImVec4(0.4f, 0.85f, 1.0f, 1.0f), "[L-Click] Pick Object");
-            ImGui::TextColored(ImVec4(1.0f, 0.4f, 0.4f, 1.0f), "[Del / Backspace] Delete");
-            ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.6f, 1.0f), "[R] Rotate 90 deg");
-            ImGui::TextWrapped("Inspect & edit properties on the right panel.");
-            ImGui::EndChild();
-            ImGui::PopStyleColor();
-        }
-
-        ImGui::End();
-
-        // 3. 右側パネル (STAGE_STUDIO: レイヤー管理・インスペクタ・バリデーション)
-        ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x - 560, 76), ImGuiCond_Always);
-        ImGui::SetNextWindowSize(ImVec2(360, io.DisplaySize.y - 120), ImGuiCond_Always);
-        ImGui::Begin("STAGE_STUDIO", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
-
-        // セクション 0: ステージ設定・保存 (STAGE SETTINGS & SAVE)
-        ImGui::TextColored(ImVec4(0.4f, 0.85f, 1.0f, 1.0f), "=== STAGE SETTINGS ===");
-        char nameBuf[128] = {};
-        strncpy_s(nameBuf, rt.Editor.Stage.Name.c_str(), sizeof(nameBuf) - 1);
-        if (ImGui::InputText("Name##stage_name", nameBuf, sizeof(nameBuf))) {
-            rt.Editor.Stage.Name = nameBuf;
-        }
-        char pathBuf[256] = {};
-        strncpy_s(pathBuf, rt.Editor.CurrentFilePath.c_str(), sizeof(pathBuf) - 1);
-        if (ImGui::InputText("Path##file_path", pathBuf, sizeof(pathBuf))) {
-            rt.Editor.CurrentFilePath = pathBuf;
-        }
-        if (ImGui::Button("SAVE STAGE", ImVec2(165, 26))) {
-            std::string err;
-            if (rt.Editor.Stage.SaveToFile(rt.Editor.CurrentFilePath, err)) {
-                rt.Editor.SetStatusMessage("Stage saved: " + rt.Editor.CurrentFilePath);
-            } else {
-                rt.Editor.SetStatusMessage("Save Error: " + err);
+            for (int i = 0; i < 6; ++i) setOn(std::format("Cat{}", i).c_str(), rt.ActivePaletteCategory == i);
+            const UIElement assets = el("Assets");
+            if (rt.PaletteShown != rt.ActivePaletteCategory) {
+                rt.PaletteShown = rt.ActivePaletteCategory;
+                ui->SetListCount(assets, static_cast<uint32_t>(LuminousPalette(rt.ActivePaletteCategory).size()));
+                ui->ScrollListTo(assets, 0);
+                ui->RefreshList(assets);
+                rt.PaletteSelectedShown = ed.SelectedAssetId;
+            } else if (rt.PaletteSelectedShown != ed.SelectedAssetId) {
+                rt.PaletteSelectedShown = ed.SelectedAssetId;
+                ui->RefreshList(assets);
             }
         }
-        ImGui::SameLine();
-        if (ImGui::Button("LOAD STAGE", ImVec2(165, 26))) {
-            std::string err;
-            if (rt.Editor.Stage.LoadFromFile(rt.Editor.CurrentFilePath, err)) {
-                rt.Editor.SetStatusMessage("Stage loaded: " + rt.Editor.CurrentFilePath);
-                LuminousEditorRefreshSceneEntities(registry);
-            } else {
-                rt.Editor.SetStatusMessage("Load Error: " + err);
-            }
-        }
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
 
-        // セクション 1: 動的フロアレイヤー (DYNAMIC FLOOR LAYERS)
-        ImGui::TextColored(ImVec4(0.4f, 0.85f, 1.0f, 1.0f), "=== DYNAMIC FLOOR LAYERS ===");
-        ImGui::Spacing();
+        // 4. 右: ステージ (打っている欄はそのまま。読み込みなどで変わったら入れ直す)
+        const UIElement nameField = el("StageName");
+        if (!(ui->GetEditing() == nameField) && ui->GetText(nameField) != ed.Stage.Name) ui->SetText(nameField, ed.Stage.Name);
+        const UIElement pathField = el("StagePath");
+        if (!(ui->GetEditing() == pathField) && ui->GetText(pathField) != ed.CurrentFilePath) ui->SetText(pathField, ed.CurrentFilePath);
 
-        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.05f, 0.07f, 0.10f, 0.85f));
-        ImGui::BeginChild("LayersList", ImVec2(0, 135), true);
-        auto& floors = rt.Editor.Stage.Floors;
-        // 上の階層から順に表示 (逆順)
-        for (int i = static_cast<int>(floors.size()) - 1; i >= 0; --i) {
-            auto& flr = floors[i];
-            ImGui::PushID(flr.FloorIndex);
-
-            bool isCur = (rt.Editor.CurrentFloor == flr.FloorIndex);
-            if (ImGui::Checkbox("##vis", &flr.Visible)) {
-                LuminousEditorRefreshSceneEntities(registry);
-            }
-            ImGui::SameLine();
-
-            if (isCur) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.85f, 0.2f, 1.0f));
-            std::string flrLabel = std::format("{}F: {}", flr.FloorIndex + 1, flr.Name);
-            if (ImGui::Selectable(flrLabel.c_str(), isCur, 0, ImVec2(140, 20))) {
-                rt.Editor.CurrentFloor = flr.FloorIndex;
-                LuminousEditorRefreshSceneEntities(registry);
-            }
-            if (isCur) ImGui::PopStyleColor();
-
-            ImGui::SameLine();
-            if (ImGui::Button("^##up", ImVec2(22, 20))) {
-                rt.Editor.CurrentFloor = flr.FloorIndex;
-                if (rt.Editor.MoveCurrentFloorUp()) {
-                    LuminousEditorRefreshSceneEntities(registry);
-                }
-            }
-            ImGui::SameLine();
-            if (ImGui::Button("v##dn", ImVec2(22, 20))) {
-                rt.Editor.CurrentFloor = flr.FloorIndex;
-                if (rt.Editor.MoveCurrentFloorDown()) {
-                    LuminousEditorRefreshSceneEntities(registry);
-                }
-            }
-            ImGui::SameLine();
-            if (floors.size() > 1) {
-                if (ImGui::Button("X##del", ImVec2(22, 20))) {
-                    rt.Editor.CurrentFloor = flr.FloorIndex;
-                    if (rt.Editor.DeleteCurrentFloor()) {
-                        LuminousEditorRefreshSceneEntities(registry);
-                    }
-                }
-            }
-
-            ImGui::PopID();
-        }
-        ImGui::EndChild();
-        ImGui::PopStyleColor();
-
-        // フロア追加ボタン
-        if (ImGui::Button("+ Add Floor Above", ImVec2(165, 26))) {
-            rt.Editor.AddFloorAbove();
-            LuminousEditorRefreshSceneEntities(registry);
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("+ Add Floor Below", ImVec2(165, 26))) {
-            rt.Editor.AddFloorBelow();
-            LuminousEditorRefreshSceneEntities(registry);
+        // 右: 階の一覧 (中身が変わったときだけ入れ直す)
+        std::string floorsKey = std::to_string(ed.CurrentFloor);
+        for (const auto& flr : ed.Stage.Floors) floorsKey += std::format("|{}:{}:{}", flr.FloorIndex, flr.Name, flr.Visible ? 1 : 0);
+        if (floorsKey != rt.FloorsShown) {
+            rt.FloorsShown = floorsKey;
+            const UIElement floorsList = el("Floors");
+            ui->SetListCount(floorsList, static_cast<uint32_t>(ed.Stage.Floors.size()));
+            ui->RefreshList(floorsList);
         }
 
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        // セクション 2: オブジェクトインスペクタ (OBJECT INSPECTOR)
-        ImGui::TextColored(ImVec4(1.0f, 0.85f, 0.2f, 1.0f), "=== OBJECT INSPECTOR ===");
-        auto* selectedObj = rt.Editor.GetSelectedObjectMut();
+        // 右: 選んだものを調べる
+        auto* selectedObj = ed.GetSelectedObjectMut();
+        show("Inspector", selectedObj != nullptr);
+        show("InspectorNone", selectedObj == nullptr);
         if (selectedObj) {
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.08f, 0.08f, 0.05f, 0.85f));
-            ImGui::BeginChild("InspectorCard", ImVec2(0, 310), true);
-
-            ImGui::Text("Asset: %s", selectedObj->AssetId.c_str());
-            ImGui::Text("Instance ID: #%llu", selectedObj->InstanceId);
-            ImGui::Text("Floor: %d F", selectedObj->FloorIndex + 1);
-            if (selectedObj->FloorIndex != rt.Editor.CurrentFloor) {
-                if (ImGui::Button(std::format("Move to Active Floor ({}F)", rt.Editor.CurrentFloor + 1).c_str(), ImVec2(-1, 24))) {
-                    if (rt.Editor.MoveSelectedObjectToFloor(rt.Editor.CurrentFloor)) {
-                        LuminousEditorRefreshSceneEntities(registry);
-                    }
-                }
+            setText("InsAsset", "Asset: " + selectedObj->AssetId);
+            setText("InsId", std::format("Instance ID: #{}", selectedObj->InstanceId));
+            setText("InsFloor", std::format("Floor: {} F", selectedObj->FloorIndex + 1));
+            show("InsMoveFloor", selectedObj->FloorIndex != ed.CurrentFloor);
+            setText("InsMoveFloorLabel", std::format("Move to Active Floor ({}F)", ed.CurrentFloor + 1));
+            setText("InsPos", std::format("Pos: ({:.2f}, {:.2f}, {:.2f})", selectedObj->Position.x, selectedObj->Position.y, selectedObj->Position.z));
+            setText("InsYaw", std::format("Yaw: {:.0f} deg", selectedObj->Rotation.y));
+            show("InsPhase", selectedObj->Category == AssetCategory::Floor || selectedObj->Category == AssetCategory::Wall);
+            setOn("InsPhase", selectedObj->Phase == MaterialPhase::Phase);
+            const bool isDais = selectedObj->AssetId == "StartDais";
+            show("InsFacingBox", isDais);
+            if (isDais) {
+                for (int i = 0; i < 4; ++i) setOn(std::format("Facing{}", i).c_str(), static_cast<int>(selectedObj->Facing) == i);
+                setText("InsFacingYaw", std::format("Yaw at spawn: {:.0f} deg", SpawnFacingToYawDegrees(selectedObj->Facing)));
             }
-
-            ImGui::Text("Pos: (%.2f, %.2f, %.2f)", selectedObj->Position.x, selectedObj->Position.y, selectedObj->Position.z);
-            ImGui::Text("Yaw: %.0f deg", selectedObj->Rotation.y);
-            if (ImGui::Button("Rotate +90 deg (R)", ImVec2(-1, 24))) {
-                if (rt.Editor.RotateSelectedObject(90.0f)) {
-                    LuminousEditorRefreshSceneEntities(registry);
-                }
+            const bool isPedestal = selectedObj->AssetId == "Pedestal";
+            show("InsOrbBox", isPedestal);
+            if (isPedestal) {
+                const int32_t selOrbCount = ed.CountInitialOrbs();
+                ui->SetEnabled(el("InsOrb"), selectedObj->HasInitialOrb || selOrbCount < MAX_STAGE_ORBS);
+                setOn("InsOrb", selectedObj->HasInitialOrb);
+                setText("InsOrbCount", std::format("Stage Orbs: {} / {}", selOrbCount, MAX_STAGE_ORBS));
+                if (selOrbCount >= MAX_STAGE_ORBS) textColor("InsOrbCount", 1.0f, 0.45f, 0.35f);
+                else textColor("InsOrbCount", 0.65f, 0.75f, 0.85f);
             }
-
-            if (selectedObj->Category == AssetCategory::Floor || selectedObj->Category == AssetCategory::Wall) {
-                bool isPhase = (selectedObj->Phase == MaterialPhase::Phase);
-                if (ImGui::Checkbox("Phase Inverted", &isPhase)) {
-                    if (rt.Editor.ToggleSelectedPhase()) {
-                        LuminousEditorRefreshSceneEntities(registry);
-                    }
-                }
-            }
-            if (selectedObj->AssetId == "StartDais") {
-                ImGui::Spacing();
-                ImGui::TextColored(ImVec4(0.45f, 0.9f, 1.0f, 1.0f), "Player Spawn Facing:");
-                const char* facingItems[] = { "North (+Z)", "East (+X)", "South (-Z)", "West (-X)" };
-                int facingIdx = static_cast<int>(selectedObj->Facing);
-                if (ImGui::Combo("Facing", &facingIdx, facingItems, IM_ARRAYSIZE(facingItems))) {
-                    selectedObj->Facing = static_cast<SpawnFacing>(facingIdx);
-                }
-                ImGui::TextColored(ImVec4(0.65f, 0.75f, 0.85f, 1.0f),
-                    "Yaw at spawn: %.0f deg", SpawnFacingToYawDegrees(selectedObj->Facing));
-            }
-            if (selectedObj->AssetId == "Pedestal") {
-                bool hasOrb = selectedObj->HasInitialOrb;
-                const int32_t selOrbCount = rt.Editor.CountInitialOrbs();
-                const bool selOrbLocked = (!hasOrb && selOrbCount >= MAX_STAGE_ORBS);
-                if (selOrbLocked) ImGui::BeginDisabled();
-                if (ImGui::Checkbox("Has Initial Orb", &hasOrb)) {
-                    if (rt.Editor.ToggleSelectedInitialOrb()) {
-                        LuminousEditorRefreshSceneEntities(registry);
-                    }
-                }
-                if (selOrbLocked) ImGui::EndDisabled();
-                ImGui::TextColored(
-                    (selOrbCount >= MAX_STAGE_ORBS) ? ImVec4(1.0f, 0.45f, 0.35f, 1.0f) : ImVec4(0.65f, 0.75f, 0.85f, 1.0f),
-                    "Stage Orbs: %d / %d", selOrbCount, MAX_STAGE_ORBS);
-            }
-
-            ImGui::Spacing();
-            ImGui::Separator();
-            ImGui::TextColored(ImVec4(1.0f, 0.85f, 0.3f, 1.0f), "Light Settings:");
-            if (ImGui::Checkbox("Enable Light", &selectedObj->HasLight)) {
-                LuminousEditorRefreshSceneEntities(registry);
-            }
+            setOn("InsLight", selectedObj->HasLight);
+            show("InsLightBox", selectedObj->HasLight);
             if (selectedObj->HasLight) {
-                float col[3] = { selectedObj->LightColor.x, selectedObj->LightColor.y, selectedObj->LightColor.z };
-                if (ImGui::ColorEdit3("Light Color", col)) {
-                    selectedObj->LightColor = { col[0], col[1], col[2] };
-                    LuminousEditorRefreshSceneEntities(registry);
-                }
-                if (ImGui::DragFloat("Intensity", &selectedObj->LightIntensity, 0.5f, 0.0f, 100.0f, "%.1f")) {
-                    LuminousEditorRefreshSceneEntities(registry);
-                }
-                if (ImGui::DragFloat("Radius", &selectedObj->LightRadius, 0.5f, 1.0f, 50.0f, "%.1f")) {
-                    LuminousEditorRefreshSceneEntities(registry);
-                }
+                setNumber("LightR", selectedObj->LightColor.x);
+                setNumber("LightG", selectedObj->LightColor.y);
+                setNumber("LightB", selectedObj->LightColor.z);
+                ui->SetColor(el("LightSwatch"), { selectedObj->LightColor.x, selectedObj->LightColor.y, selectedObj->LightColor.z, 1.0f });
+                setNumber("LightIntensity", selectedObj->LightIntensity);
+                setNumber("LightRadius", selectedObj->LightRadius);
             }
-
-            ImGui::Spacing();
-            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.85f, 0.2f, 0.2f, 1.0f));
-            if (ImGui::Button("DELETE OBJECT (Del)", ImVec2(-1, 28))) {
-                if (rt.Editor.DeleteSelectedObject()) {
-                    LuminousEditorRefreshSceneEntities(registry);
-                }
-            }
-            ImGui::PopStyleColor();
-
-            ImGui::EndChild();
-            ImGui::PopStyleColor();
-        } else {
-            ImGui::TextDisabled("No object selected.");
-            ImGui::TextDisabled("Click an object in the viewport or press [2] to enter Select Mode.");
         }
 
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        // セクション 3: ステージバリデーション (STAGE VALIDATION)
-        ImGui::TextColored(ImVec4(0.4f, 0.85f, 1.0f, 1.0f), "=== STAGE VALIDATION ===");
-        ImGui::Text("Start Points: %d / 1", valRes.StartPointCount);
-        ImGui::Text("Goal Points:  %d / 1", valRes.GoalPointCount);
-        ImGui::Text("Initial Orbs: %d", valRes.InitialOrbCount);
-        ImGui::Text("Total Objects: %zu", rt.Editor.Stage.Objects.size());
-        ImGui::Spacing();
-
+        // 右: 確かめる
+        setText("ValStart", std::format("Start Points: {} / 1", valRes.StartPointCount));
+        setText("ValGoal", std::format("Goal Points:  {} / 1", valRes.GoalPointCount));
+        setText("ValOrbs", std::format("Initial Orbs: {}", valRes.InitialOrbCount));
+        setText("ValTotal", std::format("Total Objects: {}", ed.Stage.Objects.size()));
         if (valRes.IsValid) {
-            ImGui::TextColored(ImVec4(0.2f, 0.9f, 0.3f, 1.0f), "Status: VALID (Ready to Play)");
+            setText("ValStatus", "Status: VALID (Ready to Play)");
+            textColor("ValStatus", 0.2f, 0.9f, 0.3f);
         } else {
-            ImGui::TextColored(ImVec4(1.0f, 0.3f, 0.2f, 1.0f), "Status: INVALID");
-            for (const auto& err : valRes.Errors) {
-                ImGui::TextColored(ImVec4(1.0f, 0.4f, 0.4f, 1.0f), "- %s", err.c_str());
-            }
+            setText("ValStatus", "Status: INVALID");
+            textColor("ValStatus", 1.0f, 0.3f, 0.2f);
         }
+        std::string errors;
+        for (const auto& err : valRes.Errors) {
+            if (!errors.empty()) errors += '\n';
+            errors += "- " + err;
+        }
+        setText("ValErrors", errors);
+        show("ValErrors", !errors.empty());
 
-        ImGui::End();
-
-        // 4. 下部ステータスバー (STATUS_BAR)
-        ImGui::SetNextWindowPos(ImVec2(10, io.DisplaySize.y - 34), ImGuiCond_Always);
-        ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x - 20, 28), ImGuiCond_Always);
-        ImGui::Begin("STATUS_BAR", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
-        const char* modeStr = (rt.Editor.ToolMode == EditorToolMode::Paint ? "PAINT" : "SELECT");
-        const char* camStr = (rt.Editor.CameraMode == EditorCameraMode::TopDown ? "TOP-DOWN" : "3D FLYCAM");
-        if (rt.Editor.HasFloorHit) {
-            ImGui::Text("[%s | %s] Cursor: (%d, %d, %dF) | Edge: %s | %s",
-                modeStr, camStr,
-                rt.Editor.HoverCell.X, rt.Editor.HoverCell.Z, rt.Editor.HoverCell.Floor + 1,
-                (rt.Editor.HoverEdge == CellEdge::North ? "N" : (rt.Editor.HoverEdge == CellEdge::South ? "S" : (rt.Editor.HoverEdge == CellEdge::East ? "E" : "W"))),
-                rt.Editor.StatusMessage.c_str());
+        // 5. 下の帯
+        const char* modeStr = isPaint ? "PAINT" : "SELECT";
+        const char* camStr = isFlycam ? "3D FLYCAM" : "TOP-DOWN";
+        if (ed.HasFloorHit) {
+            const char* edge = ed.HoverEdge == CellEdge::North ? "N" : ed.HoverEdge == CellEdge::South ? "S" : ed.HoverEdge == CellEdge::East ? "E" : "W";
+            setText("Status", std::format("[{} | {}] Cursor: ({}, {}, {}F) | Edge: {} | {}", modeStr, camStr,
+                ed.HoverCell.X, ed.HoverCell.Z, ed.HoverCell.Floor + 1, edge, ed.StatusMessage));
         } else {
-            ImGui::Text("[%s | %s] Cursor: (Out of bounds) | %s", modeStr, camStr, rt.Editor.StatusMessage.c_str());
+            setText("Status", std::format("[{} | {}] Cursor: (Out of bounds) | {}", modeStr, camStr, ed.StatusMessage));
         }
-        ImGui::End();
-#endif
     }
 }

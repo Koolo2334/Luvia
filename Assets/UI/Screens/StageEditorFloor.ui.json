@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "styleImports": [
+    "Assets/UI/Screens/StageEditorStyles.ui.json"
+  ],
+  "root": {
+    "kind": "Canvas",
+    "name": "Row",
+    "size": [330, 22],
+    "children": [
+      {
+        "kind": "Toggle",
+        "name": "Visible",
+        "style": "EdToggle",
+        "boxSize": 16,
+        "offset": [2, 3],
+        "size": [16, 16]
+      },
+      {
+        "kind": "Button",
+        "name": "Pick",
+        "style": "EdButton",
+        "background": [0, 0, 0, 0],
+        "selectedColor": [0.26, 0.59, 0.98, 0.45],
+        "offset": [24, 0],
+        "size": [200, 22],
+        "children": [
+          {
+            "kind": "Text",
+            "style": "EdText",
+            "text": "",
+            "name": "PickLabel",
+            "hAlign": "start",
+            "vAlign": "center",
+            "padding": [6, 0, 0, 0]
+          }
+        ]
+      },
+      {
+        "kind": "Button",
+        "name": "Up",
+        "style": "EdButton",
+        "size": [28, 22],
+        "sizeRule": "fixed",
+        "offset": [230, 0],
+        "children": [
+          {
+            "kind": "Text",
+            "name": "UpLabel",
+            "style": "EdLabel",
+            "text": "^"
+          }
+        ]
+      },
+      {
+        "kind": "Button",
+        "name": "Down",
+        "style": "EdButton",
+        "size": [28, 22],
+        "sizeRule": "fixed",
+        "offset": [262, 0],
+        "children": [
+          {
+            "kind": "Text",
+            "name": "DownLabel",
+            "style": "EdLabel",
+            "text": "v"
+          }
+        ]
+      },
+      {
+        "kind": "Button",
+        "name": "Delete",
+        "style": "EdButton",
+        "size": [28, 22],
+        "sizeRule": "fixed",
+        "offset": [294, 0],
+        "children": [
+          {
+            "kind": "Text",
+            "name": "DeleteLabel",
+            "style": "EdLabel",
+            "text": "X"
+          }
+        ]
+      }
+    ]
+  }
+}
