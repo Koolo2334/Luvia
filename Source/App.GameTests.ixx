@@ -27,6 +27,8 @@ import App.Luminous.TerrainSystem;
 import App.Luminous.PlayerSystem;
 import App.Luminous.OrbSystem;
 import App.Luminous.InputConfig;
+import App.Luminous.Profile;   // 自作ステージの一覧・進み具合のファイル
+import Engine.Common.Config;   // Paths
 
 // ============================================================================
 // ゲームの自己テスト
@@ -287,6 +289,41 @@ namespace App {
                 "App", __FILE__, __LINE__,
                 std::format("Game reflection coverage: {} components + {} tags checked, {} missing",
                     static_cast<int>(std::size(expected)), static_cast<int>(std::size(tags)), missing));
+        }
+
+        // ====================================================================
+        // ファイルはプロジェクトの中で読み書きする。
+        //   エディタの Game ビューで遊ぶとき、今の作業フォルダはエディタの置き場になる。
+        //   以前は相対パスのまま開いていたので、進み具合をエディタの置き場へ書き、
+        //   自作ステージの一覧も空だった。作業フォルダを一時フォルダへ移して確かめる
+        // ====================================================================
+        {
+            using namespace App::Luminous;
+            char before[MAX_PATH] = {};
+            GetCurrentDirectoryA(MAX_PATH, before);
+            char temp[MAX_PATH] = {};
+            GetTempPathA(MAX_PATH, temp);
+            SetCurrentDirectoryA(temp);
+
+            bool foundStage = false;
+            bool stageLoads = false;
+            for (const auto& [name, path] : ProfileManager::Get().GetCustomStages()) {
+                if (name != "CustomDungeon.json") continue;
+                foundStage = true;
+                LuminousStage stage;
+                std::string error;
+                stageLoads = stage.LoadFromFile(Engine::Common::Paths::ResolveString(path), error);
+            }
+            const std::string project = Engine::Common::Paths::ToUtf8(Engine::Common::Paths::Project());
+            const std::string profile = Engine::Common::Paths::ToUtf8(ProfileManager::Get().SaveFile());
+            const bool profileInProject = profile.rfind(project, 0) == 0;
+
+            SetCurrentDirectoryA(before);
+            const bool ok = foundStage && stageLoads && profileInProject;
+            Engine::Debug::LogOutput(ok ? Engine::Debug::LogLevel::Info : Engine::Debug::LogLevel::Error,
+                "App", __FILE__, __LINE__,
+                std::format("Project-relative files (another working directory): custom stage found={} loads={}, "
+                            "profile in the project={} ('{}')", foundStage, stageLoads, profileInProject, profile));
         }
     }
 

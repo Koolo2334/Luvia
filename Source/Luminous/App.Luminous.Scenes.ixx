@@ -1529,7 +1529,7 @@ export namespace App::Luminous {
             std::string err;
             // 読めるかどうかだけ先に確かめ、**行き先にはパスを渡す**
             const std::string& path = rt.CustomStages[static_cast<size_t>(activated)].second;
-            if (customStage.LoadFromFile(path, err)) {
+            if (customStage.LoadFromFile(Engine::Common::Paths::ResolveString(path), err)) {
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
                 LuminousGoToStage(ctx.GetRegistry(), path);
                 return;
@@ -3149,9 +3149,11 @@ export namespace App::Luminous {
         auto& rt = EditorRuntime(registry);
         auto& ed = rt.Editor;
         const auto refresh = [&] { LuminousEditorRefreshSceneEntities(registry); };
+        // 書く場所・読む場所はプロジェクト基準 (欄の相対パスのまま開くと、エディタの Game ビューでは
+        //   作業フォルダ = エディタの置き場へ書き、プロジェクトのステージを読めなかった)
         const auto save = [&](bool longMessage) {
             std::string err;
-            if (ed.Stage.SaveToFile(ed.CurrentFilePath, err)) {
+            if (ed.Stage.SaveToFile(Engine::Common::Paths::ResolveString(ed.CurrentFilePath), err)) {
                 ed.SetStatusMessage(longMessage ? "Stage saved: " + ed.CurrentFilePath : std::string("Stage Saved Successfully!"));
             } else {
                 ed.SetStatusMessage("Save Error: " + err);
@@ -3159,7 +3161,7 @@ export namespace App::Luminous {
         };
         const auto load = [&](bool longMessage) {
             std::string err;
-            if (ed.Stage.LoadFromFile(ed.CurrentFilePath, err)) {
+            if (ed.Stage.LoadFromFile(Engine::Common::Paths::ResolveString(ed.CurrentFilePath), err)) {
                 ed.SetStatusMessage(longMessage ? "Stage loaded: " + ed.CurrentFilePath : std::string("Stage Loaded Successfully!"));
                 refresh();
             } else {

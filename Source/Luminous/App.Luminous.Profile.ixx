@@ -11,9 +11,14 @@
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
+#include <filesystem>
+#include <system_error>
 
 #include <DirectXMath.h>
 export module App.Luminous.Profile;
+
+import Engine.Common.Config;   // Paths (プロジェクトの中で読み書きする)
 
 export namespace App::Luminous {
 
@@ -87,39 +92,28 @@ export namespace App::Luminous {
             return nullptr;
         }
 
-        // エディタ作成ステージ一覧を検索
+        // エディタ作成ステージ一覧を検索 (名前と、プロジェクト基準のパス)。
+        //   **プロジェクトの中を探す**。以前は今の作業フォルダから探していたので、エディタの Game ビュー
+        //   (作業フォルダはエディタの置き場) では 1 つも見つからなかった。
+        //   TestGame の中を探す道 (Luvia が TestGame にいた頃の名残) も外した
         std::vector<std::pair<std::string, std::string>> GetCustomStages() {
+            namespace fs = std::filesystem;
             std::vector<std::pair<std::string, std::string>> stages;
-
-            const char* searchDirs[] = {
-                "Assets/Data/Stages/*.json",
-                "../TestGame/Assets/Data/Stages/*.json"
-            };
-
-            for (const char* pattern : searchDirs) {
-                WIN32_FIND_DATAA findData;
-                HANDLE hFind = FindFirstFileA(pattern, &findData);
-                if (hFind != INVALID_HANDLE_VALUE) {
-                    do {
-                        if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-                            std::string fname = findData.cFileName;
-                            std::string fullPath = "Assets/Data/Stages/" + fname;
-                            // 重複除外
-                            bool exists = false;
-                            for (const auto& s : stages) {
-                                if (s.first == fname) { exists = true; break; }
-                            }
-                            if (!exists) {
-                                stages.push_back({ fname, fullPath });
-                            }
-                        }
-                    } while (FindNextFileA(hFind, &findData));
-                    FindClose(hFind);
-                }
-                if (!stages.empty()) break;
+            std::error_code ec;
+            const fs::path dir = Engine::Common::Paths::Resolve(fs::path("Assets/Data/Stages"));
+            for (fs::directory_iterator it(dir, ec), end; it != end && !ec; it.increment(ec)) {
+                if (!it->is_regular_file(ec) || it->path().extension() != ".json") continue;
+                const std::string fname = Engine::Common::Paths::ToUtf8(it->path().filename());
+                stages.push_back({ fname, "Assets/Data/Stages/" + fname });
             }
-
+            std::sort(stages.begin(), stages.end());
             return stages;
+        }
+
+        // 進み具合を書くファイル (プロジェクトの中の絶対パス)。
+        //   相対パスのまま開くと、エディタの Game ビューではエディタの置き場に書いていた
+        [[nodiscard]] std::filesystem::path SaveFile() const {
+            return Engine::Common::Paths::Resolve(std::filesystem::path(savePath_));
         }
 
         bool HasCustomStages() {
@@ -130,7 +124,7 @@ export namespace App::Luminous {
             savePath_ = path;
             isLoaded_ = true;
 
-            std::ifstream file(savePath_);
+            std::ifstream file(SaveFile());
             if (!file.is_open()) return;
 
             std::string line;
@@ -155,10 +149,11 @@ export namespace App::Luminous {
         }
 
         void Save(const std::string& path = "") {
-            std::string target = path.empty() ? savePath_ : path;
-            // フォルダ作成
-            CreateDirectoryA("Assets", nullptr);
-            CreateDirectoryA("Assets/Data", nullptr);
+            // プロジェクトの中へ書く (相対パスは Paths で直す。フォルダも作る)
+            const std::filesystem::path target = path.empty() ? SaveFile()
+                : Engine::Common::Paths::Resolve(std::filesystem::path(path));
+            std::error_code ec;
+            std::filesystem::create_directories(target.parent_path(), ec);
 
             std::ofstream file(target);
             if (!file.is_open()) return;
