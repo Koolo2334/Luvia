@@ -31,7 +31,6 @@ export namespace App::Luminous {
     // ========================================================================
     namespace LuminousScenes {
         inline constexpr const char* Title       = "Assets/Scenes/Luminous.Title.scene.json";
-        inline constexpr const char* StageSelect = "Assets/Scenes/Luminous.StageSelect.scene.json";
         inline constexpr const char* Play        = "Assets/Scenes/Luminous.Play.scene.json";
         inline constexpr const char* Editor      = "Assets/Scenes/Luminous.Editor.scene.json";
     }

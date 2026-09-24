@@ -24,6 +24,7 @@ import Engine.Graphics.RenderPipeline;
 
 import App.ReflectionRegistration;
 import App.Luminous.Scenes;
+import App.Luminous.Session;   // ステージ選択から始める印 (自動テストの巡回)
 import App.Luminous.StageData;
 import App.Luminous.StageCatalog;
 import App.Luminous.InputConfig;
@@ -78,8 +79,10 @@ namespace App {
                     go(LuminousScenes::Play);
                 }
                 else if (frame == 45) {
-                    ENGINE_LOG_INFO("App", "[AutoTest] Frame 45: Play verified. Requesting StageSelect...");
-                    go(LuminousScenes::StageSelect);
+                    ENGINE_LOG_INFO("App", "[AutoTest] Frame 45: Play verified. Requesting StageSelect (the title scene)...");
+                    // ステージ選択はタイトルと同じシーン。本編から戻るときと同じく、持ち物で画面を決める
+                    Session(sys.GetRegistry()).TitleStartsAtStageSelect = true;
+                    go(LuminousScenes::Title);
                 }
                 else if (frame == 55) {
                     ENGINE_LOG_INFO("App", "[AutoTest] Frame 55: StageSelect verified. Requesting Title...");
@@ -110,7 +113,7 @@ namespace App {
         ctx.RegisterSceneAlias("--editor-walls", "Assets/Scenes/Luminous.Editor.scene.json");
         ctx.RegisterSceneAlias("--editor", "Assets/Scenes/Luminous.Editor.scene.json");
         ctx.RegisterSceneAlias("--base-stage=", "Assets/Scenes/Luminous.Play.scene.json");
-        ctx.RegisterSceneAlias("--stageselect", "Assets/Scenes/Luminous.StageSelect.scene.json");
+        ctx.RegisterSceneAlias("--stageselect", "Assets/Scenes/Luminous.Title.scene.json");   // 画面はステージ選択から
         ctx.RegisterSceneAlias("--play-shadow-edge", "Assets/Scenes/Luminous.Play.scene.json");
         ctx.RegisterSceneAlias("--play-shadow-open", "Assets/Scenes/Luminous.Play.scene.json");
         ctx.RegisterSceneAlias("--play-shadow", "Assets/Scenes/Luminous.Play.scene.json");

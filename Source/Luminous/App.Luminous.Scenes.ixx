@@ -829,6 +829,14 @@ export namespace App::Luminous {
         LuminousTransition::Get().ChangeScene(LuminousScenes::Play);
     }
 
+    // ステージ選択へ移る。**シーンはタイトルと同じ** (同じ部屋。画面だけが違う)。
+    //   以前はステージ選択のために別のシーンがあり、中身はタイトルと同じ部屋だった
+    //   (部屋を直すとき 2 か所を直す必要があった)。どの画面から始めるかは持ち物へ預ける
+    inline void LuminousGoToStageSelect(entt::registry& registry) {
+        Session(registry).TitleStartsAtStageSelect = true;
+        LuminousTransition::Get().ChangeScene(LuminousScenes::Title);
+    }
+
     // 登録ステージ (1 始まりの番号) へ移る。ファイルが無ければ何もしない
     inline void LuminousGoToBaseStage(entt::registry& registry, int stageNumber,
                                       bool returnToEditor = false) {
@@ -861,6 +869,14 @@ export namespace App::Luminous {
                 if (Engine::Common::CommandLine::Get().Has(option.Flag)) return option.StagePath;
             }
             return {};
+        }
+
+        // --stageselect: タイトルのシーンをステージ選択の画面から始める (以前は専用のシーンの殻)
+        inline bool TakeStageSelect() {
+            static bool taken = false;
+            if (taken) return false;
+            taken = true;
+            return Engine::Common::CommandLine::Get().Has("stageselect");
         }
 
         inline std::optional<int> TakePaletteCategory() {
@@ -1109,6 +1125,13 @@ export namespace App::Luminous {
         // シーンのファイルが「どの画面から始めるか」を言っていれば、それに従う
         //   (コードのシーンでは作るときの引数だったもの。計画 18 の段 2)
         rt.View = SceneSetting<LuminousTitleSettings>(registry).View;
+        // 本編から「ステージ選択へ」と言われていれば、そこから始める (1 度きり)
+        if (LuminousSession& session = Session(registry); session.TitleStartsAtStageSelect) {
+            session.TitleStartsAtStageSelect = false;
+            rt.View = LuminousTitleView::StageSelect;
+        } else if (LuminousDevLaunch::TakeStageSelect()) {
+            rt.View = LuminousTitleView::StageSelect;   // 開発用の起動オプション --stageselect
+        }
 
         // 入場時の一手。コードのシーンでは OnSetup がやっていたもの
         rt.Camera = cameras.front();
@@ -2390,7 +2413,7 @@ export namespace App::Luminous {
                 return;
             case 2:
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                LuminousTransition::Get().ChangeScene(LuminousScenes::StageSelect);
+                LuminousGoToStageSelect(registry);
                 return;
             case 3:
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
@@ -2503,7 +2526,7 @@ export namespace App::Luminous {
                     // 登録ステージの次へ
                     LuminousGoToBaseStage(registry, rt.StageNumber + 1, rt.ReturnToEditorOnExit);
                 } else if (rt.StageNumber >= total && total > 0) {
-                    LuminousTransition::Get().ChangeScene(LuminousScenes::StageSelect);
+                    LuminousGoToStageSelect(registry);
                 } else if (rt.Stage.Name.find("Stage 1") != std::string::npos) {
                     // 確認用のステージも**ファイルになっている** (計画 18 の段 2)
                     LuminousGoToStage(registry, "Assets/Data/TestStages/multi_floor.json",
@@ -2518,7 +2541,7 @@ export namespace App::Luminous {
                 LuminousGoToStage(registry, rt.StagePath, rt.StageNumber, rt.ReturnToEditorOnExit);
                 return;
             case 2:
-                LuminousTransition::Get().ChangeScene(LuminousScenes::StageSelect);
+                LuminousGoToStageSelect(registry);
                 return;
             case 3:
                 LuminousTransition::Get().ChangeScene(LuminousScenes::Title);

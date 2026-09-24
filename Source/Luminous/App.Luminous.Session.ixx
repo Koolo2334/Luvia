@@ -37,6 +37,9 @@ export namespace App::Luminous {
         int StageNumber = 0;
         // 終わったらステージエディタへ戻る (エディタのテストプレイから来たとき)
         bool ReturnToEditor = false;
+        // タイトルのシーンをステージ選択の画面から始める (本編から戻るとき)。
+        //   以前はステージ選択のために別のシーン (中身はタイトルと同じ部屋) があった
+        bool TitleStartsAtStageSelect = false;
     };
 
     // シーンをまたいで残る持ち物。無ければ作って返す
