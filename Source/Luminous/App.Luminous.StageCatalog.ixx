@@ -28,7 +28,8 @@ export namespace App::Luminous {
     //   - ButtonImage   : ステージセレクト画面に出すボタン画像
     //   - OverlayImage  : ステージ開始時に画面中央へ出すオーバーレイ画像
     //
-    // エントリを増減させればステージセレクト画面のレイアウトは自動で追従する。
+    // エントリを増減させればステージセレクト画面のレイアウトは自動で追従する
+    // (カードの枠は Assets/UI/Screens/StageSelect.ui.json の Card0〜Card11 の 12 枚。増やすなら枠を足す)。
     // ========================================================================
     struct StageCatalogEntry {
         std::string StageFilePath;   // 例: "Assets/Data/BaseStages/stage_01.json"

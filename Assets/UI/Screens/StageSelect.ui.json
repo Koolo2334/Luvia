@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "styleImports": [
+    "Assets/UI/Screens/LuviaStyles.ui.json"
+  ],
+  "root": {
+    "kind": "Canvas",
+    "name": "Root",
+    "focusOnHover": true,
+    "navWrap": true,
+    "children": [
+      {
+        "kind": "Border",
+        "name": "Dim",
+        "anchor": "fill",
+        "size": [0, 0],
+        "background": [0.02, 0.04, 0.08, 0.62]
+      },
+      {
+        "kind": "Image",
+        "name": "Header",
+        "offset": [640, 56],
+        "size": [640, 104],
+        "image": "Assets/UI/StageSelect/stage_select_header.png"
+      },
+      {
+        "kind": "Nested",
+        "name": "Card0",
+        "asset": "Assets/UI/Screens/StageCard.ui.json",
+        "visibility": "collapsed"
+      },
+      {
+        "kind": "Nested",
+        "name": "Card1",
+        "asset": "Assets/UI/Screens/StageCard.ui.json",
+        "visibility": "collapsed"
+      },
+      {
+        "kind": "Nested",
+        "name": "Card2",
+        "asset": "Assets/UI/Screens/StageCard.ui.json",
+        "visibility": "collapsed"
+      },
+      {
+        "kind": "Nested",
+        "name": "Card3",
+        "asset": "Assets/UI/Screens/StageCard.ui.json",
+        "visibility": "collapsed"
+      },
+      {
+        "kind": "Nested",
+        "name": "Card4",
+        "asset": "Assets/UI/Screens/StageCard.ui.json",
+        "visibility": "collapsed"
+      },
+      {
+        "kind": "Nested",
+        "name": "Card5",
+        "asset": "Assets/UI/Screens/StageCard.ui.json",
+        "visibility": "collapsed"
+      },
+      {
+        "kind": "Nested",
+        "name": "Card6",
+        "asset": "Assets/UI/Screens/StageCard.ui.json",
+        "visibility": "collapsed"
+      },
+      {
+        "kind": "Nested",
+        "name": "Card7",
+        "asset": "Assets/UI/Screens/StageCard.ui.json",
+        "visibility": "collapsed"
+      },
+      {
+        "kind": "Nested",
+        "name": "Card8",
+        "asset": "Assets/UI/Screens/StageCard.ui.json",
+        "visibility": "collapsed"
+      },
+      {
+        "kind": "Nested",
+        "name": "Card9",
+        "asset": "Assets/UI/Screens/StageCard.ui.json",
+        "visibility": "collapsed"
+      },
+      {
+        "kind": "Nested",
+        "name": "Card10",
+        "asset": "Assets/UI/Screens/StageCard.ui.json",
+        "visibility": "collapsed"
+      },
+      {
+        "kind": "Nested",
+        "name": "Card11",
+        "asset": "Assets/UI/Screens/StageCard.ui.json",
+        "visibility": "collapsed"
+      },
+      {
+        "kind": "Button",
+        "name": "Extra",
+        "style": "MenuButton",
+        "offset": [750, 650],
+        "size": [420, 68],
+        "image": "Assets/UI/Buttons/btn_extra_normal.png",
+        "hoveredImage": "Assets/UI/Buttons/btn_extra_hover.png",
+        "pressedImage": "Assets/UI/Buttons/btn_extra_hover.png"
+      },
+      {
+        "kind": "Button",
+        "name": "Back",
+        "style": "MenuButton",
+        "offset": [750, 736],
+        "size": [420, 68],
+        "image": "Assets/UI/Buttons/btn_back_normal.png",
+        "hoveredImage": "Assets/UI/Buttons/btn_back_hover.png",
+        "pressedImage": "Assets/UI/Buttons/btn_back_hover.png"
+      },
+      {
+        "kind": "HorizontalBox",
+        "name": "Hints",
+        "pivot": [0.5, 0],
+        "offset": [960, 1010],
+        "autoSize": true,
+        "children": [
+          {
+            "kind": "Nested",
+            "name": "HintChoose",
+            "asset": "Assets/UI/Screens/ControlHint.ui.json"
+          },
+          {
+            "kind": "Nested",
+            "name": "HintDecide",
+            "asset": "Assets/UI/Screens/ControlHint.ui.json"
+          },
+          {
+            "kind": "Nested",
+            "name": "HintBack",
+            "asset": "Assets/UI/Screens/ControlHint.ui.json"
+          }
+        ]
+      }
+    ]
+  }
+}

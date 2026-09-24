@@ -746,6 +746,81 @@ export namespace App::Luminous {
         DrawControlHint(hx, hy, LuminousButtonGlyph::Confirm, "DECIDE", hintH);
     }
 
+    inline void LuminousLegacyDrawStageSelect(float screenW, float screenH, float timer, int selection,
+                                              const Vector2& mouse, bool isMouseDown) {
+        auto& ui = Engine::Graphics::UIRenderer::Get();
+        const float centerX = screenW * 0.5f;
+        ui.DrawPanel(0.0f, 0.0f, screenW, screenH, { 0.02f, 0.04f, 0.08f, 0.62f });
+        const auto& header = LuminousUIConfig::Image_StageSelect_Header;
+        ui.DrawImage(header.FilePath, centerX - header.DefaultWidth * 0.5f, 56.0f, header.DefaultWidth, header.DefaultHeight);
+
+        const int stageCount = LuminousStageCatalog::Count();
+        const bool hasCustomStages = ProfileManager::Get().HasCustomStages();
+        const int extraIndex = hasCustomStages ? stageCount : -1;
+        const int backIndex = stageCount + (hasCustomStages ? 1 : 0);
+
+        const float gridTop = 215.0f;
+        const float gridW = 1100.0f;
+        const float gridBottom = 600.0f;
+        int cols = (stageCount <= 2) ? (stageCount > 0 ? stageCount : 1) : 3;
+        if (stageCount > 6) cols = 4;
+        const int rows = (stageCount + cols - 1) / cols;
+        const float gapX = 48.0f;
+        const float gapY = 32.0f;
+        float cardW = (std::min)(460.0f, (gridW - gapX * (cols - 1)) / static_cast<float>(cols));
+        float cardH = cardW * (260.0f / 400.0f);
+        const float maxGridH = gridBottom - gridTop;
+        const float neededH = cardH * rows + gapY * (rows - 1);
+        if (neededH > maxGridH && neededH > 1.0f) {
+            const float shrink = maxGridH / neededH;
+            cardW *= shrink;
+            cardH *= shrink;
+        }
+        const float usedW = cardW * cols + gapX * (cols - 1);
+        const float originX = centerX - usedW * 0.5f;
+        const float pulse = 0.70f + 0.30f * std::sin(timer * 4.0f);
+        const float extraY = 650.0f;
+        const float backY = hasCustomStages ? 736.0f : 660.0f;
+
+        for (int i = 0; i < stageCount; ++i) {
+            const auto* entry = LuminousStageCatalog::Get(i);
+            if (entry == nullptr) continue;
+            const int stageNumber = i + 1;
+            const float x = originX + (i % cols) * (cardW + gapX);
+            const float y = gridTop + (i / cols) * (cardH + gapY);
+            const bool unlocked = ProfileManager::Get().IsStageUnlocked(stageNumber);
+            std::string img = unlocked
+                ? entry->ButtonImage
+                : (entry->LockedImage.empty() ? LuminousUIConfig::Image_Card_Locked.FilePath : entry->LockedImage);
+            (void)ui.DrawButton(img, img, img, x, y, cardW, cardH, mouse.x, mouse.y, isMouseDown, false, nullptr, i == selection, false);
+            if (i == selection) {
+                DrawUIFrame(x - 7.0f, y - 7.0f, cardW + 14.0f, cardH + 14.0f, 2.0f, { 0.86f, 0.96f, 0.99f, pulse });
+            }
+            if (entry->ButtonImage.empty() && !entry->DisplayName.empty()) {
+                ui.DrawString(entry->DisplayName, x + 16.0f, y + cardH * 0.5f - 9.0f, 16.0f,
+                    unlocked ? DirectX::XMFLOAT4{ 0.95f, 0.97f, 1.0f, 0.95f } : DirectX::XMFLOAT4{ 0.55f, 0.60f, 0.68f, 0.80f });
+            }
+        }
+        if (hasCustomStages) {
+            (void)ui.DrawButton(LuminousUIConfig::Image_Btn_Extra_Normal.FilePath, LuminousUIConfig::Image_Btn_Extra_Hover.FilePath,
+                LuminousUIConfig::Image_Btn_Extra_Hover.FilePath, centerX - 210.0f, extraY, 420.0f, 68.0f,
+                mouse.x, mouse.y, isMouseDown, false, nullptr, selection == extraIndex, false);
+        }
+        (void)ui.DrawButton(LuminousUIConfig::Image_Btn_Back_Normal.FilePath, LuminousUIConfig::Image_Btn_Back_Hover.FilePath,
+            LuminousUIConfig::Image_Btn_Back_Hover.FilePath, centerX - 210.0f, backY, 420.0f, 68.0f,
+            mouse.x, mouse.y, isMouseDown, false, nullptr, selection == backIndex, false);
+
+        const float hintH = 38.0f;
+        const float total = MeasureControlHint(LuminousButtonGlyph::Move, "CHOOSE", hintH)
+                          + MeasureControlHint(LuminousButtonGlyph::Confirm, "DECIDE", hintH)
+                          + MeasureControlHint(LuminousButtonGlyph::Cancel, "BACK", hintH);
+        float hx = centerX - total * 0.5f;
+        const float hy = screenH - 70.0f;
+        hx += DrawControlHint(hx, hy, LuminousButtonGlyph::Move, "CHOOSE", hintH);
+        hx += DrawControlHint(hx, hy, LuminousButtonGlyph::Confirm, "DECIDE", hintH);
+        DrawControlHint(hx, hy, LuminousButtonGlyph::Cancel, "BACK", hintH);
+    }
+
     // ========================================================================
     // タイトル画面 (完全 ImGui フリー、360 度パノラマ回転背景)
     // ========================================================================
@@ -1260,8 +1335,12 @@ export namespace App::Luminous {
             registry.destroy(rt.Camera);
             rt.Camera = entt::null;
         }
-        if (auto* ui = ctx.FindService<Engine::UI::UISystem>()) ui->Close(rt.MenuUi);
+        if (auto* ui = ctx.FindService<Engine::UI::UISystem>()) {
+            ui->Close(rt.MenuUi);
+            ui->Close(rt.StageUi);
+        }
         rt.MenuUi = {};
+        rt.StageUi = {};
     }
 
     // ------------------------------------------------------------------------
@@ -1429,6 +1508,11 @@ export namespace App::Luminous {
                 rt.MenuUi = {};
                 LuminousUICompare::Reset("TitleMenu");
             }
+            if (rt.View != LuminousTitleView::StageSelect && ui->IsOpen(rt.StageUi)) {
+                ui->Close(rt.StageUi);
+                rt.StageUi = {};
+                LuminousUICompare::Reset("StageSelect");
+            }
         }
 
         if (rt.View == LuminousTitleView::MainMenu) {
@@ -1529,137 +1613,159 @@ export namespace App::Luminous {
         }
     }
 
+    // ステージ選択のカードの並び (前の描き方と同じ式。登録ステージの数で列の数・カードの大きさが決まる)
+    struct LuminousStageGrid {
+        static constexpr float Top = 215.0f;
+        static constexpr float GapX = 48.0f;
+        static constexpr float GapY = 32.0f;
+        int Cols = 1;
+        float CardW = 0.0f;
+        float CardH = 0.0f;
+        float OriginX = 0.0f;
+
+        [[nodiscard]] static LuminousStageGrid Compute(int stageCount, float centerX) {
+            constexpr float gridW = 1100.0f;
+            constexpr float gridBottom = 600.0f;
+            LuminousStageGrid g;
+            g.Cols = (stageCount <= 2) ? (stageCount > 0 ? stageCount : 1) : 3;
+            if (stageCount > 6) g.Cols = 4;
+            const int rows = (stageCount + g.Cols - 1) / g.Cols;
+            g.CardW = (std::min)(460.0f, (gridW - GapX * (g.Cols - 1)) / static_cast<float>(g.Cols));
+            g.CardH = g.CardW * (260.0f / 400.0f);
+            const float maxGridH = gridBottom - Top;
+            const float neededH = g.CardH * rows + GapY * (rows - 1);
+            if (neededH > maxGridH && neededH > 1.0f) {
+                const float shrink = maxGridH / neededH;
+                g.CardW *= shrink;
+                g.CardH *= shrink;
+            }
+            const float usedW = g.CardW * g.Cols + GapX * (g.Cols - 1);
+            g.OriginX = centerX - usedW * 0.5f;
+            return g;
+        }
+        [[nodiscard]] float X(int i) const { return OriginX + (i % Cols) * (CardW + GapX); }
+        [[nodiscard]] float Y(int i) const { return Top + (i / Cols) * (CardH + GapY); }
+    };
+
+    // StageSelect.ui.json のカードの枠の数 (Card0〜Card11)
+    inline constexpr int kStageCardSlots = 12;
+
     inline void LuminousTitleRenderStageSelect(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick) {
+        (void)isMouseDown;
+        (void)isMouseClick;
         auto& rt = TitleRuntime(ctx.GetRegistry());
-        auto& ui = Engine::Graphics::UIRenderer::Get();
+        auto* menu = ctx.FindService<Engine::UI::UISystem>();
+        if (!menu) return;
+        using Engine::UI::UIElement;
+        using Engine::UI::UIVisibility;
         const float centerX = screenW * 0.5f;
 
-        // 背景を少し沈め、3D の部屋はうっすら見せる
-        ui.DrawPanel(0.0f, 0.0f, screenW, screenH, { 0.02f, 0.04f, 0.08f, 0.62f });
-
-        // ヘッダー (Luvia ロゴと同じ細線・六角形の意匠)
-        const auto& header = LuminousUIConfig::Image_StageSelect_Header;
-        ui.DrawImage(header.FilePath, centerX - header.DefaultWidth * 0.5f, 56.0f, header.DefaultWidth, header.DefaultHeight);
-
         const int stageCount = LuminousStageCatalog::Count();
+        const int cardCount = (std::min)(stageCount, kStageCardSlots);
         const bool hasCustomStages = ProfileManager::Get().HasCustomStages();
-        const int extraIndex = hasCustomStages ? stageCount : -1;
-        const int backIndex = stageCount + (hasCustomStages ? 1 : 0);
+        const auto cardName = [](int i) { return "Card" + std::to_string(i); };
 
-        rt.Cursor.BeginFrame(ctx.GetDeltaTime(), backIndex + 1, Vector2(mouseX, mouseY));
-        const Vector2 m = rt.Cursor.Mouse();
-
-        const float gridTop = 215.0f;
-        const float gridW = 1100.0f;
-        const float gridBottom = 600.0f;
-
-        int cols = (stageCount <= 2) ? (stageCount > 0 ? stageCount : 1) : 3;
-        if (stageCount > 6) cols = 4;
-        const int rows = (stageCount + cols - 1) / cols;
-
-        const float gapX = 48.0f;
-        const float gapY = 32.0f;
-        float cardW = (std::min)(460.0f, (gridW - gapX * (cols - 1)) / static_cast<float>(cols));
-        float cardH = cardW * (260.0f / 400.0f);
-
-        const float maxGridH = gridBottom - gridTop;
-        const float neededH = cardH * rows + gapY * (rows - 1);
-        if (neededH > maxGridH && neededH > 1.0f) {
-            const float shrink = maxGridH / neededH;
-            cardW *= shrink;
-            cardH *= shrink;
-        }
-
-        const float usedW = cardW * cols + gapX * (cols - 1);
-        const float originX = centerX - usedW * 0.5f;
-        const float pulse = 0.70f + 0.30f * std::sin(rt.Timer * 4.0f);
-
-        const float extraY = 650.0f;
-        const float backY = hasCustomStages ? 736.0f : 660.0f;
-
-        // 先に全ボタンの矩形を登録しておく (方向キーの移動先探しに使う)
-        for (int i = 0; i < stageCount; ++i) {
-            rt.Cursor.Item(i, originX + (i % cols) * (cardW + gapX), gridTop + (i / cols) * (cardH + gapY), cardW, cardH);
-        }
-        if (hasCustomStages) rt.Cursor.Item(extraIndex, centerX - 210.0f, extraY, 420.0f, 68.0f);
-        rt.Cursor.Item(backIndex, centerX - 210.0f, backY, 420.0f, 68.0f);
-
-        for (int i = 0; i < stageCount; ++i) {
-            const auto* entry = LuminousStageCatalog::Get(i);
-            if (entry == nullptr) continue;
-
-            const int stageNumber = i + 1;
-            const float x = originX + (i % cols) * (cardW + gapX);
-            const float y = gridTop + (i / cols) * (cardH + gapY);
-
-            const bool unlocked = ProfileManager::Get().IsStageUnlocked(stageNumber);
-            std::string img = unlocked
-                ? entry->ButtonImage
-                : (entry->LockedImage.empty() ? LuminousUIConfig::Image_Card_Locked.FilePath : entry->LockedImage);
-
-            const bool clicked = ui.DrawButton(img, img, img, x, y, cardW, cardH,
-                m.x, m.y, isMouseDown, isMouseClick, nullptr, rt.Cursor.Is(i), rt.Cursor.Activated(i));
-            if (rt.Cursor.Is(i)) {
-                DrawUIFrame(x - 7.0f, y - 7.0f, cardW + 14.0f, cardH + 14.0f, 2.0f, { 0.86f, 0.96f, 0.99f, pulse });
+        // UI の仕組み (StageSelect.ui.json。21 の U8 の 5)
+        if (!menu->IsOpen(rt.StageUi)) {
+            rt.StageUi = menu->Open(LuminousScreenAssets::StageSelect, { .SortOrder = LuminousScreenOrder::Menu });
+            if (stageCount > kStageCardSlots) {
+                ENGINE_LOG_WARN("Luminous", "ステージが {} 個あるが、ステージ選択のカードの枠は {} 枚 (StageSelect.ui.json に枠を足す)",
+                                stageCount, kStageCardSlots);
             }
-
-            if (clicked) {
-                if (unlocked) {
-                    Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                    LuminousGoToBaseStage(ctx.GetRegistry(), stageNumber);
-                    return;
+            // カード: 登録ステージの数だけ出し、前と同じ式で並べる。絵は開いているかで替える
+            const LuminousStageGrid grid = LuminousStageGrid::Compute(stageCount, centerX);
+            // 選んだカードの枠の点滅。前の 0.70 + 0.30 sin(4 t) と同じ形・同じ位相から
+            constexpr float kPulsePeriod = DirectX::XM_PI * 0.5f;
+            const float pulseStart = std::fmod(rt.Timer + kPulsePeriod * 0.25f, kPulsePeriod);
+            for (int i = 0; i < cardCount; ++i) {
+                const auto* entry = LuminousStageCatalog::Get(i);
+                const UIElement card = menu->Find(rt.StageUi, cardName(i));
+                if (entry == nullptr || !card.IsValid()) continue;
+                menu->SetVisibility(card, UIVisibility::Visible);
+                menu->SetOffset(card, { grid.X(i), grid.Y(i) });
+                menu->SetSize(card, { grid.CardW, grid.CardH });
+                const bool unlocked = ProfileManager::Get().IsStageUnlocked(i + 1);
+                menu->SetImage(card, unlocked
+                    ? entry->ButtonImage
+                    : (entry->LockedImage.empty() ? LuminousUIConfig::Image_Card_Locked.FilePath : entry->LockedImage));
+                // 絵の無いステージは名前を出す (今の登録ステージは全部に絵がある)
+                if (entry->ButtonImage.empty() && !entry->DisplayName.empty()) {
+                    const UIElement name = menu->FindChild(card, "Name");
+                    menu->SetText(name, entry->DisplayName);
+                    menu->SetVisibility(name, UIVisibility::Visible);
+                    if (!unlocked) menu->SetColor(name, { 0.55f / 0.95f, 0.60f / 0.97f, 0.68f, 0.80f / 0.95f });
                 }
-                Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Cancel.FilePath, LuminousAudioConfig::SE_UI_Cancel.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+                menu->Play(rt.StageUi, cardName(i) + ".Pulse", { 1.0f, pulseStart });
             }
+            // EXTRA (自作ステージがあるときだけ) と BACK
+            menu->SetVisibility(menu->Find(rt.StageUi, "Extra"), hasCustomStages ? UIVisibility::Visible : UIVisibility::Collapsed);
+            menu->SetOffset(menu->Find(rt.StageUi, "Back"), { centerX - 210.0f, hasCustomStages ? 736.0f : 660.0f });
+            rt.StageGlyphSet = -1;
+            rt.StageLastFocus = menu->Find(rt.StageUi, cardCount > 0 ? cardName(0) : std::string("Back"));
+            menu->SetFocus(rt.StageLastFocus);
+        }
+        if (rt.StageGlyphSet != static_cast<int>(LuminousInputDevice::Current)) {
+            rt.StageGlyphSet = static_cast<int>(LuminousInputDevice::Current);
+            LuminousUIScreens::ApplyHint(*menu, rt.StageUi, "HintChoose", { LuminousButtonGlyph::Move, "CHOOSE" }, 38.0f);
+            LuminousUIScreens::ApplyHint(*menu, rt.StageUi, "HintDecide", { LuminousButtonGlyph::Confirm, "DECIDE" }, 38.0f);
+            LuminousUIScreens::ApplyHint(*menu, rt.StageUi, "HintBack", { LuminousButtonGlyph::Cancel, "BACK" }, 38.0f);
+        }
 
-            if (entry->ButtonImage.empty() && !entry->DisplayName.empty()) {
-                ui.DrawString(entry->DisplayName, x + 16.0f, y + cardH * 0.5f - 9.0f, 16.0f,
-                    unlocked ? DirectX::XMFLOAT4{ 0.95f, 0.97f, 1.0f, 0.95f } : DirectX::XMFLOAT4{ 0.55f, 0.60f, 0.68f, 0.80f });
+        // 選んでいるものが変わったら音 (マウスが乗っても、キーで動かしても)
+        const UIElement focus = menu->GetFocus();
+        if (focus.Instance == rt.StageUi && !(focus == rt.StageLastFocus)) {
+            rt.StageLastFocus = focus;
+            Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Hover.FilePath, LuminousAudioConfig::SE_UI_Hover.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+        }
+        // 押したもの (クリック・決定。前の UI の Update で起きたこと)。カードは 0 から、EXTRA は -2、BACK は -3
+        const UIElement extra = menu->Find(rt.StageUi, "Extra");
+        const UIElement back = menu->Find(rt.StageUi, "Back");
+        int activated = -1;
+        for (const Engine::UI::UIEventRecord& e : menu->GetEvents()) {
+            if (e.Type != Engine::UI::UIEventType::Clicked || !(e.Element.Instance == rt.StageUi)) continue;
+            if (e.Element == extra) activated = -2;
+            else if (e.Element == back) activated = -3;
+            for (int i = 0; i < cardCount; ++i) {
+                if (e.Element == menu->Find(rt.StageUi, cardName(i))) activated = i;
             }
         }
 
-        if (hasCustomStages) {
-            if (ui.DrawButton(
-                LuminousUIConfig::Image_Btn_Extra_Normal.FilePath,
-                LuminousUIConfig::Image_Btn_Extra_Hover.FilePath,
-                LuminousUIConfig::Image_Btn_Extra_Hover.FilePath,
-                centerX - 210.0f, extraY, 420.0f, 68.0f, m.x, m.y, isMouseDown, isMouseClick, nullptr,
-                rt.Cursor.Is(extraIndex), rt.Cursor.Activated(extraIndex)))
-            {
+        // 前の描き方と四角を比べる (--set luvia.uiCompare=true)。前の番号: カード・EXTRA (あれば)・BACK
+        if (LuminousUICompare::Enabled()) {
+            int selection = -1;
+            for (int i = 0; i < cardCount; ++i) {
+                if (focus == menu->Find(rt.StageUi, cardName(i))) selection = i;
+            }
+            if (focus == extra) selection = stageCount;
+            if (focus == back) selection = stageCount + (hasCustomStages ? 1 : 0);
+            const bool hovering = menu->GetHovered().Instance == rt.StageUi;
+            const Vector2 legacyMouse = hovering ? Vector2(mouseX, mouseY) : Vector2(-100000.0f, -100000.0f);
+            const bool legacyDown = menu->GetPressed().Instance == rt.StageUi;   // UI が占有している間、ゲームの入力からボタンは見えない
+            LuminousUICompare::Check("StageSelect", *menu, rt.StageUi, [&] {
+                LuminousLegacyDrawStageSelect(screenW, screenH, rt.Timer, selection, legacyMouse, legacyDown);
+            });
+        }
+
+        if (activated >= 0) {
+            if (ProfileManager::Get().IsStageUnlocked(activated + 1)) {
                 Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                rt.View = LuminousTitleView::CustomStageList;
-                rt.Cursor.Reset();
+                LuminousGoToBaseStage(ctx.GetRegistry(), activated + 1);
                 return;
             }
+            Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Cancel.FilePath, LuminousAudioConfig::SE_UI_Cancel.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+        } else if (activated == -2) {
+            Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+            rt.View = LuminousTitleView::CustomStageList;
+            rt.Cursor.Reset();
+            return;
         }
-
-        if (ui.DrawButton(
-            LuminousUIConfig::Image_Btn_Back_Normal.FilePath,
-            LuminousUIConfig::Image_Btn_Back_Hover.FilePath,
-            LuminousUIConfig::Image_Btn_Back_Hover.FilePath,
-            centerX - 210.0f, backY, 420.0f, 68.0f, m.x, m.y, isMouseDown, isMouseClick, nullptr,
-            rt.Cursor.Is(backIndex), rt.Cursor.Activated(backIndex))
-            || LuminousInput::CancelPressed())
-        {
+        // BACK か戻るボタン
+        if (activated == -3 || LuminousInput::CancelPressed()) {
             Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Cancel.FilePath, LuminousAudioConfig::SE_UI_Cancel.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
             rt.View = LuminousTitleView::MainMenu;
             rt.Cursor.Reset();
             return;
         }
-
-        if (rt.Cursor.EndFrame()) {
-            Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Hover.FilePath, LuminousAudioConfig::SE_UI_Hover.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-        }
-
-        const float hintH = 38.0f;
-        const float total = MeasureControlHint(LuminousButtonGlyph::Move, "CHOOSE", hintH)
-                          + MeasureControlHint(LuminousButtonGlyph::Confirm, "DECIDE", hintH)
-                          + MeasureControlHint(LuminousButtonGlyph::Cancel, "BACK", hintH);
-        float hx = centerX - total * 0.5f;
-        const float hy = screenH - 70.0f;
-        hx += DrawControlHint(hx, hy, LuminousButtonGlyph::Move, "CHOOSE", hintH);
-        hx += DrawControlHint(hx, hy, LuminousButtonGlyph::Confirm, "DECIDE", hintH);
-        DrawControlHint(hx, hy, LuminousButtonGlyph::Cancel, "BACK", hintH);
     }
 
     inline void LuminousTitleRenderCustomStageList(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick) {

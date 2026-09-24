@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "styleImports": [
+    "Assets/UI/Screens/LuviaStyles.ui.json"
+  ],
+  "root": {
+    "kind": "Button",
+    "name": "Card",
+    "style": "MenuButton",
+    "size": [400, 260],
+    "contentPadding": 0,
+    "image": "Assets/UI/StageSelect/card_locked.png",
+    "children": [
+      {
+        "kind": "Border",
+        "name": "Frame",
+        "padding": -7,
+        "showWhen": "focused",
+        "borderColor": [0.86, 0.96, 0.99, 1],
+        "borderWidth": 2
+      },
+      {
+        "kind": "Text",
+        "name": "Name",
+        "style": "BitmapText",
+        "visibility": "collapsed",
+        "hAlign": "start",
+        "vAlign": "center",
+        "padding": [16, 0, 0, 0],
+        "fontSize": 16,
+        "color": [0.95, 0.97, 1, 0.95]
+      }
+    ]
+  },
+  "animations": {
+    "Pulse": {
+      "loop": "loop",
+      "tracks": [
+        {
+          "target": "Frame",
+          "property": "opacity",
+          "ease": "sine",
+          "keys": [[0, 0.4], [0.78539816, 1.0], [1.5707963, 0.4]]
+        }
+      ]
+    }
+  }
+}

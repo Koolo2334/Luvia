@@ -68,6 +68,9 @@ export namespace App::Luminous {
         Engine::UI::UIInstanceId MenuUi;
         int MenuGlyphSet = -1;                  // 操作の案内の絵を入れた機器 (変わったら入れ直す)
         Engine::UI::UIElement MenuLastFocus;    // 選択が変わったら音を鳴らす
+        Engine::UI::UIInstanceId StageUi;       // ステージ選択
+        int StageGlyphSet = -1;
+        Engine::UI::UIElement StageLastFocus;
     };
 
     // いま出ているタイトル画面の持ち物。無ければ作って返す
