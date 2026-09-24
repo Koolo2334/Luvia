@@ -1332,7 +1332,9 @@ export namespace App::Luminous {
                 LuminousTransition::Get().ChangeScene(LuminousScenes::Editor);
                 return;
             case 3:
-                PostQuitMessage(0);
+                // エンジンに頼む (ゲーム単体では終わり、エディタの Game ビューではプレイを止める)。
+                //   PostQuitMessage を直に呼ぶと、エディタで遊んでいるときエディタごと閉じる
+                ctx.RequestQuitGame();
                 return;
             default:
                 break;
