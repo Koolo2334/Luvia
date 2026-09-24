@@ -2411,7 +2411,13 @@ export namespace App::Luminous {
                 const char* const kButtons[] = { "Next", "Retry", "StageSelect", "Title" };
                 if (!rt.ClearModel) rt.ClearModel = std::make_unique<LuminousClearModel>();
                 LuminousClearModel& model = *rt.ClearModel;
-                model.StageName = rt.Stage.Name.empty() ? std::string("Custom Stage") : rt.Stage.Name;
+                // 名前の無いステージは、基本ステージなら一覧の名前で出す (以前は "Custom Stage" と出ていた。
+                //   ステージ 1 のファイルに名前が無かった)。自作ステージは "Custom Stage"
+                std::string stageName = rt.Stage.Name;
+                if (stageName.empty() && rt.StageNumber >= 1 && rt.StageNumber <= LuminousStageCatalog::Count()) {
+                    stageName = LuminousStageCatalog::BaseStages[static_cast<size_t>(rt.StageNumber - 1)].DisplayName;
+                }
+                model.StageName = stageName.empty() ? std::string("Custom Stage") : stageName;
                 model.Minutes = static_cast<int>(rt.GameTime) / 60;
                 model.Seconds = std::fmod(rt.GameTime, 60.0f);
                 model.OrbPickups = player.OrbPickupCount;

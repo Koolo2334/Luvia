@@ -28,6 +28,7 @@ import App.Luminous.PlayerSystem;
 import App.Luminous.OrbSystem;
 import App.Luminous.InputConfig;
 import App.Luminous.Profile;   // 自作ステージの一覧・進み具合のファイル
+import App.Luminous.StageCatalog;   // 基本ステージの一覧
 import Engine.Common.Config;   // Paths
 
 // ============================================================================
@@ -319,6 +320,22 @@ namespace App {
             const bool profileInProject = profile.rfind(project, 0) == 0;
 
             SetCurrentDirectoryA(before);
+
+            // 基本ステージのファイルには名前がある (クリア画面に出る。ステージ 1 だけ空で "Custom Stage" と出ていた)
+            int unnamed = 0;
+            for (const auto& entry : LuminousStageCatalog::BaseStages) {
+                LuminousStage stage;
+                std::string error;
+                if (!stage.LoadFromFile(Engine::Common::Paths::ResolveString(entry.StageFilePath), error) || stage.Name.empty()) {
+                    Engine::Debug::LogOutput(Engine::Debug::LogLevel::Error, "App", __FILE__, __LINE__,
+                        std::format("  The base stage '{}' has no name (or cannot be read: {})", entry.StageFilePath, error));
+                    ++unnamed;
+                }
+            }
+            Engine::Debug::LogOutput(unnamed == 0 ? Engine::Debug::LogLevel::Info : Engine::Debug::LogLevel::Error,
+                "App", __FILE__, __LINE__,
+                std::format("Base stage names: {} stages, {} without a name", LuminousStageCatalog::Count(), unnamed));
+
             const bool ok = foundStage && stageLoads && profileInProject;
             Engine::Debug::LogOutput(ok ? Engine::Debug::LogLevel::Info : Engine::Debug::LogLevel::Error,
                 "App", __FILE__, __LINE__,
