@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "root": {
+    "kind": "HorizontalBox",
+    "name": "Hint",
+    "size": [100, 38],
+    "sizeRule": "fixed",
+    "children": [
+      {
+        "kind": "Image",
+        "name": "Glyph",
+        "size": [76, 38],
+        "sizeRule": "fixed"
+      },
+      {
+        "kind": "Spacer",
+        "size": [10, 0],
+        "sizeRule": "fixed"
+      },
+      {
+        "kind": "Text",
+        "name": "Label",
+        "vAlign": "center",
+        "font": "Assets/UI/Fonts/font_atlas.json",
+        "fontSize": 18.24,
+        "color": [0.86, 0.96, 0.99, 0.95]
+      }
+    ]
+  }
+}

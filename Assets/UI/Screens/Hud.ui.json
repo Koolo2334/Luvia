@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "root": {
+    "kind": "Canvas",
+    "name": "Root",
+    "children": [
+      {
+        "kind": "Nested",
+        "name": "PauseHint",
+        "asset": "Assets/UI/Screens/ControlHint.ui.json",
+        "offset": [28, 1018],
+        "overrides": {
+          "Label": {
+            "fontSize": 16.32
+          }
+        }
+      }
+    ]
+  }
+}

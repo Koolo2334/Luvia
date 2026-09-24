@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "root": {
+    "kind": "Border",
+    "name": "Fade",
+    "background": [0, 0, 0, 1]
+  }
+}

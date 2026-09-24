@@ -18,6 +18,9 @@ import Engine.Graphics.MaterialManager;
 import Engine.Graphics.Assets.Material;
 import Engine.Graphics.Components.Material;
 import Engine.Core.Services;
+import Engine.UI.Types;
+import Engine.UI.System;
+import App.Luminous.UIScreens;
 
 export namespace App::Luminous {
 
@@ -138,10 +141,25 @@ export namespace App::Luminous {
             Engine::Audio::AudioEngine::Get().SetSceneFade(1.0f - alpha_);
         }
 
-        void Draw(float screenW, float screenH) const {
+        // 暗幕は画面全体の 1 枚の UI (Fade.ui.json) にして、いちばん手前に置く (21 の U8)。
+        //   UI の仕組みの命令はシーンの即時描画より後に送られるので、即時描画のままだと UI の下に潜る。
+        //   シーンをまたいで開いたまま (UI の仕組みはシーンの外にある)
+        void Draw(entt::registry& registry) {
+            auto* ui = Engine::Core::FindService<Engine::UI::UISystem>(registry);
+            if (!ui) return;
+            if (!ui->IsOpen(fadeUi_)) fadeUi_ = ui->Open(LuminousScreenAssets::Fade, { .SortOrder = LuminousScreenOrder::Fade });
+            const Engine::UI::UIElement root = ui->Find(fadeUi_, "Fade");
+            const bool visible = alpha_ > 0.001f;
+            ui->SetVisibility(root, visible ? Engine::UI::UIVisibility::Visible : Engine::UI::UIVisibility::Collapsed);
+            if (visible) ui->SetColor(root, { 1.0f, 1.0f, 1.0f, alpha_ });
+            // 前の描き方 (画面全体の DrawPanel) と四角を比べる (--set luvia.uiCompare=true)
+            LuminousUICompare::Check("Fade", *ui, fadeUi_, [this] { DrawLegacy(); });
+        }
+
+        // 前の描き方 (比べる道具のためだけに残す。U8 が済んだら消す)
+        void DrawLegacy() const {
             if (alpha_ <= 0.001f) return;
-            Engine::Graphics::UIRenderer::Get().DrawPanel(
-                0.0f, 0.0f, screenW, screenH, { 0.0f, 0.0f, 0.0f, alpha_ });
+            Engine::Graphics::UIRenderer::Get().DrawPanel(0.0f, 0.0f, 1920.0f, 1080.0f, { 0.0f, 0.0f, 0.0f, alpha_ });
         }
 
         void Reset() {
@@ -183,6 +201,7 @@ export namespace App::Luminous {
         float alpha_ = 0.0f;
         float timer_ = 0.0f;
         std::shared_ptr<Engine::Core::IScene> pending_;
+        Engine::UI::UIInstanceId fadeUi_;   // 暗幕の UI
     };
 
     // ========================================================================

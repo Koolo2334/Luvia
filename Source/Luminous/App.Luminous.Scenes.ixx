@@ -71,6 +71,9 @@ import App.Luminous.Transition;
 import App.Luminous.InputConfig;
 import App.Luminous.Profile;
 import App.Luminous.DebugTools;
+import App.Luminous.UIScreens;
+import Engine.UI.Types;
+import Engine.UI.System;
 import App.Graphics.ParticleData;
 import Engine.Core.EngineState;
 import Engine.Core.Services;
@@ -1186,7 +1189,7 @@ export namespace App::Luminous {
         if (auto pendingScene = LuminousTransition::Get().TakePendingScene()) {
             ctx.RequestSceneLoad(pendingScene);
             // このフレームは以降の描画を行わないため、暗幕だけはここで描いておく。
-            LuminousTransition::Get().Draw(1920.0f, 1080.0f);
+            LuminousTransition::Get().Draw(ctx.GetRegistry());
             return;
         }
 
@@ -1275,7 +1278,7 @@ export namespace App::Luminous {
         }
 
         // 5. 画面全体のフェード (最前面)
-        LuminousTransition::Get().Draw(screenW, screenH);
+        LuminousTransition::Get().Draw(ctx.GetRegistry());
     }
 
     inline void LuminousTitleRenderMenu(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick) {
@@ -1590,6 +1593,8 @@ export namespace App::Luminous {
     inline void LuminousPlayTeardown(const Engine::Core::SystemContext& ctx) {
         auto& rt = PlayRuntime(ctx.GetRegistry());
         Input::SetCursorLocked(false);
+        if (auto* ui = ctx.FindService<Engine::UI::UISystem>()) ui->Close(rt.HudUi);
+        rt.HudUi = {};
 
         auto& registry = ctx.GetRegistry();
         auto DestroyWithSubMeshes = [&](entt::entity e) {
@@ -1910,7 +1915,7 @@ export namespace App::Luminous {
         LuminousTransition::Get().Tick(dt, &registry);
         if (auto pendingScene = LuminousTransition::Get().TakePendingScene()) {
             ctx.RequestSceneLoad(pendingScene);
-            LuminousTransition::Get().Draw(1920.0f, 1080.0f);
+            LuminousTransition::Get().Draw(ctx.GetRegistry());
             return;
         }
 
@@ -2351,8 +2356,24 @@ export namespace App::Luminous {
                     { 1.0f, 0.90f, 0.45f, 1.0f });
             }
 
-            // 4. 操作説明の案内 (画面左下)
-            DrawControlHint(28.0f, screenH - 62.0f, LuminousButtonGlyph::Pause, "PAUSE / CONTROLS", 34.0f);
+        }
+
+        // 4. 操作説明の案内 (画面左下)。UI の仕組みの HUD (Hud.ui.json。21 の U8)
+        if (auto* hud = ctx.FindService<Engine::UI::UISystem>()) {
+            if (!hud->IsOpen(rt.HudUi)) {
+                rt.HudUi = hud->Open(LuminousScreenAssets::Hud, { .SortOrder = LuminousScreenOrder::Hud });
+                rt.HudGlyphSet = -1;
+            }
+            if (rt.HudGlyphSet != static_cast<int>(LuminousInputDevice::Current)) {
+                rt.HudGlyphSet = static_cast<int>(LuminousInputDevice::Current);
+                LuminousUIScreens::ApplyHint(*hud, rt.HudUi, "PauseHint", { LuminousButtonGlyph::Pause, "PAUSE / CONTROLS" }, 34.0f);
+            }
+            const bool showHint = showGameplayHUD && playing;
+            hud->SetVisibility(hud->Find(rt.HudUi, "PauseHint"),
+                               showHint ? Engine::UI::UIVisibility::Visible : Engine::UI::UIVisibility::Collapsed);
+            LuminousUICompare::Check("HudPauseHint", *hud, rt.HudUi, [&] {
+                if (showHint) DrawControlHint(28.0f, screenH - 62.0f, LuminousButtonGlyph::Pause, "PAUSE / CONTROLS", 34.0f);
+            });
         }
 
         // 5. ポーズメニュー
@@ -2562,7 +2583,7 @@ export namespace App::Luminous {
         rt.StageIntro.Draw(screenW, screenH);
 
         // 8. 画面全体のフェード (最前面)
-        LuminousTransition::Get().Draw(screenW, screenH);
+        LuminousTransition::Get().Draw(ctx.GetRegistry());
     }
 
     // ========================================================================
@@ -2880,7 +2901,7 @@ export namespace App::Luminous {
             ctx.RequestSceneLoad(pendingScene);
             // このフレームは以降の描画を行わないため、暗幕だけはここで描いておく。
             // 描かないと切り替え直前の 1 フレームだけ素通しになり、チラつく。
-            LuminousTransition::Get().Draw(1920.0f, 1080.0f);
+            LuminousTransition::Get().Draw(ctx.GetRegistry());
             return;
         }
         auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
@@ -3140,7 +3161,7 @@ export namespace App::Luminous {
         LuminousEditorRenderUI(ctx);
 
         // 8. 画面全体のフェード (最前面)
-        LuminousTransition::Get().Draw(1920.0f, 1080.0f);
+        LuminousTransition::Get().Draw(ctx.GetRegistry());
     }
 
     inline void LuminousEditorRenderUI(const Engine::Core::SystemContext& ctx) {

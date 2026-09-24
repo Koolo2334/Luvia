@@ -17,6 +17,8 @@ import App.Luminous.OrbSystem;
 import App.Luminous.DebugTools;
 import App.Luminous.Transition;
 import App.Luminous.MenuCursor;
+import Engine.UI.Types;
+import Engine.UI.System;
 
 // ============================================================================
 // 本編を動かしている間の持ち物 (LuminousPlayRuntime)
@@ -127,6 +129,10 @@ export namespace App::Luminous {
         bool ClearFanfarePlayed = false;
         int LastHoveredBtn = -1;
         bool WasMouseDown = false;
+
+        // 画面の UI (21 の U8。片付けで閉じる)
+        Engine::UI::UIInstanceId HudUi;
+        int HudGlyphSet = -1;   // 操作の案内の絵を入れた機器 (変わったら入れ直す)
     };
 
     // いま走っている本編の持ち物。無ければ作って返す
