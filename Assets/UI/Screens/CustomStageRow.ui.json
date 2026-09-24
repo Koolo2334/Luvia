@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "styleImports": [
+    "Assets/UI/Screens/LuviaStyles.ui.json"
+  ],
+  "root": {
+    "kind": "Canvas",
+    "name": "Row",
+    "size": [840, 85],
+    "children": [
+      {
+        "kind": "Image",
+        "name": "Thumb",
+        "size": [130, 85],
+        "image": "Assets/UI/StageSelect/custom_card.png"
+      },
+      {
+        "kind": "Button",
+        "name": "Entry",
+        "offset": [150, 0],
+        "size": [690, 85],
+        "background": [0.03, 0.06, 0.1, 0.85],
+        "hoveredColor": [0.09, 0.29, 0.43, 0.85],
+        "pressedColor": [0.09, 0.29, 0.43, 0.85],
+        "focusLook": "hovered",
+        "contentPadding": 0,
+        "children": [
+          {
+            "kind": "Border",
+            "name": "Frame",
+            "showWhen": "unfocused",
+            "borderColor": [0.86, 0.96, 0.99, 0.35],
+            "borderWidth": 1
+          },
+          {
+            "kind": "Border",
+            "name": "FrameLit",
+            "showWhen": "focused",
+            "borderColor": [0.86, 0.96, 0.99, 0.95],
+            "borderWidth": 1
+          },
+          {
+            "kind": "Text",
+            "name": "Name",
+            "style": "BitmapText",
+            "showWhen": "unfocused",
+            "hAlign": "start",
+            "vAlign": "start",
+            "padding": [25, 20, 0, 0],
+            "fontSize": 22,
+            "color": [0.86, 0.96, 0.99, 1]
+          },
+          {
+            "kind": "Text",
+            "name": "NameLit",
+            "style": "BitmapText",
+            "showWhen": "focused",
+            "hAlign": "start",
+            "vAlign": "start",
+            "padding": [25, 20, 0, 0],
+            "fontSize": 22,
+            "color": [1, 1, 1, 1]
+          },
+          {
+            "kind": "Text",
+            "name": "Path",
+            "style": "BitmapText",
+            "hAlign": "start",
+            "vAlign": "start",
+            "padding": [25, 52, 0, 0],
+            "fontSize": 15,
+            "color": [0.59, 0.7, 0.78, 0.85]
+          }
+        ]
+      }
+    ]
+  }
+}

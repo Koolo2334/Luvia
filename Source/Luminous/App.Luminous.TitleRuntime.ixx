@@ -1,5 +1,7 @@
 ﻿module;
 
+#include <string>
+#include <utility>
 #include <vector>
 
 #include <entt/entt.hpp>
@@ -71,6 +73,10 @@ export namespace App::Luminous {
         Engine::UI::UIInstanceId StageUi;       // ステージ選択
         int StageGlyphSet = -1;
         Engine::UI::UIElement StageLastFocus;
+        Engine::UI::UIInstanceId ListUi;        // 自作ステージの一覧
+        int ListGlyphSet = -1;
+        Engine::UI::UIElement ListLastFocus;
+        std::vector<std::pair<std::string, std::string>> CustomStages;   // 一覧を開いたときに読んだもの (名前, パス)
     };
 
     // いま出ているタイトル画面の持ち物。無ければ作って返す

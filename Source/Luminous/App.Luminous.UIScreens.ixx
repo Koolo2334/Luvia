@@ -41,6 +41,7 @@ export namespace App::Luminous {
         inline constexpr const char* Title = "Assets/UI/Screens/Title.ui.json";
         inline constexpr const char* StageSelect = "Assets/UI/Screens/StageSelect.ui.json";
         inline constexpr const char* StageIntro = "Assets/UI/Screens/StageIntro.ui.json";
+        inline constexpr const char* CustomStages = "Assets/UI/Screens/CustomStages.ui.json";
     }
 
     // 手前に出す順 (大きいほど手前)。暗転はいちばん手前

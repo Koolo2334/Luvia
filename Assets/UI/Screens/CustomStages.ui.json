@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "styleImports": [
+    "Assets/UI/Screens/LuviaStyles.ui.json"
+  ],
+  "root": {
+    "kind": "Canvas",
+    "name": "Root",
+    "focusOnHover": true,
+    "navWrap": true,
+    "children": [
+      {
+        "kind": "Border",
+        "name": "Dim",
+        "anchor": "fill",
+        "size": [0, 0],
+        "background": [0.02, 0.04, 0.08, 0.7]
+      },
+      {
+        "kind": "Text",
+        "name": "Title",
+        "style": "BitmapText",
+        "offset": [810, 90],
+        "text": "CUSTOM STAGES",
+        "fontSize": 34,
+        "color": [0.86, 0.96, 0.99, 1]
+      },
+      {
+        "kind": "Border",
+        "name": "Line",
+        "offset": [540, 144],
+        "size": [840, 1],
+        "background": [0.86, 0.96, 0.99, 0.45]
+      },
+      {
+        "kind": "Text",
+        "name": "Subtitle",
+        "style": "BitmapText",
+        "offset": [770, 156],
+        "text": "Stages created in the Stage Editor",
+        "fontSize": 17,
+        "color": [0.59, 0.77, 0.85, 0.9]
+      },
+      {
+        "kind": "List",
+        "name": "Stages",
+        "offset": [540, 200],
+        "size": [840, 560],
+        "item": "Assets/UI/Screens/CustomStageRow.ui.json",
+        "slots": 8,
+        "itemHeight": 85,
+        "spacing": 10
+      },
+      {
+        "kind": "Button",
+        "name": "Back",
+        "style": "MenuButton",
+        "offset": [750, 860],
+        "size": [420, 68],
+        "image": "Assets/UI/Buttons/btn_back_normal.png",
+        "hoveredImage": "Assets/UI/Buttons/btn_back_hover.png",
+        "pressedImage": "Assets/UI/Buttons/btn_back_hover.png"
+      },
+      {
+        "kind": "HorizontalBox",
+        "name": "Hints",
+        "pivot": [0.5, 0],
+        "offset": [960, 1010],
+        "autoSize": true,
+        "children": [
+          {
+            "kind": "Nested",
+            "name": "HintChoose",
+            "asset": "Assets/UI/Screens/ControlHint.ui.json"
+          },
+          {
+            "kind": "Nested",
+            "name": "HintDecide",
+            "asset": "Assets/UI/Screens/ControlHint.ui.json"
+          },
+          {
+            "kind": "Nested",
+            "name": "HintBack",
+            "asset": "Assets/UI/Screens/ControlHint.ui.json"
+          }
+        ]
+      }
+    ]
+  }
+}
