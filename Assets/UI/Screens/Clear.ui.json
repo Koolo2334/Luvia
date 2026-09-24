@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "styleImports": [
+    "Assets/UI/Screens/LuviaStyles.ui.json"
+  ],
+  "root": {
+    "kind": "Canvas",
+    "name": "Root",
+    "focusOnHover": true,
+    "navWrap": true,
+    "children": [
+      {
+        "kind": "Border",
+        "name": "Dim",
+        "anchor": "fill",
+        "size": [0, 0],
+        "background": [0, 0.02, 0.05, 0.72]
+      },
+      {
+        "kind": "Image",
+        "name": "Banner",
+        "offset": [560, 176],
+        "size": [800, 160],
+        "image": "Assets/UI/Clear/clear_banner.png"
+      },
+      {
+        "kind": "Image",
+        "name": "StatsPanel",
+        "offset": [640, 346],
+        "size": [640, 480],
+        "image": "Assets/UI/Clear/stats_panel.png"
+      },
+      {
+        "kind": "Text",
+        "name": "StageName",
+        "style": "BitmapText",
+        "offset": [700, 441],
+        "text": "Stage: {StageName}",
+        "fontSize": 22,
+        "color": [0.47, 0.84, 0.98, 1]
+      },
+      {
+        "kind": "Text",
+        "name": "ClearTime",
+        "style": "BitmapText",
+        "offset": [700, 486],
+        "text": "Clear Time:         {Minutes:00}:{Seconds:00.00}",
+        "fontSize": 20,
+        "color": [0.95, 0.97, 1, 1]
+      },
+      {
+        "kind": "Text",
+        "name": "OrbPickups",
+        "style": "BitmapText",
+        "offset": [700, 531],
+        "text": "Orb Pickups:        {OrbPickups}",
+        "fontSize": 20,
+        "color": [0.95, 0.97, 1, 1]
+      },
+      {
+        "kind": "Text",
+        "name": "PedestalInserts",
+        "style": "BitmapText",
+        "offset": [700, 576],
+        "text": "Pedestal Inserts:   {PedestalInserts}",
+        "fontSize": 20,
+        "color": [0.95, 0.97, 1, 1]
+      },
+      {
+        "kind": "Button",
+        "name": "Next",
+        "style": "MenuButton",
+        "offset": [670, 636],
+        "size": [280, 58],
+        "image": "Assets/UI/Buttons/btn_next_normal.png",
+        "hoveredImage": "Assets/UI/Buttons/btn_next_hover.png",
+        "pressedImage": "Assets/UI/Buttons/btn_next_hover.png"
+      },
+      {
+        "kind": "Button",
+        "name": "Retry",
+        "style": "MenuButton",
+        "offset": [970, 636],
+        "size": [280, 58],
+        "image": "Assets/UI/Buttons/btn_retry_normal.png",
+        "hoveredImage": "Assets/UI/Buttons/btn_retry_hover.png",
+        "pressedImage": "Assets/UI/Buttons/btn_retry_hover.png"
+      },
+      {
+        "kind": "Button",
+        "name": "StageSelect",
+        "style": "MenuButton",
+        "offset": [670, 726],
+        "size": [280, 58],
+        "image": "Assets/UI/Buttons/btn_stage_select_normal.png",
+        "hoveredImage": "Assets/UI/Buttons/btn_stage_select_hover.png",
+        "pressedImage": "Assets/UI/Buttons/btn_stage_select_hover.png"
+      },
+      {
+        "kind": "Button",
+        "name": "Title",
+        "style": "MenuButton",
+        "offset": [970, 726],
+        "size": [280, 58],
+        "image": "Assets/UI/Buttons/btn_title_normal.png",
+        "hoveredImage": "Assets/UI/Buttons/btn_title_hover.png",
+        "pressedImage": "Assets/UI/Buttons/btn_title_hover.png"
+      },
+      {
+        "kind": "HorizontalBox",
+        "name": "Hints",
+        "anchor": "top-center",
+        "pivot": [0.5, 0],
+        "offset": [0, 866],
+        "autoSize": true,
+        "children": [
+          {
+            "kind": "Nested",
+            "name": "HintChoose",
+            "asset": "Assets/UI/Screens/ControlHint.ui.json"
+          },
+          {
+            "kind": "Nested",
+            "name": "HintDecide",
+            "asset": "Assets/UI/Screens/ControlHint.ui.json"
+          }
+        ]
+      }
+    ]
+  }
+}

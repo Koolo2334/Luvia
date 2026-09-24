@@ -1,5 +1,6 @@
 ﻿module;
 
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -19,6 +20,7 @@ import App.Luminous.Transition;
 import App.Luminous.MenuCursor;
 import Engine.UI.Types;
 import Engine.UI.System;
+import App.Luminous.UIScreens;
 
 // ============================================================================
 // 本編を動かしている間の持ち物 (LuminousPlayRuntime)
@@ -136,6 +138,10 @@ export namespace App::Luminous {
         Engine::UI::UIInstanceId PauseUi;
         int PauseGlyphSet = -1;
         Engine::UI::UIElement PauseLastFocus;   // 選択が変わったら音を鳴らす
+        Engine::UI::UIInstanceId ClearUi;
+        int ClearGlyphSet = -1;
+        Engine::UI::UIElement ClearLastFocus;
+        std::unique_ptr<LuminousClearModel> ClearModel;   // クリアの画面の数字 (結んでいる間は動かさないので別に持つ)
     };
 
     // いま走っている本編の持ち物。無ければ作って返す

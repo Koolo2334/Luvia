@@ -16,6 +16,7 @@ import Engine.UI.Types;
 import Engine.UI.Document;
 import Engine.UI.Kinds;
 import Engine.UI.System;
+import Engine.UI.Binding;
 import Engine.Graphics.UIRenderer;
 import Engine.Common.Config;
 import Engine.Debug.Log;
@@ -36,6 +37,7 @@ export namespace App::Luminous {
         inline constexpr const char* Fade = "Assets/UI/Screens/Fade.ui.json";
         inline constexpr const char* Hud = "Assets/UI/Screens/Hud.ui.json";
         inline constexpr const char* Pause = "Assets/UI/Screens/Pause.ui.json";
+        inline constexpr const char* Clear = "Assets/UI/Screens/Clear.ui.json";
     }
 
     // 手前に出す順 (大きいほど手前)。暗転はいちばん手前
@@ -44,6 +46,16 @@ export namespace App::Luminous {
         inline constexpr int32_t Menu = 200;
         inline constexpr int32_t Fade = 2000000;   // UI の仕組みが出す候補の窓・確認の窓より手前
     }
+
+    // クリアの画面の数字 (Clear.ui.json の {StageName} {Minutes:00} {Seconds:00.00} など)。
+    //   結んでいる間は動かさないこと (UIViewModel)。持ち主は unique_ptr で持つ
+    struct LuminousClearModel : Engine::UI::UIViewModel {
+        Engine::UI::UIProperty<std::string> StageName{ *this, "StageName" };
+        Engine::UI::UIProperty<int> Minutes{ *this, "Minutes" };
+        Engine::UI::UIProperty<float> Seconds{ *this, "Seconds" };
+        Engine::UI::UIProperty<int> OrbPickups{ *this, "OrbPickups" };
+        Engine::UI::UIProperty<int> PedestalInserts{ *this, "PedestalInserts" };
+    };
 
     // 操作の案内 1 つ
     struct LuminousHint {

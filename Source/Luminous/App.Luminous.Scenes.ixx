@@ -655,6 +655,55 @@ export namespace App::Luminous {
         }
     }
 
+    inline void LuminousLegacyDrawClear(float screenW, float screenH, const std::string& stageName, float gameTime,
+                                        int orbPickups, int pedestalInserts, int selection, const Vector2& mouse, bool isMouseDown) {
+        auto& ui = Engine::Graphics::UIRenderer::Get();
+        const float centerX = screenW * 0.5f;
+        ui.DrawPanel(0.0f, 0.0f, screenW, screenH, { 0.0f, 0.02f, 0.05f, 0.72f });
+
+        const float bannerH = 160.0f;
+        const float panelW = 640.0f;
+        const float panelH = 480.0f;
+        const float blockH = bannerH + 10.0f + panelH + 40.0f + 38.0f;
+        const float blockTop = (screenH - blockH) * 0.5f;
+        ui.DrawImage(LuminousUIConfig::Image_Clear_Banner.FilePath, centerX - 400.0f, blockTop, 800.0f, bannerH);
+
+        const float panelX = centerX - panelW * 0.5f;
+        const float panelY = blockTop + bannerH + 10.0f;
+        ui.DrawImage(LuminousUIConfig::Image_Clear_StatsPanel.FilePath, panelX, panelY, panelW, panelH);
+
+        ui.DrawString("Stage: " + (stageName.empty() ? "Custom Stage" : stageName),
+            panelX + 60.0f, panelY + 95.0f, 22.0f, { 0.47f, 0.84f, 0.98f, 1.0f });
+
+        const int clearMinutes = static_cast<int>(gameTime) / 60;
+        const float clearSeconds = std::fmod(gameTime, 60.0f);
+        ui.DrawString(std::format("Clear Time:         {:02d}:{:05.2f}", clearMinutes, clearSeconds),
+            panelX + 60.0f, panelY + 140.0f, 20.0f, { 0.95f, 0.97f, 1.0f, 1.0f });
+        ui.DrawString(std::format("Orb Pickups:        {}", orbPickups),
+            panelX + 60.0f, panelY + 185.0f, 20.0f, { 0.95f, 0.97f, 1.0f, 1.0f });
+        ui.DrawString(std::format("Pedestal Inserts:   {}", pedestalInserts),
+            panelX + 60.0f, panelY + 230.0f, 20.0f, { 0.95f, 0.97f, 1.0f, 1.0f });
+
+        struct Btn { const UIImageConfig* Normal; const UIImageConfig* Hover; float X, Y, W, H; };
+        const Btn btns[] = {
+            { &LuminousUIConfig::Image_Btn_Next_Normal,        &LuminousUIConfig::Image_Btn_Next_Hover,        panelX + 30.0f,  panelY + 290.0f, 280.0f, 58.0f },
+            { &LuminousUIConfig::Image_Btn_Retry_Normal,       &LuminousUIConfig::Image_Btn_Retry_Hover,       panelX + 330.0f, panelY + 290.0f, 280.0f, 58.0f },
+            { &LuminousUIConfig::Image_Btn_StageSelect_Normal, &LuminousUIConfig::Image_Btn_StageSelect_Hover, panelX + 30.0f,  panelY + 380.0f, 280.0f, 58.0f },
+            { &LuminousUIConfig::Image_Btn_Title_Normal,       &LuminousUIConfig::Image_Btn_Title_Hover,       panelX + 330.0f, panelY + 380.0f, 280.0f, 58.0f },
+        };
+        for (int i = 0; i < 4; ++i) {
+            (void)ui.DrawButton(btns[i].Normal->FilePath, btns[i].Hover->FilePath, btns[i].Hover->FilePath,
+                btns[i].X, btns[i].Y, btns[i].W, btns[i].H, mouse.x, mouse.y, isMouseDown, false, nullptr, i == selection, false);
+        }
+
+        const float hintH = 38.0f;
+        const float total = MeasureControlHint(LuminousButtonGlyph::Move, "CHOOSE", hintH)
+                          + MeasureControlHint(LuminousButtonGlyph::Confirm, "DECIDE", hintH);
+        float hx = centerX - total * 0.5f;
+        hx += DrawControlHint(hx, panelY + panelH + 40.0f, LuminousButtonGlyph::Move, "CHOOSE", hintH);
+        DrawControlHint(hx, panelY + panelH + 40.0f, LuminousButtonGlyph::Confirm, "DECIDE", hintH);
+    }
+
     // ========================================================================
     // タイトル画面 (完全 ImGui フリー、360 度パノラマ回転背景)
     // ========================================================================
@@ -1656,9 +1705,11 @@ export namespace App::Luminous {
         if (auto* ui = ctx.FindService<Engine::UI::UISystem>()) {
             ui->Close(rt.HudUi);
             ui->Close(rt.PauseUi);
+            ui->Close(rt.ClearUi);
         }
         rt.HudUi = {};
         rt.PauseUi = {};
+        rt.ClearUi = {};
 
         auto& registry = ctx.GetRegistry();
         auto DestroyWithSubMeshes = [&](entt::entity e) {
@@ -2383,7 +2434,6 @@ export namespace App::Luminous {
 
         Vector2 mPos = Input::GetMousePosition();
         bool isMouseDown = Input::GetKeyHold(KeyCode::MOUSE_LEFT);
-        bool isMouseClick = Input::GetKeyDown(KeyCode::MOUSE_LEFT);
 
         const bool debugActive = rt.DebugTool.IsActive();
         const bool showGameplayHUD = !debugActive || rt.DebugTool.ShowGameHUD();
@@ -2534,105 +2584,100 @@ export namespace App::Luminous {
             }
         }
 
-        // 6. ステージクリアのリザルト (宝箱開口0.8秒後)
-        if (player.IsStageCleared && rt.ChestAnimTimer >= 0.8f && (!debugActive || rt.DebugTool.ShowGameHUD())) {
-            if (!debugActive) Input::SetCursorLocked(false);
-
-            ui.DrawPanel(0.0f, 0.0f, screenW, screenH, { 0.0f, 0.02f, 0.05f, 0.72f });
-
-            // バナー (160) + 間隔 (10) + 成績パネル (480) + 間隔 (40) + 操作説明 (38) を画面の縦中央へ
-            const float bannerH = 160.0f;
-            const float panelW = 640.0f;
-            const float panelH = 480.0f;
-            const float blockH = bannerH + 10.0f + panelH + 40.0f + 38.0f;
-            const float blockTop = (screenH - blockH) * 0.5f;
-            ui.DrawImage(LuminousUIConfig::Image_Clear_Banner.FilePath, centerX - 400.0f, blockTop, 800.0f, bannerH);
-
-            const float panelX = centerX - panelW * 0.5f;
-            const float panelY = blockTop + bannerH + 10.0f;
-            ui.DrawImage(LuminousUIConfig::Image_Clear_StatsPanel.FilePath, panelX, panelY, panelW, panelH);
-
-            ui.DrawString("Stage: " + (rt.Stage.Name.empty() ? "Custom Stage" : rt.Stage.Name),
-                panelX + 60.0f, panelY + 95.0f, 22.0f, { 0.47f, 0.84f, 0.98f, 1.0f });
-
-            const int clearMinutes = static_cast<int>(rt.GameTime) / 60;
-            const float clearSeconds = std::fmod(rt.GameTime, 60.0f);
-            ui.DrawString(std::format("Clear Time:         {:02d}:{:05.2f}", clearMinutes, clearSeconds),
-                panelX + 60.0f, panelY + 140.0f, 20.0f, { 0.95f, 0.97f, 1.0f, 1.0f });
-            ui.DrawString(std::format("Orb Pickups:        {}", player.OrbPickupCount),
-                panelX + 60.0f, panelY + 185.0f, 20.0f, { 0.95f, 0.97f, 1.0f, 1.0f });
-            ui.DrawString(std::format("Pedestal Inserts:   {}", player.PedestalInsertCount),
-                panelX + 60.0f, panelY + 230.0f, 20.0f, { 0.95f, 0.97f, 1.0f, 1.0f });
-
-            struct Btn { const UIImageConfig* Normal; const UIImageConfig* Hover; float X, Y, W, H; };
-            const Btn btns[] = {
-                { &LuminousUIConfig::Image_Btn_Next_Normal,        &LuminousUIConfig::Image_Btn_Next_Hover,        panelX + 30.0f,  panelY + 290.0f, 280.0f, 58.0f },
-                { &LuminousUIConfig::Image_Btn_Retry_Normal,       &LuminousUIConfig::Image_Btn_Retry_Hover,       panelX + 330.0f, panelY + 290.0f, 280.0f, 58.0f },
-                { &LuminousUIConfig::Image_Btn_StageSelect_Normal, &LuminousUIConfig::Image_Btn_StageSelect_Hover, panelX + 30.0f,  panelY + 380.0f, 280.0f, 58.0f },
-                { &LuminousUIConfig::Image_Btn_Title_Normal,       &LuminousUIConfig::Image_Btn_Title_Hover,       panelX + 330.0f, panelY + 380.0f, 280.0f, 58.0f },
-            };
-            constexpr int btnCount = 4;
-            rt.Cursor.BeginFrame(realDt, btnCount, mPos);
-            const Vector2 menuMouse = rt.Cursor.Mouse();
-
-            // NEXT / RETRY が上段、STAGE SELECT / TITLE が下段の 2x2。
-            // 矩形を先に登録しておくと、下を押せば真下のボタンへ移動する。
-            for (int i = 0; i < btnCount; ++i) {
-                rt.Cursor.Item(i, btns[i].X, btns[i].Y, btns[i].W, btns[i].H);
+        // 6. ステージクリアのリザルト (宝箱開口0.8秒後。UI の仕組み。Clear.ui.json。21 の U8 の 3)
+        if (auto* menu = ctx.FindService<Engine::UI::UISystem>()) {
+            const bool clearShown = player.IsStageCleared && rt.ChestAnimTimer >= 0.8f && (!debugActive || rt.DebugTool.ShowGameHUD());
+            if (!clearShown && menu->IsOpen(rt.ClearUi)) {
+                menu->Close(rt.ClearUi);
+                rt.ClearUi = {};
+                LuminousUICompare::Reset("Clear");
             }
-
-            int activated = -1;
-            for (int i = 0; i < btnCount; ++i) {
-                if (ui.DrawButton(btns[i].Normal->FilePath, btns[i].Hover->FilePath, btns[i].Hover->FilePath,
-                    btns[i].X, btns[i].Y, btns[i].W, btns[i].H, menuMouse.x, menuMouse.y, isMouseDown, isMouseClick, nullptr,
-                    rt.Cursor.Is(i), rt.Cursor.Activated(i))) {
-                    activated = i;
+            if (clearShown) {
+                if (!debugActive) Input::SetCursorLocked(false);
+                const char* const kButtons[] = { "Next", "Retry", "StageSelect", "Title" };
+                if (!rt.ClearModel) rt.ClearModel = std::make_unique<LuminousClearModel>();
+                LuminousClearModel& model = *rt.ClearModel;
+                model.StageName = rt.Stage.Name.empty() ? std::string("Custom Stage") : rt.Stage.Name;
+                model.Minutes = static_cast<int>(rt.GameTime) / 60;
+                model.Seconds = std::fmod(rt.GameTime, 60.0f);
+                model.OrbPickups = player.OrbPickupCount;
+                model.PedestalInserts = player.PedestalInsertCount;
+                if (!menu->IsOpen(rt.ClearUi)) {
+                    rt.ClearUi = menu->Open(LuminousScreenAssets::Clear, { .SortOrder = LuminousScreenOrder::Menu });
+                    menu->Bind(rt.ClearUi, model);
+                    rt.ClearGlyphSet = -1;
+                    rt.ClearLastFocus = menu->Find(rt.ClearUi, kButtons[0]);
+                    menu->SetFocus(rt.ClearLastFocus);
                 }
-            }
-            if (rt.Cursor.EndFrame()) {
-                Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Hover.FilePath, LuminousAudioConfig::SE_UI_Hover.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-            }
+                if (rt.ClearGlyphSet != static_cast<int>(LuminousInputDevice::Current)) {
+                    rt.ClearGlyphSet = static_cast<int>(LuminousInputDevice::Current);
+                    LuminousUIScreens::ApplyHint(*menu, rt.ClearUi, "HintChoose", { LuminousButtonGlyph::Move, "CHOOSE" }, 38.0f);
+                    LuminousUIScreens::ApplyHint(*menu, rt.ClearUi, "HintDecide", { LuminousButtonGlyph::Confirm, "DECIDE" }, 38.0f);
+                }
 
-            if (activated >= 0) {
-                Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-            }
-            switch (activated) {
-            case 0: {
-                const int total = LuminousStageCatalog::Count();
-                if (rt.StageNumber >= 1 && rt.StageNumber < total) {
-                    // 登録ステージの次へ
-                    LuminousGoToBaseStage(registry, rt.StageNumber + 1, rt.ReturnToEditorOnExit);
-                } else if (rt.StageNumber >= total && total > 0) {
+                // 選んでいるボタンが変わったら音 (マウスが乗っても、キーで動かしても)
+                const Engine::UI::UIElement focus = menu->GetFocus();
+                if (focus.Instance == rt.ClearUi && !(focus == rt.ClearLastFocus)) {
+                    rt.ClearLastFocus = focus;
+                    Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Hover.FilePath, LuminousAudioConfig::SE_UI_Hover.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+                }
+                // 押した (クリック・決定。前の UI の Update で起きたこと)
+                int activated = -1;
+                for (const Engine::UI::UIEventRecord& e : menu->GetEvents()) {
+                    if (e.Type != Engine::UI::UIEventType::Clicked || !(e.Element.Instance == rt.ClearUi)) continue;
+                    for (int i = 0; i < 4; ++i) {
+                        if (e.Element == menu->Find(rt.ClearUi, kButtons[i])) activated = i;
+                    }
+                }
+
+                // 前の描き方と四角を比べる (--set luvia.uiCompare=true)
+                if (LuminousUICompare::Enabled()) {
+                    int selection = -1;
+                    for (int i = 0; i < 4; ++i) {
+                        if (focus == menu->Find(rt.ClearUi, kButtons[i])) selection = i;
+                    }
+                    const bool hovering = menu->GetHovered().Instance == rt.ClearUi;
+                    const Vector2 legacyMouse = hovering ? mPos : Vector2(-100000.0f, -100000.0f);
+                    LuminousUICompare::Check("Clear", *menu, rt.ClearUi, [&] {
+                        LuminousLegacyDrawClear(screenW, screenH, rt.Stage.Name, rt.GameTime, player.OrbPickupCount,
+                                                player.PedestalInsertCount, selection, legacyMouse, isMouseDown);
+                    });
+                }
+
+                if (activated >= 0) {
+                    Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+                }
+                switch (activated) {
+                case 0: {
+                    const int total = LuminousStageCatalog::Count();
+                    if (rt.StageNumber >= 1 && rt.StageNumber < total) {
+                        // 登録ステージの次へ
+                        LuminousGoToBaseStage(registry, rt.StageNumber + 1, rt.ReturnToEditorOnExit);
+                    } else if (rt.StageNumber >= total && total > 0) {
+                        LuminousGoToStageSelect(registry);
+                    } else if (rt.Stage.Name.find("Stage 1") != std::string::npos) {
+                        // 確認用のステージも**ファイルになっている** (計画 18 の段 2)
+                        LuminousGoToStage(registry, "Assets/Data/TestStages/multi_floor.json",
+                                          0, rt.ReturnToEditorOnExit);
+                    } else {
+                        LuminousGoToStage(registry, "Assets/Data/TestStages/sample.json",
+                                          0, rt.ReturnToEditorOnExit);
+                    }
+                    return;
+                }
+                case 1:
+                    LuminousGoToStage(registry, rt.StagePath, rt.StageNumber, rt.ReturnToEditorOnExit);
+                    return;
+                case 2:
                     LuminousGoToStageSelect(registry);
-                } else if (rt.Stage.Name.find("Stage 1") != std::string::npos) {
-                    // 確認用のステージも**ファイルになっている** (計画 18 の段 2)
-                    LuminousGoToStage(registry, "Assets/Data/TestStages/multi_floor.json",
-                                      0, rt.ReturnToEditorOnExit);
-                } else {
-                    LuminousGoToStage(registry, "Assets/Data/TestStages/sample.json",
-                                      0, rt.ReturnToEditorOnExit);
+                    return;
+                case 3:
+                    LuminousTransition::Get().ChangeScene(LuminousScenes::Title);
+                    return;
+                default:
+                    break;
                 }
-                return;
             }
-            case 1:
-                LuminousGoToStage(registry, rt.StagePath, rt.StageNumber, rt.ReturnToEditorOnExit);
-                return;
-            case 2:
-                LuminousGoToStageSelect(registry);
-                return;
-            case 3:
-                LuminousTransition::Get().ChangeScene(LuminousScenes::Title);
-                return;
-            default:
-                break;
-            }
-
-            const float hintH = 38.0f;
-            const float total = MeasureControlHint(LuminousButtonGlyph::Move, "CHOOSE", hintH)
-                              + MeasureControlHint(LuminousButtonGlyph::Confirm, "DECIDE", hintH);
-            float hx = centerX - total * 0.5f;
-            hx += DrawControlHint(hx, panelY + panelH + 40.0f, LuminousButtonGlyph::Move, "CHOOSE", hintH);
-            DrawControlHint(hx, panelY + panelH + 40.0f, LuminousButtonGlyph::Confirm, "DECIDE", hintH);
         }
 
         // 7. ステージ開始オーバーレイ (画面中央)
