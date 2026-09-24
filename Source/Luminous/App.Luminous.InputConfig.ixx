@@ -403,15 +403,23 @@ export namespace App::Luminous {
     // 開発時のみコマンドライン引数でシーンを直接指定した場合に有効化する。
     // ========================================================================
     struct LuminousDebugKeys {
+#if defined(SHIPPING)
+        static constexpr bool Enabled = false;   // Shipping には作らない (20 の §3-2)
+#else
         static inline bool Enabled = false;
+#endif
     };
 
     // ========================================================================
     // F12 デバッグツール (ImGui) の有効フラグ。
-    // Shipping ビルドでは既定で無効 (TestGame の main で設定する)。
+    // Shipping には作らない (常に偽。ツールのコードは使われずに消える。20 の §3-2)
     // ========================================================================
     struct LuminousDebugTools {
+#if defined(SHIPPING)
+        static constexpr bool Enabled = false;
+#else
         static inline bool Enabled = true;
+#endif
         static constexpr KeyCode ToggleKey = KeyCode::F12;
     };
 }

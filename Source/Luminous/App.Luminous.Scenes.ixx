@@ -2514,9 +2514,12 @@ export namespace App::Luminous {
         if (auto* ui = ctx.FindService<Engine::UI::UISystem>()) ui->Close(rt.EditorUi);
         rt.EditorUi = {};
         auto& registry = ctx.GetRegistry();
+#ifndef IMGUI_DISABLE
+        // エンジンの ImGui の操作パネルを戻す (Shipping には ImGui もパネルも無い)
         if (auto* debug = Engine::Core::FindService<Engine::Debug::DebugSettings>(registry)) {
             debug->ShowEngineControlPanel = rt.SavedShowEnginePanel;
         }
+#endif
 
         auto DestroyWithSubMeshes = [&](entt::entity e) {
             if (!registry.valid(e)) return;
@@ -2565,10 +2568,13 @@ export namespace App::Luminous {
         LuminousTransition::Get().BeginSceneEnter();
         Input::SetCursorLocked(false);
         Input::SetCursorHidden(false);   // エディタはマウス前提
+#ifndef IMGUI_DISABLE
+        // エンジンの ImGui の操作パネルは、エディタの間は隠す (Shipping には ImGui もパネルも無い)
         if (auto* debug = Engine::Core::FindService<Engine::Debug::DebugSettings>(registry)) {
             rt.SavedShowEnginePanel = debug->ShowEngineControlPanel;
             debug->ShowEngineControlPanel = false;
         }
+#endif
 
         // カメラエンティティの作成
         rt.Camera = CreateGeneratedEntity(registry);

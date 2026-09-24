@@ -192,6 +192,27 @@ export namespace App::Luminous {
     };
 #endif
 
+#if defined(SHIPPING)
+    // ========================================================================
+    // Shipping にはデバッグツール (F12) を作らない (遊ぶ人に配る形。20 の §3-2)。
+    //   プレイの側が呼ぶ口だけを残し、どれも何もしない (LuminousDebugTools::Enabled も常に偽)
+    // ========================================================================
+    class LuminousDebugTool {
+    public:
+        bool IsActive() const { return false; }
+        bool ShowGameHUD() const { return true; }
+        bool DisableOrbOcclusionAtlas() const { return false; }
+        bool IsSpectating() const { return false; }
+        bool PlayerControlEnabled() const { return false; }
+        float ScaleDeltaTime(float dt) { return dt; }
+        void Activate(LuminousDebugContext&) {}
+        void Deactivate(LuminousDebugContext&) {}
+        void Shutdown(entt::registry&) {}
+        void HandleHotkeys(LuminousDebugContext&) {}
+        void UpdateCamera(LuminousDebugContext&, Engine::Core::TransformComponent&, float) {}
+        void DrawUI(LuminousDebugContext&, float) {}
+    };
+#else
     // ========================================================================
     // LuminousDebugTool (プレイ中 F12)
     // ------------------------------------------------------------------------
@@ -1238,4 +1259,5 @@ export namespace App::Luminous {
 #else
     inline void LuminousDebugTool::DrawUI(LuminousDebugContext&, float) {}
 #endif
+#endif // SHIPPING
 }

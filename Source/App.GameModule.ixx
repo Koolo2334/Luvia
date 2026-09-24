@@ -146,13 +146,12 @@ namespace App {
         LuminousStageCatalog::EnsureTestStageFiles();    // 確認用ステージ JSON の実体化 (計画 18)
 
         // 開発用にシーンを直接指定して起動したときだけデバッグキーを使えるようにする。
-        // 通常起動 (タイトルから) ではレギュレーション外の入力を受け付けない
+        // 通常起動 (タイトルから) ではレギュレーション外の入力を受け付けない。
+        // Shipping にはデバッグキーもデバッグツール (F12) も作らない (20 の §3-2)
+#ifndef SHIPPING
         LuminousDebugKeys::Enabled =
             ctx.HasOption("--play") || ctx.HasOption("--base-stage=") ||
             ctx.HasOption("--editor") || ctx.HasOption("--stageselect");
-#ifdef SHIPPING
-        LuminousDebugTools::Enabled = ctx.HasOption("--debug-tools");
-#else
         LuminousDebugTools::Enabled = true;
 #endif
     }
