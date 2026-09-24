@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "styleImports": [
+    "Assets/UI/Screens/LuviaStyles.ui.json"
+  ],
+  "root": {
+    "kind": "Canvas",
+    "name": "Root",
+    "focusOnHover": true,
+    "navWrap": true,
+    "children": [
+      {
+        "kind": "Image",
+        "name": "Shade",
+        "anchor": "fill",
+        "size": [0, 0],
+        "image": "Assets/UI/Title/title_shade.png"
+      },
+      {
+        "kind": "Image",
+        "name": "Logo",
+        "offset": [150, 70],
+        "size": [700, 406],
+        "image": "Assets/UI/Title/Luvia_logo.png"
+      },
+      {
+        "kind": "VerticalBox",
+        "name": "Menu",
+        "offset": [290, 520],
+        "autoSize": true,
+        "spacing": 10,
+        "children": [
+          {
+            "kind": "Button",
+            "name": "Start",
+            "style": "MenuButton",
+            "size": [420, 68],
+            "sizeRule": "fixed",
+            "image": "Assets/UI/Buttons/btn_start_normal.png",
+            "hoveredImage": "Assets/UI/Buttons/btn_start_hover.png",
+            "pressedImage": "Assets/UI/Buttons/btn_start_pressed.png"
+          },
+          {
+            "kind": "Button",
+            "name": "StageSelect",
+            "style": "MenuButton",
+            "size": [420, 68],
+            "sizeRule": "fixed",
+            "image": "Assets/UI/Buttons/btn_stage_select_normal.png",
+            "hoveredImage": "Assets/UI/Buttons/btn_stage_select_hover.png",
+            "pressedImage": "Assets/UI/Buttons/btn_stage_select_pressed.png"
+          },
+          {
+            "kind": "Button",
+            "name": "Editor",
+            "style": "MenuButton",
+            "size": [420, 68],
+            "sizeRule": "fixed",
+            "image": "Assets/UI/Buttons/btn_editor_normal.png",
+            "hoveredImage": "Assets/UI/Buttons/btn_editor_hover.png",
+            "pressedImage": "Assets/UI/Buttons/btn_editor_pressed.png"
+          },
+          {
+            "kind": "Button",
+            "name": "Exit",
+            "style": "MenuButton",
+            "size": [420, 68],
+            "sizeRule": "fixed",
+            "image": "Assets/UI/Buttons/btn_exit_normal.png",
+            "hoveredImage": "Assets/UI/Buttons/btn_exit_hover.png",
+            "pressedImage": "Assets/UI/Buttons/btn_exit_pressed.png"
+          }
+        ]
+      },
+      {
+        "kind": "HorizontalBox",
+        "name": "Hints",
+        "pivot": [0.5, 0],
+        "offset": [500, 1010],
+        "autoSize": true,
+        "children": [
+          {
+            "kind": "Nested",
+            "name": "HintChoose",
+            "asset": "Assets/UI/Screens/ControlHint.ui.json"
+          },
+          {
+            "kind": "Nested",
+            "name": "HintDecide",
+            "asset": "Assets/UI/Screens/ControlHint.ui.json"
+          }
+        ]
+      }
+    ]
+  },
+  "animations": {
+    "Breathe": {
+      "loop": "loop",
+      "tracks": [
+        {
+          "target": "Logo",
+          "property": "opacity",
+          "ease": "sine",
+          "keys": [[0, 0.84], [2.8559933, 1.0], [5.7119866, 0.84]]
+        }
+      ]
+    }
+  }
+}

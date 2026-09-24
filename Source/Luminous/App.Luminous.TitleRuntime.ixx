@@ -9,6 +9,8 @@ export module App.Luminous.TitleRuntime;
 
 import App.Luminous.MenuCursor;
 import Engine.Core.Components.Lifecycle;
+import Engine.UI.Types;
+import Engine.UI.System;
 
 // ============================================================================
 // タイトル画面を動かしている間の持ち物 (LuminousTitleRuntime)
@@ -61,6 +63,11 @@ export namespace App::Luminous {
         bool WasMouseDown = false;
         LuminousMenuCursor Cursor;
         bool BgmStarted = false;
+
+        // 画面の UI (21 の U8。今の画面のものだけを開いておき、片付けで閉じる)
+        Engine::UI::UIInstanceId MenuUi;
+        int MenuGlyphSet = -1;                  // 操作の案内の絵を入れた機器 (変わったら入れ直す)
+        Engine::UI::UIElement MenuLastFocus;    // 選択が変わったら音を鳴らす
     };
 
     // いま出ているタイトル画面の持ち物。無ければ作って返す

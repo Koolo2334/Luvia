@@ -704,6 +704,48 @@ export namespace App::Luminous {
         DrawControlHint(hx, panelY + panelH + 40.0f, LuminousButtonGlyph::Confirm, "DECIDE", hintH);
     }
 
+    inline void LuminousLegacyDrawTitleMenu(float screenW, float screenH, float timer, bool isStageSelectAvail,
+                                            int selection, const Vector2& mouse, bool isMouseDown) {
+        auto& ui = Engine::Graphics::UIRenderer::Get();
+        const auto& shade = LuminousUIConfig::Image_Title_Shade;
+        ui.DrawImage(shade.FilePath, 0.0f, 0.0f, screenW, screenH);
+
+        const auto& logo = LuminousUIConfig::Image_Title_Logo;
+        const float logoX = 150.0f;
+        const float logoY = 70.0f;
+        const float breathe = 0.92f + 0.08f * std::sin(timer * 1.1f);
+        ui.DrawImage(logo.FilePath, logoX, logoY, logo.DefaultWidth, logo.DefaultHeight, { 1.0f, 1.0f, 1.0f, breathe });
+        const float menuCenterX = logoX + logo.DefaultWidth * 0.5f;
+
+        struct Item { const UIImageConfig* Normal; const UIImageConfig* Hover; const UIImageConfig* Pressed; };
+        std::vector<Item> items;
+        items.push_back({ &LuminousUIConfig::Image_Btn_Start_Normal, &LuminousUIConfig::Image_Btn_Start_Hover, &LuminousUIConfig::Image_Btn_Start_Pressed });
+        if (isStageSelectAvail) {
+            items.push_back({ &LuminousUIConfig::Image_Btn_StageSelect_Normal, &LuminousUIConfig::Image_Btn_StageSelect_Hover, &LuminousUIConfig::Image_Btn_StageSelect_Pressed });
+        }
+        items.push_back({ &LuminousUIConfig::Image_Btn_Editor_Normal, &LuminousUIConfig::Image_Btn_Editor_Hover, &LuminousUIConfig::Image_Btn_Editor_Pressed });
+        items.push_back({ &LuminousUIConfig::Image_Btn_Exit_Normal, &LuminousUIConfig::Image_Btn_Exit_Hover, &LuminousUIConfig::Image_Btn_Exit_Pressed });
+
+        const float btnW = 420.0f;
+        const float btnH = 68.0f;
+        const float btnX = menuCenterX - btnW * 0.5f;
+        const float startY = isStageSelectAvail ? 520.0f : 556.0f;
+        const float gap = 78.0f;
+        for (int i = 0; i < static_cast<int>(items.size()); ++i) {
+            const float y = startY + i * gap;
+            (void)ui.DrawButton(items[i].Normal->FilePath, items[i].Hover->FilePath, items[i].Pressed->FilePath,
+                btnX, y, btnW, btnH, mouse.x, mouse.y, isMouseDown, false, nullptr, i == selection, false);
+        }
+
+        const float hintH = 38.0f;
+        const float total = MeasureControlHint(LuminousButtonGlyph::Move, "CHOOSE", hintH)
+                          + MeasureControlHint(LuminousButtonGlyph::Confirm, "DECIDE", hintH);
+        float hx = menuCenterX - total * 0.5f;
+        const float hy = screenH - 70.0f;
+        hx += DrawControlHint(hx, hy, LuminousButtonGlyph::Move, "CHOOSE", hintH);
+        DrawControlHint(hx, hy, LuminousButtonGlyph::Confirm, "DECIDE", hintH);
+    }
+
     // ========================================================================
     // タイトル画面 (完全 ImGui フリー、360 度パノラマ回転背景)
     // ========================================================================
@@ -1218,6 +1260,8 @@ export namespace App::Luminous {
             registry.destroy(rt.Camera);
             rt.Camera = entt::null;
         }
+        if (auto* ui = ctx.FindService<Engine::UI::UISystem>()) ui->Close(rt.MenuUi);
+        rt.MenuUi = {};
     }
 
     // ------------------------------------------------------------------------
@@ -1378,6 +1422,15 @@ export namespace App::Luminous {
         float screenW = 1920.0f;
         float screenH = 1080.0f;
 
+        // 画面の UI は、今の画面のものだけを開いておく (21 の U8)
+        if (auto* ui = ctx.FindService<Engine::UI::UISystem>()) {
+            if (rt.View != LuminousTitleView::MainMenu && ui->IsOpen(rt.MenuUi)) {
+                ui->Close(rt.MenuUi);
+                rt.MenuUi = {};
+                LuminousUICompare::Reset("TitleMenu");
+            }
+        }
+
         if (rt.View == LuminousTitleView::MainMenu) {
             LuminousTitleRenderMenu(ctx, screenW, screenH, mPos.x, mPos.y, isMouseDown, isMouseClick);
         } else if (rt.View == LuminousTitleView::StageSelect) {
@@ -1391,87 +1444,89 @@ export namespace App::Luminous {
     }
 
     inline void LuminousTitleRenderMenu(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick) {
+        (void)isMouseDown;
+        (void)isMouseClick;
         auto& rt = TitleRuntime(ctx.GetRegistry());
-        auto& ui = Engine::Graphics::UIRenderer::Get();
-
-        // 画面左側を沈めるグラデーション (ロゴとメニューの背景。宝玉は右側に映る)
-        const auto& shade = LuminousUIConfig::Image_Title_Shade;
-        ui.DrawImage(shade.FilePath, 0.0f, 0.0f, screenW, screenH);
-
-        // タイトルロゴ「Luvia」(ゆっくり明滅)
-        const auto& logo = LuminousUIConfig::Image_Title_Logo;
-        const float logoX = 150.0f;
-        const float logoY = 70.0f;
-        const float breathe = 0.92f + 0.08f * std::sin(rt.Timer * 1.1f);
-        ui.DrawImage(logo.FilePath, logoX, logoY, logo.DefaultWidth, logo.DefaultHeight, { 1.0f, 1.0f, 1.0f, breathe });
-        const float menuCenterX = logoX + logo.DefaultWidth * 0.5f;
+        auto* menu = ctx.FindService<Engine::UI::UISystem>();
+        if (!menu) return;
 
         // ステージセレクトの出現判定: 1ステージ以上クリア済み OR エディタ自作ステージ作成済み
         const bool isStageSelectAvail = ProfileManager::Get().IsStageSelectAvailable();
+        const char* const kButtons[] = { "Start", "StageSelect", "Editor", "Exit" };
 
-        enum class Action { Start, StageSelect, Editor, Exit };
-        struct Item { const UIImageConfig* Normal; const UIImageConfig* Hover; const UIImageConfig* Pressed; Action Act; };
-        std::vector<Item> items;
-        items.push_back({ &LuminousUIConfig::Image_Btn_Start_Normal, &LuminousUIConfig::Image_Btn_Start_Hover, &LuminousUIConfig::Image_Btn_Start_Pressed, Action::Start });
-        if (isStageSelectAvail) {
-            items.push_back({ &LuminousUIConfig::Image_Btn_StageSelect_Normal, &LuminousUIConfig::Image_Btn_StageSelect_Hover, &LuminousUIConfig::Image_Btn_StageSelect_Pressed, Action::StageSelect });
+        // UI の仕組み (Title.ui.json。21 の U8 の 4)
+        if (!menu->IsOpen(rt.MenuUi)) {
+            rt.MenuUi = menu->Open(LuminousScreenAssets::Title, { .SortOrder = LuminousScreenOrder::Menu });
+            // STAGE SELECT が無いときは畳み、並びを前と同じ高さ (556) から始める
+            menu->SetVisibility(menu->Find(rt.MenuUi, "StageSelect"),
+                                isStageSelectAvail ? Engine::UI::UIVisibility::Visible : Engine::UI::UIVisibility::Collapsed);
+            menu->SetOffset(menu->Find(rt.MenuUi, "Menu"), { 290.0f, isStageSelectAvail ? 520.0f : 556.0f });
+            // ロゴの呼吸。前の 0.92 + 0.08 sin(1.1 t) と同じ形 (sine のつなぎ方で 0.84 → 1 → 0.84 の 1 周) を、
+            //   同じ位相 (タイトルに入ってからの時間 rt.Timer) から始める
+            constexpr float kBreathPeriod = 2.0f * DirectX::XM_PI / 1.1f;
+            menu->Play(rt.MenuUi, "Breathe", { 1.0f, std::fmod(rt.Timer + kBreathPeriod * 0.25f, kBreathPeriod) });
+            rt.MenuGlyphSet = -1;
+            rt.MenuLastFocus = menu->Find(rt.MenuUi, kButtons[0]);
+            menu->SetFocus(rt.MenuLastFocus);
         }
-        items.push_back({ &LuminousUIConfig::Image_Btn_Editor_Normal, &LuminousUIConfig::Image_Btn_Editor_Hover, &LuminousUIConfig::Image_Btn_Editor_Pressed, Action::Editor });
-        items.push_back({ &LuminousUIConfig::Image_Btn_Exit_Normal, &LuminousUIConfig::Image_Btn_Exit_Hover, &LuminousUIConfig::Image_Btn_Exit_Pressed, Action::Exit });
+        if (rt.MenuGlyphSet != static_cast<int>(LuminousInputDevice::Current)) {
+            rt.MenuGlyphSet = static_cast<int>(LuminousInputDevice::Current);
+            LuminousUIScreens::ApplyHint(*menu, rt.MenuUi, "HintChoose", { LuminousButtonGlyph::Move, "CHOOSE" }, 38.0f);
+            LuminousUIScreens::ApplyHint(*menu, rt.MenuUi, "HintDecide", { LuminousButtonGlyph::Confirm, "DECIDE" }, 38.0f);
+        }
 
-        rt.Cursor.BeginFrame(ctx.GetDeltaTime(), static_cast<int>(items.size()), Vector2(mouseX, mouseY));
-        const Vector2 m = rt.Cursor.Mouse();
-
-        const float btnW = 420.0f;
-        const float btnH = 68.0f;
-        const float btnX = menuCenterX - btnW * 0.5f;
-        const float startY = isStageSelectAvail ? 520.0f : 556.0f;
-        const float gap = 78.0f;
-
+        // 選んでいるボタンが変わったら音 (マウスが乗っても、キーで動かしても)
+        const Engine::UI::UIElement focus = menu->GetFocus();
+        if (focus.Instance == rt.MenuUi && !(focus == rt.MenuLastFocus)) {
+            rt.MenuLastFocus = focus;
+            Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Hover.FilePath, LuminousAudioConfig::SE_UI_Hover.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+        }
+        // 押した (クリック・決定。前の UI の Update で起きたこと)
         int activated = -1;
-        for (int i = 0; i < static_cast<int>(items.size()); ++i) {
-            const float y = startY + i * gap;
-            rt.Cursor.Item(i, btnX, y, btnW, btnH);
-            if (ui.DrawButton(items[i].Normal->FilePath, items[i].Hover->FilePath, items[i].Pressed->FilePath,
-                btnX, y, btnW, btnH, m.x, m.y, isMouseDown, isMouseClick, nullptr,
-                rt.Cursor.Is(i), rt.Cursor.Activated(i))) {
-                activated = i;
+        for (const Engine::UI::UIEventRecord& e : menu->GetEvents()) {
+            if (e.Type != Engine::UI::UIEventType::Clicked || !(e.Element.Instance == rt.MenuUi)) continue;
+            for (int i = 0; i < 4; ++i) {
+                if (e.Element == menu->Find(rt.MenuUi, kButtons[i])) activated = i;
             }
+        }
+
+        // 前の描き方と四角を比べる (--set luvia.uiCompare=true)。前の並びは STAGE SELECT が無いと詰まる
+        if (LuminousUICompare::Enabled()) {
+            int selection = -1;
+            for (int i = 0; i < 4; ++i) {
+                if (focus == menu->Find(rt.MenuUi, kButtons[i])) selection = (!isStageSelectAvail && i >= 2) ? i - 1 : i;
+            }
+            const bool hovering = menu->GetHovered().Instance == rt.MenuUi;
+            const Vector2 legacyMouse = hovering ? Vector2(mouseX, mouseY) : Vector2(-100000.0f, -100000.0f);
+            const bool legacyDown = menu->GetPressed().Instance == rt.MenuUi;   // UI が占有している間、ゲームの入力からボタンは見えない
+            LuminousUICompare::Check("TitleMenu", *menu, rt.MenuUi, [&] {
+                LuminousLegacyDrawTitleMenu(screenW, screenH, rt.Timer, isStageSelectAvail, selection, legacyMouse, legacyDown);
+            });
         }
 
         if (activated >= 0) {
             Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-            switch (items[activated].Act) {
-            case Action::Start: {
+            switch (activated) {
+            case 0: {
                 const int total = LuminousStageCatalog::Count();
                 const int nextStage = ProfileManager::Get().GetNextUncompletedStageIndex(total);
                 LuminousGoToBaseStage(ctx.GetRegistry(), nextStage);
                 return;
             }
-            case Action::StageSelect:
+            case 1:
                 rt.View = LuminousTitleView::StageSelect;
                 rt.Cursor.Reset();
                 return;
-            case Action::Editor:
+            case 2:
                 LuminousTransition::Get().ChangeScene(LuminousScenes::Editor);
                 return;
-            case Action::Exit:
+            case 3:
                 PostQuitMessage(0);
                 return;
+            default:
+                break;
             }
         }
-        if (rt.Cursor.EndFrame()) {
-            Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Hover.FilePath, LuminousAudioConfig::SE_UI_Hover.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-        }
-
-        // 操作説明 (操作中のデバイスに合わせたボタン画像)
-        const float hintH = 38.0f;
-        const float total = MeasureControlHint(LuminousButtonGlyph::Move, "CHOOSE", hintH)
-                          + MeasureControlHint(LuminousButtonGlyph::Confirm, "DECIDE", hintH);
-        float hx = menuCenterX - total * 0.5f;
-        const float hy = screenH - 70.0f;
-        hx += DrawControlHint(hx, hy, LuminousButtonGlyph::Move, "CHOOSE", hintH);
-        DrawControlHint(hx, hy, LuminousButtonGlyph::Confirm, "DECIDE", hintH);
     }
 
     inline void LuminousTitleRenderStageSelect(const Engine::Core::SystemContext& ctx, float screenW, float screenH, float mouseX, float mouseY, bool isMouseDown, bool isMouseClick) {
@@ -2433,7 +2488,6 @@ export namespace App::Luminous {
         const float realDt = ctx.GetDeltaTime();
 
         Vector2 mPos = Input::GetMousePosition();
-        bool isMouseDown = Input::GetKeyHold(KeyCode::MOUSE_LEFT);
 
         const bool debugActive = rt.DebugTool.IsActive();
         const bool showGameplayHUD = !debugActive || rt.DebugTool.ShowGameHUD();
@@ -2545,8 +2599,9 @@ export namespace App::Luminous {
                     }
                     const bool hovering = menu->GetHovered().Instance == rt.PauseUi;
                     const Vector2 legacyMouse = hovering ? mPos : Vector2(-100000.0f, -100000.0f);
+                    const bool legacyDown = menu->GetPressed().Instance == rt.PauseUi;   // UI が占有している間、ゲームの入力からボタンは見えない
                     LuminousUICompare::Check("Pause", *menu, rt.PauseUi, [&] {
-                        LuminousLegacyDrawPause(screenW, screenH, selection, legacyMouse, isMouseDown);
+                        LuminousLegacyDrawPause(screenW, screenH, selection, legacyMouse, legacyDown);
                     });
                 }
 
@@ -2638,9 +2693,10 @@ export namespace App::Luminous {
                     }
                     const bool hovering = menu->GetHovered().Instance == rt.ClearUi;
                     const Vector2 legacyMouse = hovering ? mPos : Vector2(-100000.0f, -100000.0f);
+                    const bool legacyDown = menu->GetPressed().Instance == rt.ClearUi;   // UI が占有している間、ゲームの入力からボタンは見えない
                     LuminousUICompare::Check("Clear", *menu, rt.ClearUi, [&] {
                         LuminousLegacyDrawClear(screenW, screenH, rt.Stage.Name, rt.GameTime, player.OrbPickupCount,
-                                                player.PedestalInsertCount, selection, legacyMouse, isMouseDown);
+                                                player.PedestalInsertCount, selection, legacyMouse, legacyDown);
                     });
                 }
 
