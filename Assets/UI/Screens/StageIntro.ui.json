@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "root": {
+    "kind": "Canvas",
+    "name": "Root",
+    "children": [
+      {
+        "kind": "Image",
+        "name": "Title",
+        "offset": [460, 390],
+        "size": [1000, 300],
+        "visibility": "collapsed"
+      }
+    ]
+  }
+}

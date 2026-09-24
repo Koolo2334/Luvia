@@ -40,12 +40,14 @@ export namespace App::Luminous {
         inline constexpr const char* Clear = "Assets/UI/Screens/Clear.ui.json";
         inline constexpr const char* Title = "Assets/UI/Screens/Title.ui.json";
         inline constexpr const char* StageSelect = "Assets/UI/Screens/StageSelect.ui.json";
+        inline constexpr const char* StageIntro = "Assets/UI/Screens/StageIntro.ui.json";
     }
 
     // 手前に出す順 (大きいほど手前)。暗転はいちばん手前
     namespace LuminousScreenOrder {
         inline constexpr int32_t Hud = 100;
         inline constexpr int32_t Menu = 200;
+        inline constexpr int32_t Intro = 300;     // ステージ名はポーズ・クリアより手前 (前の描く順)
         inline constexpr int32_t Fade = 2000000;   // UI の仕組みが出す候補の窓・確認の窓より手前
     }
 

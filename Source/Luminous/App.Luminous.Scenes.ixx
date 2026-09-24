@@ -655,6 +655,36 @@ export namespace App::Luminous {
         }
     }
 
+    inline void LuminousLegacyDrawHud(float screenW, float screenH, bool showHud, bool canInteract,
+                                      LuminousInteractKind interactKind, bool holdingOrb) {
+        if (!showHud) return;
+        auto& ui = Engine::Graphics::UIRenderer::Get();
+        const float centerX = screenW * 0.5f;
+        const float centerY = screenH * 0.5f;
+        ui.DrawImage(LuminousUIConfig::Image_HUD_Crosshair.FilePath, centerX - 32.0f, centerY - 32.0f, 64.0f, 64.0f);
+        if (canInteract && interactKind != LuminousInteractKind::None) {
+            const UIImageConfig* label = &LuminousUIConfig::Image_HUD_Label_TakeOrb;
+            if (interactKind == LuminousInteractKind::PlaceOrb) label = &LuminousUIConfig::Image_HUD_Label_PlaceOrb;
+            else if (interactKind == LuminousInteractKind::OpenChest) label = &LuminousUIConfig::Image_HUD_Label_OpenChest;
+            const auto& frame = LuminousUIConfig::Image_HUD_PromptFrame;
+            const float fx = centerX - frame.DefaultWidth * 0.5f;
+            const float fy = screenH - 196.0f;
+            ui.DrawImage(frame.FilePath, fx, fy, frame.DefaultWidth, frame.DefaultHeight);
+            const float gh = 56.0f;
+            const float gw = gh * LuminousInputDevice::GlyphAspect(LuminousButtonGlyph::Interact);
+            const float gx = fx + 26.0f;
+            const float gy = fy + (frame.DefaultHeight - gh) * 0.5f;
+            ui.DrawImage(LuminousInputDevice::GlyphPath(LuminousButtonGlyph::Interact), gx, gy, gw, gh);
+            ui.DrawImage(label->FilePath, gx + gw + 22.0f, fy + (frame.DefaultHeight - label->DefaultHeight) * 0.5f,
+                label->DefaultWidth, label->DefaultHeight);
+        }
+        if (holdingOrb) {
+            ui.DrawImage(LuminousUIConfig::Image_HUD_OrbIcon.FilePath, screenW - 96.0f, screenH - 96.0f, 64.0f, 64.0f,
+                { 1.0f, 0.90f, 0.45f, 1.0f });
+        }
+        DrawControlHint(28.0f, screenH - 62.0f, LuminousButtonGlyph::Pause, "PAUSE / CONTROLS", 34.0f);
+    }
+
     inline void LuminousLegacyDrawClear(float screenW, float screenH, const std::string& stageName, float gameTime,
                                         int orbPickups, int pedestalInserts, int selection, const Vector2& mouse, bool isMouseDown) {
         auto& ui = Engine::Graphics::UIRenderer::Get();
@@ -1867,10 +1897,12 @@ export namespace App::Luminous {
             ui->Close(rt.HudUi);
             ui->Close(rt.PauseUi);
             ui->Close(rt.ClearUi);
+            ui->Close(rt.IntroUi);
         }
         rt.HudUi = {};
         rt.PauseUi = {};
         rt.ClearUi = {};
+        rt.IntroUi = {};
 
         auto& registry = ctx.GetRegistry();
         auto DestroyWithSubMeshes = [&](entt::entity e) {
@@ -2586,12 +2618,8 @@ export namespace App::Luminous {
         auto& registry = ctx.GetRegistry();
         auto& rt = PlayRuntime(registry);
         auto& player = PlayerState(registry);
-        auto& ui = Engine::Graphics::UIRenderer::Get();
         const float screenW = 1920.0f;
         const float screenH = 1080.0f;
-        const float centerX = screenW * 0.5f;
-        const float centerY = screenH * 0.5f;
-        const float realDt = ctx.GetDeltaTime();
 
         Vector2 mPos = Input::GetMousePosition();
 
@@ -2599,54 +2627,41 @@ export namespace App::Luminous {
         const bool showGameplayHUD = !debugActive || rt.DebugTool.ShowGameHUD();
         const bool playing = !rt.Paused && !player.IsStageCleared;
 
-        if (showGameplayHUD && playing) {
-            // 1. レティクル
-            ui.DrawImage(LuminousUIConfig::Image_HUD_Crosshair.FilePath, centerX - 32.0f, centerY - 32.0f, 64.0f, 64.0f);
-
-            // 2. インタラクト操作説明 (枠 + 操作中デバイスのボタン画像 + 行動名)
-            //    置く / 取る / 開ける で行動名の画像を出し分ける。
-            if (player.CanInteract && player.InteractKind != LuminousInteractKind::None) {
-                const UIImageConfig* label = &LuminousUIConfig::Image_HUD_Label_TakeOrb;
-                if (player.InteractKind == LuminousInteractKind::PlaceOrb) label = &LuminousUIConfig::Image_HUD_Label_PlaceOrb;
-                else if (player.InteractKind == LuminousInteractKind::OpenChest) label = &LuminousUIConfig::Image_HUD_Label_OpenChest;
-
-                const auto& frame = LuminousUIConfig::Image_HUD_PromptFrame;
-                const float fx = centerX - frame.DefaultWidth * 0.5f;
-                const float fy = screenH - 196.0f;
-                ui.DrawImage(frame.FilePath, fx, fy, frame.DefaultWidth, frame.DefaultHeight);
-
-                const float gh = 56.0f;
-                const float gw = gh * LuminousInputDevice::GlyphAspect(LuminousButtonGlyph::Interact);
-                const float gx = fx + 26.0f;
-                const float gy = fy + (frame.DefaultHeight - gh) * 0.5f;
-                ui.DrawImage(LuminousInputDevice::GlyphPath(LuminousButtonGlyph::Interact), gx, gy, gw, gh);
-                ui.DrawImage(label->FilePath, gx + gw + 22.0f, fy + (frame.DefaultHeight - label->DefaultHeight) * 0.5f,
-                    label->DefaultWidth, label->DefaultHeight);
-            }
-
-            // 3. 宝玉所持アイコン (画面右下)
-            if (player.IsHoldingOrb) {
-                ui.DrawImage(LuminousUIConfig::Image_HUD_OrbIcon.FilePath, screenW - 96.0f, screenH - 96.0f, 64.0f, 64.0f,
-                    { 1.0f, 0.90f, 0.45f, 1.0f });
-            }
-
-        }
-
-        // 4. 操作説明の案内 (画面左下)。UI の仕組みの HUD (Hud.ui.json。21 の U8)
+        // 1〜4. HUD (UI の仕組み。Hud.ui.json。21 の U8 の 1・6):
+        //   レティクル・調べる案内 (枠 + 操作中の機器のボタンの絵 + 行動名)・宝玉を持っている印 (右下)・操作説明の案内 (左下)
         if (auto* hud = ctx.FindService<Engine::UI::UISystem>()) {
+            using Engine::UI::UIVisibility;
             if (!hud->IsOpen(rt.HudUi)) {
                 rt.HudUi = hud->Open(LuminousScreenAssets::Hud, { .SortOrder = LuminousScreenOrder::Hud });
                 rt.HudGlyphSet = -1;
             }
+            const char* const kLabels[] = { "LabelTakeOrb", "LabelPlaceOrb", "LabelOpenChest" };
             if (rt.HudGlyphSet != static_cast<int>(LuminousInputDevice::Current)) {
                 rt.HudGlyphSet = static_cast<int>(LuminousInputDevice::Current);
                 LuminousUIScreens::ApplyHint(*hud, rt.HudUi, "PauseHint", { LuminousButtonGlyph::Pause, "PAUSE / CONTROLS" }, 34.0f);
+                // 調べるボタンの絵 (機器で横の長さが変わる)。行動名はその右
+                const float gh = 56.0f;
+                const float gw = gh * LuminousInputDevice::GlyphAspect(LuminousButtonGlyph::Interact);
+                const Engine::UI::UIElement glyph = hud->Find(rt.HudUi, "Glyph");
+                hud->SetImage(glyph, LuminousInputDevice::GlyphPath(LuminousButtonGlyph::Interact));
+                hud->SetSize(glyph, { gw, gh });
+                for (const char* label : kLabels) hud->SetOffset(hud->Find(rt.HudUi, label), { 26.0f + gw + 22.0f, 10.0f });
             }
-            const bool showHint = showGameplayHUD && playing;
-            hud->SetVisibility(hud->Find(rt.HudUi, "PauseHint"),
-                               showHint ? Engine::UI::UIVisibility::Visible : Engine::UI::UIVisibility::Collapsed);
-            LuminousUICompare::Check("HudPauseHint", *hud, rt.HudUi, [&] {
-                if (showHint) DrawControlHint(28.0f, screenH - 62.0f, LuminousButtonGlyph::Pause, "PAUSE / CONTROLS", 34.0f);
+            const bool showHud = showGameplayHUD && playing;
+            const bool showPrompt = showHud && player.CanInteract && player.InteractKind != LuminousInteractKind::None;
+            const auto show = [&](const char* name, bool visible) {
+                hud->SetVisibility(hud->Find(rt.HudUi, name), visible ? UIVisibility::Visible : UIVisibility::Collapsed);
+            };
+            show("Crosshair", showHud);
+            show("Prompt", showPrompt);
+            // 置く / 取る / 開ける で行動名の絵を出し分ける
+            show(kLabels[0], player.InteractKind != LuminousInteractKind::PlaceOrb && player.InteractKind != LuminousInteractKind::OpenChest);
+            show(kLabels[1], player.InteractKind == LuminousInteractKind::PlaceOrb);
+            show(kLabels[2], player.InteractKind == LuminousInteractKind::OpenChest);
+            show("OrbIcon", showHud && player.IsHoldingOrb);
+            show("PauseHint", showHud);
+            LuminousUICompare::Check("Hud", *hud, rt.HudUi, [&] {
+                LuminousLegacyDrawHud(screenW, screenH, showHud, player.CanInteract, player.InteractKind, player.IsHoldingOrb);
             });
         }
 
@@ -2842,8 +2857,21 @@ export namespace App::Luminous {
             }
         }
 
-        // 7. ステージ開始オーバーレイ (画面中央)
-        rt.StageIntro.Draw(screenW, screenH);
+        // 7. ステージ開始オーバーレイ (画面中央。UI の仕組み。StageIntro.ui.json。21 の U8 の 6)。
+        //    時間の進め方は前のまま (StageIntroOverlay)。ポーズ・クリアより手前に出す
+        if (auto* intro = ctx.FindService<Engine::UI::UISystem>()) {
+            if (!intro->IsOpen(rt.IntroUi)) {
+                rt.IntroUi = intro->Open(LuminousScreenAssets::StageIntro, { .SortOrder = LuminousScreenOrder::Intro });
+            }
+            const Engine::UI::UIElement title = intro->Find(rt.IntroUi, "Title");
+            const float alpha = rt.StageIntro.Alpha();
+            if (alpha > 0.002f) {
+                intro->SetImage(title, rt.StageIntro.ImagePath());
+                intro->SetColor(title, { 1.0f, 1.0f, 1.0f, alpha });
+            }
+            intro->SetVisibility(title, alpha > 0.002f ? Engine::UI::UIVisibility::Visible : Engine::UI::UIVisibility::Collapsed);
+            LuminousUICompare::Check("StageIntro", *intro, rt.IntroUi, [&] { rt.StageIntro.Draw(screenW, screenH); });
+        }
 
         // 8. 画面全体のフェード (最前面)
         LuminousTransition::Get().Draw(ctx.GetRegistry());

@@ -230,10 +230,12 @@ export namespace App::Luminous {
 
         bool IsActive() const { return active_; }
 
+        // 出す絵 (ステージ名)
+        const std::string& ImagePath() const { return imagePath_; }
 
-        void Draw(float screenW, float screenH) const {
-            if (!active_) return;
-
+        // 今の透明度 (0.002 以下なら描かない)。フェードイン → 保つ → フェードアウトの折れ線を、端が滑らかになるように均す
+        float Alpha() const {
+            if (!active_) return 0.0f;
             float a;
             if (timer_ < FADE_IN) {
                 a = timer_ / FADE_IN;
@@ -244,7 +246,12 @@ export namespace App::Luminous {
             }
             a = std::clamp(a, 0.0f, 1.0f);
             // 端を滑らかに見せるためイーズ
-            a = a * a * (3.0f - 2.0f * a);
+            return a * a * (3.0f - 2.0f * a);
+        }
+
+        // 前の描き方 (比べる道具のためだけに残す。21 の U8 が済んだら消す。今は UI の仕組みの StageIntro.ui.json が出す)
+        void Draw(float screenW, float screenH) const {
+            const float a = Alpha();
             if (a <= 0.002f) return;
 
             const float w = std::min(1000.0f, screenW * 0.62f);

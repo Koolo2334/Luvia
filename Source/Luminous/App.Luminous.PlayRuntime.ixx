@@ -138,6 +138,7 @@ export namespace App::Luminous {
         Engine::UI::UIInstanceId PauseUi;
         int PauseGlyphSet = -1;
         Engine::UI::UIElement PauseLastFocus;   // 選択が変わったら音を鳴らす
+        Engine::UI::UIInstanceId IntroUi;       // ステージ名 (ステージを始めたとき)
         Engine::UI::UIInstanceId ClearUi;
         int ClearGlyphSet = -1;
         Engine::UI::UIElement ClearLastFocus;

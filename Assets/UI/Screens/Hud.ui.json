@@ -10,6 +10,67 @@
     "name": "Root",
     "children": [
       {
+        "kind": "Image",
+        "name": "Crosshair",
+        "offset": [928, 508],
+        "size": [64, 64],
+        "image": "Assets/UI/HUD/crosshair.png"
+      },
+      {
+        "kind": "Canvas",
+        "name": "Prompt",
+        "offset": [680, 884],
+        "size": [560, 76],
+        "visibility": "collapsed",
+        "children": [
+          {
+            "kind": "Image",
+            "name": "Frame",
+            "size": [560, 76],
+            "image": "Assets/UI/HUD/prompt_frame.png"
+          },
+          {
+            "kind": "Image",
+            "name": "Glyph",
+            "offset": [26, 10],
+            "size": [56, 56]
+          },
+          {
+            "kind": "Image",
+            "name": "LabelTakeOrb",
+            "offset": [104, 10],
+            "size": [400, 56],
+            "visibility": "collapsed",
+            "image": "Assets/UI/HUD/label_take_orb.png"
+          },
+          {
+            "kind": "Image",
+            "name": "LabelPlaceOrb",
+            "offset": [104, 10],
+            "size": [400, 56],
+            "visibility": "collapsed",
+            "image": "Assets/UI/HUD/label_place_orb.png"
+          },
+          {
+            "kind": "Image",
+            "name": "LabelOpenChest",
+            "offset": [104, 10],
+            "size": [400, 56],
+            "visibility": "collapsed",
+            "image": "Assets/UI/HUD/label_open_chest.png"
+          }
+        ]
+      },
+      {
+        "kind": "Image",
+        "name": "OrbIcon",
+        "offset": [1824, 984],
+        "size": [64, 64],
+        "visibility": "collapsed",
+        "image": "Assets/UI/HUD/orb_icon.png",
+        "color": [1, 0.9, 0.45, 1]
+      },
+      {
         "kind": "Nested",
         "name": "PauseHint",
         "asset": "Assets/UI/Screens/ControlHint.ui.json",
