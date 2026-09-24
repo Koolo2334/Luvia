@@ -10,6 +10,7 @@ export module App.Luminous.InputConfig;
 
 import Engine.Input;
 import Engine.Math;
+import Engine.UI.EngineInput;
 
 export namespace App::Luminous {
 
@@ -152,6 +153,10 @@ export namespace App::Luminous {
             ui.CreateButtonAction(LuminousActions::Start);
             ui.BindKey(LuminousActions::Start, Pause);
             ui.BindPadButton(LuminousActions::Start, PadPause);
+
+            // UI の仕組み (21) も同じメニューのアクションで動かす (決まりで使えるキーだけ。割り当ての変更もそのまま効く)
+            Engine::UI::SetUIInputActions({ LuminousActions::NavUp, LuminousActions::NavDown, LuminousActions::NavLeft,
+                                            LuminousActions::NavRight, LuminousActions::Confirm, LuminousActions::Cancel });
 
             InputManager::ChangeBindType(InputBindType::GAMEPLAY);
 

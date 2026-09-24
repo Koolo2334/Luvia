@@ -1,0 +1,182 @@
+{
+  "version": 1,
+  "reference": {
+    "width": 1920,
+    "height": 1080,
+    "scale": "fitSmaller"
+  },
+  "styleImports": [
+    "Assets/UI/Screens/LuviaStyles.ui.json"
+  ],
+  "root": {
+    "kind": "Canvas",
+    "name": "Root",
+    "focusOnHover": true,
+    "navWrap": true,
+    "children": [
+      {
+        "kind": "Border",
+        "name": "Dim",
+        "anchor": "fill",
+        "size": [0, 0],
+        "background": [0, 0.02, 0.05, 0.66]
+      },
+      {
+        "kind": "Image",
+        "name": "Panel",
+        "offset": [490, 230],
+        "size": [540, 620],
+        "image": "Assets/UI/Pause/pause_panel.png"
+      },
+      {
+        "kind": "Button",
+        "name": "Resume",
+        "style": "MenuButton",
+        "offset": [550, 354],
+        "size": [420, 68],
+        "image": "Assets/UI/Buttons/btn_resume_normal.png",
+        "hoveredImage": "Assets/UI/Buttons/btn_resume_hover.png",
+        "pressedImage": "Assets/UI/Buttons/btn_resume_hover.png"
+      },
+      {
+        "kind": "Button",
+        "name": "Restart",
+        "style": "MenuButton",
+        "offset": [550, 444],
+        "size": [420, 68],
+        "image": "Assets/UI/Buttons/btn_restart_normal.png",
+        "hoveredImage": "Assets/UI/Buttons/btn_restart_hover.png",
+        "pressedImage": "Assets/UI/Buttons/btn_restart_hover.png"
+      },
+      {
+        "kind": "Button",
+        "name": "StageSelect",
+        "style": "MenuButton",
+        "offset": [550, 534],
+        "size": [420, 68],
+        "image": "Assets/UI/Buttons/btn_stage_select_normal.png",
+        "hoveredImage": "Assets/UI/Buttons/btn_stage_select_hover.png",
+        "pressedImage": "Assets/UI/Buttons/btn_stage_select_hover.png"
+      },
+      {
+        "kind": "Button",
+        "name": "Editor",
+        "style": "MenuButton",
+        "offset": [550, 624],
+        "size": [420, 68],
+        "image": "Assets/UI/Buttons/btn_editor_normal.png",
+        "hoveredImage": "Assets/UI/Buttons/btn_editor_hover.png",
+        "pressedImage": "Assets/UI/Buttons/btn_editor_hover.png"
+      },
+      {
+        "kind": "Button",
+        "name": "Title",
+        "style": "MenuButton",
+        "offset": [550, 714],
+        "size": [420, 68],
+        "image": "Assets/UI/Buttons/btn_title_normal.png",
+        "hoveredImage": "Assets/UI/Buttons/btn_title_hover.png",
+        "pressedImage": "Assets/UI/Buttons/btn_title_hover.png"
+      },
+      {
+        "kind": "Border",
+        "name": "Controls",
+        "offset": [1062, 230],
+        "size": [420, 620],
+        "background": [0.03, 0.055, 0.1, 0.82],
+        "borderColor": [0.86, 0.96, 0.99, 0.35],
+        "borderWidth": 1
+      },
+      {
+        "kind": "Text",
+        "name": "ControlsTitle",
+        "style": "BitmapText",
+        "offset": [1096, 260],
+        "text": "CONTROLS",
+        "fontSize": 26,
+        "color": [0.86, 0.96, 0.99, 1]
+      },
+      {
+        "kind": "Border",
+        "name": "ControlsLine",
+        "offset": [1096, 302],
+        "size": [352, 1],
+        "background": [0.86, 0.96, 0.99, 0.45]
+      },
+      {
+        "kind": "Text",
+        "name": "DeviceName",
+        "style": "BitmapText",
+        "offset": [1096, 314],
+        "fontSize": 16,
+        "color": [0.59, 0.77, 0.85, 0.95]
+      },
+      {
+        "kind": "Nested",
+        "name": "HintMove",
+        "asset": "Assets/UI/Screens/ControlHint.ui.json",
+        "offset": [1096, 362],
+        "overrides": {
+          "Label": {
+            "fontSize": 24.96
+          }
+        }
+      },
+      {
+        "kind": "Nested",
+        "name": "HintLook",
+        "asset": "Assets/UI/Screens/ControlHint.ui.json",
+        "offset": [1096, 438],
+        "overrides": {
+          "Label": {
+            "fontSize": 24.96
+          }
+        }
+      },
+      {
+        "kind": "Nested",
+        "name": "HintInteract",
+        "asset": "Assets/UI/Screens/ControlHint.ui.json",
+        "offset": [1096, 514],
+        "overrides": {
+          "Label": {
+            "fontSize": 24.96
+          }
+        }
+      },
+      {
+        "kind": "Nested",
+        "name": "HintPause",
+        "asset": "Assets/UI/Screens/ControlHint.ui.json",
+        "offset": [1096, 590],
+        "overrides": {
+          "Label": {
+            "fontSize": 24.96
+          }
+        }
+      },
+      {
+        "kind": "Nested",
+        "name": "HintConfirm",
+        "asset": "Assets/UI/Screens/ControlHint.ui.json",
+        "offset": [1096, 666],
+        "overrides": {
+          "Label": {
+            "fontSize": 24.96
+          }
+        }
+      },
+      {
+        "kind": "Nested",
+        "name": "HintCancel",
+        "asset": "Assets/UI/Screens/ControlHint.ui.json",
+        "offset": [1096, 742],
+        "overrides": {
+          "Label": {
+            "fontSize": 24.96
+          }
+        }
+      }
+    ]
+  }
+}

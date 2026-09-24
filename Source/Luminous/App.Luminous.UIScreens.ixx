@@ -35,6 +35,7 @@ export namespace App::Luminous {
     namespace LuminousScreenAssets {
         inline constexpr const char* Fade = "Assets/UI/Screens/Fade.ui.json";
         inline constexpr const char* Hud = "Assets/UI/Screens/Hud.ui.json";
+        inline constexpr const char* Pause = "Assets/UI/Screens/Pause.ui.json";
     }
 
     // 手前に出す順 (大きいほど手前)。暗転はいちばん手前
@@ -75,7 +76,10 @@ export namespace App::Luminous {
     // ------------------------------------------------------------------------
     // 古い描き方と新しい UI の四角を比べる (21 の §14-1)。--set luvia.uiCompare=true のときだけ動く。
     //   このフレームの古い描き方 (draw) を横取りしておき、次に呼ばれたときに、新しい UI の今の命令
-    //   (= そのフレームの UI の Update の結果) と比べる。結果が変わったときだけログへ出す
+    //   (= そのフレームの UI の Update の結果) と比べる。結果が変わったときだけログへ出す。
+    //   古い描き方はゲームの更新の中 (UI の Update より前) で、その時の選択を見て描くので、UI の Update で
+    //   選択が変わったフレームだけは 1 フレーム違って見える。違いは 2 フレーム続いたときだけ WARN にし、
+    //   1 フレームで戻ったものは INFO で「1 フレームだけ」と出す (見た目のちらつきなら、ここで分かる)
     // ------------------------------------------------------------------------
     class LuminousUICompare {
     public:
@@ -91,10 +95,22 @@ export namespace App::Luminous {
             if (entry.HasPending) {
                 std::string report;
                 const bool same = Engine::Graphics::UIRenderer::CompareSprites(entry.Pending, ui.GetCommands(id), &report);
-                if (report != entry.LastReport) {
-                    entry.LastReport = report;
-                    if (same) ENGINE_LOG_INFO("LuviaUI", "UICompare {}: {}", screen, report);
-                    else      ENGINE_LOG_WARN("LuviaUI", "UICompare {}: {}", screen, report);
+                if (same) {
+                    if (entry.MismatchFrames == 1) {
+                        ENGINE_LOG_INFO("LuviaUI", "UICompare {}: 1 frame only (selection changed in that frame's UI update): {}",
+                                        screen, entry.FirstMismatch);
+                    }
+                    entry.MismatchFrames = 0;
+                    if (report != entry.LastReport) {
+                        entry.LastReport = report;
+                        ENGINE_LOG_INFO("LuviaUI", "UICompare {}: {}", screen, report);
+                    }
+                } else {
+                    if (++entry.MismatchFrames == 1) entry.FirstMismatch = report;
+                    else if (report != entry.LastReport) {
+                        entry.LastReport = report;
+                        ENGINE_LOG_WARN("LuviaUI", "UICompare {}: {} ({} frames)", screen, report, entry.MismatchFrames);
+                    }
                 }
             }
             entry.Pending.clear();
@@ -113,6 +129,8 @@ export namespace App::Luminous {
             std::vector<Engine::Graphics::UISpriteInstance> Pending;
             bool HasPending = false;
             std::string LastReport;
+            int MismatchFrames = 0;       // 続けて違ったフレームの数
+            std::string FirstMismatch;    // 違い始めたフレームの結果
         };
         static std::unordered_map<std::string, Entry>& Entries() {
             static std::unordered_map<std::string, Entry> entries;

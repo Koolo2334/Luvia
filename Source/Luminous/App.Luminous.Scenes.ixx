@@ -595,6 +595,66 @@ export namespace App::Luminous {
         return height * LuminousInputDevice::GlyphAspect(glyph) + 10.0f + static_cast<float>(label.size()) * textSize * 0.56f + 36.0f;
     }
 
+    // ------------------------------------------------------------------------
+    // 前の描き方 (比べる道具のためだけに残す。21 の U8 が済んだら消す)。
+    //   前のコードから描くところだけを写した (入力・行き先の処理は新しい UI の側にある)
+    // ------------------------------------------------------------------------
+    inline void LuminousLegacyDrawPause(float screenW, float screenH, int selection, const Vector2& mouse, bool isMouseDown) {
+        auto& ui = Engine::Graphics::UIRenderer::Get();
+        const float centerX = screenW * 0.5f;
+        const float centerY = screenH * 0.5f;
+        ui.DrawPanel(0.0f, 0.0f, screenW, screenH, { 0.0f, 0.02f, 0.05f, 0.66f });
+
+        const float panelW = 540.0f;
+        const float panelH = 620.0f;
+        const float panelX = centerX - panelW * 0.5f - 200.0f;
+        const float panelY = centerY - panelH * 0.5f;
+        ui.DrawImage(LuminousUIConfig::Image_Pause_Panel.FilePath, panelX, panelY, panelW, panelH);
+
+        struct Item { const UIImageConfig* Normal; const UIImageConfig* Hover; };
+        const Item items[] = {
+            { &LuminousUIConfig::Image_Btn_Resume_Normal,      &LuminousUIConfig::Image_Btn_Resume_Hover },
+            { &LuminousUIConfig::Image_Btn_Restart_Normal,     &LuminousUIConfig::Image_Btn_Restart_Hover },
+            { &LuminousUIConfig::Image_Btn_StageSelect_Normal, &LuminousUIConfig::Image_Btn_StageSelect_Hover },
+            { &LuminousUIConfig::Image_Btn_Editor_Normal,      &LuminousUIConfig::Image_Btn_Editor_Hover },
+            { &LuminousUIConfig::Image_Btn_Title_Normal,       &LuminousUIConfig::Image_Btn_Title_Hover },
+        };
+        const float btnW = 420.0f;
+        const float btnH = 68.0f;
+        const float btnX = panelX + (panelW - btnW) * 0.5f;
+        const float btnStartY = panelY + 124.0f;
+        const float btnGap = 90.0f;
+        for (int i = 0; i < 5; ++i) {
+            const float by = btnStartY + i * btnGap;
+            (void)ui.DrawButton(items[i].Normal->FilePath, items[i].Hover->FilePath, items[i].Hover->FilePath,
+                btnX, by, btnW, btnH, mouse.x, mouse.y, isMouseDown, false, nullptr, i == selection, false);
+        }
+
+        const float cx = panelX + panelW + 32.0f;
+        const float cy = panelY;
+        const float cw = 420.0f;
+        const float ch = panelH;
+        ui.DrawPanel(cx, cy, cw, ch, { 0.03f, 0.055f, 0.10f, 0.82f });
+        DrawUIFrame(cx, cy, cw, ch, 1.0f, { 0.86f, 0.96f, 0.99f, 0.35f });
+        ui.DrawString("CONTROLS", cx + 34.0f, cy + 30.0f, 26.0f, { 0.86f, 0.96f, 0.99f, 1.0f });
+        ui.DrawPanel(cx + 34.0f, cy + 72.0f, cw - 68.0f, 1.0f, { 0.86f, 0.96f, 0.99f, 0.45f });
+        ui.DrawString(LuminousInputDevice::SetLabel(LuminousInputDevice::Current), cx + 34.0f, cy + 84.0f, 16.0f, { 0.59f, 0.77f, 0.85f, 0.95f });
+        struct Row { LuminousButtonGlyph Glyph; const char* Label; };
+        const Row rows[] = {
+            { LuminousButtonGlyph::Move,     "MOVE" },
+            { LuminousButtonGlyph::Look,     "LOOK" },
+            { LuminousButtonGlyph::Interact, "TAKE / PLACE ORB" },
+            { LuminousButtonGlyph::Pause,    "PAUSE" },
+            { LuminousButtonGlyph::Confirm,  "DECIDE (MENU)" },
+            { LuminousButtonGlyph::Cancel,   "BACK (MENU)" },
+        };
+        float ry = cy + 132.0f;
+        for (const auto& row : rows) {
+            DrawControlHint(cx + 34.0f, ry, row.Glyph, row.Label, 52.0f);
+            ry += 76.0f;
+        }
+    }
+
     // ========================================================================
     // タイトル画面 (完全 ImGui フリー、360 度パノラマ回転背景)
     // ========================================================================
@@ -1593,8 +1653,12 @@ export namespace App::Luminous {
     inline void LuminousPlayTeardown(const Engine::Core::SystemContext& ctx) {
         auto& rt = PlayRuntime(ctx.GetRegistry());
         Input::SetCursorLocked(false);
-        if (auto* ui = ctx.FindService<Engine::UI::UISystem>()) ui->Close(rt.HudUi);
+        if (auto* ui = ctx.FindService<Engine::UI::UISystem>()) {
+            ui->Close(rt.HudUi);
+            ui->Close(rt.PauseUi);
+        }
         rt.HudUi = {};
+        rt.PauseUi = {};
 
         auto& registry = ctx.GetRegistry();
         auto DestroyWithSubMeshes = [&](entt::entity e) {
@@ -2376,105 +2440,97 @@ export namespace App::Luminous {
             });
         }
 
-        // 5. ポーズメニュー
-        if (rt.Paused && !player.IsStageCleared && !debugActive) {
-            Input::SetCursorLocked(false);
-            ui.DrawPanel(0.0f, 0.0f, screenW, screenH, { 0.0f, 0.02f, 0.05f, 0.66f });
-
-            const float panelW = 540.0f;
-            const float panelH = 620.0f;
-            const float panelX = centerX - panelW * 0.5f - 200.0f;
-            const float panelY = centerY - panelH * 0.5f;
-            ui.DrawImage(LuminousUIConfig::Image_Pause_Panel.FilePath, panelX, panelY, panelW, panelH);
-
-            struct Item { const UIImageConfig* Normal; const UIImageConfig* Hover; };
-            const Item items[] = {
-                { &LuminousUIConfig::Image_Btn_Resume_Normal,      &LuminousUIConfig::Image_Btn_Resume_Hover },
-                { &LuminousUIConfig::Image_Btn_Restart_Normal,     &LuminousUIConfig::Image_Btn_Restart_Hover },
-                { &LuminousUIConfig::Image_Btn_StageSelect_Normal, &LuminousUIConfig::Image_Btn_StageSelect_Hover },
-                { &LuminousUIConfig::Image_Btn_Editor_Normal,      &LuminousUIConfig::Image_Btn_Editor_Hover },
-                { &LuminousUIConfig::Image_Btn_Title_Normal,       &LuminousUIConfig::Image_Btn_Title_Hover },
-            };
-            constexpr int itemCount = 5;
-            rt.Cursor.BeginFrame(realDt, itemCount, mPos);
-            const Vector2 menuMouse = rt.Cursor.Mouse();
-
-            const float btnW = 420.0f;
-            const float btnH = 68.0f;
-            const float btnX = panelX + (panelW - btnW) * 0.5f;
-            const float btnStartY = panelY + 124.0f;
-            const float btnGap = 90.0f;
-
-            int activated = -1;
-            for (int i = 0; i < itemCount; ++i) {
-                const float by = btnStartY + i * btnGap;
-                rt.Cursor.Item(i, btnX, by, btnW, btnH);
-                if (ui.DrawButton(items[i].Normal->FilePath, items[i].Hover->FilePath, items[i].Hover->FilePath,
-                    btnX, by, btnW, btnH, menuMouse.x, menuMouse.y, isMouseDown, isMouseClick, nullptr,
-                    rt.Cursor.Is(i), rt.Cursor.Activated(i))) {
-                    activated = i;
+        // 5. ポーズメニュー (UI の仕組み。Pause.ui.json。21 の U8 の 2)
+        if (auto* menu = ctx.FindService<Engine::UI::UISystem>()) {
+            const bool pauseShown = rt.Paused && !player.IsStageCleared && !debugActive;
+            if (!pauseShown && menu->IsOpen(rt.PauseUi)) {
+                menu->Close(rt.PauseUi);
+                rt.PauseUi = {};
+                LuminousUICompare::Reset("Pause");
+            }
+            if (pauseShown) {
+                Input::SetCursorLocked(false);
+                const char* const kButtons[] = { "Resume", "Restart", "StageSelect", "Editor", "Title" };
+                if (!menu->IsOpen(rt.PauseUi)) {
+                    rt.PauseUi = menu->Open(LuminousScreenAssets::Pause, { .SortOrder = LuminousScreenOrder::Menu });
+                    rt.PauseGlyphSet = -1;
+                    rt.PauseLastFocus = menu->Find(rt.PauseUi, kButtons[0]);
+                    menu->SetFocus(rt.PauseLastFocus);
                 }
-            }
-            if (rt.Cursor.EndFrame()) {
-                Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Hover.FilePath, LuminousAudioConfig::SE_UI_Hover.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-            }
+                if (rt.PauseGlyphSet != static_cast<int>(LuminousInputDevice::Current)) {
+                    rt.PauseGlyphSet = static_cast<int>(LuminousInputDevice::Current);
+                    menu->SetText(menu->Find(rt.PauseUi, "DeviceName"), LuminousInputDevice::SetLabel(LuminousInputDevice::Current));
+                    struct HintRow { const char* Name; LuminousHint Hint; };
+                    const HintRow hints[] = {
+                        { "HintMove",     { LuminousButtonGlyph::Move,     "MOVE" } },
+                        { "HintLook",     { LuminousButtonGlyph::Look,     "LOOK" } },
+                        { "HintInteract", { LuminousButtonGlyph::Interact, "TAKE / PLACE ORB" } },
+                        { "HintPause",    { LuminousButtonGlyph::Pause,    "PAUSE" } },
+                        { "HintConfirm",  { LuminousButtonGlyph::Confirm,  "DECIDE (MENU)" } },
+                        { "HintCancel",   { LuminousButtonGlyph::Cancel,   "BACK (MENU)" } },
+                    };
+                    for (const HintRow& row : hints) LuminousUIScreens::ApplyHint(*menu, rt.PauseUi, row.Name, row.Hint, 52.0f);
+                }
 
-            // 戻るボタンでも再開
-            if (activated < 0 && LuminousInput::CancelPressed()) activated = 0;
+                // 選んでいるボタンが変わったら音 (マウスが乗っても、キーで動かしても)
+                const Engine::UI::UIElement focus = menu->GetFocus();
+                if (focus.Instance == rt.PauseUi && !(focus == rt.PauseLastFocus)) {
+                    rt.PauseLastFocus = focus;
+                    Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Hover.FilePath, LuminousAudioConfig::SE_UI_Hover.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+                }
+                // 押した (クリック・決定。前の UI の Update で起きたこと)
+                int activated = -1;
+                for (const Engine::UI::UIEventRecord& e : menu->GetEvents()) {
+                    if (e.Type != Engine::UI::UIEventType::Clicked || !(e.Element.Instance == rt.PauseUi)) continue;
+                    for (int i = 0; i < 5; ++i) {
+                        if (e.Element == menu->Find(rt.PauseUi, kButtons[i])) activated = i;
+                    }
+                }
 
-            switch (activated) {
-            case 0:
-                Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Cancel.FilePath, LuminousAudioConfig::SE_UI_Cancel.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                rt.Paused = false;
-                Input::SetCursorLocked(true);
-                return;
-            case 1:
-                Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                LuminousGoToStage(registry, rt.StagePath, rt.StageNumber, rt.ReturnToEditorOnExit);
-                return;
-            case 2:
-                Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                LuminousGoToStageSelect(registry);
-                return;
-            case 3:
-                Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                // エディタは「いま遊んでいるステージ」を開く。
-                //   行き先はファイルなので、パスを預けて渡す (計画 18 の段 3)
-                Session(registry).StagePath = rt.StagePath;
-                LuminousTransition::Get().ChangeScene(LuminousScenes::Editor);
-                return;
-            case 4:
-                Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
-                LuminousTransition::Get().ChangeScene(LuminousScenes::Title);
-                return;
-            default:
-                break;
-            }
+                // 前の描き方と四角を比べる (--set luvia.uiCompare=true)。選んでいるボタンと、乗っているときのマウス
+                if (LuminousUICompare::Enabled()) {
+                    int selection = -1;
+                    for (int i = 0; i < 5; ++i) {
+                        if (focus == menu->Find(rt.PauseUi, kButtons[i])) selection = i;
+                    }
+                    const bool hovering = menu->GetHovered().Instance == rt.PauseUi;
+                    const Vector2 legacyMouse = hovering ? mPos : Vector2(-100000.0f, -100000.0f);
+                    LuminousUICompare::Check("Pause", *menu, rt.PauseUi, [&] {
+                        LuminousLegacyDrawPause(screenW, screenH, selection, legacyMouse, isMouseDown);
+                    });
+                }
 
-            // 操作一覧 (操作中のデバイスに合わせたボタン画像)
-            const float cx = panelX + panelW + 32.0f;
-            const float cy = panelY;
-            const float cw = 420.0f;
-            const float ch = panelH;
-            ui.DrawPanel(cx, cy, cw, ch, { 0.03f, 0.055f, 0.10f, 0.82f });
-            DrawUIFrame(cx, cy, cw, ch, 1.0f, { 0.86f, 0.96f, 0.99f, 0.35f });
-            ui.DrawString("CONTROLS", cx + 34.0f, cy + 30.0f, 26.0f, { 0.86f, 0.96f, 0.99f, 1.0f });
-            ui.DrawPanel(cx + 34.0f, cy + 72.0f, cw - 68.0f, 1.0f, { 0.86f, 0.96f, 0.99f, 0.45f });
-            ui.DrawString(LuminousInputDevice::SetLabel(LuminousInputDevice::Current), cx + 34.0f, cy + 84.0f, 16.0f, { 0.59f, 0.77f, 0.85f, 0.95f });
+                // 戻るボタンでも再開
+                if (activated < 0 && LuminousInput::CancelPressed()) activated = 0;
 
-            struct Row { LuminousButtonGlyph Glyph; const char* Label; };
-            const Row rows[] = {
-                { LuminousButtonGlyph::Move,     "MOVE" },
-                { LuminousButtonGlyph::Look,     "LOOK" },
-                { LuminousButtonGlyph::Interact, "TAKE / PLACE ORB" },
-                { LuminousButtonGlyph::Pause,    "PAUSE" },
-                { LuminousButtonGlyph::Confirm,  "DECIDE (MENU)" },
-                { LuminousButtonGlyph::Cancel,   "BACK (MENU)" },
-            };
-            float ry = cy + 132.0f;
-            for (const auto& row : rows) {
-                DrawControlHint(cx + 34.0f, ry, row.Glyph, row.Label, 52.0f);
-                ry += 76.0f;
+                switch (activated) {
+                case 0:
+                    Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Cancel.FilePath, LuminousAudioConfig::SE_UI_Cancel.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+                    rt.Paused = false;
+                    Input::SetCursorLocked(true);
+                    return;
+                case 1:
+                    Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+                    LuminousGoToStage(registry, rt.StagePath, rt.StageNumber, rt.ReturnToEditorOnExit);
+                    return;
+                case 2:
+                    Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+                    LuminousGoToStageSelect(registry);
+                    return;
+                case 3:
+                    Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+                    // エディタは「いま遊んでいるステージ」を開く。
+                    //   行き先はファイルなので、パスを預けて渡す (計画 18 の段 3)
+                    Session(registry).StagePath = rt.StagePath;
+                    LuminousTransition::Get().ChangeScene(LuminousScenes::Editor);
+                    return;
+                case 4:
+                    Engine::Audio::AudioEngine::Get().Play2D(LuminousAudioConfig::SE_UI_Click.FilePath, LuminousAudioConfig::SE_UI_Click.DefaultVolume, 1.0f, Engine::Audio::SoundBus::UI);
+                    LuminousTransition::Get().ChangeScene(LuminousScenes::Title);
+                    return;
+                default:
+                    break;
+                }
             }
         }
 

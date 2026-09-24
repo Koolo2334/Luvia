@@ -133,6 +133,9 @@ export namespace App::Luminous {
         // 画面の UI (21 の U8。片付けで閉じる)
         Engine::UI::UIInstanceId HudUi;
         int HudGlyphSet = -1;   // 操作の案内の絵を入れた機器 (変わったら入れ直す)
+        Engine::UI::UIInstanceId PauseUi;
+        int PauseGlyphSet = -1;
+        Engine::UI::UIElement PauseLastFocus;   // 選択が変わったら音を鳴らす
     };
 
     // いま走っている本編の持ち物。無ければ作って返す
