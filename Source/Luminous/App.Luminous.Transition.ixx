@@ -1,5 +1,6 @@
 ﻿module;
 
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <algorithm>
@@ -18,6 +19,7 @@ import Engine.Graphics.MaterialManager;
 import Engine.Graphics.Assets.Material;
 import Engine.Graphics.Components.Material;
 import Engine.Core.Services;
+import Engine.Core.EngineState;   // プレイの番号 (止めてもう一度 Play を押したら作り直す)
 import Engine.UI.Types;
 import Engine.UI.System;
 import App.Luminous.UIScreens;
@@ -58,6 +60,17 @@ export namespace App::Luminous {
     public:
         static LuminousTransition& Get() {
             static LuminousTransition s;
+            // エディタで止めて、もう一度 Play を押したら作り直す。前のプレイの暗転や切り替え待ちのシーンを
+            //   持ち越すと、暗転の途中で止めたとき、次のプレイが始まってすぐにシーンが変わった。
+            //   最初のプレイ (まだ番号を見ていない) では作り直さない (起動時の暗転を消さないため)
+            const uint64_t session = Engine::Core::PlaySessionNumber();
+            if (session != s.session_) {
+                if (s.session_ != 0) {
+                    s.Reset();
+                    s.fadeUi_ = {};
+                }
+                s.session_ = session;
+            }
             return s;
         }
 
@@ -194,6 +207,7 @@ export namespace App::Luminous {
         float timer_ = 0.0f;
         std::shared_ptr<Engine::Core::IScene> pending_;
         Engine::UI::UIInstanceId fadeUi_;   // 暗幕の UI
+        uint64_t session_ = 0;              // 最後に見たプレイの番号 (Engine::Core::PlaySessionNumber)
     };
 
     // ========================================================================
