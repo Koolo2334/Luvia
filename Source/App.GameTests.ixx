@@ -10,6 +10,9 @@
 #include <string>
 #include <vector>
 #include <iterator>
+#include <cstdlib>
+#include <fstream>
+#include <filesystem>
 #include <entt/entt.hpp>
 #include <DirectXMath.h>
 
@@ -30,6 +33,7 @@ import App.Luminous.InputConfig;
 import App.Luminous.Profile;   // 自作ステージの一覧・進み具合のファイル
 import App.Luminous.StageCatalog;   // 基本ステージの一覧
 import Engine.Common.Config;   // Paths
+import Engine.Core.SaveGame;   // 進み具合はエンジンのセーブデータへ (22 の R-10-6)
 
 // ============================================================================
 // ゲームの自己テスト
@@ -341,6 +345,56 @@ namespace App {
                 "App", __FILE__, __LINE__,
                 std::format("Project-relative files (another working directory): custom stage found={} loads={}, "
                             "profile in the project={} ('{}')", foundStage, stageLoads, profileInProject, profile));
+        }
+
+        // ====================================================================
+        // 進み具合はエンジンのセーブデータ (スロット "Profile") に書く (22 の R-10-6)。
+        //   まだ無ければ前のファイル (Assets/Data/profile.json) を初めの進み具合として読み、そのファイルは書き換えない。
+        //   本物のセーブを触らないよう、テストの間だけ保存先を一時フォルダにする
+        // ====================================================================
+        {
+            using namespace App::Luminous;
+            namespace fs = std::filesystem;
+            wchar_t tempBuffer[MAX_PATH] = {};
+            GetTempPathW(MAX_PATH, tempBuffer);
+            const fs::path root = fs::path(tempBuffer) / std::format(L"RaDX_LuviaProfileTest_{}", GetCurrentProcessId());
+            std::error_code ec;
+            fs::remove_all(root, ec);
+            Engine::Core::SaveGame::SetDirectory(root);
+
+            auto readAll = [](const fs::path& file) {
+                std::ifstream in(file, std::ios::binary);
+                return std::string(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
+            };
+            const fs::path legacy = Engine::Common::Paths::Resolve(fs::path("Assets/Data/profile.json"));
+            const std::string legacyBefore = readAll(legacy);
+            int legacyHighest = 0;
+            if (const size_t at = legacyBefore.find("\"highest_cleared_stage\""); at != std::string::npos) {
+                legacyHighest = std::atoi(legacyBefore.c_str() + legacyBefore.find(':', at) + 1);
+            }
+
+            ProfileManager first;
+            first.Load();   // スロットはまだ無い → 前のファイル
+            const bool fromLegacy = first.GetHighestClearedStage() == legacyHighest;
+            first.RecordStageClear(legacyHighest + 1, 42.5f, 3, 2);   // クリアするとスロットへ書く
+            const bool slotWritten = Engine::Core::SaveGame::Exists("Profile");
+
+            ProfileManager second;
+            second.Load();   // 今度はスロットから
+            const StageRecord* record = second.GetRecord(legacyHighest + 1);
+            const bool fromSlot = second.GetHighestClearedStage() == legacyHighest + 1 && record && record->Cleared
+                                  && record->BestTime == 42.5f && record->OrbPickups == 3 && record->PedestalInserts == 2;
+            const bool legacyUntouched = readAll(legacy) == legacyBefore;
+
+            Engine::Core::SaveGame::SetDirectory({});
+            fs::remove_all(root, ec);
+
+            const bool ok = fromLegacy && slotWritten && fromSlot && legacyUntouched;
+            Engine::Debug::LogOutput(ok ? Engine::Debug::LogLevel::Info : Engine::Debug::LogLevel::Error,
+                "App", __FILE__, __LINE__,
+                std::format("Profile save: first run reads the old file={} (highest {}), a clear writes the slot={}, "
+                            "the next run reads the slot={}, the old file is untouched={}",
+                            fromLegacy, legacyHighest, slotWritten, fromSlot, legacyUntouched));
         }
     }
 

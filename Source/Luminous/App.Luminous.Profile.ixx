@@ -16,9 +16,38 @@
 #include <system_error>
 
 #include <DirectXMath.h>
+#include <RaDXReflect.h>   // セーブデータの形を宣言のすぐ下で登録する (22 の R-10-1)
 export module App.Luminous.Profile;
 
 import Engine.Common.Config;   // Paths (プロジェクトの中で読み書きする)
+import Engine.Core.Reflection;
+import Engine.Core.SaveGame;   // セーブデータ (22 の R-10-6)
+
+namespace App::Luminous {
+
+    // セーブデータの形 (エンジンの SaveGame が JSON にする。欄は名前で書くので、足しても古いものが読める)
+    struct ProfileStageSave {
+        int Stage = 0;
+        bool Cleared = false;
+        float BestTime = 99999.0f;
+        int OrbPickups = 0;
+        int PedestalInserts = 0;
+    };
+    RADX_STRUCT(ProfileStageSave, "Luvia.ProfileStage", RADX_FIELD(Stage), RADX_FIELD(Cleared), RADX_FIELD(BestTime),
+                RADX_FIELD(OrbPickups), RADX_FIELD(PedestalInserts));
+
+    struct ProfileSave {
+        int HighestClearedStage = 0;
+        std::vector<ProfileStageSave> Stages;
+    };
+    RADX_STRUCT(ProfileSave, "Luvia.Profile", RADX_FIELD(HighestClearedStage), RADX_FIELD(Stages));
+
+    constexpr const char* kProfileSlot = "Profile";
+    constexpr int kProfileVersion = 1;
+    // 前の版が進み具合を書いていたファイル。まだセーブが無いときの「初めの進み具合」として読む (消さない)
+    constexpr const char* kLegacyProfile = "Assets/Data/profile.json";
+
+} // namespace App::Luminous
 
 export namespace App::Luminous {
 
@@ -30,12 +59,15 @@ export namespace App::Luminous {
         int PedestalInserts = 0;
     };
 
-    // プレイヤー進行度・セーブデータ管理
+    // プレイヤー進行度・セーブデータ管理。
+    //   **エンジンのセーブデータ (SaveGame) のスロット "Profile" に書く** (22 の R-10-6)。
+    //   前は Assets/Data/profile.json (アセット) へ 1 行ずつ手で書いていたので、書いている途中で落ちると壊れ、
+    //   配布したゲームが書けない場所 (Program Files) に置かれると保存できなかった。
+    //   まだセーブが無ければ、そのファイルを初めの進み具合として読む (見た目・進み方は前と同じ)
     class ProfileManager {
     private:
         int highestClearedStage_ = 0;
         std::unordered_map<int, StageRecord> records_;
-        std::string savePath_ = "Assets/Data/profile.json";
         bool isLoaded_ = false;
 
     public:
@@ -110,21 +142,37 @@ export namespace App::Luminous {
             return stages;
         }
 
-        // 進み具合を書くファイル (プロジェクトの中の絶対パス)。
-        //   相対パスのまま開くと、エディタの Game ビューではエディタの置き場に書いていた
+        // 進み具合を書くファイル (作っている間は <プロジェクト>/Saved/SaveGames/Profile.save.json、
+        //   配布したゲームでは %LOCALAPPDATA%/Luvia/SaveGames/Profile.save.json)
         [[nodiscard]] std::filesystem::path SaveFile() const {
-            return Engine::Common::Paths::Resolve(std::filesystem::path(savePath_));
+            return Engine::Core::SaveGame::SlotFile(kProfileSlot);
         }
 
         bool HasCustomStages() {
             return !GetCustomStages().empty();
         }
 
-        void Load(const std::string& path = "Assets/Data/profile.json") {
-            savePath_ = path;
+        void Load() {
             isLoaded_ = true;
+            highestClearedStage_ = 0;
+            records_.clear();
 
-            std::ifstream file(SaveFile());
+            ProfileSave save;
+            if (Engine::Core::SaveGame::Load(kProfileSlot, save).Ok()) {
+                highestClearedStage_ = save.HighestClearedStage;
+                for (const ProfileStageSave& stage : save.Stages) {
+                    records_[stage.Stage] = StageRecord{ stage.Cleared, stage.BestTime, stage.OrbPickups, stage.PedestalInserts };
+                }
+                return;
+            }
+            // まだセーブが無い (か読めない): 前の版のファイルを初めの進み具合として読む
+            LoadLegacy();
+        }
+
+    private:
+        // 前の版の形 ("highest_cleared_stage" / "stage_1_cleared" / "stage_2_cleared" を 1 行ずつ)
+        void LoadLegacy() {
+            std::ifstream file(Engine::Common::Paths::Resolve(std::filesystem::path(kLegacyProfile)));
             if (!file.is_open()) return;
 
             std::string line;
@@ -148,21 +196,17 @@ export namespace App::Luminous {
             }
         }
 
-        void Save(const std::string& path = "") {
-            // プロジェクトの中へ書く (相対パスは Paths で直す。フォルダも作る)
-            const std::filesystem::path target = path.empty() ? SaveFile()
-                : Engine::Common::Paths::Resolve(std::filesystem::path(path));
-            std::error_code ec;
-            std::filesystem::create_directories(target.parent_path(), ec);
-
-            std::ofstream file(target);
-            if (!file.is_open()) return;
-
-            file << "{\n";
-            file << "  \"highest_cleared_stage\": " << highestClearedStage_ << ",\n";
-            file << "  \"stage_1_cleared\": " << (records_[1].Cleared ? "true" : "false") << ",\n";
-            file << "  \"stage_2_cleared\": " << (records_[2].Cleared ? "true" : "false") << "\n";
-            file << "}\n";
+    public:
+        // セーブデータへ書く (途中で落ちても前のものは残る。エンジンの SaveGame)
+        void Save() {
+            ProfileSave save;
+            save.HighestClearedStage = highestClearedStage_;
+            for (const auto& [stage, record] : records_) {
+                save.Stages.push_back(ProfileStageSave{ stage, record.Cleared, record.BestTime, record.OrbPickups, record.PedestalInserts });
+            }
+            std::sort(save.Stages.begin(), save.Stages.end(),
+                      [](const ProfileStageSave& a, const ProfileStageSave& b) { return a.Stage < b.Stage; });
+            Engine::Core::SaveGame::Save(kProfileSlot, save, kProfileVersion);
         }
     };
 
