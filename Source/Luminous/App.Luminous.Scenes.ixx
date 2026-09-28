@@ -40,8 +40,8 @@ import Engine.Graphics.MeshManager;
 import Engine.Graphics.TextureManager;
 import Engine.Input;
 import Engine.Math;
-import App.Graphics.DeferredPipeline;
-import App.Graphics.PassTags;
+import Engine.Renderer.DeferredPipeline;
+import Engine.Renderer.PassTags;
 import App.Luminous.OrbOcclusionData;
 import App.Luminous.Types;
 import Engine.Core.SystemRegistry;
@@ -69,7 +69,7 @@ import App.Luminous.DebugTools;
 import App.Luminous.UIScreens;
 import Engine.UI.Types;
 import Engine.UI.System;
-import App.Graphics.ParticleData;
+import Engine.Renderer.ParticleData;
 import Engine.Core.EngineState;
 import Engine.Core.Services;
 
@@ -173,8 +173,8 @@ export namespace App::Luminous {
         prefab.AddComponent<Engine::Graphics::MaterialComponent>(Engine::Graphics::MaterialComponent{
             .Handle = materialMgr->GetOrCreateConstant(materialMgr->GetAssetHandle("OneColor"), &data, sizeof(data))
         });
-        prefab.AddTag<App::Graphics::GBufferPassTag>();
-        if (castShadow) prefab.AddTag<App::Graphics::ShadowPassTag>();
+        prefab.AddTag<Engine::Renderer::GBufferPassTag>();
+        if (castShadow) prefab.AddTag<Engine::Renderer::ShadowPassTag>();
         return prefab;
     }
 
@@ -195,8 +195,8 @@ export namespace App::Luminous {
         prefab.AddComponent<Engine::Graphics::MaterialComponent>(Engine::Graphics::MaterialComponent{
             .Handle = materialMgr->GetOrCreateConstant(materialMgr->GetAssetHandle("OneColorTwoSided"), &data, sizeof(data))
         });
-        prefab.AddTag<App::Graphics::GBufferPassTag>();
-        prefab.AddTag<App::Graphics::ShadowPassTag>();
+        prefab.AddTag<Engine::Renderer::GBufferPassTag>();
+        prefab.AddTag<Engine::Renderer::ShadowPassTag>();
         return prefab;
     }
 
@@ -221,7 +221,7 @@ export namespace App::Luminous {
         prefab.AddComponent<Engine::Graphics::MaterialComponent>(Engine::Graphics::MaterialComponent{
             .Handle = materialMgr->GetOrCreateConstant(materialMgr->GetAssetHandle("GuidanceSpark"), &data, sizeof(data))
         });
-        prefab.AddTag<App::Graphics::TranslucentPassTag>();
+        prefab.AddTag<Engine::Renderer::TranslucentPassTag>();
         return prefab;
     }
 
@@ -240,7 +240,7 @@ export namespace App::Luminous {
         prefab.AddComponent<Engine::Graphics::MaterialComponent>(Engine::Graphics::MaterialComponent{
             .Handle = materialMgr->GetOrCreateConstant(materialMgr->GetAssetHandle("OneColorTranslucent"), &data, sizeof(data))
         });
-        prefab.AddTag<App::Graphics::TranslucentPassTag>();
+        prefab.AddTag<Engine::Renderer::TranslucentPassTag>();
         return prefab;
     }
 
@@ -252,7 +252,7 @@ export namespace App::Luminous {
         prefab.AddComponent<Engine::Graphics::MaterialComponent>(Engine::Graphics::MaterialComponent{
             .Handle = materialMgr->GetOrCreateConstant(materialMgr->GetAssetHandle("LuminousOrb"), &data, sizeof(data))
         });
-        prefab.AddTag<App::Graphics::TranslucentPassTag>();
+        prefab.AddTag<Engine::Renderer::TranslucentPassTag>();
         return prefab;
     }
 
@@ -269,7 +269,7 @@ export namespace App::Luminous {
         prefab.AddComponent<Engine::Graphics::MaterialComponent>(Engine::Graphics::MaterialComponent{
             .Handle = materialMgr->GetOrCreateConstant(materialMgr->GetAssetHandle("GuidanceSpark"), &data, sizeof(data))
         });
-        prefab.AddTag<App::Graphics::TranslucentPassTag>();
+        prefab.AddTag<Engine::Renderer::TranslucentPassTag>();
         return prefab;
     }
 
@@ -286,7 +286,7 @@ export namespace App::Luminous {
         prefab.AddComponent<Engine::Graphics::MaterialComponent>(Engine::Graphics::MaterialComponent{
             .Handle = materialMgr->GetOrCreateConstant(materialMgr->GetAssetHandle("GuidanceSpark"), &data, sizeof(data))
         });
-        prefab.AddTag<App::Graphics::TranslucentPassTag>();
+        prefab.AddTag<Engine::Renderer::TranslucentPassTag>();
         return prefab;
     }
 
@@ -306,8 +306,8 @@ export namespace App::Luminous {
         prefab.AddComponent<Engine::Graphics::MaterialComponent>(Engine::Graphics::MaterialComponent{
             .Handle = materialMgr->GetOrCreateConstant(materialMgr->GetAssetHandle("StoneCeiling"), &data, sizeof(data))
         });
-        prefab.AddTag<App::Graphics::GBufferPassTag>();
-        prefab.AddTag<App::Graphics::ShadowPassTag>();
+        prefab.AddTag<Engine::Renderer::GBufferPassTag>();
+        prefab.AddTag<Engine::Renderer::ShadowPassTag>();
         return prefab;
     }
 
@@ -325,7 +325,7 @@ export namespace App::Luminous {
         prefab.AddComponent<Engine::Graphics::MaterialComponent>(Engine::Graphics::MaterialComponent{
             .Handle = materialMgr->GetOrCreateConstant(materialMgr->GetAssetHandle("PhaseWall"), &data, sizeof(data))
         });
-        prefab.AddTag<App::Graphics::GBufferPassTag>();
+        prefab.AddTag<Engine::Renderer::GBufferPassTag>();
         // 反転マテリアルは影を落とさない (ShadowPassTag を付与しない)
         return prefab;
     }
@@ -344,7 +344,7 @@ export namespace App::Luminous {
         prefab.AddComponent<Engine::Graphics::MaterialComponent>(Engine::Graphics::MaterialComponent{
             .Handle = materialMgr->GetOrCreateConstant(materialMgr->GetAssetHandle("PhaseFloor"), &data, sizeof(data))
         });
-        prefab.AddTag<App::Graphics::GBufferPassTag>();
+        prefab.AddTag<Engine::Renderer::GBufferPassTag>();
         // 反転マテリアルは影を落とさない (ShadowPassTag を付与しない)
         return prefab;
     }
@@ -670,7 +670,7 @@ export namespace App::Luminous {
 
         // 8. パーティクル (すべて丸スプライトのビルボードとして ParticleBillboardPass で描画)
         rt.GuidanceStream.Reset();
-        App::Graphics::ParticleDrawList::Get(registry).Clear();
+        Engine::Renderer::ParticleDrawList::Get(registry).Clear();
 
         // 9. 黄金の光粒子噴水バースト (300粒子)
         rt.ChestAnimTimer = 0.0f;
@@ -1158,7 +1158,7 @@ export namespace App::Luminous {
         rt.Timer += dt;
 
         auto& registry = ctx.GetRegistry();
-        auto& particles = App::Graphics::ParticleDrawList::Get(registry);
+        auto& particles = Engine::Renderer::ParticleDrawList::Get(registry);
         particles.Clear();
 
         // シーン遷移フェードの更新。暗転しきったところで実際の切り替えを発行する
@@ -1593,7 +1593,7 @@ export namespace App::Luminous {
 
         rt.DebugTool.Shutdown(registry);
         rt.GuidanceStream.Reset();
-        App::Graphics::ParticleDrawList::Get(registry).Clear();
+        Engine::Renderer::ParticleDrawList::Get(registry).Clear();
         for (auto& pair : rt.PedestalOrbEntities) {
             DestroyWithSubMeshes(pair.second);
         }
@@ -1843,7 +1843,7 @@ export namespace App::Luminous {
 
     inline void LuminousPlaySubmitParticles(entt::registry& registry) {
         auto& rt = PlayRuntime(registry);
-        auto& list = App::Graphics::ParticleDrawList::Get(registry);
+        auto& list = Engine::Renderer::ParticleDrawList::Get(registry);
 
         // 燭台・松明の火の粉
         for (const auto& fp : rt.StageFlameParticles) {
@@ -1880,7 +1880,7 @@ export namespace App::Luminous {
         if (rt.Stage.Objects.empty()) return;   // まだ組めていない
         auto& player = PlayerState(registry);
         auto* materialMgr = Engine::Core::GetService<Engine::Graphics::MaterialManager>(registry);
-        App::Graphics::ParticleDrawList::Get(registry).Clear();
+        Engine::Renderer::ParticleDrawList::Get(registry).Clear();
 
         // シーン遷移フェードの更新。暗転しきったところで実際の切り替えを発行する
         LuminousInputDevice::Update();

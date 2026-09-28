@@ -29,8 +29,8 @@ import Engine.Graphics.Components.Light;
 import Engine.Debug.Core;
 import Engine.Input;
 import Engine.Math;
-import App.Graphics.ParticleData;
-import App.Graphics.RenderSettings;
+import Engine.Renderer.ParticleData;
+import Engine.Renderer.RenderSettings;
 import App.Luminous.Types;
 import App.Luminous.Optics;
 import App.Luminous.TerrainSystem;
@@ -632,7 +632,7 @@ export namespace App::Luminous {
             ctx.Stage.Objects.size(), counts[0], counts[1], counts[2], counts[3], counts[4], counts[5]);
         ImGui::Text("Phase objects %d   Orbs %zu   Optics occluders %zu", phaseCount, ctx.Orbs.size(), ctx.Occluders.size());
         size_t particleCount = 0;
-        if (const auto* list = ctx.Registry.ctx().find<App::Graphics::ParticleDrawList>()) particleCount = list->Instances.size();
+        if (const auto* list = ctx.Registry.ctx().find<Engine::Renderer::ParticleDrawList>()) particleCount = list->Instances.size();
         ImGui::Text("Particles drawn %zu (guidance %zu)   Entities %zu",
             particleCount, ctx.GuidanceParticleCount, ctx.Registry.storage<entt::entity>().size());
 
@@ -759,8 +759,8 @@ export namespace App::Luminous {
     }
 
     inline void LuminousDebugTool::TabGraphics(LuminousDebugContext& ctx) {
-        if (auto* pipelineSettings = App::Graphics::FindDeferredDebugSettings(ctx.Registry)) {
-            App::Graphics::DrawDeferredSettingsUI(ctx.Registry, *pipelineSettings);
+        if (auto* pipelineSettings = Engine::Renderer::FindDeferredDebugSettings(ctx.Registry)) {
+            Engine::Renderer::DrawDeferredSettingsUI(ctx.Registry, *pipelineSettings);
             ImGui::Checkbox("Disable orb occlusion atlas (phase materials ignore shadows)", &disableOrbOcclusion_);
         }
         if (auto* s = Engine::Core::FindService<Engine::Debug::DebugSettings>(ctx.Registry)) {

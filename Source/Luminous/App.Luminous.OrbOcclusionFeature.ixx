@@ -15,7 +15,7 @@ import Engine.Common.Hash;
 import Engine.Graphics.RenderGraph;
 import Engine.Graphics.Systems.MeshRender;
 import Engine.Graphics.Pipeline;
-import App.Graphics.SceneData;
+import Engine.Renderer.SceneData;
 import Engine.Graphics.RenderPipeline;
 import App.Luminous.OrbOcclusionData;
 import Engine.Graphics.Components.Mesh;
@@ -27,7 +27,7 @@ import Engine.Core.Services;
 
 export namespace App::Luminous {
 
-    using namespace App::Graphics;
+    using namespace Engine::Renderer;
 
     using namespace Engine::Graphics;
     using namespace Engine::Common;

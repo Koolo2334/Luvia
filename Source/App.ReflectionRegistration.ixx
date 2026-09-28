@@ -6,8 +6,8 @@
 export module App.ReflectionRegistration;
 
 import Engine.Core.Reflection;
-import App.Graphics.SkyLight;
-import App.Graphics.PassTags;
+import Engine.Renderer.SkyLight;
+import Engine.Renderer.PassTags;
 import App.Luminous.PlayerSystem;
 import App.Luminous.OrbOcclusionData;
 import App.Luminous.Types;
@@ -43,10 +43,10 @@ namespace App {
         auto& registry = ComponentRegistry::Get();
 
         // ---- 名札だけのもの (中身は無いが、付いているかどうかを保存する) ----
-        registry.Register<App::Graphics::GBufferPassTag>("GBufferPassTag");
-        registry.Register<App::Graphics::ShadowPassTag>("ShadowPassTag");
-        registry.Register<App::Graphics::TranslucentPassTag>("TranslucentPassTag");
-        registry.Register<App::Graphics::CharacterPassTag>("CharacterPassTag");
+        registry.Register<Engine::Renderer::GBufferPassTag>("GBufferPassTag");
+        registry.Register<Engine::Renderer::ShadowPassTag>("ShadowPassTag");
+        registry.Register<Engine::Renderer::TranslucentPassTag>("TranslucentPassTag");
+        registry.Register<Engine::Renderer::CharacterPassTag>("CharacterPassTag");
         registry.Register<App::Luminous::OrbOccluderTag>("OrbOccluderTag");
         // シーンを .scene.json から起こすための印。
         //   持ち物が覚えていた entt::entity は保存できない (メモリ上の番号なので)。
@@ -85,11 +85,11 @@ namespace App {
             .Field("PaletteCategory", &App::Luminous::LuminousEditorSettings::PaletteCategory);
 
         // ---- 環境光 ----
-        registry.Register<App::Graphics::SkyLightComponent>("SkyLight")
-            .Field("Environment", &App::Graphics::SkyLightComponent::Environment)
-            .Field("DiffuseIntensity", &App::Graphics::SkyLightComponent::DiffuseIntensity)
-            .Field("SpecularIntensity", &App::Graphics::SkyLightComponent::SpecularIntensity)
-            .Field("DrawSky", &App::Graphics::SkyLightComponent::DrawSky);
+        registry.Register<Engine::Renderer::SkyLightComponent>("SkyLight")
+            .Field("Environment", &Engine::Renderer::SkyLightComponent::Environment)
+            .Field("DiffuseIntensity", &Engine::Renderer::SkyLightComponent::DiffuseIntensity)
+            .Field("SpecularIntensity", &Engine::Renderer::SkyLightComponent::SpecularIntensity)
+            .Field("DrawSky", &Engine::Renderer::SkyLightComponent::DrawSky);
 
         // ---- ステージに置いたもの ----
         //
