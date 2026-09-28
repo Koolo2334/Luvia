@@ -6,5 +6,16 @@
   "renderPipeline": "Deferred",
   "gameModule": "Luvia.dll",
   "features": [ "OrbOcclusion" ],
-  "uiLegacyTextureGamma": true
+  "uiLegacyTextureGamma": true,
+  "postProcess": {
+    "AutoExposureBrightenSpeed": 0.8,
+    "AutoExposureDarkenSpeed": 2.0,
+    "AutoExposureMax": 1.6,
+    "AutoExposureMin": 0.85,
+    "AutoExposureTarget": 0.054,
+    "ColorGradingLut": "92ddc490e093b139-260e520f5b718f3b",
+    "DepthOfFieldMaxBlur": 0.005,
+    "FocusDistance": 8.0,
+    "FocusRange": 8.0
+  }
 }
