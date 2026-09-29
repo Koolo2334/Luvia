@@ -1,0 +1,167 @@
+{
+  "permutations": [
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "0"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/CharacterBase.hlsl",
+      "snippet": "#include \"Materials/PhaseFloor.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "0"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/CharacterBase.hlsl",
+      "snippet": "#include \"Materials/PhaseWall.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "0"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/CharacterBase.hlsl",
+      "snippet": "#include \"Materials/ToonSkin.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "0"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/GBufferBase.hlsl",
+      "snippet": "#include \"Materials/PhaseFloor.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "0"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/GBufferBase.hlsl",
+      "snippet": "#include \"Materials/PhaseWall.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "0"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/GBufferBase.hlsl",
+      "snippet": "#include \"Materials/ToonSkin.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "0"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/TranslucentBase.hlsl",
+      "snippet": "#include \"Materials/PhaseFloor.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "0"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/TranslucentBase.hlsl",
+      "snippet": "#include \"Materials/PhaseWall.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "0"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/TranslucentBase.hlsl",
+      "snippet": "#include \"Materials/ToonSkin.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "1"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/CharacterBase.hlsl",
+      "snippet": "#include \"Materials/FresnelAura.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "1"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/CharacterBase.hlsl",
+      "snippet": "#include \"Materials/LuminousOrb.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "1"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/CharacterBase.hlsl",
+      "snippet": "#include \"Materials/MysticParticle.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "1"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/GBufferBase.hlsl",
+      "snippet": "#include \"Materials/FresnelAura.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "1"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/GBufferBase.hlsl",
+      "snippet": "#include \"Materials/LuminousOrb.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "1"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/GBufferBase.hlsl",
+      "snippet": "#include \"Materials/MysticParticle.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "1"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/TranslucentBase.hlsl",
+      "snippet": "#include \"Materials/FresnelAura.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "1"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/TranslucentBase.hlsl",
+      "snippet": "#include \"Materials/LuminousOrb.hlsli\"\n",
+      "target": "ps_6_0"
+    },
+    {
+      "defines": {
+        "SHADING_MODEL_ID": "1"
+      },
+      "entry": "PSMain",
+      "file": "Shaders/TranslucentBase.hlsl",
+      "snippet": "#include \"Materials/MysticParticle.hlsli\"\n",
+      "target": "ps_6_0"
+    }
+  ],
+  "version": 1
+}

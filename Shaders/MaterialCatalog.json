@@ -1,0 +1,61 @@
+{
+  "materials": [
+    {
+      "domains": 4294967295,
+      "materialShader": "Materials/OneColor.hlsli",
+      "name": "CutoutCollar",
+      "shadingModelId": 2609170457853110303,
+      "vertexShader": "VertexShaders/Default_VS.hlsli"
+    },
+    {
+      "domains": 4294967295,
+      "materialShader": "Materials/FresnelAura.hlsli",
+      "name": "FresnelAura",
+      "shadingModelId": 2609170457853110303,
+      "vertexShader": "VertexShaders/Default_VS.hlsli"
+    },
+    {
+      "domains": 4294967295,
+      "materialShader": "Materials/LuminousOrb.hlsli",
+      "name": "GuidanceSpark",
+      "shadingModelId": 2609170457853110303,
+      "vertexShader": "VertexShaders/Default_VS.hlsli"
+    },
+    {
+      "domains": 4294967295,
+      "materialShader": "Materials/LuminousOrb.hlsli",
+      "name": "LuminousOrb",
+      "shadingModelId": 2609170457853110303,
+      "vertexShader": "VertexShaders/Default_VS.hlsli"
+    },
+    {
+      "domains": 4294967295,
+      "materialShader": "Materials/MysticParticle.hlsli",
+      "name": "MysticParticle",
+      "shadingModelId": 2609170457853110303,
+      "vertexShader": "VertexShaders/Default_VS.hlsli"
+    },
+    {
+      "domains": 4294967295,
+      "materialShader": "Materials/PhaseFloor.hlsli",
+      "name": "PhaseFloor",
+      "shadingModelId": 18179170561874016996,
+      "vertexShader": "VertexShaders/Default_VS.hlsli"
+    },
+    {
+      "domains": 4294967295,
+      "materialShader": "Materials/PhaseWall.hlsli",
+      "name": "PhaseWall",
+      "shadingModelId": 18179170561874016996,
+      "vertexShader": "VertexShaders/Default_VS.hlsli"
+    },
+    {
+      "domains": 4294967295,
+      "materialShader": "Materials/ToonSkin.hlsli",
+      "name": "ToonSkin",
+      "shadingModelId": 18179170561874016996,
+      "vertexShader": "VertexShaders/Default_VS.hlsli"
+    }
+  ],
+  "version": 1
+}
