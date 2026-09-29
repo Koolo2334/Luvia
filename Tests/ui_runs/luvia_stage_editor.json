@@ -1,0 +1,61 @@
+{
+  "comment": "Luvia の STAGE EDITOR を本物のマウスとキーで動かす (21 の U9)。窓は 1920x1080 のまま (maximize: false)。ほかの RaDXGame の窓を閉じてから流す: python Scripts/ui_driver.py LuviaGame/Tests/ui_runs/luvia_stage_editor.json",
+  "exe": "x64/Release/RaDXGame.exe",
+  "args": ["--editor"],
+  "cwd": "LuviaGame",
+  "wait": 15,
+  "maximize": false,
+  "keep": false,
+  "outdir": "LuviaGame/Saved/ui_runs/stage_editor",
+  "steps": [
+    {"do": "shot", "name": "00_editor"},
+
+    {"do": "click", "x": 1568, "y": 147, "after": 0.3},
+    {"do": "key", "vk": 65, "mods": [17], "after": 0.2},
+    {"do": "text", "s": "Saved/ui_run_stage.json", "after": 0.2},
+    {"do": "key", "vk": 13, "after": 0.3},
+    {"do": "click", "x": 1568, "y": 117, "after": 0.3},
+    {"do": "key", "vk": 65, "mods": [17], "after": 0.2},
+    {"do": "text", "s": "UI Run Stage", "after": 0.2},
+    {"do": "key", "vk": 13, "after": 0.3},
+
+    {"do": "click", "x": 297, "y": 278, "after": 0.3},
+    {"do": "click", "x": 180, "y": 425, "after": 0.3},
+    {"do": "hover", "x": 995, "y": 375, "after": 0.3},
+    {"do": "click", "x": 1000, "y": 380, "after": 0.6},
+    {"do": "expect_log", "file": "LuviaGame/Saved/engine.log", "contains": "Placed batch of 1 objects"},
+    {"do": "shot", "name": "01_placed"},
+
+    {"do": "click", "x": 271, "y": 37, "after": 0.3},
+    {"do": "click", "x": 1000, "y": 380, "after": 0.6},
+    {"do": "click", "x": 1387, "y": 591, "after": 0.5},
+    {"do": "click", "x": 1540, "y": 643, "after": 0.3},
+    {"do": "text", "s": "12", "after": 0.2},
+    {"do": "key", "vk": 13, "after": 0.4},
+    {"do": "drag", "x": 1500, "y": 671, "x2": 1560, "y2": 671, "s": 0.6, "steps": 30, "after": 0.4},
+    {"do": "shot", "name": "02_inspector"},
+    {"do": "click", "x": 1453, "y": 179, "after": 0.6},
+    {"do": "expect_log", "file": "LuviaGame/Saved/engine.log", "contains": "Stage saved: Saved/ui_run_stage.json"},
+
+    {"do": "hover", "x": 1000, "y": 700, "after": 0.3},
+    {"do": "key", "vk": 46, "after": 0.5},
+    {"do": "expect_log", "file": "LuviaGame/Saved/engine.log", "contains": "Deleted: Prop_Barrel"},
+    {"do": "click", "x": 1043, "y": 37, "after": 0.5},
+    {"do": "expect_log", "file": "LuviaGame/Saved/engine.log", "contains": "Undo: Restored Prop_Barrel"},
+    {"do": "click", "x": 1192, "y": 37, "after": 0.5},
+    {"do": "expect_log", "file": "LuviaGame/Saved/engine.log", "contains": "Redo: Removed Prop_Barrel"},
+
+    {"do": "click", "x": 1453, "y": 380, "after": 0.5},
+    {"do": "expect_log", "file": "LuviaGame/Saved/engine.log", "contains": "Added new floor above"},
+    {"do": "click", "x": 1450, "y": 265, "after": 0.4},
+    {"do": "click", "x": 1682, "y": 241, "after": 0.5},
+    {"do": "expect_log", "file": "LuviaGame/Saved/engine.log", "contains": "Deleted floor: 2F"},
+    {"do": "click", "x": 1453, "y": 179, "after": 0.6},
+    {"do": "shot", "name": "03_saved"},
+
+    {"do": "click", "x": 890, "y": 37, "after": 6.0},
+    {"do": "expect_log", "file": "LuviaGame/Saved/engine.log", "contains": "DataScene 'Luminous.Play'"},
+    {"do": "expect_log", "file": "LuviaGame/Saved/engine.log", "contains": "Saved/EditorTestPlay.stage.json"},
+    {"do": "shot", "name": "04_test_play"}
+  ]
+}
