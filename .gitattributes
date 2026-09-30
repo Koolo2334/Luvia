@@ -1,0 +1,4 @@
+# 改行は Git に任せる
+* text=auto
+# シーンは RaDX Engine のマージドライバで 3 方向マージする (RaDXEditor.exe --merge-scene を git config で登録したとき)
+*.scene.json merge=radxscene
