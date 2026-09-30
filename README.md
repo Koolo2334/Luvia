@@ -46,4 +46,13 @@
 
 ## 素材
 
-3D モデルは配布素材「Free Modular Low Poly Dungeon」を使用している。それ以外は作者の制作。
+| 素材 | 場所 | 作者・ライセンス |
+| :--- | :--- | :--- |
+| 3D モデル「Free Modular Low Poly Dungeon」 | `Assets/Models/Dungeon/` | Raphael Gonçalves (Rgsdev)、CC0 (パブリックドメイン) |
+| ビットマップフォント (`font_atlas.png`) | `Assets/UI/Fonts/` | RaDX Engine 同梱のもの。フォント Aileron (Sora Sagano、CC0 1.0) から作成 |
+
+それ以外は作者の制作。
+
+## ライセンス
+
+作者が権利を留保している (All rights reserved)。詳しくは [LICENSE](LICENSE)。第三者の素材は上の表のライセンスに従う。
