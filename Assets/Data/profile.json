@@ -1,5 +1,5 @@
 {
-  "highest_cleared_stage": 1,
-  "stage_1_cleared": true,
+  "highest_cleared_stage": 0,
+  "stage_1_cleared": false,
   "stage_2_cleared": false
 }
